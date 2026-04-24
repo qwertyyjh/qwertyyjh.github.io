@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <title>Redirecting...</title>
+  <script>
+    const target = "/VitAlgo-Final(15).html";
+    const path = decodeURIComponent(window.location.pathname);
+    const legacyPaths = new Set([
+      "/vitaliq-site/VitAlgo-Final(15).html",
+      "/vitaliq-site/vitaliq-final (8).html",
+      "/vitaliq-site/vitaliq-final (5).html"
+    ]);
+    if (legacyPaths.has(path)) {
+      window.location.replace(target);
+    }
+  </script>
+</head>
+<body>
+  <p><a href="/VitAlgo-Final(15).html">Continue</a></p>
+</body>
+</html>
+

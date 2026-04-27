@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="cache-control" content="no-store">
+  <title>VitAlgo</title>
+  <style>
+    :root {
+      color-scheme: light dark;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      display: grid;
+      place-items: center;
+      background: #f7f9fc;
+      color: #0c1b33;
+    }
+
+    main {
+      width: min(90vw, 440px);
+      padding: 28px;
+      border: 1px solid rgba(12, 27, 51, 0.12);
+      border-radius: 8px;
+      background: #fff;
+      box-shadow: 0 12px 36px rgba(12, 27, 51, 0.10);
+    }
+
+    h1 {
+      margin: 0 0 10px;
+      font-size: 22px;
+      line-height: 1.25;
+    }
+
+    p {
+      margin: 0 0 18px;
+      color: #4a5b78;
+      line-height: 1.6;
+    }
+
+    .links {
+      display: grid;
+      gap: 10px;
+    }
+
+    a {
+      display: block;
+      padding: 12px 14px;
+      border-radius: 6px;
+      background: #1a6cff;
+      color: #fff;
+      font-weight: 700;
+      text-align: center;
+      text-decoration: none;
+    }
+
+    a.secondary {
+      background: #0fa3b1;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      body {
+        background: #0a0f1e;
+        color: #e8eefa;
+      }
+
+      main {
+        background: #111827;
+        border-color: rgba(255, 255, 255, 0.12);
+        box-shadow: 0 12px 36px rgba(0, 0, 0, 0.28);
+      }
+
+      p {
+        color: #8a9bb8;
+      }
+    }
+  </style>
+  <script>
+    (function () {
+      var desktopPage = "VitAlgo.PC.ver.V.2.5.html";
+      var mobilePage = "VitAlgo.Mobile.ver.V.2.5.html";
+      var ua = navigator.userAgent || navigator.vendor || window.opera || "";
+      var platform = navigator.platform || "";
+      var maxTouchPoints = navigator.maxTouchPoints || 0;
+      var uaDataMobile = navigator.userAgentData && navigator.userAgentData.mobile;
+      var isiPadOS = platform === "MacIntel" && maxTouchPoints > 1;
+      var mobilePattern = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobile|Tablet/i;
+      var isAndroidTablet = /Android/i.test(ua) && !/Mobile/i.test(ua);
+      var isMobile = Boolean(uaDataMobile || isiPadOS || mobilePattern.test(ua) || isAndroidTablet);
+      var suffix = window.location.search + window.location.hash;
+      var target = isMobile ? mobilePage : desktopPage;
+
+      window.location.replace(target + suffix);
+    }());
+  </script>
+</head>
+<body>
+  <main>
+    <h1>Opening VitAlgo...</h1>
+    <p>If the page does not open automatically, choose the version for your device.</p>
+    <div class="links">
+      <a href="VitAlgo.PC.ver.V.2.5.html">Open PC Version</a>
+      <a class="secondary" href="VitAlgo.Mobile.ver.V.2.5.html">Open Mobile Version</a>
+    </div>
+  </main>
+</body>
+</html>

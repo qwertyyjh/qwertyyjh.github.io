@@ -1,0 +1,36 @@
+name: Update Korea Stock Market Quotes
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '*/5 0-7 * * 1-5'
+
+permissions:
+  contents: write
+
+jobs:
+  update-quotes:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out site
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Fetch Yahoo Finance quotes
+        run: node scripts/update-market-quotes.mjs
+
+      - name: Commit updated quote snapshot
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/korea-stockmarket-quotes.json
+          if git diff --cached --quiet; then
+            echo "No quote changes to commit."
+          else
+            git commit -m "Update Korea stock market quote snapshot"
+            git push
+          fi

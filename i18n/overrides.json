@@ -37,6 +37,9 @@
     "chart.line.regular": "KODEX 200 (Regular)",
     "section.weights.tiger": "<span class=\"mr-2\">⚡</span> TIGER AI Power Equipment",
     "section.semi.title": "🇰🇷 Semiconductor Leaders Driving Indexes and ETFs",
+    "section.radar.legendTiger": "<span class=\"w-3 h-3 rounded-full bg-sunsetOrange inline-block\"></span><span class=\"font-semibold\">TIGER AI전력기기</span> — Highest growth and AI exposure, lower stability",
+    "section.radar.legendTr": "<span class=\"w-3 h-3 rounded-full bg-brightPurple inline-block\"></span><span class=\"font-semibold\">KODEX 200TR</span> — Strongest dividend compounding effect, balanced portfolio",
+    "section.radar.legendKodex": "<span class=\"w-3 h-3 rounded-full bg-vibrantBlue inline-block\"></span><span class=\"font-semibold\">KODEX 200</span> — Stability and dividend cash flow first, long-term diversified investment",
     "footer.disclaimer": "This material is for investment reference only, and investors are solely responsible for their final investment decisions. Stock data is based on the latest Yahoo Finance snapshot and may differ from actual trade prices.",
     "footer.dataSource": "※ The real-time refresh button loads Yahoo Finance snapshots periodically saved by GitHub Actions."
   },
@@ -80,6 +83,9 @@
     "chart.line.regular": "KODEX 200（普通）",
     "section.weights.tiger": "<span class=\"mr-2\">⚡</span> TIGER AI电力设备",
     "section.semi.title": "🇰🇷 推动指数与ETF的半导体双核心",
+    "section.radar.legendTiger": "<span class=\"w-3 h-3 rounded-full bg-sunsetOrange inline-block\"></span><span class=\"font-semibold\">TIGER AI전력기기</span> — 增长与AI敞口最高，稳定性较低",
+    "section.radar.legendTr": "<span class=\"w-3 h-3 rounded-full bg-brightPurple inline-block\"></span><span class=\"font-semibold\">KODEX 200TR</span> — 股息复利效果最强，组合较均衡",
+    "section.radar.legendKodex": "<span class=\"w-3 h-3 rounded-full bg-vibrantBlue inline-block\"></span><span class=\"font-semibold\">KODEX 200</span> — 优先考虑稳定性与股息现金流，适合长期分散投资",
     "footer.disclaimer": "本资料仅供投资参考，最终投资判断责任由投资者本人承担。股价数据基于Yahoo Finance最新快照，可能与实际成交价格存在差异。",
     "footer.dataSource": "※ 实时刷新按钮会加载GitHub Actions定期保存的Yahoo Finance快照。"
   },
@@ -100,7 +106,10 @@
     "chart.radar.compounding": "配当複利効果",
     "chart.radar.ai": "AI/技術エクスポージャー",
     "section.weights.tiger": "<span class=\"mr-2\">⚡</span> TIGER AI電力機器",
-    "section.semi.title": "🇰🇷 指数とETFを牽引する半導体の二大銘柄"
+    "section.semi.title": "🇰🇷 指数とETFを牽引する半導体の二大銘柄",
+    "section.radar.legendTiger": "<span class=\"w-3 h-3 rounded-full bg-sunsetOrange inline-block\"></span><span class=\"font-semibold\">TIGER AI전력기기</span> — 成長性とAIエクスポージャーが最も高く、安定性は低め",
+    "section.radar.legendTr": "<span class=\"w-3 h-3 rounded-full bg-brightPurple inline-block\"></span><span class=\"font-semibold\">KODEX 200TR</span> — 配当複利効果が最も高く、バランスの取れたポートフォリオ",
+    "section.radar.legendKodex": "<span class=\"w-3 h-3 rounded-full bg-vibrantBlue inline-block\"></span><span class=\"font-semibold\">KODEX 200</span> — 安定性と配当キャッシュフローを重視した長期分散投資"
   },
   "vi": {
     "meta.title": "Phân tích Động lực Tăng trưởng ETF: TIGER AI Thiết bị điện & Dòng KODEX 200",
@@ -124,7 +133,10 @@
     "dashboard.title": "Chỉ số thị trường & giá ETF<br class=\"mobile-only\"> theo thời gian thực",
     "hero.title": "3 ETF dẫn dắt<br><span class=\"text-electricTeal\">Báo cáo phân tích<br class=\"mobile-only\"> động lực tăng trưởng</span>",
     "section.weights.tiger": "<span class=\"mr-2\">⚡</span> TIGER AI Thiết bị điện",
-    "section.semi.title": "🇰🇷 Hai cổ phiếu bán dẫn dẫn dắt chỉ số và ETF"
+    "section.semi.title": "🇰🇷 Hai cổ phiếu bán dẫn dẫn dắt chỉ số và ETF",
+    "section.radar.legendTiger": "<span class=\"w-3 h-3 rounded-full bg-sunsetOrange inline-block\"></span><span class=\"font-semibold\">TIGER AI전력기기</span> — Tăng trưởng và mức độ tiếp xúc AI cao nhất, độ ổn định thấp hơn",
+    "section.radar.legendTr": "<span class=\"w-3 h-3 rounded-full bg-brightPurple inline-block\"></span><span class=\"font-semibold\">KODEX 200TR</span> — Hiệu ứng lãi kép từ cổ tức mạnh nhất, danh mục cân bằng",
+    "section.radar.legendKodex": "<span class=\"w-3 h-3 rounded-full bg-vibrantBlue inline-block\"></span><span class=\"font-semibold\">KODEX 200</span> — Ưu tiên ổn định và dòng tiền cổ tức, đầu tư đa dạng dài hạn"
   },
   "de": {
     "meta.title": "ETF-Wachstumsdynamik: TIGER AI-Energieausrüstung & KODEX-200-Serie",
@@ -141,7 +153,10 @@
     "dashboard.title": "Echtzeit-Marktindizes & ETF<br class=\"mobile-only\"> Kurse",
     "hero.title": "3 führende ETFs<br><span class=\"text-electricTeal\">Wachstumsdynamik<br class=\"mobile-only\"> Analysebericht</span>",
     "section.weights.tiger": "<span class=\"mr-2\">⚡</span> TIGER AI-Energieausrüstung",
-    "section.semi.title": "🇰🇷 Halbleiterführer, die Indizes und ETFs antreiben"
+    "section.semi.title": "🇰🇷 Halbleiterführer, die Indizes und ETFs antreiben",
+    "section.radar.legendTiger": "<span class=\"w-3 h-3 rounded-full bg-sunsetOrange inline-block\"></span><span class=\"font-semibold\">TIGER AI전력기기</span> – Höchstes Wachstum und höchste AI-Exponierung, geringere Stabilität",
+    "section.radar.legendTr": "<span class=\"w-3 h-3 rounded-full bg-brightPurple inline-block\"></span><span class=\"font-semibold\">KODEX 200TR</span> – Stärkster Dividenden-Zinseszinseffekt, ausgewogenes Portfolio",
+    "section.radar.legendKodex": "<span class=\"w-3 h-3 rounded-full bg-vibrantBlue inline-block\"></span><span class=\"font-semibold\">KODEX 200</span> – Stabilität und Dividenden-Cashflow zuerst, langfristig diversifizierte Anlage"
   },
   "fr": {
     "meta.title": "Analyse de la dynamique de croissance des ETF : TIGER AI équipements électriques & série KODEX 200",
@@ -158,6 +173,9 @@
     "dashboard.title": "Indices de marché & prix ETF<br class=\"mobile-only\"> en temps réel",
     "hero.title": "3 ETF leaders<br><span class=\"text-electricTeal\">Rapport d'analyse<br class=\"mobile-only\"> de la dynamique de croissance</span>",
     "section.weights.tiger": "<span class=\"mr-2\">⚡</span> TIGER AI équipements électriques",
-    "section.semi.title": "🇰🇷 Leaders des semi-conducteurs qui tirent les indices et ETF"
+    "section.semi.title": "🇰🇷 Leaders des semi-conducteurs qui tirent les indices et ETF",
+    "section.radar.legendTiger": "<span class=\"w-3 h-3 rounded-full bg-sunsetOrange inline-block\"></span><span class=\"font-semibold\">TIGER AI전력기기</span> — Croissance et exposition AI les plus élevées, stabilité plus faible",
+    "section.radar.legendTr": "<span class=\"w-3 h-3 rounded-full bg-brightPurple inline-block\"></span><span class=\"font-semibold\">KODEX 200TR</span> — Effet de capitalisation des dividendes le plus fort, portefeuille équilibré",
+    "section.radar.legendKodex": "<span class=\"w-3 h-3 rounded-full bg-vibrantBlue inline-block\"></span><span class=\"font-semibold\">KODEX 200</span> — Priorité à la stabilité et aux flux de dividendes, investissement diversifié à long terme"
   }
 }

@@ -10,8 +10,8 @@ const TOKEN_URL = 'https://oauth2.googleapis.com/token';
 const TRANSLATE_URL = 'https://translation.googleapis.com/language/translate/v2';
 const PUBLIC_TRANSLATE_URL = 'https://translate.googleapis.com/translate_a/single';
 const I18N_VARIABLE_TOKENS = new Map([
-  ['language', '__I18NVAR0__'],
-  ['time', '__I18NVAR1__'],
+  ['language', 'ZXQV0QXZ'],
+  ['time', 'ZXQV1QXZ'],
 ]);
 
 const PROTECTED_TERMS = [
@@ -51,18 +51,41 @@ const PROTECTED_TERMS = [
   'KB금융',
   '기아',
   '한미반도체',
+  'HPSP',
+  '이수페타시스',
+  '리노공업',
+  '동진쎄미켐',
+  '솔브레인',
+  '원익IPS',
+  'ISC',
   '한화에어로',
+  '한국항공우주청',
   '한국항공우주',
   'LIG넥스원',
   '현대로템',
   '한화오션',
   '한화시스템',
+  '풍산',
+  'SNT모티브',
+  '아이쓰리시스',
+  '휴니드',
   'HD현대중공업',
   'HD한국조선',
+  'HD현대',
+  '삼성중공업',
   'HD현대미포',
+  '한화엔진',
+  '한국카본',
+  '동성화인텍',
+  '세진중공업',
+  '일승',
   '인텔리안테크',
   '쎄트렉아이',
   'AP위성',
+  '켄코아에어로',
+  '제노코',
+  '컨텍',
+  '비츠로테크',
 ];
 
 function base64url(input) {
@@ -137,7 +160,7 @@ function protectTerms(value) {
   const terms = [...PROTECTED_TERMS].sort((a, b) => b.length - a.length);
   terms.forEach((term, index) => {
     const escaped = term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    out = out.replace(new RegExp(escaped, 'g'), `__PROTECTED_TERM_${index}__`);
+    out = out.replace(new RegExp(escaped, 'g'), `ZXQP${index}QXZ`);
   });
   return out;
 }
@@ -148,12 +171,12 @@ function restoreTerms(value) {
     .replace(/&amp;/g, '&');
   const terms = [...PROTECTED_TERMS].sort((a, b) => b.length - a.length);
   terms.forEach((term, index) => {
-    out = out.replace(new RegExp(`__PROTECTED_TERM_${index}__`, 'g'), term);
+    out = out.replace(new RegExp(`ZXQP${index}QXZ`, 'g'), term);
   });
   for (const [key, token] of I18N_VARIABLE_TOKENS.entries()) {
     out = out.replace(new RegExp(token, 'g'), `{${key}}`);
   }
-  return out.replace(/__I18NVAR_(\w+)__/g, '{$1}');
+  return out.replace(/ZXQV(\w+)QXZ/g, '{$1}');
 }
 
 function deepMerge(base, patch) {

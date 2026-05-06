@@ -7,21 +7,33 @@
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <style>
-.floating-controls { width: min(22rem, calc(100vw - 1.5rem)); }
+.floating-controls { width: min(13rem, calc(100vw - 1.5rem)); }
 *, *::before, *::after { box-sizing: border-box; }
 html, body { max-width: 100%; overflow-x: hidden; }
-.language-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.35rem; margin-top: 0.5rem; }
-.language-btn { min-height: 2rem; border-radius: 9999px; border: 1px solid rgba(203,213,225,0.9); background: rgba(255,255,255,0.92); color: #334155; font-size: 0.75rem; font-weight: 700; box-shadow: 0 5px 12px -10px rgba(15,23,42,0.55); transition: transform 0.18s ease, background 0.18s ease, color 0.18s ease, border-color 0.18s ease; }
+.site-hero { padding-top: 7.25rem !important; }
+.hero-title { max-width: min(46rem, calc(100vw - 2rem)); margin-left: auto; margin-right: auto; text-wrap: balance; }
+.hero-subtitle { text-wrap: balance; }
+.language-grid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 0.25rem; margin-top: 0.45rem; }
+.language-btn { display: flex; align-items: center; justify-content: center; min-height: 1.65rem; aspect-ratio: 1 / 1; border-radius: 9999px; border: 1px solid rgba(203,213,225,0.9); background: rgba(255,255,255,0.92); color: #334155; font-size: 1rem; line-height: 1; font-weight: 700; box-shadow: 0 5px 12px -10px rgba(15,23,42,0.55); transition: transform 0.18s ease, background 0.18s ease, color 0.18s ease, border-color 0.18s ease; }
 .language-btn:hover { transform: translateY(-1px); background: #fff; border-color: #2563eb; color: #1e3a8a; }
 .language-btn[aria-pressed="true"] { background: #1e3a8a; color: #fff; border-color: #1e3a8a; }
-.language-status { min-height: 1rem; margin-top: 0.35rem; color: #64748b; font-size: 0.68rem; line-height: 1.2; text-align: center; }
+.language-status { height: 0; min-height: 0; margin: 0; overflow: hidden; color: #64748b; font-size: 0.68rem; line-height: 1.2; text-align: center; }
+.language-status.text-red-500, .language-status.text-amber-600 { height: auto; margin-top: 0.35rem; overflow: visible; }
 .mobile-only, .mobile-percent { display: none; }
+html[data-lang="de"] .hero-title,
+html[data-lang="fr"] .hero-title,
+html[data-lang="vi"] .hero-title,
+html[data-lang="zh-CN"] .hero-title { font-size: clamp(2rem, 4.4vw, 2.85rem) !important; line-height: 1.12 !important; }
 @media (max-width: 640px) {
   .floating-controls { left: 0.75rem; right: 0.75rem; top: calc(0.75rem + env(safe-area-inset-top)); width: calc(100vw - 1.5rem) !important; max-width: calc(100vw - 1.5rem); }
-  .language-grid { grid-template-columns: minmax(0, 1fr); gap: 0.3rem; }
-  .language-btn { min-height: 1.85rem; font-size: clamp(0.62rem, 2.6vw, 0.72rem); padding-left: 0.1rem; padding-right: 0.1rem; }
-  header { padding-top: calc(23rem + env(safe-area-inset-top)) !important; }
-  header h1 { font-size: clamp(1.75rem, 8vw, 2.05rem) !important; line-height: 1.2 !important; overflow-wrap: anywhere; }
+  .language-grid { grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 0.28rem; }
+  .language-btn { min-height: 1.85rem; font-size: clamp(1rem, 4vw, 1.16rem); padding: 0; }
+  header.site-hero { padding-top: calc(8.75rem + env(safe-area-inset-top)) !important; }
+  header h1 { font-size: clamp(1.72rem, 7.4vw, 2.05rem) !important; line-height: 1.18 !important; overflow-wrap: anywhere; }
+  html[data-lang="de"] header h1,
+  html[data-lang="fr"] header h1,
+  html[data-lang="vi"] header h1,
+  html[data-lang="zh-CN"] header h1 { font-size: clamp(1.54rem, 6.5vw, 1.88rem) !important; line-height: 1.16 !important; }
   header h1 span { overflow-wrap: anywhere; }
   header p { max-width: calc(100vw - 2rem) !important; font-size: 1rem !important; line-height: 1.65 !important; overflow-wrap: anywhere; }
   header p strong { overflow-wrap: anywhere; }
@@ -38,8 +50,8 @@ html, body { max-width: 100%; overflow-x: hidden; }
   .desktop-percent { display: none; }
 }
 @media (min-width: 641px) and (max-width: 1024px) {
-  .floating-controls { width: 20rem; right: 1rem; }
-  header { padding-top: 8rem !important; }
+  .floating-controls { width: 13rem; right: 1rem; }
+  header.site-hero { padding-top: 8rem !important; }
 }
 @media (prefers-reduced-motion: reduce) {
   .card-hover, .language-btn, #refresh-btn { transition: none !important; }
@@ -83,22 +95,22 @@ colors: { vibrantBlue: '#2563eb', electricTeal: '#0d9488', sunsetOrange: '#ea580
 <span class="font-bold text-sm tracking-wide" data-i18n="controls.refresh">실시간 갱신</span>
 </button>
 <div id="language-controls" class="language-grid" aria-label="Language selector">
-<button type="button" class="language-btn" data-lang="ko" data-i18n="language.ko" aria-pressed="true">한국어</button>
-<button type="button" class="language-btn" data-lang="en" data-i18n="language.en" aria-pressed="false">영어</button>
-<button type="button" class="language-btn" data-lang="zh-CN" data-i18n="language.zhCN" aria-pressed="false">중국어</button>
-<button type="button" class="language-btn" data-lang="ja" data-i18n="language.ja" aria-pressed="false">일본어</button>
-<button type="button" class="language-btn" data-lang="vi" data-i18n="language.vi" aria-pressed="false">베트남어</button>
-<button type="button" class="language-btn" data-lang="de" data-i18n="language.de" aria-pressed="false">독일어</button>
-<button type="button" class="language-btn" data-lang="fr" data-i18n="language.fr" aria-pressed="false">프랑스어</button>
+<button type="button" class="language-btn" data-lang="ko" aria-pressed="true">🇰🇷</button>
+<button type="button" class="language-btn" data-lang="en" aria-pressed="false">🇺🇸</button>
+<button type="button" class="language-btn" data-lang="zh-CN" aria-pressed="false">🇨🇳</button>
+<button type="button" class="language-btn" data-lang="ja" aria-pressed="false">🇯🇵</button>
+<button type="button" class="language-btn" data-lang="vi" aria-pressed="false">🇻🇳</button>
+<button type="button" class="language-btn" data-lang="de" aria-pressed="false">🇩🇪</button>
+<button type="button" class="language-btn" data-lang="fr" aria-pressed="false">🇫🇷</button>
 </div>
 <div id="language-status" class="language-status" data-i18n="language.status.ready">언어 선택</div>
 </div>
 
-<header class="bg-deepNavy text-white py-16 px-4 sm:px-8 shadow-lg">
+<header class="site-hero bg-deepNavy text-white py-16 px-4 sm:px-8 shadow-lg">
 <div class="max-w-7xl mx-auto text-center">
 <div class="text-6xl mb-4">🚀</div>
-<h1 class="text-4xl md:text-5xl font-bold mb-6 leading-tight" data-i18n-html="hero.title">3대 주도 ETF<br><span class="text-electricTeal">성장 모멘텀<br class="mobile-only"> 분석 리포트</span></h1>
-<p class="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto" data-i18n-html="hero.subtitle">최근 급등한 <strong>TIGER 코리아 AI 전력기기 TOP3 플러스</strong>, <strong>KODEX 200TR</strong>, <strong>KODEX 200</strong> ETF의 상승 원인과 미래 주도 테마로서의 가치를 직관적인 데이터로 분석합니다.</p>
+<h1 class="hero-title text-4xl md:text-5xl font-bold mb-6 leading-tight" data-i18n-html="hero.title">3대 주도 ETF<br><span class="text-electricTeal">성장 모멘텀<br class="mobile-only"> 분석 리포트</span></h1>
+<p class="hero-subtitle text-lg md:text-xl text-gray-300 max-w-3xl mx-auto" data-i18n-html="hero.subtitle">최근 급등한 <strong>TIGER 코리아 AI 전력기기 TOP3 플러스</strong>, <strong>KODEX 200TR</strong>, <strong>KODEX 200</strong> ETF의 상승 원인과 미래 주도 테마로서의 가치를 직관적인 데이터로 분석합니다.</p>
 </div>
 </header>
 
@@ -425,7 +437,97 @@ const LANGUAGE_FILES = {
   de: 'i18n/de.json',
   fr: 'i18n/fr.json'
 };
-const LANGUAGE_NAMES = { ko: '한국어', en: '영어', 'zh-CN': '중국어', ja: '일본어', vi: '베트남어', de: '독일어', fr: '프랑스어' };
+const LANGUAGE_NAMES = { ko: '한국어', en: 'English', 'zh-CN': '中文', ja: '日本語', vi: 'Tiếng Việt', de: 'Deutsch', fr: 'Français' };
+const LANGUAGE_FLAGS = { ko: '🇰🇷', en: '🇺🇸', 'zh-CN': '🇨🇳', ja: '🇯🇵', vi: '🇻🇳', de: '🇩🇪', fr: '🇫🇷' };
+const ENTITY_TRANSLATIONS = {
+    'TIGER 코리아 AI 전력기기 TOP3 플러스': { en: 'TIGER Korea AI Power Equipment TOP3 Plus', 'zh-CN': 'TIGER 韩国AI电力设备TOP3 Plus', ja: 'TIGER 韓国AI電力機器TOP3プラス', vi: 'TIGER Korea AI Thiết bị điện TOP3 Plus', de: 'TIGER Korea AI Energieausrüstung TOP3 Plus', fr: 'TIGER Korea AI équipements électriques TOP3 Plus' },
+    'TIGER AI전력기기': { en: 'TIGER AI Power Equipment', 'zh-CN': 'TIGER AI电力设备', ja: 'TIGER AI電力機器', vi: 'TIGER AI Thiết bị điện', de: 'TIGER AI-Energieausrüstung', fr: 'TIGER AI équipements électriques' },
+    'TIGER AI 전력기기': { en: 'TIGER AI Power Equipment', 'zh-CN': 'TIGER AI电力设备', ja: 'TIGER AI電力機器', vi: 'TIGER AI Thiết bị điện', de: 'TIGER AI-Energieausrüstung', fr: 'TIGER AI équipements électriques' },
+    'TIGER 전력기기': { en: 'TIGER Power Equipment', 'zh-CN': 'TIGER电力设备', ja: 'TIGER電力機器', vi: 'TIGER Thiết bị điện', de: 'TIGER Energieausrüstung', fr: 'TIGER équipements électriques' },
+    'LS일렉트릭': { en: 'LS ELECTRIC', 'zh-CN': 'LS ELECTRIC', ja: 'LS ELECTRIC', vi: 'LS ELECTRIC', de: 'LS ELECTRIC', fr: 'LS ELECTRIC' },
+    'HD현대일렉트릭': { en: 'HD Hyundai Electric', 'zh-CN': 'HD现代电气', ja: 'HD現代エレクトリック', vi: 'HD Hyundai Electric', de: 'HD Hyundai Electric', fr: 'HD Hyundai Electric' },
+    '효성중공업': { en: 'Hyosung Heavy Industries', 'zh-CN': '晓星重工业', ja: '暁星重工業', vi: 'Hyosung Heavy Industries', de: 'Hyosung Heavy Industries', fr: 'Hyosung Heavy Industries' },
+    '가온전선': { en: 'Gaon Cable', 'zh-CN': 'Gaon Cable', ja: 'Gaon Cable', vi: 'Gaon Cable', de: 'Gaon Cable', fr: 'Gaon Cable' },
+    '일진전기': { en: 'Iljin Electric', 'zh-CN': 'Iljin Electric', ja: 'Iljin Electric', vi: 'Iljin Electric', de: 'Iljin Electric', fr: 'Iljin Electric' },
+    '삼성전자': { en: 'Samsung Electronics', 'zh-CN': '三星电子', ja: 'サムスン電子', vi: 'Samsung Electronics', de: 'Samsung Electronics', fr: 'Samsung Electronics' },
+    'SK하이닉스': { en: 'SK hynix', 'zh-CN': 'SK海力士', ja: 'SKハイニックス', vi: 'SK hynix', de: 'SK hynix', fr: 'SK hynix' },
+    '한미반도체': { en: 'Hanmi Semiconductor', 'zh-CN': 'Hanmi Semiconductor', ja: 'Hanmi Semiconductor', vi: 'Hanmi Semiconductor', de: 'Hanmi Semiconductor', fr: 'Hanmi Semiconductor' },
+    '이수페타시스': { en: 'Isu Petasys', 'zh-CN': 'Isu Petasys', ja: 'Isu Petasys', vi: 'Isu Petasys', de: 'Isu Petasys', fr: 'Isu Petasys' },
+    '리노공업': { en: 'Leeno Industrial', 'zh-CN': 'Leeno Industrial', ja: 'Leeno Industrial', vi: 'Leeno Industrial', de: 'Leeno Industrial', fr: 'Leeno Industrial' },
+    '동진쎄미켐': { en: 'Dongjin Semichem', 'zh-CN': 'Dongjin Semichem', ja: 'Dongjin Semichem', vi: 'Dongjin Semichem', de: 'Dongjin Semichem', fr: 'Dongjin Semichem' },
+    '솔브레인': { en: 'Soulbrain', 'zh-CN': 'Soulbrain', ja: 'Soulbrain', vi: 'Soulbrain', de: 'Soulbrain', fr: 'Soulbrain' },
+    '원익IPS': { en: 'Wonik IPS', 'zh-CN': 'Wonik IPS', ja: 'Wonik IPS', vi: 'Wonik IPS', de: 'Wonik IPS', fr: 'Wonik IPS' },
+    '현대차': { en: 'Hyundai Motor', 'zh-CN': '现代汽车', ja: '現代自動車', vi: 'Hyundai Motor', de: 'Hyundai Motor', fr: 'Hyundai Motor' },
+    'KB금융': { en: 'KB Financial Group', 'zh-CN': 'KB金融集团', ja: 'KB金融グループ', vi: 'KB Financial Group', de: 'KB Financial Group', fr: 'KB Financial Group' },
+    '기아': { en: 'Kia', 'zh-CN': '起亚', ja: '起亜', vi: 'Kia', de: 'Kia', fr: 'Kia' },
+    '한화에어로': { en: 'Hanwha Aerospace', 'zh-CN': '韩华航空航天', ja: 'ハンファエアロスペース', vi: 'Hanwha Aerospace', de: 'Hanwha Aerospace', fr: 'Hanwha Aerospace' },
+    '한국항공우주청': { en: 'Korea AeroSpace Administration', 'zh-CN': '韩国航空宇宙厅', ja: '韓国航空宇宙庁', vi: 'Cơ quan Hàng không Vũ trụ Hàn Quốc', de: 'Korea AeroSpace Administration', fr: 'Korea AeroSpace Administration' },
+    '한국항공우주': { en: 'Korea Aerospace Industries', 'zh-CN': '韩国航空宇宙产业', ja: '韓国航空宇宙産業', vi: 'Korea Aerospace Industries', de: 'Korea Aerospace Industries', fr: 'Korea Aerospace Industries' },
+    'LIG넥스원': { en: 'LIG Nex1', 'zh-CN': 'LIG Nex1', ja: 'LIG Nex1', vi: 'LIG Nex1', de: 'LIG Nex1', fr: 'LIG Nex1' },
+    '현대로템': { en: 'Hyundai Rotem', 'zh-CN': '现代Rotem', ja: '現代ロテム', vi: 'Hyundai Rotem', de: 'Hyundai Rotem', fr: 'Hyundai Rotem' },
+    '한화오션': { en: 'Hanwha Ocean', 'zh-CN': '韩华海洋', ja: 'ハンファオーシャン', vi: 'Hanwha Ocean', de: 'Hanwha Ocean', fr: 'Hanwha Ocean' },
+    '한화시스템': { en: 'Hanwha Systems', 'zh-CN': '韩华系统', ja: 'ハンファシステム', vi: 'Hanwha Systems', de: 'Hanwha Systems', fr: 'Hanwha Systems' },
+    '풍산': { en: 'Poongsan', 'zh-CN': 'Poongsan', ja: 'Poongsan', vi: 'Poongsan', de: 'Poongsan', fr: 'Poongsan' },
+    'SNT모티브': { en: 'SNT Motiv', 'zh-CN': 'SNT Motiv', ja: 'SNT Motiv', vi: 'SNT Motiv', de: 'SNT Motiv', fr: 'SNT Motiv' },
+    '아이쓰리시스': { en: 'i3system', 'zh-CN': 'i3system', ja: 'i3system', vi: 'i3system', de: 'i3system', fr: 'i3system' },
+    '휴니드': { en: 'Huneed Technologies', 'zh-CN': 'Huneed Technologies', ja: 'Huneed Technologies', vi: 'Huneed Technologies', de: 'Huneed Technologies', fr: 'Huneed Technologies' },
+    'HD현대중공업': { en: 'HD Hyundai Heavy Industries', 'zh-CN': 'HD现代重工', ja: 'HD現代重工業', vi: 'HD Hyundai Heavy Industries', de: 'HD Hyundai Heavy Industries', fr: 'HD Hyundai Heavy Industries' },
+    'HD한국조선': { en: 'HD Korea Shipbuilding & Offshore Engineering', 'zh-CN': 'HD韩国造船海洋', ja: 'HD韓国造船海洋', vi: 'HD Korea Shipbuilding & Offshore Engineering', de: 'HD Korea Shipbuilding & Offshore Engineering', fr: 'HD Korea Shipbuilding & Offshore Engineering' },
+    'HD현대': { en: 'HD Hyundai', 'zh-CN': 'HD现代', ja: 'HD現代', vi: 'HD Hyundai', de: 'HD Hyundai', fr: 'HD Hyundai' },
+    '삼성중공업': { en: 'Samsung Heavy Industries', 'zh-CN': '三星重工', ja: 'サムスン重工業', vi: 'Samsung Heavy Industries', de: 'Samsung Heavy Industries', fr: 'Samsung Heavy Industries' },
+    'HD현대미포': { en: 'HD Hyundai Mipo', 'zh-CN': 'HD现代尾浦', ja: 'HD現代尾浦', vi: 'HD Hyundai Mipo', de: 'HD Hyundai Mipo', fr: 'HD Hyundai Mipo' },
+    '한화엔진': { en: 'Hanwha Engine', 'zh-CN': '韩华发动机', ja: 'ハンファエンジン', vi: 'Hanwha Engine', de: 'Hanwha Engine', fr: 'Hanwha Engine' },
+    '한국카본': { en: 'Hankuk Carbon', 'zh-CN': 'Hankuk Carbon', ja: 'Hankuk Carbon', vi: 'Hankuk Carbon', de: 'Hankuk Carbon', fr: 'Hankuk Carbon' },
+    '동성화인텍': { en: 'Dongsung Finetec', 'zh-CN': 'Dongsung Finetec', ja: 'Dongsung Finetec', vi: 'Dongsung Finetec', de: 'Dongsung Finetec', fr: 'Dongsung Finetec' },
+    '세진중공업': { en: 'Sejin Heavy Industries', 'zh-CN': 'Sejin Heavy Industries', ja: 'Sejin Heavy Industries', vi: 'Sejin Heavy Industries', de: 'Sejin Heavy Industries', fr: 'Sejin Heavy Industries' },
+    '일승': { en: 'Ilseung', 'zh-CN': 'Ilseung', ja: 'Ilseung', vi: 'Ilseung', de: 'Ilseung', fr: 'Ilseung' },
+    '인텔리안테크': { en: 'Intellian Technologies', 'zh-CN': 'Intellian Technologies', ja: 'Intellian Technologies', vi: 'Intellian Technologies', de: 'Intellian Technologies', fr: 'Intellian Technologies' },
+    '쎄트렉아이': { en: 'Satrec Initiative', 'zh-CN': 'Satrec Initiative', ja: 'Satrec Initiative', vi: 'Satrec Initiative', de: 'Satrec Initiative', fr: 'Satrec Initiative' },
+    'AP위성': { en: 'AP Satellite', 'zh-CN': 'AP Satellite', ja: 'AP Satellite', vi: 'AP Satellite', de: 'AP Satellite', fr: 'AP Satellite' },
+    '켄코아에어로': { en: 'Kencoa Aerospace', 'zh-CN': 'Kencoa Aerospace', ja: 'Kencoa Aerospace', vi: 'Kencoa Aerospace', de: 'Kencoa Aerospace', fr: 'Kencoa Aerospace' },
+    '제노코': { en: 'Genohco', 'zh-CN': 'Genohco', ja: 'Genohco', vi: 'Genohco', de: 'Genohco', fr: 'Genohco' },
+    '컨텍': { en: 'CONTEC', 'zh-CN': 'CONTEC', ja: 'CONTEC', vi: 'CONTEC', de: 'CONTEC', fr: 'CONTEC' },
+    '비츠로테크': { en: 'Vitzro Tech', 'zh-CN': 'Vitzro Tech', ja: 'Vitzro Tech', vi: 'Vitzro Tech', de: 'Vitzro Tech', fr: 'Vitzro Tech' }
+};
+const ENTITY_KEYS = Object.keys(ENTITY_TRANSLATIONS).sort((a, b) => b.length - a.length);
+const PHRASE_REPLACEMENTS = {
+    ja: {
+        '📌 コア勢い': '📌 コアモメンタム',
+        'コア勢い': 'コアモメンタム',
+        '防山': '防衛産業'
+    },
+    vi: {
+        '👍 Động lực cốt lõi': '📌 Động lực cốt lõi',
+        'Core Momentum': 'Động lực cốt lõi',
+        'Investment points': 'Điểm đầu tư',
+        'Key risks': 'Rủi ro chính',
+        'Precautions': 'Lưu ý',
+        'Investment Strategy': 'Chiến lược đầu tư',
+        'Top 10 Stocks by Market Cap': 'Top 10 cổ phiếu theo vốn hóa'
+    },
+    de: {
+        'Core Momentum': 'Kernmomentum',
+        'Investment points': 'Investmentpunkte',
+        'Key risks': 'Hauptrisiken',
+        'Precautions': 'Vorsichtspunkte',
+        'Investment Strategy': 'Anlagestrategie',
+        'Top 10 Stocks by Market Cap': 'Top 10 Aktien nach Marktkapitalisierung'
+    },
+    fr: {
+        'Core Momentum': 'Momentum clé',
+        'Investment points': "Points d'investissement",
+        'Key risks': 'Risques clés',
+        'Precautions': 'Précautions',
+        'Investment Strategy': "Stratégie d'investissement",
+        'Top 10 Stocks by Market Cap': 'Top 10 des actions par capitalisation'
+    }
+};
+const I18N_ENTITY_KEYS = {
+    'market.samsung': '삼성전자',
+    'market.sk': 'SK하이닉스',
+    'market.tiger': 'TIGER 전력기기',
+    'card.tiger.title': 'TIGER 코리아 AI 전력기기 TOP3 플러스'
+};
 const loadedI18n = {};
 let currentLanguage = 'ko';
 let lastRefreshState = 'loading';
@@ -440,9 +542,42 @@ function activeDictionary() {
 }
 
 function t(key, values = {}) {
+    if (currentLanguage !== 'ko' && I18N_ENTITY_KEYS[key]) return formatEntityName(I18N_ENTITY_KEYS[key]);
     const dict = activeDictionary();
     const fallback = loadedI18n.ko || {};
-    return interpolate(dict[key] || fallback[key] || key, values);
+    return localizeEntityText(interpolate(dict[key] || fallback[key] || key, values));
+}
+
+function escapeRegExp(value) {
+    return String(value).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+function formatEntityName(koreanName, lang = currentLanguage) {
+    if (lang === 'ko') return koreanName;
+    const translated = ENTITY_TRANSLATIONS[koreanName]?.[lang] || ENTITY_TRANSLATIONS[koreanName]?.en;
+    if (!translated || translated === koreanName) return koreanName;
+    return `${translated} (${koreanName})`;
+}
+
+function localizeEntityText(value) {
+    if (currentLanguage === 'ko') return value;
+    let out = String(value || '');
+    const phraseMap = PHRASE_REPLACEMENTS[currentLanguage] || {};
+    Object.entries(phraseMap).forEach(([from, to]) => {
+        out = out.replace(new RegExp(escapeRegExp(from), 'g'), to);
+    });
+    const replacements = [];
+    ENTITY_KEYS.forEach((term, index) => {
+        out = out.replace(new RegExp(escapeRegExp(term), 'g'), () => {
+            const token = `__ETF_ENTITY_${index}_${replacements.length}__`;
+            replacements.push([token, formatEntityName(term)]);
+            return token;
+        });
+    });
+    replacements.forEach(([token, replacement]) => {
+        out = out.replace(token, replacement);
+    });
+    return out;
 }
 
 async function loadI18n(lang) {
@@ -463,6 +598,7 @@ function hasUsableTranslations(lang, dict) {
 
 function applyStaticTranslations() {
     document.documentElement.lang = currentLanguage === 'zh-CN' ? 'zh-Hans' : currentLanguage;
+    document.documentElement.dataset.lang = currentLanguage;
     document.title = t('meta.title');
     document.querySelectorAll('[data-i18n]').forEach(el => {
         el.textContent = t(el.dataset.i18n);
@@ -471,6 +607,8 @@ function applyStaticTranslations() {
         el.innerHTML = t(el.dataset.i18nHtml);
     });
     updateLanguageButtons();
+    renderAllStockLists();
+    if (latestQuotePayload && Array.isArray(latestQuotePayload.quotes)) applyQuotes(latestQuotePayload.quotes);
     updateChartLanguage();
     setRefreshStatus('', lastRefreshState, lastRefreshVars, false);
 }
@@ -478,6 +616,10 @@ function applyStaticTranslations() {
 function updateLanguageButtons() {
     document.querySelectorAll('.language-btn').forEach(button => {
         const isActive = button.dataset.lang === currentLanguage;
+        const label = LANGUAGE_NAMES[button.dataset.lang] || button.dataset.lang;
+        button.textContent = LANGUAGE_FLAGS[button.dataset.lang] || label;
+        button.title = label;
+        button.setAttribute('aria-label', label);
         button.setAttribute('aria-pressed', isActive ? 'true' : 'false');
     });
 }
@@ -555,21 +697,26 @@ const stockData = {
 // HTML 리스트 동적 생성 함수
 function renderStockList(containerId, dataArray) {
     const container = document.getElementById(containerId);
+    if (!container) return;
     let html = '';
     dataArray.forEach(stock => {
         html += `
         <a href="https://www.google.com/finance/quote/${stock.ticker}:KRX" target="_blank" class="stock-link flex justify-between border-b border-gray-100 pb-1 hover:bg-gray-100 p-1 rounded transition-colors" data-ticker="${stock.ticker}">
-            <span class="text-gray-600">${stock.name}</span>
+            <span class="text-gray-600">${formatEntityName(stock.name)}</span>
             <span class="font-bold text-gray-800 transition-colors duration-300" id="sub-price-${stock.ticker}">${stock.price.toLocaleString('ko-KR')}</span>
         </a>`;
     });
     container.innerHTML = html;
 }
 
-renderStockList('list-semi', stockData.semi);
-renderStockList('list-def', stockData.def);
-renderStockList('list-ship', stockData.ship);
-renderStockList('list-aero', stockData.aero);
+function renderAllStockLists() {
+    renderStockList('list-semi', stockData.semi);
+    renderStockList('list-def', stockData.def);
+    renderStockList('list-ship', stockData.ship);
+    renderStockList('list-aero', stockData.aero);
+}
+
+renderAllStockLists();
 
 // --- Naver Finance JSONP / Yahoo Finance / Google Sheets 실시간 연동 로직 ---
 // ★ 새 Google Sheets ID 적용 (3차 수정본)
@@ -960,8 +1107,8 @@ const pieOptions={responsive:true,maintainAspectRatio:false,cutout:'65%',plugins
 const charts = {};
 function chartLabels() {
     return {
-        tigerPie: ['LS일렉트릭','HD현대일렉트릭','효성중공업','가온전선','일진전기', t('chart.labels.etc')],
-        marketPie: ['삼성전자','SK하이닉스','현대차','KB금융','기아', t('chart.labels.remaining195')],
+        tigerPie: ['LS일렉트릭','HD현대일렉트릭','효성중공업','가온전선','일진전기'].map(name => formatEntityName(name)).concat(t('chart.labels.etc')),
+        marketPie: ['삼성전자','SK하이닉스','현대차','KB금융','기아'].map(name => formatEntityName(name)).concat(t('chart.labels.remaining195')),
         radar: [t('chart.radar.growth'), t('chart.radar.stability'), t('chart.radar.compounding'), t('chart.radar.ai'), t('chart.radar.exports')],
         barYears: [t('chart.bar.2022'), t('chart.bar.2023'), t('chart.bar.2024'), t('chart.bar.2026'), t('chart.bar.2030')],
         lineYears: [t('chart.line.year1'), t('chart.line.year3'), t('chart.line.year5'), t('chart.line.year10'), t('chart.line.year15')]
@@ -971,7 +1118,7 @@ const initialChartLabels = chartLabels();
 charts.pieTiger = new Chart(document.getElementById('pieTiger').getContext('2d'), {type:'doughnut',data:{labels:initialChartLabels.tigerPie,datasets:[{data:[29,26,20,8,7,10],backgroundColor:['#ea580c','#f97316','#fb923c','#fdba74','#fed7aa','#f1f5f9'],borderWidth:1}]},options:pieOptions});
 charts.pieKodex = new Chart(document.getElementById('pieKodex').getContext('2d'), {type:'doughnut',data:{labels:initialChartLabels.marketPie,datasets:[{data:[31,12,4,3,3,47],backgroundColor:['#2563eb','#3b82f6','#60a5fa','#93c5fd','#bfdbfe','#f1f5f9'],borderWidth:1}]},options:pieOptions});
 charts.pieKodexTR = new Chart(document.getElementById('pieKodexTR').getContext('2d'), {type:'doughnut',data:{labels:initialChartLabels.marketPie,datasets:[{data:[31,12,4,3,3,47],backgroundColor:['#9333ea','#a855f7','#c084fc','#d8b4fe','#e9d5ff','#f1f5f9'],borderWidth:1}]},options:pieOptions});
-charts.radar = new Chart(document.getElementById('radarChart').getContext('2d'), {type:'radar',data:{labels:initialChartLabels.radar,datasets:[{label:'TIGER AI',data:[95,45,30,95,90],borderColor:'#ea580c',backgroundColor:'rgba(234,88,12,0.2)'},{label:'KODEX 200TR',data:[75,85,95,75,70],borderColor:'#9333ea',backgroundColor:'rgba(147,51,234,0.2)'},{label:'KODEX 200',data:[75,85,75,75,70],borderColor:'#2563eb',backgroundColor:'rgba(37,99,235,0.2)'}]},options:{responsive:true,maintainAspectRatio:false}});
+charts.radar = new Chart(document.getElementById('radarChart').getContext('2d'), {type:'radar',data:{labels:initialChartLabels.radar,datasets:[{label:formatEntityName('TIGER AI전력기기'),data:[95,45,30,95,90],borderColor:'#ea580c',backgroundColor:'rgba(234,88,12,0.2)'},{label:'KODEX 200TR',data:[75,85,95,75,70],borderColor:'#9333ea',backgroundColor:'rgba(147,51,234,0.2)'},{label:'KODEX 200',data:[75,85,75,75,70],borderColor:'#2563eb',backgroundColor:'rgba(37,99,235,0.2)'}]},options:{responsive:true,maintainAspectRatio:false}});
 charts.bar = new Chart(document.getElementById('barChart').getContext('2d'), {type:'bar',data:{labels:initialChartLabels.barYears,datasets:[{label:t('chart.bar.powerDemand'),data:[460,500,620,800,1150],backgroundColor:['#f97316','#fb923c','#ea580c','#c2410c','#9a3412'],borderRadius:6}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#1e293b'}}},scales:{y:{beginAtZero:false,ticks:{callback:function(v){return v+'TWh'}}}}}});
 charts.line = new Chart(document.getElementById('lineChart').getContext('2d'), {type:'line',data:{labels:initialChartLabels.lineYears,datasets:[{label:t('chart.line.tr'),data:[105,122,145,210,310],borderColor:'#0d9488',fill:true,backgroundColor:'rgba(13,148,136,0.1)',tension:0.4},{label:t('chart.line.regular'),data:[105,116,130,170,220],borderColor:'#2563eb',tension:0.4,fill:false}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'top'}}}});
 
@@ -982,6 +1129,9 @@ function updateChartLanguage() {
     charts.pieKodex.data.labels = labels.marketPie;
     charts.pieKodexTR.data.labels = labels.marketPie;
     charts.radar.data.labels = labels.radar;
+    charts.radar.data.datasets[0].label = formatEntityName('TIGER AI전력기기');
+    charts.radar.data.datasets[1].label = 'KODEX 200TR';
+    charts.radar.data.datasets[2].label = 'KODEX 200';
     charts.bar.data.labels = labels.barYears;
     charts.bar.data.datasets[0].label = t('chart.bar.powerDemand');
     charts.line.data.labels = labels.lineYears;

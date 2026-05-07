@@ -115,11 +115,12 @@ body.theme-dark .portfolio-chart-card h3 { color: #1e293b !important; }
 body.theme-dark .portfolio-chart-card .portfolio-center-label { color: #475569 !important; }
 body.theme-dark .portfolio-chart-card .portfolio-center-label.text-brightPurple { color: #7e22ce !important; }
 .language-tools {
-  position: absolute !important;
-  top: max(154px, calc(env(safe-area-inset-top) + 154px)) !important;
-  right: calc(24px + env(safe-area-inset-right)) !important;
+  position: relative !important;
+  top: auto !important;
+  right: auto !important;
   width: min(92vw, 220px);
   z-index: 2147482000 !important;
+  margin: 112px 0 28px auto;
 }
 .language-panel { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; }
 .language-btn { min-height: 34px; border-radius: 9999px; border: 1px solid rgba(226, 232, 240, 0.95); background: rgba(255, 255, 255, 0.92); box-shadow: 0 6px 18px rgba(15, 23, 42, 0.08); transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease; }
@@ -215,7 +216,7 @@ body { top: 0 !important; }
   .floating-tools #refresh-btn { width: 100%; justify-content: center; padding: 8px 10px; }
   .floating-tools #refresh-btn.is-compact { width: 44px; min-width: 44px; height: 44px; }
   .theme-toggle-btn { min-height: 36px; padding: 7px 10px; font-size: 0.76rem; }
-  .language-tools { right: calc(12px + env(safe-area-inset-right)) !important; top: max(116px, calc(env(safe-area-inset-top) + 116px)) !important; width: min(88vw, 188px); }
+  .language-tools { right: auto !important; top: auto !important; width: min(100%, 360px); margin: 122px auto 28px; }
   .language-panel { grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 4px; }
   .language-btn { min-height: 30px; font-size: 15px; }
   .watchlist-shell { padding: 22px 16px 24px; border-radius: 18px; }
@@ -226,7 +227,7 @@ body { top: 0 !important; }
   .watch-page-button { width: 40px; height: 40px; min-width: 40px !important; min-height: 40px !important; }
   .watchlist-card { min-height: 122px; padding: 13px 12px; }
   .watch-change-row { grid-template-columns: 3.3em minmax(0, 1fr); }
-  header { padding-top: 7.25rem !important; }
+  header { padding-top: 1rem !important; }
 }
 </style>
 <script>
@@ -261,6 +262,8 @@ colors: { vibrantBlue: '#2563eb', electricTeal: '#0d9488', sunsetOrange: '#ea580
 </button>
 </div>
 
+<header class="bg-deepNavy text-white py-16 px-4 sm:px-8 shadow-lg">
+<div class="max-w-7xl mx-auto text-center">
 <!-- 페이지 우측 최상단 언어 선택 버튼 -->
 <div class="language-tools">
 <div id="language-panel" class="language-panel" aria-label="Language selector">
@@ -273,9 +276,6 @@ colors: { vibrantBlue: '#2563eb', electricTeal: '#0d9488', sunsetOrange: '#ea580
 <button type="button" class="language-btn" data-lang="fr" aria-label="Français">🇫🇷</button>
 </div>
 </div>
-
-<header class="bg-deepNavy text-white py-16 px-4 sm:px-8 shadow-lg">
-<div class="max-w-7xl mx-auto text-center">
 <div class="text-6xl mb-4">🚀</div>
 <h1 class="text-4xl md:text-5xl font-bold mb-6 leading-tight" data-i18n-html="heroTitle">3대 주도 ETF<br><span class="text-electricTeal">성장 모멘텀 분석 리포트</span></h1>
 <p class="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto" data-i18n-html="heroSubtitle">최근 급등한 <strong>TIGER 코리아 AI 전력기기 TOP3 플러스</strong>, <strong>KODEX 200TR</strong>, <strong>KODEX 200</strong> ETF의 상승 원인과 미래 주도 테마로서의 가치를 직관적인 데이터로 분석합니다.</p>

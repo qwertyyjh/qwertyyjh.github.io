@@ -59,8 +59,8 @@ body { font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI",
 .watchlist-price { font-variant-numeric: tabular-nums; }
 .watchlist-track { touch-action: pan-y; }
 .watch-page-controls { justify-content: flex-end; }
-.watchlist-dot { width: 9px; height: 9px; border-radius: 9999px; background: #cbd5e1; transition: width 0.2s ease, background 0.2s ease; }
-.watchlist-dot.active { width: 26px; background: #2563eb; }
+.watchlist-dot { width: 10px !important; min-width: 10px !important; height: 10px !important; min-height: 10px !important; padding: 0 !important; border-radius: 9999px; background: #cbd5e1; border: 0; transition: transform 0.2s ease, background 0.2s ease; }
+.watchlist-dot.active { width: 10px !important; min-width: 10px !important; height: 10px !important; min-height: 10px !important; background: #2563eb; transform: scale(1.15); }
 .watch-edit-controls { display: none; }
 .watchlist-card.is-editing .watch-edit-controls { display: grid; }
 .watchlist-card.is-editing .watch-remove { display: none; }

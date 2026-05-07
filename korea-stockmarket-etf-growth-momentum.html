@@ -39,18 +39,19 @@ body { font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI",
   justify-content: flex-end;
   pointer-events: none;
 }
-.floating-tools #refresh-btn, .floating-tools #theme-toggle-btn { pointer-events: auto; }
+.floating-tools #refresh-btn, .floating-tools #theme-toggle-btn { pointer-events: auto; line-height: 1; }
 .floating-tools #refresh-btn { min-width: 154px; min-height: 46px; justify-content: center; overflow: hidden; }
+.floating-tools #refresh-btn svg, .theme-toggle-btn svg { display: block; flex: none; margin: 0 !important; }
 .floating-tools #refresh-btn .refresh-label { max-width: 9rem; opacity: 1; white-space: nowrap; overflow: hidden; transition: max-width 0.2s ease, opacity 0.2s ease, margin 0.2s ease; }
-.floating-tools #refresh-btn.is-compact { width: 46px; min-width: 46px; height: 46px; padding: 0 !important; }
-.floating-tools #refresh-btn.is-compact .refresh-label { max-width: 0; opacity: 0; margin-left: 0 !important; }
+.floating-tools #refresh-btn.is-compact { width: 46px; min-width: 46px; height: 46px; padding: 0 !important; gap: 0 !important; display: inline-flex !important; align-items: center !important; justify-content: center !important; }
+.floating-tools #refresh-btn.is-compact .refresh-label { width: 0; max-width: 0; opacity: 0; margin-left: 0 !important; margin-right: 0 !important; }
 .floating-tools #refresh-btn.is-compact svg { width: 22px; height: 22px; }
 .theme-toggle-btn { min-height: 40px; border-radius: 9999px; display: inline-flex; align-items: center; justify-content: center; gap: 7px; padding: 8px 12px; background: rgba(255,255,255,0.9); color: #1e3a8a; border: 1px solid rgba(226,232,240,0.95); box-shadow: 0 10px 24px rgba(15, 23, 42, 0.12); backdrop-filter: blur(10px); font-size: 0.82rem; font-weight: 900; transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease; }
 .theme-toggle-btn:hover { transform: translateY(-1px); background: #fff; }
 .theme-toggle-btn svg { width: 17px; height: 17px; }
 .theme-toggle-btn .theme-label { max-width: 6rem; opacity: 1; white-space: nowrap; overflow: hidden; transition: max-width 0.2s ease, opacity 0.2s ease, margin 0.2s ease; }
-.theme-toggle-btn.is-compact { width: 46px; min-width: 46px; height: 46px; padding: 0 !important; }
-.theme-toggle-btn.is-compact .theme-label { max-width: 0; opacity: 0; margin-left: 0 !important; }
+.theme-toggle-btn.is-compact { width: 46px; min-width: 46px; height: 46px; padding: 0 !important; gap: 0 !important; display: inline-flex; align-items: center; justify-content: center; overflow: hidden; }
+.theme-toggle-btn.is-compact .theme-label { width: 0; max-width: 0; opacity: 0; margin-left: 0 !important; margin-right: 0 !important; }
 .theme-toggle-btn.is-compact svg { width: 21px; height: 21px; }
 .theme-toggle-btn .theme-sun { display: none; }
 body.theme-dark .theme-toggle-btn .theme-moon { display: none; }
@@ -64,8 +65,8 @@ body.theme-dark .text-gray-600, body.theme-dark .text-gray-500, body.theme-dark 
 body.theme-dark .border-gray-100, body.theme-dark .border-gray-200, body.theme-dark .border-slate-100 { border-color: rgba(148, 163, 184, 0.22) !important; }
 body.theme-dark .watchlist-shell { background: #181a1d; box-shadow: 0 18px 40px rgba(0,0,0,0.42); }
 body.theme-dark .watch-add-panel { background: #121416; border-color: rgba(148, 163, 184, 0.22); }
-body.theme-dark .watch-change-box { background: rgba(18, 20, 22, 0.82); box-shadow: inset 0 0 0 1px rgba(148, 163, 184, 0.16); }
-body.theme-dark .watchlist-card { box-shadow: 0 3px 12px rgba(0,0,0,0.22); }
+body.theme-dark .watch-change-box, body.theme-dark .quote-change-box { background: rgba(18, 20, 22, 0.82); box-shadow: inset 0 0 0 1px rgba(148, 163, 184, 0.16); }
+body.theme-dark .watchlist-card, body.theme-dark .quote-card { box-shadow: 0 3px 12px rgba(0,0,0,0.22); }
 body.theme-dark .watch-card-theme-0 { background: #1b2028; border-color: #2f4d83; }
 body.theme-dark .watch-card-theme-1 { background: #241c20; border-color: #7f3347; }
 body.theme-dark .watch-card-theme-2 { background: #1b241e; border-color: #2f7143; }
@@ -76,7 +77,8 @@ body.theme-dark .watch-card-theme-6 { background: #231d29; border-color: #74449a
 body.theme-dark .watch-card-theme-7 { background: #261f18; border-color: #8a4d24; }
 body.theme-dark .watch-card-theme-8 { background: #1a2422; border-color: #287066; }
 body.theme-dark .watch-card-theme-9 { background: #202229; border-color: #4d5895; }
-body.theme-dark .watch-card-title, body.theme-dark .watch-price-row { color: #eff6ff !important; }
+body.theme-dark .watch-card-title, body.theme-dark .watch-price-row, body.theme-dark .quote-title, body.theme-dark .quote-price { color: #eff6ff !important; }
+body.theme-dark .quote-price .currency, body.theme-dark .watch-currency { color: #cbd5e1 !important; }
 body.theme-dark .theme-toggle-btn, body.theme-dark .floating-tools #refresh-btn { background: rgba(24, 26, 29, 0.92) !important; color: #dbeafe !important; border-color: rgba(148, 163, 184, 0.28) !important; }
 body.theme-dark header.bg-deepNavy { background-color: #14181d !important; }
 body.theme-dark input, body.theme-dark select, body.theme-dark textarea { background-color: #111315 !important; color: #f8fafc !important; border-color: rgba(148, 163, 184, 0.32) !important; }
@@ -92,7 +94,7 @@ body.theme-dark .text-sky-700 { color: #7dd3fc !important; }
 body.theme-dark .border-blue-100, body.theme-dark .border-indigo-100, body.theme-dark .border-purple-100, body.theme-dark .border-rose-100, body.theme-dark .border-red-100, body.theme-dark .border-orange-100, body.theme-dark .border-teal-100 { border-color: rgba(148, 163, 184, 0.24) !important; }
 body.theme-dark .insight-box, body.theme-dark .risk-box, body.theme-dark .strategy-box { background: #202327 !important; color: #e5e7eb !important; }
 body.theme-dark .watchlist-title-text { color: #dbeafe !important; }
-body.theme-dark .watchlist-interval, body.theme-dark .watch-change-row .watch-label { color: #cbd5e1 !important; }
+body.theme-dark .watchlist-interval, body.theme-dark .watch-change-row .watch-label, body.theme-dark .quote-label { color: #cbd5e1 !important; }
 body.theme-dark .watch-page-button { background: #202327; color: #dbeafe; box-shadow: 0 2px 10px rgba(0,0,0,0.22); }
 body.theme-dark .watch-page-button:not(:disabled) { background: #252a30; color: #dbeafe; }
 body.theme-dark .watch-page-button:not(:disabled):hover { background: #303741; color: #ffffff; }
@@ -141,15 +143,19 @@ body.theme-dark .portfolio-chart-card .portfolio-center-label.text-brightPurple 
 .watch-add-toggle:hover { background: #287f76; }
 .watch-add-panel { display: none; margin: -8px 0 24px; border: 1px solid #e2e8f0; border-radius: 18px; background: #f8fafc; padding: 14px; }
 .watch-add-panel.is-open { display: block; }
-.watchlist-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
-.watchlist-card { min-height: 128px; overflow: hidden; position: relative; border-radius: 14px; border: 1px solid #dbe5ff; background: #eef3ff; padding: 14px 14px 13px; text-align: center; box-shadow: 0 3px 10px rgba(15, 23, 42, 0.06); }
-.watchlist-card.card-hover:hover { transform: translateY(-2px); box-shadow: 0 8px 18px rgba(15, 23, 42, 0.10); }
-.watch-card-title { display: block; min-height: 1.6em; font-size: 0.98rem; line-height: 1.15; font-weight: 900; color: #2563eb; overflow: hidden; overflow-wrap: anywhere; }
-.watch-card-title [data-watch-name] { display: -webkit-box; min-height: 1.35em; overflow: hidden; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
-.watch-price-row { margin-top: 8px; font-size: clamp(1.18rem, 1.6vw, 1.55rem); line-height: 1.08; font-weight: 900; color: #111827; letter-spacing: 0; font-variant-numeric: tabular-nums; }
-.watch-change-box { margin-top: 13px; border-radius: 8px; background: rgba(255, 255, 255, 0.78); box-shadow: inset 0 0 0 1px rgba(226, 232, 240, 0.28), 0 2px 8px rgba(15, 23, 42, 0.04); padding: 7px 9px; display: grid; gap: 3px; text-align: left; }
-.watch-change-row { display: grid; grid-template-columns: 3.6em minmax(0, 1fr); align-items: center; gap: 4px; font-size: 0.76rem; line-height: 1.18; font-weight: 800; }
+.market-grid, .watchlist-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.quote-card, .watchlist-card { min-height: 128px; overflow: hidden; position: relative; border-radius: 14px; border: 1px solid #dbe5ff; background: #eef3ff; padding: 14px 14px 13px; text-align: center; box-shadow: 0 3px 10px rgba(15, 23, 42, 0.06); text-decoration: none; display: flex; flex-direction: column; }
+.quote-card.card-hover:hover, .watchlist-card.card-hover:hover { transform: translateY(-2px); box-shadow: 0 8px 18px rgba(15, 23, 42, 0.10); }
+.quote-title, .watch-card-title { display: block; min-height: 1.6em; font-size: 0.98rem; line-height: 1.15; font-weight: 900; color: #2563eb; overflow: hidden; overflow-wrap: anywhere; }
+.quote-title { margin-bottom: 2px; }
+.watch-card-title [data-watch-name], .quote-title[data-stock-ko] { display: -webkit-box; min-height: 1.35em; overflow: hidden; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
+.quote-price, .watch-price-row { margin-top: 8px; margin-bottom: 12px; font-size: clamp(1.18rem, 1.6vw, 1.55rem); line-height: 1.08; font-weight: 900; color: #111827; letter-spacing: 0; font-variant-numeric: tabular-nums; }
+.quote-price span:first-child, .watch-price-row span:first-child { display: inline-block; padding: 0 3px; border-radius: 2px; transition: color 0.2s ease, background-color 0.2s ease; }
+.quote-price .currency, .watch-currency { font-size: 0.62em; font-weight: 700; margin-left: 1px; color: #475569; }
+.quote-change-box, .watch-change-box { margin-top: auto; border-radius: 8px; background: rgba(255, 255, 255, 0.78); box-shadow: inset 0 0 0 1px rgba(226, 232, 240, 0.28), 0 2px 8px rgba(15, 23, 42, 0.04); padding: 7px 9px; display: grid; gap: 3px; text-align: left; }
+.quote-change-row, .watch-change-row { display: grid; grid-template-columns: 3.6em minmax(0, 1fr); align-items: center; gap: 4px; font-size: 0.76rem; line-height: 1.18; font-weight: 800; }
 .watch-change-row .watch-label { color: #9ca3af; }
+.quote-label { color: #9ca3af; }
 .watch-symbol-line, .watch-status, [data-watch-status] { display: none !important; }
 .watch-remove { display: none; position: absolute; top: 8px; right: 8px; z-index: 2; }
 .watchlist-card.is-editing { min-height: 188px; border-color: #0d9488; background: #f0fdfa; }
@@ -203,9 +209,9 @@ body.theme-dark .portfolio-chart-card .portfolio-center-label.text-brightPurple 
 .google-translate-shell { position: fixed; left: -9999px; top: -9999px; width: 1px; height: 1px; overflow: hidden; }
 .goog-te-banner-frame, .goog-te-gadget, .skiptranslate { display: none !important; }
 body { top: 0 !important; }
-@media (min-width: 640px) { .watchlist-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
-@media (min-width: 768px) { .watchlist-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); } }
-@media (min-width: 1280px) { .watchlist-grid { grid-template-columns: repeat(7, minmax(0, 1fr)); } }
+@media (min-width: 640px) { .market-grid, .watchlist-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (min-width: 768px) { .market-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } .watchlist-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); } }
+@media (min-width: 1280px) { .market-grid, .watchlist-grid { grid-template-columns: repeat(7, minmax(0, 1fr)); } }
 @media (max-width: 1024px) {
   .watchlist-header { align-items: flex-start; flex-direction: column; }
   .watchlist-actions { width: 100%; justify-content: flex-start; }
@@ -225,8 +231,8 @@ body { top: 0 !important; }
   .watch-header-btn { padding: 0 10px; font-size: 0.82rem; }
   .watch-page-controls { justify-content: end; }
   .watch-page-button { width: 40px; height: 40px; min-width: 40px !important; min-height: 40px !important; }
-  .watchlist-card { min-height: 122px; padding: 13px 12px; }
-  .watch-change-row { grid-template-columns: 3.3em minmax(0, 1fr); }
+  .quote-card, .watchlist-card { min-height: 122px; padding: 13px 12px; }
+  .quote-change-row, .watch-change-row { grid-template-columns: 3.3em minmax(0, 1fr); }
   header { padding-top: 1rem !important; }
 }
 </style>
@@ -290,61 +296,61 @@ colors: { vibrantBlue: '#2563eb', electricTeal: '#0d9488', sunsetOrange: '#ea580
 <h2 class="text-2xl font-bold text-deepNavy mb-6 flex items-center flex-wrap gap-y-1">
 <span class="text-3xl mr-2">📊</span><span data-i18n="marketTitle">실시간 시장 지수 &amp; ETF 현재가</span> <span class="text-sm text-gray-400 font-normal ml-3" data-i18n="marketInterval">(5초 업데이트 / 클릭 시 전체 동기화)</span><span id="refresh-status" class="text-xs text-gray-400 font-normal ml-3">불러오는 중...</span>
 </h2>
-<div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-3">
-<a href="https://www.google.com/finance/quote/KOSPI:KRX" target="_blank" class="stock-link block bg-gray-50 p-3 rounded-xl border border-gray-100 text-center shadow-sm card-hover hover:bg-gray-200 cursor-pointer">
-<div class="text-[13px] text-gray-500 font-semibold mb-1" data-stock-ko="코스피">코스피</div>
-<div class="text-xl font-bold text-gray-800 transition-colors notranslate" translate="no" id="price-kospi">--</div>
-<div class="mt-2 text-[11px] font-medium text-left bg-white p-1.5 rounded shadow-inner space-y-1">
-<div class="flex justify-between"><span class="text-gray-500">전일비</span><span id="change-kospi-close" class="text-gray-400">-</span></div>
-<div class="flex justify-between"><span class="text-gray-500">시가비</span><span id="change-kospi-open" class="text-gray-400">-</span></div>
+<div class="market-grid">
+<a href="https://www.google.com/finance/quote/KOSPI:KRX" target="_blank" class="stock-link quote-card watch-card-theme-0 card-hover cursor-pointer">
+<div class="quote-title" data-stock-ko="코스피">코스피</div>
+<div class="quote-price transition-colors notranslate" translate="no"><span id="price-kospi">--</span></div>
+<div class="quote-change-box">
+<div class="quote-change-row"><span class="quote-label">전일비</span><span id="change-kospi-close" class="text-gray-400">-</span></div>
+<div class="quote-change-row"><span class="quote-label">시가비</span><span id="change-kospi-open" class="text-gray-400">-</span></div>
 </div>
 </a>
-<a href="https://www.google.com/finance/quote/KOSDAQ:KRX" target="_blank" class="stock-link block bg-gray-50 p-3 rounded-xl border border-gray-100 text-center shadow-sm card-hover hover:bg-gray-200 cursor-pointer">
-<div class="text-[13px] text-gray-500 font-semibold mb-1" data-stock-ko="코스닥">코스닥</div>
-<div class="text-xl font-bold text-gray-800 transition-colors notranslate" translate="no" id="price-kosdaq">--</div>
-<div class="mt-2 text-[11px] font-medium text-left bg-white p-1.5 rounded shadow-inner space-y-1">
-<div class="flex justify-between"><span class="text-gray-500">전일비</span><span id="change-kosdaq-close" class="text-gray-400">-</span></div>
-<div class="flex justify-between"><span class="text-gray-500">시가비</span><span id="change-kosdaq-open" class="text-gray-400">-</span></div>
+<a href="https://www.google.com/finance/quote/KOSDAQ:KRX" target="_blank" class="stock-link quote-card watch-card-theme-1 card-hover cursor-pointer">
+<div class="quote-title" data-stock-ko="코스닥">코스닥</div>
+<div class="quote-price transition-colors notranslate" translate="no"><span id="price-kosdaq">--</span></div>
+<div class="quote-change-box">
+<div class="quote-change-row"><span class="quote-label">전일비</span><span id="change-kosdaq-close" class="text-gray-400">-</span></div>
+<div class="quote-change-row"><span class="quote-label">시가비</span><span id="change-kosdaq-open" class="text-gray-400">-</span></div>
 </div>
 </a>
-<a href="https://www.google.com/finance/quote/005930:KRX" target="_blank" class="stock-link block bg-indigo-50 p-3 rounded-xl border border-indigo-100 text-center shadow-sm card-hover hover:bg-indigo-100 cursor-pointer">
-<div class="text-[13px] text-indigo-700 font-bold mb-1" data-stock-ko="삼성전자">삼성전자</div>
-<div class="text-xl font-bold text-gray-800 transition-colors notranslate" translate="no"><span id="price-samsung">--</span><span class="text-xs font-normal">원</span></div>
-<div class="mt-2 text-[11px] font-medium text-left bg-white p-1.5 rounded shadow-inner space-y-1">
-<div class="flex justify-between"><span class="text-gray-500">전일비</span><span id="change-samsung-close" class="text-gray-400">-</span></div>
-<div class="flex justify-between"><span class="text-gray-500">시가비</span><span id="change-samsung-open" class="text-gray-400">-</span></div>
+<a href="https://www.google.com/finance/quote/005930:KRX" target="_blank" class="stock-link quote-card watch-card-theme-0 card-hover cursor-pointer">
+<div class="quote-title" data-stock-ko="삼성전자">삼성전자</div>
+<div class="quote-price transition-colors notranslate" translate="no"><span id="price-samsung">--</span><span class="currency">원</span></div>
+<div class="quote-change-box">
+<div class="quote-change-row"><span class="quote-label">전일비</span><span id="change-samsung-close" class="text-gray-400">-</span></div>
+<div class="quote-change-row"><span class="quote-label">시가비</span><span id="change-samsung-open" class="text-gray-400">-</span></div>
 </div>
 </a>
-<a href="https://www.google.com/finance/quote/000660:KRX" target="_blank" class="stock-link block bg-rose-50 p-3 rounded-xl border border-rose-100 text-center shadow-sm card-hover hover:bg-rose-100 cursor-pointer">
-<div class="text-[13px] text-rose-700 font-bold mb-1" data-stock-ko="SK하이닉스">SK하이닉스</div>
-<div class="text-xl font-bold text-gray-800 transition-colors notranslate" translate="no"><span id="price-sk">--</span><span class="text-xs font-normal">원</span></div>
-<div class="mt-2 text-[11px] font-medium text-left bg-white p-1.5 rounded shadow-inner space-y-1">
-<div class="flex justify-between"><span class="text-gray-500">전일비</span><span id="change-sk-close" class="text-gray-400">-</span></div>
-<div class="flex justify-between"><span class="text-gray-500">시가비</span><span id="change-sk-open" class="text-gray-400">-</span></div>
+<a href="https://www.google.com/finance/quote/000660:KRX" target="_blank" class="stock-link quote-card watch-card-theme-1 card-hover cursor-pointer">
+<div class="quote-title" data-stock-ko="SK하이닉스">SK하이닉스</div>
+<div class="quote-price transition-colors notranslate" translate="no"><span id="price-sk">--</span><span class="currency">원</span></div>
+<div class="quote-change-box">
+<div class="quote-change-row"><span class="quote-label">전일비</span><span id="change-sk-close" class="text-gray-400">-</span></div>
+<div class="quote-change-row"><span class="quote-label">시가비</span><span id="change-sk-open" class="text-gray-400">-</span></div>
 </div>
 </a>
-<a href="https://finance.naver.com/item/main.naver?code=0117V0" target="_blank" class="stock-link block bg-orange-50 p-3 rounded-xl border border-orange-100 text-center shadow-sm card-hover hover:bg-orange-100 cursor-pointer">
-<div class="text-[13px] text-sunsetOrange font-bold mb-1" data-stock-ko="TIGER 전력기기">TIGER 전력기기</div>
-<div class="text-xl font-bold text-gray-800 transition-colors notranslate" translate="no"><span id="price-tiger">--</span><span class="text-xs font-normal">원</span></div>
-<div class="mt-2 text-[11px] font-medium text-left bg-white p-1.5 rounded shadow-inner space-y-1">
-<div class="flex justify-between"><span class="text-gray-500">전일비</span><span id="change-tiger-close" class="text-gray-400">-</span></div>
-<div class="flex justify-between"><span class="text-gray-500">시가비</span><span id="change-tiger-open" class="text-gray-400">-</span></div>
+<a href="https://finance.naver.com/item/main.naver?code=0117V0" target="_blank" class="stock-link quote-card watch-card-theme-7 card-hover cursor-pointer">
+<div class="quote-title" data-stock-ko="TIGER 전력기기">TIGER 전력기기</div>
+<div class="quote-price transition-colors notranslate" translate="no"><span id="price-tiger">--</span><span class="currency">원</span></div>
+<div class="quote-change-box">
+<div class="quote-change-row"><span class="quote-label">전일비</span><span id="change-tiger-close" class="text-gray-400">-</span></div>
+<div class="quote-change-row"><span class="quote-label">시가비</span><span id="change-tiger-open" class="text-gray-400">-</span></div>
 </div>
 </a>
-<a href="https://www.google.com/finance/quote/069500:KRX" target="_blank" class="stock-link block bg-blue-50 p-3 rounded-xl border border-blue-100 text-center shadow-sm card-hover hover:bg-blue-100 cursor-pointer">
-<div class="text-[13px] text-vibrantBlue font-bold mb-1" data-stock-ko="KODEX 200">KODEX 200</div>
-<div class="text-xl font-bold text-gray-800 transition-colors notranslate" translate="no"><span id="price-kodex200">--</span><span class="text-xs font-normal">원</span></div>
-<div class="mt-2 text-[11px] font-medium text-left bg-white p-1.5 rounded shadow-inner space-y-1">
-<div class="flex justify-between"><span class="text-gray-500">전일비</span><span id="change-kodex-close" class="text-gray-400">-</span></div>
-<div class="flex justify-between"><span class="text-gray-500">시가비</span><span id="change-kodex-open" class="text-gray-400">-</span></div>
+<a href="https://www.google.com/finance/quote/069500:KRX" target="_blank" class="stock-link quote-card watch-card-theme-4 card-hover cursor-pointer">
+<div class="quote-title" data-stock-ko="KODEX 200">KODEX 200</div>
+<div class="quote-price transition-colors notranslate" translate="no"><span id="price-kodex200">--</span><span class="currency">원</span></div>
+<div class="quote-change-box">
+<div class="quote-change-row"><span class="quote-label">전일비</span><span id="change-kodex-close" class="text-gray-400">-</span></div>
+<div class="quote-change-row"><span class="quote-label">시가비</span><span id="change-kodex-open" class="text-gray-400">-</span></div>
 </div>
 </a>
-<a href="https://www.google.com/finance/quote/278530:KRX" target="_blank" class="stock-link block bg-purple-50 p-3 rounded-xl border border-purple-100 text-center shadow-sm card-hover hover:bg-purple-100 cursor-pointer">
-<div class="text-[13px] text-brightPurple font-bold mb-1" data-stock-ko="KODEX 200TR">KODEX 200TR</div>
-<div class="text-xl font-bold text-gray-800 transition-colors notranslate" translate="no"><span id="price-kodex200tr">--</span><span class="text-xs font-normal">원</span></div>
-<div class="mt-2 text-[11px] font-medium text-left bg-white p-1.5 rounded shadow-inner space-y-1">
-<div class="flex justify-between"><span class="text-gray-500">전일비</span><span id="change-kodextr-close" class="text-gray-400">-</span></div>
-<div class="flex justify-between"><span class="text-gray-500">시가비</span><span id="change-kodextr-open" class="text-gray-400">-</span></div>
+<a href="https://www.google.com/finance/quote/278530:KRX" target="_blank" class="stock-link quote-card watch-card-theme-6 card-hover cursor-pointer">
+<div class="quote-title" data-stock-ko="KODEX 200TR">KODEX 200TR</div>
+<div class="quote-price transition-colors notranslate" translate="no"><span id="price-kodex200tr">--</span><span class="currency">원</span></div>
+<div class="quote-change-box">
+<div class="quote-change-row"><span class="quote-label">전일비</span><span id="change-kodextr-close" class="text-gray-400">-</span></div>
+<div class="quote-change-row"><span class="quote-label">시가비</span><span id="change-kodextr-open" class="text-gray-400">-</span></div>
 </div>
 </a>
 </div>
@@ -1548,8 +1554,8 @@ function renderWatchlist() {
         const editClass = watchEditMode ? ' is-editing' : '';
         const themeClass = watchThemeClass(absoluteIndex);
         return `
-        <div class="watchlist-card ${themeClass}${editClass} card-hover flex flex-col" data-watch-card="${item.symbol}">
-            <a href="${watchlistItemUrl(item)}" target="_blank" class="watch-card-title" title="${item.name}">
+        <div class="watchlist-card quote-card ${themeClass}${editClass} card-hover flex flex-col" data-watch-card="${item.symbol}">
+            <a href="${watchlistItemUrl(item)}" target="_blank" class="watch-card-title quote-title" title="${item.name}">
                     <span data-watch-name="${item.symbol}">${localizedNameHtml(item.name)}</span>
             </a>
             <button type="button" class="watch-remove text-[11px] px-2 py-1 rounded-full bg-white text-gray-400 hover:text-red-500 border border-gray-100" data-remove-symbol="${item.symbol}">${t('remove')}</button>
@@ -1560,10 +1566,10 @@ function renderWatchlist() {
                 <button type="button" class="rounded-lg bg-red-50 border border-red-100 px-2 py-2 text-xs font-bold text-red-600" data-remove-symbol="${item.symbol}">${t('remove')}</button>
             </div>
             <div class="watch-symbol-line text-[11px] text-gray-400 mt-1"><span class="notranslate" translate="no">${item.symbol}</span> · ${sourceText}</div>
-            <div class="watch-price-row watchlist-price notranslate" translate="no"><span data-watch-price="${item.symbol}">${priceText}</span><span class="text-xs font-normal ml-0.5">${currency}</span></div>
-            <div class="watch-change-box mt-auto">
-                <div class="watch-change-row"><span class="watch-label">${t('closeChange')}</span><span data-watch-close="${item.symbol}" class="text-gray-400 notranslate" translate="no">-</span></div>
-                <div class="watch-change-row"><span class="watch-label">${t('openChange')}</span><span data-watch-open="${item.symbol}" class="text-gray-400 notranslate" translate="no">-</span></div>
+            <div class="watch-price-row quote-price watchlist-price notranslate" translate="no"><span data-watch-price="${item.symbol}">${priceText}</span><span class="watch-currency">${currency}</span></div>
+            <div class="watch-change-box quote-change-box mt-auto">
+                <div class="watch-change-row quote-change-row"><span class="watch-label quote-label">${t('closeChange')}</span><span data-watch-close="${item.symbol}" class="text-gray-400 notranslate" translate="no">-</span></div>
+                <div class="watch-change-row quote-change-row"><span class="watch-label quote-label">${t('openChange')}</span><span data-watch-open="${item.symbol}" class="text-gray-400 notranslate" translate="no">-</span></div>
                 <div data-watch-status="${item.symbol}" class="watch-status text-gray-400 truncate">${item.source === 'google' ? t('googleCheck') : t('noPrice')}</div>
             </div>
         </div>`;

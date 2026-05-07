@@ -32,14 +32,81 @@ body { font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI",
   z-index: 2147483000 !important;
   transform: none !important;
   display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-end;
   justify-content: flex-end;
   pointer-events: none;
 }
-.floating-tools #refresh-btn { pointer-events: auto; min-width: 154px; min-height: 46px; justify-content: center; overflow: hidden; }
+.floating-tools #refresh-btn, .floating-tools #theme-toggle-btn { pointer-events: auto; }
+.floating-tools #refresh-btn { min-width: 154px; min-height: 46px; justify-content: center; overflow: hidden; }
 .floating-tools #refresh-btn .refresh-label { max-width: 9rem; opacity: 1; white-space: nowrap; overflow: hidden; transition: max-width 0.2s ease, opacity 0.2s ease, margin 0.2s ease; }
 .floating-tools #refresh-btn.is-compact { width: 46px; min-width: 46px; height: 46px; padding: 0 !important; }
 .floating-tools #refresh-btn.is-compact .refresh-label { max-width: 0; opacity: 0; margin-left: 0 !important; }
 .floating-tools #refresh-btn.is-compact svg { width: 22px; height: 22px; }
+.theme-toggle-btn { min-height: 40px; border-radius: 9999px; display: inline-flex; align-items: center; justify-content: center; gap: 7px; padding: 8px 12px; background: rgba(255,255,255,0.9); color: #1e3a8a; border: 1px solid rgba(226,232,240,0.95); box-shadow: 0 10px 24px rgba(15, 23, 42, 0.12); backdrop-filter: blur(10px); font-size: 0.82rem; font-weight: 900; transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease; }
+.theme-toggle-btn:hover { transform: translateY(-1px); background: #fff; }
+.theme-toggle-btn svg { width: 17px; height: 17px; }
+.theme-toggle-btn .theme-label { max-width: 6rem; opacity: 1; white-space: nowrap; overflow: hidden; transition: max-width 0.2s ease, opacity 0.2s ease, margin 0.2s ease; }
+.theme-toggle-btn.is-compact { width: 46px; min-width: 46px; height: 46px; padding: 0 !important; }
+.theme-toggle-btn.is-compact .theme-label { max-width: 0; opacity: 0; margin-left: 0 !important; }
+.theme-toggle-btn.is-compact svg { width: 21px; height: 21px; }
+.theme-toggle-btn .theme-sun { display: none; }
+body.theme-dark .theme-toggle-btn .theme-moon { display: none; }
+body.theme-dark .theme-toggle-btn .theme-sun { display: block; }
+body.theme-dark { background: #111315; color: #e5e7eb; }
+body.theme-dark main { color: #e5e7eb; }
+body.theme-dark .bg-white { background-color: #181a1d !important; }
+body.theme-dark .bg-gray-50, body.theme-dark .bg-slate-50, body.theme-dark .bg-gray-100 { background-color: #202327 !important; }
+body.theme-dark .text-deepNavy, body.theme-dark .text-gray-900, body.theme-dark .text-gray-800, body.theme-dark .text-gray-700 { color: #dbeafe !important; }
+body.theme-dark .text-gray-600, body.theme-dark .text-gray-500, body.theme-dark .text-gray-400 { color: #94a3b8 !important; }
+body.theme-dark .border-gray-100, body.theme-dark .border-gray-200, body.theme-dark .border-slate-100 { border-color: rgba(148, 163, 184, 0.22) !important; }
+body.theme-dark .watchlist-shell { background: #181a1d; box-shadow: 0 18px 40px rgba(0,0,0,0.42); }
+body.theme-dark .watch-add-panel { background: #121416; border-color: rgba(148, 163, 184, 0.22); }
+body.theme-dark .watch-change-box { background: rgba(18, 20, 22, 0.82); box-shadow: inset 0 0 0 1px rgba(148, 163, 184, 0.16); }
+body.theme-dark .watchlist-card { box-shadow: 0 3px 12px rgba(0,0,0,0.22); }
+body.theme-dark .watch-card-theme-0 { background: #1b2028; border-color: #2f4d83; }
+body.theme-dark .watch-card-theme-1 { background: #241c20; border-color: #7f3347; }
+body.theme-dark .watch-card-theme-2 { background: #1b241e; border-color: #2f7143; }
+body.theme-dark .watch-card-theme-3 { background: #252217; border-color: #7c6420; }
+body.theme-dark .watch-card-theme-4 { background: #1b222a; border-color: #315c8f; }
+body.theme-dark .watch-card-theme-5 { background: #1a2427; border-color: #297486; }
+body.theme-dark .watch-card-theme-6 { background: #231d29; border-color: #74449a; }
+body.theme-dark .watch-card-theme-7 { background: #261f18; border-color: #8a4d24; }
+body.theme-dark .watch-card-theme-8 { background: #1a2422; border-color: #287066; }
+body.theme-dark .watch-card-theme-9 { background: #202229; border-color: #4d5895; }
+body.theme-dark .watch-card-title, body.theme-dark .watch-price-row { color: #eff6ff !important; }
+body.theme-dark .theme-toggle-btn, body.theme-dark .floating-tools #refresh-btn { background: rgba(24, 26, 29, 0.92) !important; color: #dbeafe !important; border-color: rgba(148, 163, 184, 0.28) !important; }
+body.theme-dark header.bg-deepNavy { background-color: #14181d !important; }
+body.theme-dark input, body.theme-dark select, body.theme-dark textarea { background-color: #111315 !important; color: #f8fafc !important; border-color: rgba(148, 163, 184, 0.32) !important; }
+body.theme-dark input::placeholder, body.theme-dark textarea::placeholder { color: #94a3b8 !important; opacity: 1; }
+body.theme-dark .bg-blue-50, body.theme-dark .bg-indigo-50, body.theme-dark .bg-purple-50, body.theme-dark .bg-rose-50, body.theme-dark .bg-red-50, body.theme-dark .bg-orange-50 { background-color: #202327 !important; }
+body.theme-dark .bg-blue-100, body.theme-dark .bg-indigo-100, body.theme-dark .bg-purple-100, body.theme-dark .bg-rose-100, body.theme-dark .bg-red-100, body.theme-dark .bg-orange-100, body.theme-dark .bg-sky-100, body.theme-dark .bg-green-100, body.theme-dark .bg-slate-100, body.theme-dark .bg-slate-200, body.theme-dark .bg-gray-200 { background-color: #252a30 !important; }
+body.theme-dark .text-vibrantBlue, body.theme-dark .text-blue-500, body.theme-dark .text-indigo-700 { color: #93c5fd !important; }
+body.theme-dark .text-electricTeal, body.theme-dark .text-emerald-600, body.theme-dark .text-teal-700, body.theme-dark .text-green-700 { color: #86efac !important; }
+body.theme-dark .text-brightPurple { color: #d8b4fe !important; }
+body.theme-dark .text-sunsetOrange, body.theme-dark .text-orange-700 { color: #fdba74 !important; }
+body.theme-dark .text-red-500, body.theme-dark .text-red-600, body.theme-dark .text-rose-700 { color: #fca5a5 !important; }
+body.theme-dark .text-sky-700 { color: #7dd3fc !important; }
+body.theme-dark .border-blue-100, body.theme-dark .border-indigo-100, body.theme-dark .border-purple-100, body.theme-dark .border-rose-100, body.theme-dark .border-red-100, body.theme-dark .border-orange-100, body.theme-dark .border-teal-100 { border-color: rgba(148, 163, 184, 0.24) !important; }
+body.theme-dark .insight-box, body.theme-dark .risk-box, body.theme-dark .strategy-box { background: #202327 !important; color: #e5e7eb !important; }
+body.theme-dark .watchlist-title-text { color: #dbeafe !important; }
+body.theme-dark .watchlist-interval, body.theme-dark .watch-change-row .watch-label { color: #cbd5e1 !important; }
+body.theme-dark .watch-page-button { background: #202327; color: #dbeafe; box-shadow: 0 2px 10px rgba(0,0,0,0.22); }
+body.theme-dark .watch-page-button:not(:disabled) { background: #252a30; color: #dbeafe; }
+body.theme-dark .watch-page-button:not(:disabled):hover { background: #303741; color: #ffffff; }
+body.theme-dark .watch-edit-btn { background: #202327; color: #e5e7eb; border-color: rgba(148, 163, 184, 0.26); }
+body.theme-dark .watch-edit-btn:hover { background: #252a30; }
+body.theme-dark .watchlist-card.is-editing { background: #162220; border-color: #14b8a6; }
+body.theme-dark .watch-edit-controls button { background-color: #202327 !important; color: #e5e7eb !important; border-color: rgba(148, 163, 184, 0.26) !important; }
+body.theme-dark .watch-remove { background-color: #202327 !important; color: #e5e7eb !important; border-color: rgba(148, 163, 184, 0.26) !important; }
+body.theme-dark .watch-confirm-card { background: #181a1d; color: #e5e7eb; border-color: rgba(148, 163, 184, 0.26); }
+body.theme-dark .watch-confirm-toggle { background: #111315; }
+body.theme-dark .watch-confirm-choice.no { background: #252a30; color: #e5e7eb; border-color: rgba(148, 163, 184, 0.26); }
+body.theme-dark .language-btn { background: rgba(24, 26, 29, 0.9); border-color: rgba(148, 163, 184, 0.28); box-shadow: 0 6px 18px rgba(0, 0, 0, 0.20); }
+body.theme-dark .language-btn:hover, body.theme-dark .language-btn[aria-pressed="true"] { background: #202327; border-color: #60a5fa; }
+body.theme-dark .chart-container { background: #f8fafc !important; color: #1e293b !important; border-radius: 12px; padding: 1rem; box-shadow: inset 0 0 0 1px rgba(226, 232, 240, 0.72); }
+body.theme-dark .chart-container canvas { background: #f8fafc; border-radius: 10px; }
 .language-tools {
   position: absolute !important;
   top: max(72px, calc(env(safe-area-inset-top) + 72px)) !important;
@@ -50,27 +117,72 @@ body { font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI",
 .language-panel { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; }
 .language-btn { min-height: 34px; border-radius: 9999px; border: 1px solid rgba(226, 232, 240, 0.95); background: rgba(255, 255, 255, 0.92); box-shadow: 0 6px 18px rgba(15, 23, 42, 0.08); transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease; }
 .language-btn:hover, .language-btn[aria-pressed="true"] { transform: translateY(-1px); border-color: #2563eb; background: #eff6ff; }
-.watchlist-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
-.watchlist-card { min-height: 184px; overflow: hidden; }
-.watchlist-card [data-watch-name] { display: -webkit-box; min-height: 2.45em; overflow: hidden; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow-wrap: anywhere; }
-.watchlist-card.is-editing { border-color: #0d9488; background: #f0fdfa; }
+.watchlist-shell { position: relative; border-left: 8px solid #3b9b91; border-radius: 22px; background: #fff; box-shadow: 0 18px 38px rgba(15, 23, 42, 0.10); padding: 28px 30px 32px; }
+.watchlist-header { display: flex; align-items: center; justify-content: space-between; gap: 18px; margin-bottom: 24px; }
+.watchlist-title-wrap { min-width: 0; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.watchlist-title-icon { font-size: 2.6rem; line-height: 1; filter: drop-shadow(0 4px 8px rgba(234, 179, 8, 0.22)); }
+.watchlist-title-text { font-size: clamp(1.55rem, 2.4vw, 2.25rem); line-height: 1.08; font-weight: 900; color: #1e3a8a; letter-spacing: 0; }
+.watchlist-interval { font-size: 0.95rem; color: #94a3b8; font-weight: 700; }
+.watchlist-actions { display: flex; align-items: center; justify-content: flex-end; gap: 10px; flex-wrap: wrap; }
+.watch-header-btn { min-height: 44px; border-radius: 10px; padding: 0 16px; display: inline-flex; align-items: center; justify-content: center; gap: 7px; font-size: 0.92rem; font-weight: 800; border: 1px solid #e2e8f0; white-space: nowrap; box-shadow: 0 2px 8px rgba(15, 23, 42, 0.05); }
+.watch-header-btn svg { width: 18px; height: 18px; }
+.watch-edit-btn { background: #f8fafc; color: #475569; }
+.watch-edit-btn:hover { background: #eef2f7; }
+.watch-edit-btn[aria-pressed="true"] { background: #0d9488; color: white; border-color: #0d9488; }
+.watch-add-toggle { background: #3b9b91; color: #fff; border-color: #3b9b91; }
+.watch-add-toggle:hover { background: #287f76; }
+.watch-add-panel { display: none; margin: -8px 0 24px; border: 1px solid #e2e8f0; border-radius: 18px; background: #f8fafc; padding: 14px; }
+.watch-add-panel.is-open { display: block; }
+.watchlist-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.watchlist-card { min-height: 128px; overflow: hidden; position: relative; border-radius: 14px; border: 1px solid #dbe5ff; background: #eef3ff; padding: 14px 14px 13px; text-align: center; box-shadow: 0 3px 10px rgba(15, 23, 42, 0.06); }
+.watchlist-card.card-hover:hover { transform: translateY(-2px); box-shadow: 0 8px 18px rgba(15, 23, 42, 0.10); }
+.watch-card-title { display: block; min-height: 1.6em; font-size: 0.98rem; line-height: 1.15; font-weight: 900; color: #2563eb; overflow: hidden; overflow-wrap: anywhere; }
+.watch-card-title [data-watch-name] { display: -webkit-box; min-height: 1.35em; overflow: hidden; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
+.watch-price-row { margin-top: 8px; font-size: clamp(1.18rem, 1.6vw, 1.55rem); line-height: 1.08; font-weight: 900; color: #111827; letter-spacing: 0; font-variant-numeric: tabular-nums; }
+.watch-change-box { margin-top: 13px; border-radius: 8px; background: rgba(255, 255, 255, 0.78); box-shadow: inset 0 0 0 1px rgba(226, 232, 240, 0.28), 0 2px 8px rgba(15, 23, 42, 0.04); padding: 7px 9px; display: grid; gap: 3px; text-align: left; }
+.watch-change-row { display: grid; grid-template-columns: 3.6em minmax(0, 1fr); align-items: center; gap: 4px; font-size: 0.76rem; line-height: 1.18; font-weight: 800; }
+.watch-change-row .watch-label { color: #9ca3af; }
+.watch-symbol-line, .watch-status, [data-watch-status] { display: none !important; }
+.watch-remove { display: none; position: absolute; top: 8px; right: 8px; z-index: 2; }
+.watchlist-card.is-editing { min-height: 188px; border-color: #0d9488; background: #f0fdfa; }
 .watchlist-card.is-dragging { opacity: 0.55; transform: scale(0.98); }
 .watchlist-card.is-drop-target { outline: 3px solid rgba(37, 99, 235, 0.35); outline-offset: 3px; }
 .watchlist-price { font-variant-numeric: tabular-nums; }
 .watchlist-track { touch-action: pan-y; }
-.watch-page-controls { justify-content: flex-end; }
+.watch-page-controls { justify-content: flex-end; gap: 8px; }
+.watch-page-button { width: 44px; height: 44px; min-width: 44px !important; min-height: 44px !important; border-radius: 9999px; border: 0; background: #f8fafc; color: #cbd5e1; display: inline-flex; align-items: center; justify-content: center; box-shadow: 0 2px 10px rgba(15, 23, 42, 0.03); }
+.watch-page-button:not(:disabled) { color: #64748b; background: #f1f5f9; }
+.watch-page-button:not(:disabled):hover { background: #e2e8f0; color: #1e3a8a; }
+.watch-page-button:disabled { opacity: 0.55; cursor: not-allowed; }
+.watch-page-button svg { width: 20px; height: 20px; }
 .watchlist-dot { width: 10px !important; min-width: 10px !important; height: 10px !important; min-height: 10px !important; padding: 0 !important; border-radius: 9999px; background: #cbd5e1; border: 0; transition: transform 0.2s ease, background 0.2s ease; }
 .watchlist-dot.active { width: 10px !important; min-width: 10px !important; height: 10px !important; min-height: 10px !important; background: #2563eb; transform: scale(1.15); }
+#watch-dots, #watchlist-page-label { display: none !important; }
 .watch-edit-controls { display: none; }
 .watchlist-card.is-editing .watch-edit-controls { display: grid; }
-.watchlist-card.is-editing .watch-remove { display: none; }
-.watch-edit-btn[aria-pressed="true"] { background: #0d9488; color: white; border-color: #0d9488; }
 .watch-order-btn:disabled { opacity: 0.35; cursor: not-allowed; }
 .watch-drag-handle { cursor: grab; touch-action: none; user-select: none; }
 .watch-drag-handle:active { cursor: grabbing; }
 #watchlist-section button, #watchlist-section input, #watchlist-section select { min-height: 42px; }
 #watchlist-section input, #watchlist-section select, #watchlist-section button { min-width: 0; }
 #watchlist-section [data-i18n], .watch-edit-controls button { overflow-wrap: anywhere; }
+.watch-card-theme-0 { background: #eef3ff; border-color: #dbe5ff; }
+.watch-card-theme-1 { background: #fff0f2; border-color: #ffdfe4; }
+.watch-card-theme-2 { background: #effdf3; border-color: #d9f7e2; }
+.watch-card-theme-3 { background: #fffbe8; border-color: #fff2b6; }
+.watch-card-theme-4 { background: #eef6ff; border-color: #d9eaff; }
+.watch-card-theme-5 { background: #f0fbff; border-color: #d7f1fb; }
+.watch-card-theme-6 { background: #fbf3ff; border-color: #efdfff; }
+.watch-card-theme-7 { background: #fff7ed; border-color: #fedfc2; }
+.watch-card-theme-8 { background: #edfdfa; border-color: #cef7ef; }
+.watch-card-theme-9 { background: #f4f6ff; border-color: #dde5ff; }
+.watch-card-theme-0 .watch-card-title, .watch-card-theme-4 .watch-card-title, .watch-card-theme-9 .watch-card-title { color: #2563eb; }
+.watch-card-theme-1 .watch-card-title { color: #be123c; }
+.watch-card-theme-2 .watch-card-title, .watch-card-theme-8 .watch-card-title { color: #2f8a47; }
+.watch-card-theme-3 .watch-card-title { color: #9a5b05; }
+.watch-card-theme-5 .watch-card-title { color: #16799a; }
+.watch-card-theme-6 .watch-card-title { color: #9333ea; }
+.watch-card-theme-7 .watch-card-title { color: #ea580c; }
 .watch-confirm-modal { position: fixed; inset: 0; z-index: 2147483600; display: none; align-items: center; justify-content: center; padding: 1rem; }
 .watch-confirm-modal.is-open { display: flex; }
 .watch-confirm-backdrop { position: absolute; inset: 0; background: rgba(15, 23, 42, 0.42); backdrop-filter: blur(3px); }
@@ -86,15 +198,27 @@ body { top: 0 !important; }
 @media (min-width: 640px) { .watchlist-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 @media (min-width: 768px) { .watchlist-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); } }
 @media (min-width: 1280px) { .watchlist-grid { grid-template-columns: repeat(7, minmax(0, 1fr)); } }
+@media (max-width: 1024px) {
+  .watchlist-header { align-items: flex-start; flex-direction: column; }
+  .watchlist-actions { width: 100%; justify-content: flex-start; }
+}
 @media (max-width: 640px) {
   .chart-container { height: 300px; }
   .floating-tools { right: calc(12px + env(safe-area-inset-right)) !important; top: max(8px, env(safe-area-inset-top)) !important; width: min(88vw, 188px); }
   .floating-tools #refresh-btn { width: 100%; justify-content: center; padding: 8px 10px; }
   .floating-tools #refresh-btn.is-compact { width: 44px; min-width: 44px; height: 44px; }
+  .theme-toggle-btn { min-height: 36px; padding: 7px 10px; font-size: 0.76rem; }
   .language-tools { right: max(8px, env(safe-area-inset-right)) !important; top: max(56px, calc(env(safe-area-inset-top) + 56px)) !important; width: min(88vw, 188px); }
   .language-panel { grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 4px; }
   .language-btn { min-height: 30px; font-size: 15px; }
-  .watch-page-controls { justify-content: center; }
+  .watchlist-shell { padding: 22px 16px 24px; border-radius: 18px; }
+  .watchlist-title-icon { font-size: 2.15rem; }
+  .watchlist-actions { display: grid; grid-template-columns: 1fr 1fr auto auto; gap: 7px; }
+  .watch-header-btn { padding: 0 10px; font-size: 0.82rem; }
+  .watch-page-controls { justify-content: end; }
+  .watch-page-button { width: 40px; height: 40px; min-width: 40px !important; min-height: 40px !important; }
+  .watchlist-card { min-height: 122px; padding: 13px 12px; }
+  .watch-change-row { grid-template-columns: 3.3em minmax(0, 1fr); }
   header { padding-top: 7.25rem !important; }
 }
 </style>
@@ -112,6 +236,16 @@ colors: { vibrantBlue: '#2563eb', electricTeal: '#0d9488', sunsetOrange: '#ea580
 
 <!-- 우측 상단 실시간 새로고침 플로팅 버튼 -->
 <div class="floating-tools fixed top-6 right-4 sm:right-8 z-50">
+<button id="theme-toggle-btn" class="theme-toggle-btn" aria-label="화면 모드 전환" title="화면 모드 전환">
+<svg class="theme-moon" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+</svg>
+<svg class="theme-sun" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v2m0 14v2m9-9h-2M5 12H3m15.36-6.36l-1.42 1.42M7.05 16.95l-1.41 1.41m12.72 0l-1.42-1.41M7.05 7.05L5.64 5.64"></path>
+<circle cx="12" cy="12" r="4" stroke-width="2"></circle>
+</svg>
+<span id="theme-toggle-label" class="theme-label">다크 모드</span>
+</button>
 <button id="refresh-btn" class="bg-white/90 backdrop-blur-sm text-deepNavy px-4 py-2.5 rounded-full shadow-lg hover:shadow-xl hover:bg-white hover:scale-105 transition-all duration-300 flex items-center space-x-2 border border-gray-200 group">
 <svg id="refresh-icon" class="w-5 h-5 text-vibrantBlue transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
@@ -212,18 +346,36 @@ colors: { vibrantBlue: '#2563eb', electricTeal: '#0d9488', sunsetOrange: '#ea580
 
 <!-- 2. 관심 종목 현재가 -->
 <section id="watchlist-section">
-<div class="bg-white rounded-2xl shadow-lg p-4 sm:p-6 border-l-8 border-electricTeal">
-<div class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-5 mb-6">
-<div>
-<h2 class="text-2xl font-bold text-deepNavy flex items-center flex-wrap gap-2">
-<span class="text-3xl">⭐</span><span data-i18n="watchlistTitle">관심 종목 현재가</span>
+<div class="watchlist-shell">
+<div class="watchlist-header">
+<div class="watchlist-title-wrap">
+<span class="watchlist-title-icon">⭐</span>
+<h2 class="watchlist-title-text"><span data-i18n="watchlistTitle">관심 종목 현재가</span></h2>
+<span class="watchlist-interval" data-i18n="watchlistInterval">(5초 업데이트)</span>
 <span id="watchlist-page-label" class="text-xs font-semibold text-gray-400"></span>
-<button type="button" id="watch-edit-btn" class="watch-edit-btn ml-auto rounded-full border border-gray-200 bg-white px-4 py-2 text-sm font-bold text-deepNavy shadow-sm hover:bg-teal-50" data-i18n="editWatchlist" aria-pressed="false">편집</button>
-</h2>
-<p class="text-sm text-gray-500 mt-2" data-i18n="watchlistSubtitle">네이버 증권 또는 Google Finance에서 종목을 찾은 뒤, 종목명과 코드/티커를 입력해 관심 종목을 추가하세요.</p>
-<p id="watch-edit-help" class="hidden text-xs text-teal-700 mt-2" data-i18n="editHelp">위/아래 버튼으로 순서를 바꾸고 삭제 버튼으로 종목을 제거할 수 있습니다.</p>
 </div>
-<div class="w-full lg:max-w-3xl">
+<div class="watchlist-actions">
+<button type="button" id="watch-edit-btn" class="watch-header-btn watch-edit-btn" aria-pressed="false"></button>
+<button type="button" id="watch-toggle-add-btn" class="watch-header-btn watch-add-toggle">
+<svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v14m7-7H5"></path>
+</svg>
+<span data-i18n="addStockButton">종목 추가</span>
+</button>
+<div class="watch-page-controls flex items-center">
+<button type="button" id="watch-prev" class="watch-page-button" aria-label="Previous page">
+<svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.4" d="M15 19l-7-7 7-7"></path></svg>
+</button>
+<div id="watch-dots" class="flex items-center gap-2" aria-label="Watchlist pages"></div>
+<button type="button" id="watch-next" class="watch-page-button" aria-label="Next page">
+<svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.4" d="M9 5l7 7-7 7"></path></svg>
+</button>
+</div>
+</div>
+</div>
+<p id="watch-edit-help" class="hidden text-xs text-teal-700 mb-4" data-i18n="editHelp">위/아래 버튼으로 순서를 바꾸고 삭제 버튼으로 종목을 제거할 수 있습니다.</p>
+<div id="watch-add-panel" class="watch-add-panel">
+<p class="text-sm text-gray-500 mb-3" data-i18n="watchlistSubtitle">네이버 증권 또는 Google Finance에서 종목을 찾은 뒤, 종목명과 코드/티커를 입력해 관심 종목을 추가하세요.</p>
 <div class="grid grid-cols-1 sm:grid-cols-5 gap-2">
 <select id="watch-source" class="sm:col-span-1 rounded-lg border border-gray-200 px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-vibrantBlue">
 <option value="naver" data-i18n="sourceNaver">네이버 증권</option>
@@ -238,13 +390,7 @@ colors: { vibrantBlue: '#2563eb', electricTeal: '#0d9488', sunsetOrange: '#ea580
 <input id="watch-symbol" type="text" class="sm:col-span-2 rounded-lg border border-gray-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-electricTeal" placeholder="코드/티커 예: 005930 또는 AAPL:NASDAQ">
 <button type="button" id="watch-add-btn" class="rounded-lg bg-electricTeal text-white px-3 py-2 text-sm font-bold hover:bg-teal-700" data-i18n="addWatchlist">추가</button>
 </div>
-<div class="watch-page-controls flex items-center gap-4 mt-3">
-<button type="button" id="watch-prev" class="rounded-full border border-gray-200 w-10 h-10 text-deepNavy font-bold hover:bg-gray-50" aria-label="Previous page">‹</button>
-<div id="watch-dots" class="flex items-center gap-2" aria-label="Watchlist pages"></div>
-<button type="button" id="watch-next" class="rounded-full border border-gray-200 w-10 h-10 text-deepNavy font-bold hover:bg-gray-50" aria-label="Next page">›</button>
-</div>
 <p id="watchlist-message" class="text-xs text-gray-400 mt-2 min-h-[18px]"></p>
-</div>
 </div>
 
 <div id="watchlist-track" class="watchlist-track">
@@ -572,6 +718,7 @@ const stockData = {
 };
 
 const LANG_KEY = 'etfMomentumLanguage';
+const THEME_KEY = 'etfMomentumTheme';
 const WATCHLIST_KEY = 'etfMomentumWatchlistV1';
 const WATCHLIST_PAGE_SIZE = 35;
 const UPDATE_INTERVAL_MS = 5000;
@@ -627,7 +774,12 @@ const UI_TRANSLATIONS = {
         marketTitle: '실시간 시장 지수 & ETF 현재가',
         marketInterval: '(5초 업데이트 / 클릭 시 전체 동기화)',
         watchlistTitle: '관심 종목 현재가',
+        watchlistInterval: '(5초 업데이트)',
         watchlistSubtitle: '네이버 증권 또는 Google Finance에서 종목을 찾은 뒤, 종목명과 코드/티커를 입력해 관심 종목을 추가하세요.',
+        addStockButton: '종목 추가',
+        themeButton: '다크 모드',
+        themeDark: '다크 모드',
+        themeLight: '라이트 모드',
         sourceNaver: '네이버 증권',
         sourceGoogle: 'Google Finance',
         openSearch: '검색 열기',
@@ -674,7 +826,12 @@ const UI_TRANSLATIONS = {
         marketTitle: 'Live Market Indices & ETF Prices',
         marketInterval: '(5-second checks / click to sync all)',
         watchlistTitle: 'Watchlist Prices',
+        watchlistInterval: '(5-sec update)',
         watchlistSubtitle: 'Open Naver Securities or Google Finance, find a symbol, then add it with its name and code or ticker.',
+        addStockButton: 'Add Symbol',
+        themeButton: 'Dark Mode',
+        themeDark: 'Dark Mode',
+        themeLight: 'Light Mode',
         sourceNaver: 'Naver Securities',
         sourceGoogle: 'Google Finance',
         openSearch: 'Open Search',
@@ -721,7 +878,12 @@ const UI_TRANSLATIONS = {
         marketTitle: '市場指数・ETFのリアルタイム価格',
         marketInterval: '(5秒ごとに確認 / クリックで全体同期)',
         watchlistTitle: 'ウォッチリスト価格',
+        watchlistInterval: '(5秒更新)',
         watchlistSubtitle: 'Naver証券またはGoogle Financeで銘柄を探し、名称とコード/ティッカーを入力して追加してください。',
+        addStockButton: '銘柄追加',
+        themeButton: 'ダークモード',
+        themeDark: 'ダークモード',
+        themeLight: 'ライトモード',
         sourceNaver: 'Naver証券',
         sourceGoogle: 'Google Finance',
         openSearch: '検索を開く',
@@ -768,7 +930,12 @@ const UI_TRANSLATIONS = {
         marketTitle: '实时市场指数与ETF价格',
         marketInterval: '(每5秒检查 / 点击同步全部)',
         watchlistTitle: '自选股当前价格',
+        watchlistInterval: '(5秒更新)',
         watchlistSubtitle: '打开 Naver 证券或 Google Finance 查找标的，然后输入名称和代码/股票代码添加。',
+        addStockButton: '添加标的',
+        themeButton: '深色模式',
+        themeDark: '深色模式',
+        themeLight: '浅色模式',
         sourceNaver: 'Naver 证券',
         sourceGoogle: 'Google Finance',
         openSearch: '打开搜索',
@@ -815,7 +982,12 @@ const UI_TRANSLATIONS = {
         marketTitle: 'Chỉ số thị trường & giá ETF trực tiếp',
         marketInterval: '(kiểm tra mỗi 5 giây / bấm để đồng bộ)',
         watchlistTitle: 'Giá danh mục quan tâm',
+        watchlistInterval: '(cập nhật 5 giây)',
         watchlistSubtitle: 'Mở Naver Securities hoặc Google Finance, tìm mã rồi nhập tên và mã/ticker để thêm.',
+        addStockButton: 'Thêm mã',
+        themeButton: 'Chế độ tối',
+        themeDark: 'Chế độ tối',
+        themeLight: 'Chế độ sáng',
         sourceNaver: 'Naver Securities',
         sourceGoogle: 'Google Finance',
         openSearch: 'Mở tìm kiếm',
@@ -862,7 +1034,12 @@ const UI_TRANSLATIONS = {
         marketTitle: 'Live-Marktindizes & ETF-Kurse',
         marketInterval: '(alle 5 Sekunden prüfen / Klick synchronisiert alles)',
         watchlistTitle: 'Watchlist-Kurse',
+        watchlistInterval: '(5-Sek.-Update)',
         watchlistSubtitle: 'Naver Securities oder Google Finance öffnen, Symbol suchen und Name sowie Code/Ticker hinzufügen.',
+        addStockButton: 'Symbol hinzufügen',
+        themeButton: 'Dunkelmodus',
+        themeDark: 'Dunkelmodus',
+        themeLight: 'Hellmodus',
         sourceNaver: 'Naver Securities',
         sourceGoogle: 'Google Finance',
         openSearch: 'Suche öffnen',
@@ -909,7 +1086,12 @@ const UI_TRANSLATIONS = {
         marketTitle: 'Indices de marché & prix ETF en direct',
         marketInterval: '(vérification toutes les 5 s / clic pour synchroniser)',
         watchlistTitle: 'Prix de la liste de suivi',
+        watchlistInterval: '(mise à jour 5 s)',
         watchlistSubtitle: 'Ouvrez Naver Securities ou Google Finance, trouvez un symbole, puis ajoutez-le avec son nom et son code/ticker.',
+        addStockButton: 'Ajouter un titre',
+        themeButton: 'Mode sombre',
+        themeDark: 'Mode sombre',
+        themeLight: 'Mode clair',
         sourceNaver: 'Naver Securities',
         sourceGoogle: 'Google Finance',
         openSearch: 'Ouvrir la recherche',
@@ -1330,6 +1512,20 @@ function setWatchlistMessage(message, state = 'idle') {
     );
 }
 
+function watchThemeClass(index) {
+    return `watch-card-theme-${index % 10}`;
+}
+
+function watchEditButtonMarkup() {
+    const label = watchEditMode ? t('doneEdit') : t('editWatchlist');
+    return `
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16.862 4.487l1.651-1.651a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931z"></path>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.5 7.125L16.875 4.5M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10"></path>
+        </svg>
+        <span>${escapeHtml(label)}</span>`;
+}
+
 function renderWatchlist() {
     const grid = document.getElementById('watchlist-grid');
     if (!grid) return;
@@ -1343,26 +1539,25 @@ function renderWatchlist() {
         const priceText = item.price ? formatNum(item.price) : '--';
         const currency = item.source === 'naver' ? '원' : '';
         const editClass = watchEditMode ? ' is-editing' : '';
+        const themeClass = watchThemeClass(absoluteIndex);
         return `
-        <div class="watchlist-card${editClass} rounded-xl border border-slate-100 bg-slate-50 p-3 shadow-sm card-hover flex flex-col" data-watch-card="${item.symbol}">
-            <div class="flex items-start justify-between gap-2">
-                <a href="${watchlistItemUrl(item)}" target="_blank" class="min-w-0 font-bold text-sm text-deepNavy hover:text-vibrantBlue" title="${item.name}">
+        <div class="watchlist-card ${themeClass}${editClass} card-hover flex flex-col" data-watch-card="${item.symbol}">
+            <a href="${watchlistItemUrl(item)}" target="_blank" class="watch-card-title" title="${item.name}">
                     <span data-watch-name="${item.symbol}">${localizedNameHtml(item.name)}</span>
-                </a>
-                <button type="button" class="watch-remove text-[11px] px-2 py-1 rounded-full bg-white text-gray-400 hover:text-red-500 border border-gray-100" data-remove-symbol="${item.symbol}">${t('remove')}</button>
-            </div>
+            </a>
+            <button type="button" class="watch-remove text-[11px] px-2 py-1 rounded-full bg-white text-gray-400 hover:text-red-500 border border-gray-100" data-remove-symbol="${item.symbol}">${t('remove')}</button>
             <div class="watch-edit-controls grid-cols-4 gap-1 mt-3">
                 <button type="button" class="watch-drag-handle rounded-lg bg-deepNavy border border-deepNavy px-2 py-2 text-xs font-bold text-white" data-drag-handle="${item.symbol}" aria-label="${t('dragHandle')} ${item.name}">☰ ${t('dragHandle')}</button>
                 <button type="button" class="watch-order-btn rounded-lg bg-white border border-teal-100 px-2 py-2 text-xs font-bold text-teal-700" data-move-symbol="${item.symbol}" data-move-dir="-1" ${absoluteIndex === 0 ? 'disabled' : ''}>${t('moveUp')}</button>
                 <button type="button" class="watch-order-btn rounded-lg bg-white border border-teal-100 px-2 py-2 text-xs font-bold text-teal-700" data-move-symbol="${item.symbol}" data-move-dir="1" ${absoluteIndex === watchlistItems.length - 1 ? 'disabled' : ''}>${t('moveDown')}</button>
                 <button type="button" class="rounded-lg bg-red-50 border border-red-100 px-2 py-2 text-xs font-bold text-red-600" data-remove-symbol="${item.symbol}">${t('remove')}</button>
             </div>
-            <div class="text-[11px] text-gray-400 mt-1"><span class="notranslate" translate="no">${item.symbol}</span> · ${sourceText}</div>
-            <div class="mt-3 text-xl font-extrabold text-gray-900 watchlist-price notranslate" translate="no"><span data-watch-price="${item.symbol}">${priceText}</span><span class="text-xs font-normal ml-0.5">${currency}</span></div>
-            <div class="mt-auto pt-3 text-[11px] space-y-1">
-                <div class="flex justify-between rounded bg-white px-2 py-1"><span class="text-gray-500">${t('closeChange')}</span><span data-watch-close="${item.symbol}" class="text-gray-400 notranslate" translate="no">-</span></div>
-                <div class="flex justify-between rounded bg-white px-2 py-1"><span class="text-gray-500">${t('openChange')}</span><span data-watch-open="${item.symbol}" class="text-gray-400 notranslate" translate="no">-</span></div>
-                <div data-watch-status="${item.symbol}" class="text-gray-400 truncate">${item.source === 'google' ? t('googleCheck') : t('noPrice')}</div>
+            <div class="watch-symbol-line text-[11px] text-gray-400 mt-1"><span class="notranslate" translate="no">${item.symbol}</span> · ${sourceText}</div>
+            <div class="watch-price-row watchlist-price notranslate" translate="no"><span data-watch-price="${item.symbol}">${priceText}</span><span class="text-xs font-normal ml-0.5">${currency}</span></div>
+            <div class="watch-change-box mt-auto">
+                <div class="watch-change-row"><span class="watch-label">${t('closeChange')}</span><span data-watch-close="${item.symbol}" class="text-gray-400 notranslate" translate="no">-</span></div>
+                <div class="watch-change-row"><span class="watch-label">${t('openChange')}</span><span data-watch-open="${item.symbol}" class="text-gray-400 notranslate" translate="no">-</span></div>
+                <div data-watch-status="${item.symbol}" class="watch-status text-gray-400 truncate">${item.source === 'google' ? t('googleCheck') : t('noPrice')}</div>
             </div>
         </div>`;
     }).join('');
@@ -1371,7 +1566,7 @@ function renderWatchlist() {
     if (label) label.textContent = t('pageLabel')({ current: watchlistPage + 1, total: totalPages });
     const editButton = document.getElementById('watch-edit-btn');
     if (editButton) {
-        editButton.textContent = watchEditMode ? t('doneEdit') : t('editWatchlist');
+        editButton.innerHTML = watchEditButtonMarkup();
         editButton.setAttribute('aria-pressed', String(watchEditMode));
     }
     const editHelp = document.getElementById('watch-edit-help');
@@ -1457,6 +1652,7 @@ function addResolvedWatchlistItem(item, options = {}) {
     document.getElementById('watch-name').value = '';
     document.getElementById('watch-symbol').value = '';
     document.getElementById('watch-query').value = '';
+    toggleWatchAddPanel(false);
     if (options.openSource) openWatchSourceHome(source);
     refreshMarketData();
     return true;
@@ -1602,6 +1798,19 @@ function toggleWatchEditMode() {
     renderWatchlist();
 }
 
+function toggleWatchAddPanel(force) {
+    const panel = document.getElementById('watch-add-panel');
+    const button = document.getElementById('watch-toggle-add-btn');
+    if (!panel) return;
+    const shouldOpen = typeof force === 'boolean' ? force : !panel.classList.contains('is-open');
+    panel.classList.toggle('is-open', shouldOpen);
+    if (button) button.setAttribute('aria-expanded', String(shouldOpen));
+    if (shouldOpen) {
+        const nameInput = document.getElementById('watch-name');
+        setTimeout(() => nameInput && nameInput.focus(), 50);
+    }
+}
+
 function openWatchSearch() {
     const source = document.getElementById('watch-source').value;
     openWatchSourceHome(source);
@@ -1625,6 +1834,7 @@ function initWatchlistControls() {
     if (searchInput) searchInput.placeholder = t('searchPlaceholder');
     if (nameInput) nameInput.placeholder = t('namePlaceholder');
     if (symbolInput) symbolInput.placeholder = t('symbolPlaceholder');
+    document.getElementById('watch-toggle-add-btn').addEventListener('click', () => toggleWatchAddPanel());
     document.getElementById('watch-add-btn').addEventListener('click', addWatchlistItem);
     document.getElementById('watch-search-btn').addEventListener('click', openWatchSearch);
     document.getElementById('watch-reset-btn').addEventListener('click', resetWatchlist);
@@ -2070,6 +2280,34 @@ function applyQuotes(rows) {
     return { total: rows.length, missing: [...new Set(missing)] };
 }
 
+function getInitialTheme() {
+    const stored = localStorage.getItem(THEME_KEY);
+    if (stored === 'dark' || stored === 'light') return stored;
+    return 'light';
+}
+
+function updateThemeToggle() {
+    const button = document.getElementById('theme-toggle-btn');
+    const label = document.getElementById('theme-toggle-label');
+    if (!button || !label) return;
+    const isDark = document.body.classList.contains('theme-dark');
+    const text = isDark ? t('themeLight') : t('themeDark');
+    label.textContent = text;
+    button.setAttribute('aria-label', text);
+    button.setAttribute('title', text);
+}
+
+function applyTheme(theme) {
+    const nextTheme = theme === 'dark' ? 'dark' : 'light';
+    document.body.classList.toggle('theme-dark', nextTheme === 'dark');
+    localStorage.setItem(THEME_KEY, nextTheme);
+    updateThemeToggle();
+}
+
+function toggleTheme() {
+    applyTheme(document.body.classList.contains('theme-dark') ? 'light' : 'dark');
+}
+
 function applyLanguage(lang, shouldTranslatePage = true) {
     currentLanguage = lang;
     localStorage.setItem(LANG_KEY, lang);
@@ -2096,6 +2334,7 @@ function applyLanguage(lang, shouldTranslatePage = true) {
     updateWatchConfirmDetail();
     updateChartsForLanguage();
     setRefreshStatus('', 'ok');
+    updateThemeToggle();
     updateRefreshButtonMode();
     if (shouldTranslatePage) triggerGoogleTranslate(lang);
 }
@@ -2166,16 +2405,20 @@ async function refreshMarketData() {
 function updateRefreshButtonMode() {
     const header = document.querySelector('header');
     const button = document.getElementById('refresh-btn');
+    const themeButton = document.getElementById('theme-toggle-btn');
     if (!header || !button) return;
     const isBelowHero = header.getBoundingClientRect().bottom <= 0;
     button.classList.toggle('is-compact', isBelowHero);
+    if (themeButton) themeButton.classList.toggle('is-compact', isBelowHero);
     button.setAttribute('aria-label', isBelowHero ? t('refreshButton') : '');
 }
 
 document.getElementById('refresh-btn').addEventListener('click', refreshMarketData);
+document.getElementById('theme-toggle-btn').addEventListener('click', toggleTheme);
 window.addEventListener('scroll', updateRefreshButtonMode, { passive: true });
 window.addEventListener('resize', updateRefreshButtonMode);
 window.addEventListener('load', () => {
+    applyTheme(getInitialTheme());
     initWatchlistControls();
     applyLanguage(currentLanguage, false);
     updateRefreshButtonMode();
@@ -2268,14 +2511,85 @@ function chartText() {
     return CHART_TRANSLATIONS[currentLanguage] || CHART_TRANSLATIONS.ko;
 }
 
-const pieOptions={responsive:true,maintainAspectRatio:false,cutout:'65%',plugins:{legend:{position:'right',labels:{boxWidth:12,font:{size:11,family:'Pretendard'}}},tooltip:{callbacks:{label:function(ctx){return ' '+ctx.label+': '+ctx.parsed+'%';}}}}};
-let pieTigerChart = new Chart(document.getElementById('pieTiger').getContext('2d'), {type:'doughnut',data:{labels:chartText().tigerPie,datasets:[{data:[29,26,20,8,7,10],backgroundColor:['#ea580c','#f97316','#fb923c','#fdba74','#fed7aa','#f1f5f9'],borderWidth:1}]},options:pieOptions});
-let pieKodexChart = new Chart(document.getElementById('pieKodex').getContext('2d'), {type:'doughnut',data:{labels:chartText().kodexPie,datasets:[{data:[31,12,4,3,3,47],backgroundColor:['#2563eb','#3b82f6','#60a5fa','#93c5fd','#bfdbfe','#f1f5f9'],borderWidth:1}]},options:pieOptions});
-let pieKodexTRChart = new Chart(document.getElementById('pieKodexTR').getContext('2d'), {type:'doughnut',data:{labels:chartText().kodexPie,datasets:[{data:[31,12,4,3,3,47],backgroundColor:['#9333ea','#a855f7','#c084fc','#d8b4fe','#e9d5ff','#f1f5f9'],borderWidth:1}]},options:pieOptions});
+let pieTigerChart, pieKodexChart, pieKodexTRChart, radarChart, barChart, lineChart;
 
-let radarChart = new Chart(document.getElementById('radarChart').getContext('2d'), {type:'radar',data:{labels:chartText().radarLabels,datasets:[{label:chartText().tigerAi,data:[95,45,30,95,90],borderColor:'#ea580c',backgroundColor:'rgba(234,88,12,0.2)'},{label:'KODEX 200TR',data:[75,85,95,75,70],borderColor:'#9333ea',backgroundColor:'rgba(147,51,234,0.2)'},{label:'KODEX 200',data:[75,85,75,75,70],borderColor:'#2563eb',backgroundColor:'rgba(37,99,235,0.2)'}]},options:{responsive:true,maintainAspectRatio:false}});
-let barChart = new Chart(document.getElementById('barChart').getContext('2d'), {type:'bar',data:{labels:chartText().barYears,datasets:[{label:chartText().powerDemand,data:[460,500,620,800,1150],backgroundColor:['#f97316','#fb923c','#ea580c','#c2410c','#9a3412'],borderRadius:6}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#1e293b'}}},scales:{y:{beginAtZero:false,ticks:{callback:function(v){return v+'TWh'}}}}}});
-let lineChart = new Chart(document.getElementById('lineChart').getContext('2d'), {type:'line',data:{labels:chartText().lineYears,datasets:[{label:chartText().kodex200tr,data:[105,122,145,210,310],borderColor:'#0d9488',fill:true,backgroundColor:'rgba(13,148,136,0.1)',tension:0.4},{label:chartText().kodex200,data:[105,116,130,170,220],borderColor:'#2563eb',tension:0.4,fill:false}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'top'}}}});
+function chartTooltipOptions() {
+    const colors = getChartThemeColors();
+    return {
+        titleColor: '#ffffff',
+        bodyColor: '#ffffff',
+        backgroundColor: colors.tooltipBg,
+        borderColor: colors.tooltipBorder,
+        borderWidth: 1
+    };
+}
+
+function chartLegendOptions(position = 'top', extraLabels = {}) {
+    return {
+        position,
+        labels: {
+            color: getChartThemeColors().text,
+            font: { family: 'Pretendard' },
+            ...extraLabels
+        }
+    };
+}
+
+function pieOptions() {
+    return {
+        responsive: true,
+        maintainAspectRatio: false,
+        cutout: '65%',
+        plugins: {
+            legend: chartLegendOptions('right', { boxWidth: 12, font: { size: 11, family: 'Pretendard' } }),
+            tooltip: {
+                ...chartTooltipOptions(),
+                callbacks: { label: ctx => ' ' + ctx.label + ': ' + ctx.parsed + '%' }
+            }
+        }
+    };
+}
+
+function radarOptions() {
+    const colors = getChartThemeColors();
+    return {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: chartLegendOptions('top'),
+            tooltip: chartTooltipOptions()
+        },
+        scales: {
+            r: {
+                angleLines: { color: colors.grid },
+                grid: { color: colors.grid },
+                pointLabels: { color: colors.text, font: { family: 'Pretendard', weight: '700' } },
+                ticks: { color: colors.muted, backdropColor: 'transparent' }
+            }
+        }
+    };
+}
+
+function cartesianScales(includeTwh = false) {
+    const colors = getChartThemeColors();
+    const yTicks = includeTwh ? { color: colors.muted, callback: v => v + 'TWh' } : { color: colors.muted };
+    return {
+        x: { ticks: { color: colors.muted }, grid: { color: colors.grid } },
+        y: { beginAtZero: false, ticks: yTicks, grid: { color: colors.grid } }
+    };
+}
+
+function createCharts() {
+    const labels = chartText();
+    pieTigerChart = new Chart(document.getElementById('pieTiger').getContext('2d'), {type:'doughnut',data:{labels:labels.tigerPie,datasets:[{data:[29,26,20,8,7,10],backgroundColor:['#ea580c','#f97316','#fb923c','#fdba74','#fed7aa','#f1f5f9'],borderWidth:1}]},options:pieOptions()});
+    pieKodexChart = new Chart(document.getElementById('pieKodex').getContext('2d'), {type:'doughnut',data:{labels:labels.kodexPie,datasets:[{data:[31,12,4,3,3,47],backgroundColor:['#2563eb','#3b82f6','#60a5fa','#93c5fd','#bfdbfe','#f1f5f9'],borderWidth:1}]},options:pieOptions()});
+    pieKodexTRChart = new Chart(document.getElementById('pieKodexTR').getContext('2d'), {type:'doughnut',data:{labels:labels.kodexPie,datasets:[{data:[31,12,4,3,3,47],backgroundColor:['#9333ea','#a855f7','#c084fc','#d8b4fe','#e9d5ff','#f1f5f9'],borderWidth:1}]},options:pieOptions()});
+    radarChart = new Chart(document.getElementById('radarChart').getContext('2d'), {type:'radar',data:{labels:labels.radarLabels,datasets:[{label:labels.tigerAi,data:[95,45,30,95,90],borderColor:'#ea580c',backgroundColor:'rgba(234,88,12,0.2)'},{label:'KODEX 200TR',data:[75,85,95,75,70],borderColor:'#9333ea',backgroundColor:'rgba(147,51,234,0.2)'},{label:'KODEX 200',data:[75,85,75,75,70],borderColor:'#2563eb',backgroundColor:'rgba(37,99,235,0.2)'}]},options:radarOptions()});
+    barChart = new Chart(document.getElementById('barChart').getContext('2d'), {type:'bar',data:{labels:labels.barYears,datasets:[{label:labels.powerDemand,data:[460,500,620,800,1150],backgroundColor:['#f97316','#fb923c','#ea580c','#c2410c','#9a3412'],borderRadius:6}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:chartLegendOptions('top'),tooltip:chartTooltipOptions()},scales:cartesianScales(true)}});
+    lineChart = new Chart(document.getElementById('lineChart').getContext('2d'), {type:'line',data:{labels:labels.lineYears,datasets:[{label:labels.kodex200tr,data:[105,122,145,210,310],borderColor:'#0d9488',fill:true,backgroundColor:'rgba(13,148,136,0.1)',tension:0.4},{label:labels.kodex200,data:[105,116,130,170,220],borderColor:'#2563eb',tension:0.4,fill:false}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:chartLegendOptions('top'),tooltip:chartTooltipOptions()},scales:cartesianScales(false)}});
+}
+
+createCharts();
 
 function updateChartsForLanguage() {
     if (!pieTigerChart) return;
@@ -2291,6 +2605,27 @@ function updateChartsForLanguage() {
     lineChart.data.datasets[0].label = labels.kodex200tr;
     lineChart.data.datasets[1].label = labels.kodex200;
     [pieTigerChart, pieKodexChart, pieKodexTRChart, radarChart, barChart, lineChart].forEach(chart => chart.update());
+}
+
+function getChartThemeColors() {
+    const isDark = document.body.classList.contains('theme-dark');
+    return {
+        text: isDark ? '#e5e7eb' : '#1e293b',
+        muted: isDark ? '#cbd5e1' : '#64748b',
+        grid: isDark ? 'rgba(148, 163, 184, 0.22)' : 'rgba(148, 163, 184, 0.22)',
+        tooltipBg: isDark ? 'rgba(17, 19, 21, 0.96)' : 'rgba(15, 23, 42, 0.92)',
+        tooltipBorder: isDark ? 'rgba(148, 163, 184, 0.32)' : 'rgba(226, 232, 240, 0.38)'
+    };
+}
+
+function applyChartTheme(shouldUpdate = true) {
+    if (typeof Chart === 'undefined' || !pieTigerChart) return;
+    const charts = [pieTigerChart, pieKodexChart, pieKodexTRChart, radarChart, barChart, lineChart].filter(Boolean);
+    if (!charts.length) return;
+    charts.forEach(chart => {
+        chart.destroy();
+    });
+    createCharts();
 }
 </script>
 <div id="google_translate_element" class="google-translate-shell"></div>

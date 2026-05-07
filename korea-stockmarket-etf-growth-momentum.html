@@ -28,7 +28,8 @@ body { font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI",
   position: fixed !important;
   top: max(12px, env(safe-area-inset-top)) !important;
   right: calc(24px + env(safe-area-inset-right)) !important;
-  width: min(92vw, 220px);
+  width: auto;
+  max-width: calc(100vw - 32px);
   z-index: 2147483000 !important;
   transform: none !important;
   display: flex;
@@ -107,10 +108,16 @@ body.theme-dark .language-btn { background: rgba(24, 26, 29, 0.9); border-color:
 body.theme-dark .language-btn:hover, body.theme-dark .language-btn[aria-pressed="true"] { background: #202327; border-color: #60a5fa; }
 body.theme-dark .chart-container { background: #f8fafc !important; color: #1e293b !important; border-radius: 12px; padding: 1rem; box-shadow: inset 0 0 0 1px rgba(226, 232, 240, 0.72); }
 body.theme-dark .chart-container canvas { background: #f8fafc; border-radius: 10px; }
+body.theme-dark .portfolio-section .portfolio-eyebrow { color: #e9d5ff !important; }
+body.theme-dark .portfolio-section .portfolio-heading { color: #dbeafe !important; }
+body.theme-dark .portfolio-chart-card { background: #f8fafc !important; color: #1e293b !important; box-shadow: 0 16px 34px rgba(0, 0, 0, 0.26); }
+body.theme-dark .portfolio-chart-card h3 { color: #1e293b !important; }
+body.theme-dark .portfolio-chart-card .portfolio-center-label { color: #475569 !important; }
+body.theme-dark .portfolio-chart-card .portfolio-center-label.text-brightPurple { color: #7e22ce !important; }
 .language-tools {
   position: absolute !important;
-  top: max(72px, calc(env(safe-area-inset-top) + 72px)) !important;
-  right: max(10px, env(safe-area-inset-right)) !important;
+  top: max(154px, calc(env(safe-area-inset-top) + 154px)) !important;
+  right: calc(24px + env(safe-area-inset-right)) !important;
   width: min(92vw, 220px);
   z-index: 2147482000 !important;
 }
@@ -208,7 +215,7 @@ body { top: 0 !important; }
   .floating-tools #refresh-btn { width: 100%; justify-content: center; padding: 8px 10px; }
   .floating-tools #refresh-btn.is-compact { width: 44px; min-width: 44px; height: 44px; }
   .theme-toggle-btn { min-height: 36px; padding: 7px 10px; font-size: 0.76rem; }
-  .language-tools { right: max(8px, env(safe-area-inset-right)) !important; top: max(56px, calc(env(safe-area-inset-top) + 56px)) !important; width: min(88vw, 188px); }
+  .language-tools { right: calc(12px + env(safe-area-inset-right)) !important; top: max(116px, calc(env(safe-area-inset-top) + 116px)) !important; width: min(88vw, 188px); }
   .language-panel { grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 4px; }
   .language-btn { min-height: 30px; font-size: 15px; }
   .watchlist-shell { padding: 22px 16px 24px; border-radius: 18px; }
@@ -481,31 +488,31 @@ colors: { vibrantBlue: '#2563eb', electricTeal: '#0d9488', sunsetOrange: '#ea580
 </section>
 
 <!-- 3. 파이 차트 -->
-<section>
+<section class="portfolio-section">
 <div class="text-center mb-10">
-<div class="text-brightPurple font-bold tracking-wider mb-2">PORTFOLIO WEIGHTS</div>
-<h2 class="text-3xl font-bold text-deepNavy mb-4">🥧 ETF별 핵심 구성 종목 비중 (TOP 5)</h2>
+<div class="portfolio-eyebrow text-brightPurple font-bold tracking-wider mb-2">PORTFOLIO WEIGHTS</div>
+<h2 class="portfolio-heading text-3xl font-bold text-deepNavy mb-4">🥧 ETF별 핵심 구성 종목 비중 (TOP 5)</h2>
 </div>
 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-<div class="bg-white rounded-2xl shadow-md p-6 border-t-4 border-sunsetOrange card-hover">
+<div class="portfolio-chart-card bg-white rounded-2xl shadow-md p-6 border-t-4 border-sunsetOrange card-hover">
 <h3 class="text-center font-bold text-gray-800 mb-4 flex justify-center items-center"><span class="mr-2">⚡</span> TIGER AI 전력기기</h3>
 <div class="relative h-64 w-full">
 <canvas id="pieTiger"></canvas>
-<div class="absolute inset-0 pr-[35%] md:pr-[30%] flex flex-col items-center justify-center pointer-events-none text-center"><span class="text-xs text-gray-500 font-semibold">전력기기<br>집중형</span></div>
+<div class="absolute inset-0 pr-[35%] md:pr-[30%] flex flex-col items-center justify-center pointer-events-none text-center"><span class="portfolio-center-label text-xs text-gray-500 font-semibold">전력기기<br>집중형</span></div>
 </div>
 </div>
-<div class="bg-white rounded-2xl shadow-md p-6 border-t-4 border-vibrantBlue card-hover">
+<div class="portfolio-chart-card bg-white rounded-2xl shadow-md p-6 border-t-4 border-vibrantBlue card-hover">
 <h3 class="text-center font-bold text-gray-800 mb-4 flex justify-center items-center"><span class="mr-2">🇰🇷</span> KODEX 200</h3>
 <div class="relative h-64 w-full">
 <canvas id="pieKodex"></canvas>
-<div class="absolute inset-0 pr-[35%] md:pr-[30%] flex flex-col items-center justify-center pointer-events-none text-center"><span class="text-xs text-gray-500 font-semibold">시장 대표<br>분산형</span></div>
+<div class="absolute inset-0 pr-[35%] md:pr-[30%] flex flex-col items-center justify-center pointer-events-none text-center"><span class="portfolio-center-label text-xs text-gray-500 font-semibold">시장 대표<br>분산형</span></div>
 </div>
 </div>
-<div class="bg-white rounded-2xl shadow-md p-6 border-t-4 border-brightPurple card-hover">
+<div class="portfolio-chart-card bg-white rounded-2xl shadow-md p-6 border-t-4 border-brightPurple card-hover">
 <h3 class="text-center font-bold text-gray-800 mb-4 flex justify-center items-center"><span class="mr-2">🇰🇷</span> KODEX 200TR</h3>
 <div class="relative h-64 w-full">
 <canvas id="pieKodexTR"></canvas>
-<div class="absolute inset-0 pr-[35%] md:pr-[30%] flex flex-col items-center justify-center pointer-events-none text-center"><span class="text-xs text-brightPurple font-bold">배당금<br>재투자</span></div>
+<div class="absolute inset-0 pr-[35%] md:pr-[30%] flex flex-col items-center justify-center pointer-events-none text-center"><span class="portfolio-center-label text-xs text-brightPurple font-bold">배당금<br>재투자</span></div>
 </div>
 </div>
 </div>

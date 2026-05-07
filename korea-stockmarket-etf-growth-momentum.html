@@ -7,55 +7,6 @@
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <style>
-.floating-controls { width: min(13rem, calc(100vw - 1.5rem)); }
-*, *::before, *::after { box-sizing: border-box; }
-html, body { max-width: 100%; overflow-x: hidden; }
-.site-hero { padding-top: 7.25rem !important; }
-.hero-title { max-width: min(46rem, calc(100vw - 2rem)); margin-left: auto; margin-right: auto; text-wrap: balance; }
-.hero-subtitle { text-wrap: balance; }
-.language-grid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 0.25rem; margin-top: 0.45rem; }
-.language-btn { display: flex; align-items: center; justify-content: center; min-height: 1.65rem; aspect-ratio: 1 / 1; border-radius: 9999px; border: 1px solid rgba(203,213,225,0.9); background: rgba(255,255,255,0.92); color: #334155; font-size: 1rem; line-height: 1; font-weight: 700; box-shadow: 0 5px 12px -10px rgba(15,23,42,0.55); transition: transform 0.18s ease, background 0.18s ease, color 0.18s ease, border-color 0.18s ease; }
-.language-btn:hover { transform: translateY(-1px); background: #fff; border-color: #2563eb; color: #1e3a8a; }
-.language-btn[aria-pressed="true"] { background: #1e3a8a; color: #fff; border-color: #1e3a8a; }
-.language-status { height: 0; min-height: 0; margin: 0; overflow: hidden; color: #64748b; font-size: 0.68rem; line-height: 1.2; text-align: center; }
-.language-status.text-red-500, .language-status.text-amber-600 { height: auto; margin-top: 0.35rem; overflow: visible; }
-.mobile-only, .mobile-percent { display: none; }
-html[data-lang="de"] .hero-title,
-html[data-lang="fr"] .hero-title,
-html[data-lang="vi"] .hero-title,
-html[data-lang="zh-CN"] .hero-title { font-size: clamp(2rem, 4.4vw, 2.85rem) !important; line-height: 1.12 !important; }
-@media (max-width: 640px) {
-  .floating-controls { left: 0.75rem; right: 0.75rem; top: calc(0.75rem + env(safe-area-inset-top)); width: calc(100vw - 1.5rem) !important; max-width: calc(100vw - 1.5rem); }
-  .language-grid { grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 0.28rem; }
-  .language-btn { min-height: 1.85rem; font-size: clamp(1rem, 4vw, 1.16rem); padding: 0; }
-  header.site-hero { padding-top: calc(8.75rem + env(safe-area-inset-top)) !important; }
-  header h1 { font-size: clamp(1.72rem, 7.4vw, 2.05rem) !important; line-height: 1.18 !important; overflow-wrap: anywhere; }
-  html[data-lang="de"] header h1,
-  html[data-lang="fr"] header h1,
-  html[data-lang="vi"] header h1,
-  html[data-lang="zh-CN"] header h1 { font-size: clamp(1.54rem, 6.5vw, 1.88rem) !important; line-height: 1.16 !important; }
-  header h1 span { overflow-wrap: anywhere; }
-  header p { max-width: calc(100vw - 2rem) !important; font-size: 1rem !important; line-height: 1.65 !important; overflow-wrap: anywhere; }
-  header p strong { overflow-wrap: anywhere; }
-  main { padding-left: 1rem !important; padding-right: 1rem !important; }
-  main h2 { font-size: clamp(1.45rem, 6.4vw, 1.75rem) !important; line-height: 1.25 !important; overflow-wrap: anywhere; }
-  section h2.flex { display: block !important; }
-  #refresh-status { display: block; margin-left: 0 !important; margin-top: 0.35rem; }
-  .market-grid { grid-template-columns: minmax(0, 1fr) !important; }
-  .stock-link { min-width: 0; }
-  .stock-link .flex.justify-between { display: block; }
-  .stock-link .flex.justify-between span:last-child { display: block; min-width: 0; text-align: left; overflow-wrap: anywhere; margin-top: 0.15rem; }
-  [data-i18n="dashboard.title"] { min-width: 0; overflow-wrap: anywhere; }
-  .mobile-only, .mobile-percent { display: block; }
-  .desktop-percent { display: none; }
-}
-@media (min-width: 641px) and (max-width: 1024px) {
-  .floating-controls { width: 13rem; right: 1rem; }
-  header.site-hero { padding-top: 8rem !important; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .card-hover, .language-btn, #refresh-btn { transition: none !important; }
-}
 .chart-container { position: relative; width: 100%; max-width: 800px; margin-left: auto; margin-right: auto; height: 320px; max-height: 450px; }
 @media (min-width: 768px) { .chart-container { height: 400px; } }
 body { font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; background-color: #f8fafc; color: #1e293b; }
@@ -73,6 +24,79 @@ body { font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI",
 .insight-tag { display: inline-block; padding: 2px 8px; border-radius: 9999px; font-size: 11px; font-weight: 700; letter-spacing: 0.05em; }
 .risk-box { background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%); border-left: 4px solid #f97316; }
 .strategy-box { background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%); border-left: 4px solid #22c55e; }
+.floating-tools {
+  position: fixed !important;
+  top: max(12px, env(safe-area-inset-top)) !important;
+  right: calc(24px + env(safe-area-inset-right)) !important;
+  width: min(92vw, 220px);
+  z-index: 2147483000 !important;
+  transform: none !important;
+  display: flex;
+  justify-content: flex-end;
+  pointer-events: none;
+}
+.floating-tools #refresh-btn { pointer-events: auto; min-width: 154px; min-height: 46px; justify-content: center; overflow: hidden; }
+.floating-tools #refresh-btn .refresh-label { max-width: 9rem; opacity: 1; white-space: nowrap; overflow: hidden; transition: max-width 0.2s ease, opacity 0.2s ease, margin 0.2s ease; }
+.floating-tools #refresh-btn.is-compact { width: 46px; min-width: 46px; height: 46px; padding: 0 !important; }
+.floating-tools #refresh-btn.is-compact .refresh-label { max-width: 0; opacity: 0; margin-left: 0 !important; }
+.floating-tools #refresh-btn.is-compact svg { width: 22px; height: 22px; }
+.language-tools {
+  position: absolute !important;
+  top: max(72px, calc(env(safe-area-inset-top) + 72px)) !important;
+  right: max(10px, env(safe-area-inset-right)) !important;
+  width: min(92vw, 220px);
+  z-index: 2147482000 !important;
+}
+.language-panel { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; }
+.language-btn { min-height: 34px; border-radius: 9999px; border: 1px solid rgba(226, 232, 240, 0.95); background: rgba(255, 255, 255, 0.92); box-shadow: 0 6px 18px rgba(15, 23, 42, 0.08); transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease; }
+.language-btn:hover, .language-btn[aria-pressed="true"] { transform: translateY(-1px); border-color: #2563eb; background: #eff6ff; }
+.watchlist-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.watchlist-card { min-height: 184px; overflow: hidden; }
+.watchlist-card [data-watch-name] { display: -webkit-box; min-height: 2.45em; overflow: hidden; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow-wrap: anywhere; }
+.watchlist-card.is-editing { border-color: #0d9488; background: #f0fdfa; }
+.watchlist-card.is-dragging { opacity: 0.55; transform: scale(0.98); }
+.watchlist-card.is-drop-target { outline: 3px solid rgba(37, 99, 235, 0.35); outline-offset: 3px; }
+.watchlist-price { font-variant-numeric: tabular-nums; }
+.watchlist-track { touch-action: pan-y; }
+.watch-page-controls { justify-content: flex-end; }
+.watchlist-dot { width: 9px; height: 9px; border-radius: 9999px; background: #cbd5e1; transition: width 0.2s ease, background 0.2s ease; }
+.watchlist-dot.active { width: 26px; background: #2563eb; }
+.watch-edit-controls { display: none; }
+.watchlist-card.is-editing .watch-edit-controls { display: grid; }
+.watchlist-card.is-editing .watch-remove { display: none; }
+.watch-edit-btn[aria-pressed="true"] { background: #0d9488; color: white; border-color: #0d9488; }
+.watch-order-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+.watch-drag-handle { cursor: grab; touch-action: none; user-select: none; }
+.watch-drag-handle:active { cursor: grabbing; }
+#watchlist-section button, #watchlist-section input, #watchlist-section select { min-height: 42px; }
+#watchlist-section input, #watchlist-section select, #watchlist-section button { min-width: 0; }
+#watchlist-section [data-i18n], .watch-edit-controls button { overflow-wrap: anywhere; }
+.watch-confirm-modal { position: fixed; inset: 0; z-index: 2147483600; display: none; align-items: center; justify-content: center; padding: 1rem; }
+.watch-confirm-modal.is-open { display: flex; }
+.watch-confirm-backdrop { position: absolute; inset: 0; background: rgba(15, 23, 42, 0.42); backdrop-filter: blur(3px); }
+.watch-confirm-card { position: relative; width: min(92vw, 430px); border-radius: 20px; background: #fff; padding: 1.25rem; box-shadow: 0 24px 70px rgba(15, 23, 42, 0.24); border: 1px solid rgba(226, 232, 240, 0.9); text-align: center; }
+.watch-confirm-toggle { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px; margin-top: 1rem; border-radius: 9999px; background: #eef2f7; padding: 4px; }
+.watch-confirm-choice { border-radius: 9999px; min-height: 44px; font-weight: 800; font-size: 0.95rem; transition: transform 0.15s ease, background 0.15s ease, color 0.15s ease; }
+.watch-confirm-choice:hover { transform: translateY(-1px); }
+.watch-confirm-choice.yes { background: #0d9488; color: #fff; }
+.watch-confirm-choice.no { background: #fff; color: #475569; border: 1px solid #e2e8f0; }
+.google-translate-shell { position: fixed; left: -9999px; top: -9999px; width: 1px; height: 1px; overflow: hidden; }
+.goog-te-banner-frame, .goog-te-gadget, .skiptranslate { display: none !important; }
+body { top: 0 !important; }
+@media (min-width: 640px) { .watchlist-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (min-width: 768px) { .watchlist-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); } }
+@media (min-width: 1280px) { .watchlist-grid { grid-template-columns: repeat(7, minmax(0, 1fr)); } }
+@media (max-width: 640px) {
+  .chart-container { height: 300px; }
+  .floating-tools { right: calc(12px + env(safe-area-inset-right)) !important; top: max(8px, env(safe-area-inset-top)) !important; width: min(88vw, 188px); }
+  .floating-tools #refresh-btn { width: 100%; justify-content: center; padding: 8px 10px; }
+  .floating-tools #refresh-btn.is-compact { width: 44px; min-width: 44px; height: 44px; }
+  .language-tools { right: max(8px, env(safe-area-inset-right)) !important; top: max(56px, calc(env(safe-area-inset-top) + 56px)) !important; width: min(88vw, 188px); }
+  .language-panel { grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 4px; }
+  .language-btn { min-height: 30px; font-size: 15px; }
+  .watch-page-controls { justify-content: center; }
+  header { padding-top: 7.25rem !important; }
+}
 </style>
 <script>
 tailwind.config = {
@@ -86,31 +110,34 @@ colors: { vibrantBlue: '#2563eb', electricTeal: '#0d9488', sunsetOrange: '#ea580
 </head>
 <body class="antialiased">
 
-<!-- 우측 상단 실시간 새로고침 및 언어 선택 컨트롤 -->
-<div class="floating-controls absolute top-6 right-4 sm:right-8 z-50">
-<button id="refresh-btn" class="w-full bg-white/90 backdrop-blur-sm text-deepNavy px-4 py-2.5 rounded-full shadow-lg hover:shadow-xl hover:bg-white hover:scale-[1.02] transition-all duration-300 flex items-center justify-center space-x-2 border border-gray-200 group">
-<svg id="refresh-icon" class="w-5 h-5 text-vibrantBlue transition-transform duration-300 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<!-- 우측 상단 실시간 새로고침 플로팅 버튼 -->
+<div class="floating-tools fixed top-6 right-4 sm:right-8 z-50">
+<button id="refresh-btn" class="bg-white/90 backdrop-blur-sm text-deepNavy px-4 py-2.5 rounded-full shadow-lg hover:shadow-xl hover:bg-white hover:scale-105 transition-all duration-300 flex items-center space-x-2 border border-gray-200 group">
+<svg id="refresh-icon" class="w-5 h-5 text-vibrantBlue transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
 </svg>
-<span class="font-bold text-sm tracking-wide" data-i18n="controls.refresh">실시간 갱신</span>
+<span class="refresh-label font-bold text-sm tracking-wide" data-i18n="refreshButton">실시간 갱신</span>
 </button>
-<div id="language-controls" class="language-grid" aria-label="Language selector">
-<button type="button" class="language-btn" data-lang="ko" aria-pressed="true">🇰🇷</button>
-<button type="button" class="language-btn" data-lang="en" aria-pressed="false">🇺🇸</button>
-<button type="button" class="language-btn" data-lang="zh-CN" aria-pressed="false">🇨🇳</button>
-<button type="button" class="language-btn" data-lang="ja" aria-pressed="false">🇯🇵</button>
-<button type="button" class="language-btn" data-lang="vi" aria-pressed="false">🇻🇳</button>
-<button type="button" class="language-btn" data-lang="de" aria-pressed="false">🇩🇪</button>
-<button type="button" class="language-btn" data-lang="fr" aria-pressed="false">🇫🇷</button>
-</div>
-<div id="language-status" class="language-status" data-i18n="language.status.ready">언어 선택</div>
 </div>
 
-<header class="site-hero bg-deepNavy text-white py-16 px-4 sm:px-8 shadow-lg">
+<!-- 페이지 우측 최상단 언어 선택 버튼 -->
+<div class="language-tools">
+<div id="language-panel" class="language-panel" aria-label="Language selector">
+<button type="button" class="language-btn" data-lang="ko" aria-label="한국어">🇰🇷</button>
+<button type="button" class="language-btn" data-lang="en" aria-label="English">🇬🇧</button>
+<button type="button" class="language-btn" data-lang="ja" aria-label="日本語">🇯🇵</button>
+<button type="button" class="language-btn" data-lang="zh-CN" aria-label="中文">🇨🇳</button>
+<button type="button" class="language-btn" data-lang="vi" aria-label="Tiếng Việt">🇻🇳</button>
+<button type="button" class="language-btn" data-lang="de" aria-label="Deutsch">🇩🇪</button>
+<button type="button" class="language-btn" data-lang="fr" aria-label="Français">🇫🇷</button>
+</div>
+</div>
+
+<header class="bg-deepNavy text-white py-16 px-4 sm:px-8 shadow-lg">
 <div class="max-w-7xl mx-auto text-center">
 <div class="text-6xl mb-4">🚀</div>
-<h1 class="hero-title text-4xl md:text-5xl font-bold mb-6 leading-tight" data-i18n-html="hero.title">3대 주도 ETF<br><span class="text-electricTeal">성장 모멘텀<br class="mobile-only"> 분석 리포트</span></h1>
-<p class="hero-subtitle text-lg md:text-xl text-gray-300 max-w-3xl mx-auto" data-i18n-html="hero.subtitle">최근 급등한 <strong>TIGER 코리아 AI 전력기기 TOP3 플러스</strong>, <strong>KODEX 200TR</strong>, <strong>KODEX 200</strong> ETF의 상승 원인과 미래 주도 테마로서의 가치를 직관적인 데이터로 분석합니다.</p>
+<h1 class="text-4xl md:text-5xl font-bold mb-6 leading-tight" data-i18n-html="heroTitle">3대 주도 ETF<br><span class="text-electricTeal">성장 모멘텀 분석 리포트</span></h1>
+<p class="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto" data-i18n-html="heroSubtitle">최근 급등한 <strong>TIGER 코리아 AI 전력기기 TOP3 플러스</strong>, <strong>KODEX 200TR</strong>, <strong>KODEX 200</strong> ETF의 상승 원인과 미래 주도 테마로서의 가치를 직관적인 데이터로 분석합니다.</p>
 </div>
 </header>
 
@@ -120,91 +147,147 @@ colors: { vibrantBlue: '#2563eb', electricTeal: '#0d9488', sunsetOrange: '#ea580
 <section>
 <div class="bg-white rounded-2xl shadow-lg p-6 border-l-8 border-vibrantBlue">
 <h2 class="text-2xl font-bold text-deepNavy mb-6 flex items-center flex-wrap gap-y-1">
-<span class="text-3xl mr-2" aria-hidden="true">📊</span><span data-i18n-html="dashboard.title">실시간 시장 지수 &amp; ETF<br class="mobile-only"> 현재가</span> <span class="text-sm text-gray-400 font-normal ml-3" data-i18n="dashboard.subtitle">(최신 스냅샷 / 클릭 시 전체 동기화)</span><span id="refresh-status" class="text-xs text-gray-400 font-normal ml-3" data-i18n="status.loading">불러오는 중...</span>
+<span class="text-3xl mr-2">📊</span><span data-i18n="marketTitle">실시간 시장 지수 &amp; ETF 현재가</span> <span class="text-sm text-gray-400 font-normal ml-3" data-i18n="marketInterval">(5초 업데이트 / 클릭 시 전체 동기화)</span><span id="refresh-status" class="text-xs text-gray-400 font-normal ml-3">불러오는 중...</span>
 </h2>
-<div class="market-grid grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-3">
+<div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-3">
 <a href="https://www.google.com/finance/quote/KOSPI:KRX" target="_blank" class="stock-link block bg-gray-50 p-3 rounded-xl border border-gray-100 text-center shadow-sm card-hover hover:bg-gray-200 cursor-pointer">
-<div class="text-[13px] text-gray-500 font-semibold mb-1" data-i18n="market.kospi">코스피</div>
-<div class="text-xl font-bold text-gray-800 transition-colors" id="price-kospi">--</div>
+<div class="text-[13px] text-gray-500 font-semibold mb-1" data-stock-ko="코스피">코스피</div>
+<div class="text-xl font-bold text-gray-800 transition-colors notranslate" translate="no" id="price-kospi">--</div>
 <div class="mt-2 text-[11px] font-medium text-left bg-white p-1.5 rounded shadow-inner space-y-1">
-<div class="flex justify-between"><span class="text-gray-500" data-i18n="market.previousClose">전일비</span><span id="change-kospi-close" class="text-gray-400">-</span></div>
-<div class="flex justify-between"><span class="text-gray-500" data-i18n="market.openChange">시가비</span><span id="change-kospi-open" class="text-gray-400">-</span></div>
+<div class="flex justify-between"><span class="text-gray-500">전일비</span><span id="change-kospi-close" class="text-gray-400">-</span></div>
+<div class="flex justify-between"><span class="text-gray-500">시가비</span><span id="change-kospi-open" class="text-gray-400">-</span></div>
 </div>
 </a>
 <a href="https://www.google.com/finance/quote/KOSDAQ:KRX" target="_blank" class="stock-link block bg-gray-50 p-3 rounded-xl border border-gray-100 text-center shadow-sm card-hover hover:bg-gray-200 cursor-pointer">
-<div class="text-[13px] text-gray-500 font-semibold mb-1" data-i18n="market.kosdaq">코스닥</div>
-<div class="text-xl font-bold text-gray-800 transition-colors" id="price-kosdaq">--</div>
+<div class="text-[13px] text-gray-500 font-semibold mb-1" data-stock-ko="코스닥">코스닥</div>
+<div class="text-xl font-bold text-gray-800 transition-colors notranslate" translate="no" id="price-kosdaq">--</div>
 <div class="mt-2 text-[11px] font-medium text-left bg-white p-1.5 rounded shadow-inner space-y-1">
-<div class="flex justify-between"><span class="text-gray-500" data-i18n="market.previousClose">전일비</span><span id="change-kosdaq-close" class="text-gray-400">-</span></div>
-<div class="flex justify-between"><span class="text-gray-500" data-i18n="market.openChange">시가비</span><span id="change-kosdaq-open" class="text-gray-400">-</span></div>
+<div class="flex justify-between"><span class="text-gray-500">전일비</span><span id="change-kosdaq-close" class="text-gray-400">-</span></div>
+<div class="flex justify-between"><span class="text-gray-500">시가비</span><span id="change-kosdaq-open" class="text-gray-400">-</span></div>
 </div>
 </a>
 <a href="https://www.google.com/finance/quote/005930:KRX" target="_blank" class="stock-link block bg-indigo-50 p-3 rounded-xl border border-indigo-100 text-center shadow-sm card-hover hover:bg-indigo-100 cursor-pointer">
-<div class="text-[13px] text-indigo-700 font-bold mb-1" data-i18n="market.samsung">삼성전자</div>
-<div class="text-xl font-bold text-gray-800 transition-colors"><span id="price-samsung">--</span><span class="text-xs font-normal">원</span></div>
+<div class="text-[13px] text-indigo-700 font-bold mb-1" data-stock-ko="삼성전자">삼성전자</div>
+<div class="text-xl font-bold text-gray-800 transition-colors notranslate" translate="no"><span id="price-samsung">--</span><span class="text-xs font-normal">원</span></div>
 <div class="mt-2 text-[11px] font-medium text-left bg-white p-1.5 rounded shadow-inner space-y-1">
-<div class="flex justify-between"><span class="text-gray-500" data-i18n="market.previousClose">전일비</span><span id="change-samsung-close" class="text-gray-400">-</span></div>
-<div class="flex justify-between"><span class="text-gray-500" data-i18n="market.openChange">시가비</span><span id="change-samsung-open" class="text-gray-400">-</span></div>
+<div class="flex justify-between"><span class="text-gray-500">전일비</span><span id="change-samsung-close" class="text-gray-400">-</span></div>
+<div class="flex justify-between"><span class="text-gray-500">시가비</span><span id="change-samsung-open" class="text-gray-400">-</span></div>
 </div>
 </a>
 <a href="https://www.google.com/finance/quote/000660:KRX" target="_blank" class="stock-link block bg-rose-50 p-3 rounded-xl border border-rose-100 text-center shadow-sm card-hover hover:bg-rose-100 cursor-pointer">
-<div class="text-[13px] text-rose-700 font-bold mb-1" data-i18n="market.sk">SK하이닉스</div>
-<div class="text-xl font-bold text-gray-800 transition-colors"><span id="price-sk">--</span><span class="text-xs font-normal">원</span></div>
+<div class="text-[13px] text-rose-700 font-bold mb-1" data-stock-ko="SK하이닉스">SK하이닉스</div>
+<div class="text-xl font-bold text-gray-800 transition-colors notranslate" translate="no"><span id="price-sk">--</span><span class="text-xs font-normal">원</span></div>
 <div class="mt-2 text-[11px] font-medium text-left bg-white p-1.5 rounded shadow-inner space-y-1">
-<div class="flex justify-between"><span class="text-gray-500" data-i18n="market.previousClose">전일비</span><span id="change-sk-close" class="text-gray-400">-</span></div>
-<div class="flex justify-between"><span class="text-gray-500" data-i18n="market.openChange">시가비</span><span id="change-sk-open" class="text-gray-400">-</span></div>
+<div class="flex justify-between"><span class="text-gray-500">전일비</span><span id="change-sk-close" class="text-gray-400">-</span></div>
+<div class="flex justify-between"><span class="text-gray-500">시가비</span><span id="change-sk-open" class="text-gray-400">-</span></div>
 </div>
 </a>
 <a href="https://finance.naver.com/item/main.naver?code=0117V0" target="_blank" class="stock-link block bg-orange-50 p-3 rounded-xl border border-orange-100 text-center shadow-sm card-hover hover:bg-orange-100 cursor-pointer">
-<div class="text-[13px] text-sunsetOrange font-bold mb-1" data-i18n="market.tiger">TIGER 전력기기</div>
-<div class="text-xl font-bold text-gray-800 transition-colors"><span id="price-tiger">--</span><span class="text-xs font-normal">원</span></div>
+<div class="text-[13px] text-sunsetOrange font-bold mb-1" data-stock-ko="TIGER 전력기기">TIGER 전력기기</div>
+<div class="text-xl font-bold text-gray-800 transition-colors notranslate" translate="no"><span id="price-tiger">--</span><span class="text-xs font-normal">원</span></div>
 <div class="mt-2 text-[11px] font-medium text-left bg-white p-1.5 rounded shadow-inner space-y-1">
-<div class="flex justify-between"><span class="text-gray-500" data-i18n="market.previousClose">전일비</span><span id="change-tiger-close" class="text-gray-400">-</span></div>
-<div class="flex justify-between"><span class="text-gray-500" data-i18n="market.openChange">시가비</span><span id="change-tiger-open" class="text-gray-400">-</span></div>
+<div class="flex justify-between"><span class="text-gray-500">전일비</span><span id="change-tiger-close" class="text-gray-400">-</span></div>
+<div class="flex justify-between"><span class="text-gray-500">시가비</span><span id="change-tiger-open" class="text-gray-400">-</span></div>
 </div>
 </a>
 <a href="https://www.google.com/finance/quote/069500:KRX" target="_blank" class="stock-link block bg-blue-50 p-3 rounded-xl border border-blue-100 text-center shadow-sm card-hover hover:bg-blue-100 cursor-pointer">
-<div class="text-[13px] text-vibrantBlue font-bold mb-1" data-i18n="market.kodex200">KODEX 200</div>
-<div class="text-xl font-bold text-gray-800 transition-colors"><span id="price-kodex200">--</span><span class="text-xs font-normal">원</span></div>
+<div class="text-[13px] text-vibrantBlue font-bold mb-1" data-stock-ko="KODEX 200">KODEX 200</div>
+<div class="text-xl font-bold text-gray-800 transition-colors notranslate" translate="no"><span id="price-kodex200">--</span><span class="text-xs font-normal">원</span></div>
 <div class="mt-2 text-[11px] font-medium text-left bg-white p-1.5 rounded shadow-inner space-y-1">
-<div class="flex justify-between"><span class="text-gray-500" data-i18n="market.previousClose">전일비</span><span id="change-kodex-close" class="text-gray-400">-</span></div>
-<div class="flex justify-between"><span class="text-gray-500" data-i18n="market.openChange">시가비</span><span id="change-kodex-open" class="text-gray-400">-</span></div>
+<div class="flex justify-between"><span class="text-gray-500">전일비</span><span id="change-kodex-close" class="text-gray-400">-</span></div>
+<div class="flex justify-between"><span class="text-gray-500">시가비</span><span id="change-kodex-open" class="text-gray-400">-</span></div>
 </div>
 </a>
 <a href="https://www.google.com/finance/quote/278530:KRX" target="_blank" class="stock-link block bg-purple-50 p-3 rounded-xl border border-purple-100 text-center shadow-sm card-hover hover:bg-purple-100 cursor-pointer">
-<div class="text-[13px] text-brightPurple font-bold mb-1" data-i18n="market.kodex200tr">KODEX 200TR</div>
-<div class="text-xl font-bold text-gray-800 transition-colors"><span id="price-kodex200tr">--</span><span class="text-xs font-normal">원</span></div>
+<div class="text-[13px] text-brightPurple font-bold mb-1" data-stock-ko="KODEX 200TR">KODEX 200TR</div>
+<div class="text-xl font-bold text-gray-800 transition-colors notranslate" translate="no"><span id="price-kodex200tr">--</span><span class="text-xs font-normal">원</span></div>
 <div class="mt-2 text-[11px] font-medium text-left bg-white p-1.5 rounded shadow-inner space-y-1">
-<div class="flex justify-between"><span class="text-gray-500" data-i18n="market.previousClose">전일비</span><span id="change-kodextr-close" class="text-gray-400">-</span></div>
-<div class="flex justify-between"><span class="text-gray-500" data-i18n="market.openChange">시가비</span><span id="change-kodextr-open" class="text-gray-400">-</span></div>
+<div class="flex justify-between"><span class="text-gray-500">전일비</span><span id="change-kodextr-close" class="text-gray-400">-</span></div>
+<div class="flex justify-between"><span class="text-gray-500">시가비</span><span id="change-kodextr-open" class="text-gray-400">-</span></div>
 </div>
 </a>
 </div>
 </div>
 </section>
 
+<!-- 2. 관심 종목 현재가 -->
+<section id="watchlist-section">
+<div class="bg-white rounded-2xl shadow-lg p-4 sm:p-6 border-l-8 border-electricTeal">
+<div class="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-5 mb-6">
+<div>
+<h2 class="text-2xl font-bold text-deepNavy flex items-center flex-wrap gap-2">
+<span class="text-3xl">⭐</span><span data-i18n="watchlistTitle">관심 종목 현재가</span>
+<span id="watchlist-page-label" class="text-xs font-semibold text-gray-400"></span>
+<button type="button" id="watch-edit-btn" class="watch-edit-btn ml-auto rounded-full border border-gray-200 bg-white px-4 py-2 text-sm font-bold text-deepNavy shadow-sm hover:bg-teal-50" data-i18n="editWatchlist" aria-pressed="false">편집</button>
+</h2>
+<p class="text-sm text-gray-500 mt-2" data-i18n="watchlistSubtitle">네이버 증권 또는 Google Finance에서 종목을 찾은 뒤, 종목명과 코드/티커를 입력해 관심 종목을 추가하세요.</p>
+<p id="watch-edit-help" class="hidden text-xs text-teal-700 mt-2" data-i18n="editHelp">위/아래 버튼으로 순서를 바꾸고 삭제 버튼으로 종목을 제거할 수 있습니다.</p>
+</div>
+<div class="w-full lg:max-w-3xl">
+<div class="grid grid-cols-1 sm:grid-cols-5 gap-2">
+<select id="watch-source" class="sm:col-span-1 rounded-lg border border-gray-200 px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-vibrantBlue">
+<option value="naver" data-i18n="sourceNaver">네이버 증권</option>
+<option value="google" data-i18n="sourceGoogle">Google Finance</option>
+</select>
+<input id="watch-query" type="text" class="sm:col-span-2 rounded-lg border border-gray-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-vibrantBlue" placeholder="검색어 예: 삼성전자, AAPL">
+<button type="button" id="watch-search-btn" class="rounded-lg bg-slate-100 text-deepNavy px-3 py-2 text-sm font-bold hover:bg-slate-200" data-i18n="openSearch">검색 열기</button>
+<button type="button" id="watch-reset-btn" class="rounded-lg bg-red-50 text-red-600 px-3 py-2 text-sm font-bold hover:bg-red-100" data-i18n="resetWatchlist">기본값 복원</button>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-5 gap-2 mt-2">
+<input id="watch-name" type="text" class="sm:col-span-2 rounded-lg border border-gray-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-electricTeal" placeholder="종목명 예: 삼성전자">
+<input id="watch-symbol" type="text" class="sm:col-span-2 rounded-lg border border-gray-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-electricTeal" placeholder="코드/티커 예: 005930 또는 AAPL:NASDAQ">
+<button type="button" id="watch-add-btn" class="rounded-lg bg-electricTeal text-white px-3 py-2 text-sm font-bold hover:bg-teal-700" data-i18n="addWatchlist">추가</button>
+</div>
+<div class="watch-page-controls flex items-center gap-4 mt-3">
+<button type="button" id="watch-prev" class="rounded-full border border-gray-200 w-10 h-10 text-deepNavy font-bold hover:bg-gray-50" aria-label="Previous page">‹</button>
+<div id="watch-dots" class="flex items-center gap-2" aria-label="Watchlist pages"></div>
+<button type="button" id="watch-next" class="rounded-full border border-gray-200 w-10 h-10 text-deepNavy font-bold hover:bg-gray-50" aria-label="Next page">›</button>
+</div>
+<p id="watchlist-message" class="text-xs text-gray-400 mt-2 min-h-[18px]"></p>
+</div>
+</div>
+
+<div id="watchlist-track" class="watchlist-track">
+<div id="watchlist-grid" class="watchlist-grid"></div>
+</div>
+</div>
+</section>
+
+<div id="watch-confirm-modal" class="watch-confirm-modal" role="dialog" aria-modal="true" aria-labelledby="watch-confirm-title">
+<div class="watch-confirm-backdrop" data-watch-confirm-cancel></div>
+<div class="watch-confirm-card">
+<div class="text-3xl mb-2">🔎</div>
+<h3 id="watch-confirm-title" class="text-lg font-extrabold text-deepNavy" data-i18n="confirmAddQuestion">이 종목을 추가하고 싶으신가요?</h3>
+<p id="watch-confirm-detail" class="mt-2 text-sm text-gray-500 leading-relaxed"></p>
+<div class="watch-confirm-toggle" role="group" aria-label="Confirm watchlist addition">
+<button type="button" id="watch-confirm-yes" class="watch-confirm-choice yes" data-i18n="yesChoice">예</button>
+<button type="button" id="watch-confirm-no" class="watch-confirm-choice no" data-i18n="noChoice">아니오</button>
+</div>
+</div>
+</div>
+
 <!-- 2. 핵심 ETF 개요 + 투자 인사이트 -->
 <section>
 <div class="text-center mb-10">
-<h2 class="text-3xl font-bold text-deepNavy mb-4" data-i18n="section.etfIntro.title">💡 핵심 ETF 한눈에 보기 &amp; 투자 인사이트</h2>
-<p class="text-gray-600" data-i18n="section.etfIntro.subtitle">각 ETF의 핵심 가치, 투자 포인트, 리스크 및 전략적 관점을 종합합니다.</p>
+<h2 class="text-3xl font-bold text-deepNavy mb-4">💡 핵심 ETF 한눈에 보기 &amp; 투자 인사이트</h2>
+<p class="text-gray-600">각 ETF의 핵심 가치, 투자 포인트, 리스크 및 전략적 관점을 종합합니다.</p>
 </div>
 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
 
   <!-- TIGER AI 전력기기 -->
   <div class="bg-white rounded-xl shadow-md p-6 border-t-4 border-sunsetOrange card-hover flex flex-col">
     <div class="text-4xl mb-3">⚡</div>
-    <h3 class="text-lg font-bold mb-2 text-gray-900" data-i18n="card.tiger.title">TIGER 코리아 AI 전력기기 TOP3 플러스</h3>
-    <p class="text-gray-600 text-sm mb-4" data-i18n="card.tiger.summary">AI 데이터센터 확충과 북미 전력망 교체 슈퍼사이클의 최대 수혜주인 국내 전력기기 핵심 3사(LS일렉트릭·HD현대일렉트릭·효성중공업)에 집중 투자합니다.</p>
-    <div data-i18n-html="card.tiger.momentum" class="insight-box rounded-lg p-3 mb-3 text-xs text-gray-700 leading-relaxed">
+    <h3 class="text-lg font-bold mb-2 text-gray-900">TIGER 코리아 AI 전력기기 TOP3 플러스</h3>
+    <p class="text-gray-600 text-sm mb-4">AI 데이터센터 확충과 북미 전력망 교체 슈퍼사이클의 최대 수혜주인 국내 전력기기 핵심 3사(LS일렉트릭·HD현대일렉트릭·효성중공업)에 집중 투자합니다.</p>
+    <div class="insight-box rounded-lg p-3 mb-3 text-xs text-gray-700 leading-relaxed">
       <span class="insight-tag bg-sky-100 text-sky-700 mb-2 block w-fit">📌 핵심 모멘텀</span>
       글로벌 AI 인프라 투자 확대로 전력망 업그레이드 수요가 폭발적으로 증가 중. 미국 IRA(인플레이션 감축법)와 유럽 그린딜 수혜로 국내 전력기기 3사의 수출 수주 잔고가 역대 최고 수준을 기록하고 있습니다. 집중형 포트폴리오 특성상 테마 모멘텀이 강한 시기에 시장 대비 초과 수익 가능성이 높습니다.
     </div>
-    <div data-i18n-html="card.tiger.risk" class="risk-box rounded-lg p-3 mb-3 text-xs text-gray-700 leading-relaxed">
+    <div class="risk-box rounded-lg p-3 mb-3 text-xs text-gray-700 leading-relaxed">
       <span class="insight-tag bg-orange-100 text-orange-700 mb-2 block w-fit">⚠️ 투자 리스크</span>
       상위 3종목 집중도 약 75% 이상으로 변동성이 높습니다. AI 투자 사이클 둔화나 글로벌 금리 인상 시 급락 위험 존재. 단기 과열 구간 진입 시 분할 매수 전략 권장합니다.
     </div>
-    <div data-i18n-html="card.tiger.strategy" class="strategy-box rounded-lg p-3 text-xs text-gray-700 leading-relaxed mt-auto">
+    <div class="strategy-box rounded-lg p-3 text-xs text-gray-700 leading-relaxed mt-auto">
       <span class="insight-tag bg-green-100 text-green-700 mb-2 block w-fit">✅ 투자 전략</span>
       테마형 ETF 특성상 <strong>포트폴리오의 10~20% 이내</strong>로 편입 권장. 단기 트레이딩보다는 AI·전력 인프라 슈퍼사이클을 6~18개월 장기 관점으로 접근하는 것이 유리합니다.
     </div>
@@ -213,17 +296,17 @@ colors: { vibrantBlue: '#2563eb', electricTeal: '#0d9488', sunsetOrange: '#ea580
   <!-- KODEX 200TR -->
   <div class="bg-white rounded-xl shadow-md p-6 border-t-4 border-brightPurple card-hover flex flex-col">
     <div class="text-4xl mb-3">🔄</div>
-    <h3 class="text-lg font-bold mb-2 text-gray-900" data-i18n="card.kodexTr.title">KODEX 200TR</h3>
-    <p class="text-gray-600 text-sm mb-4" data-i18n="card.kodexTr.summary">코스피 200 지수를 추종하되, 발생하는 배당금을 자동으로 재투자하여 장기 투자 시 복리 효과를 극대화하는 상품입니다.</p>
-    <div data-i18n-html="card.kodexTr.momentum" class="insight-box rounded-lg p-3 mb-3 text-xs text-gray-700 leading-relaxed">
+    <h3 class="text-lg font-bold mb-2 text-gray-900">KODEX 200TR</h3>
+    <p class="text-gray-600 text-sm mb-4">코스피 200 지수를 추종하되, 발생하는 배당금을 자동으로 재투자하여 장기 투자 시 복리 효과를 극대화하는 상품입니다.</p>
+    <div class="insight-box rounded-lg p-3 mb-3 text-xs text-gray-700 leading-relaxed">
       <span class="insight-tag bg-sky-100 text-sky-700 mb-2 block w-fit">📌 핵심 모멘텀</span>
       배당금 자동 재투자(Total Return) 구조로 동일 지수를 추종하는 KODEX 200 대비 장기 복리 수익률이 높습니다. 코스피 200 구성 종목의 평균 배당수익률 약 2~3% 수준이 NAV에 자동 반영되어 별도 세금 없이 복리 효과를 누릴 수 있습니다.
     </div>
-    <div data-i18n-html="card.kodexTr.risk" class="risk-box rounded-lg p-3 mb-3 text-xs text-gray-700 leading-relaxed">
+    <div class="risk-box rounded-lg p-3 mb-3 text-xs text-gray-700 leading-relaxed">
       <span class="insight-tag bg-orange-100 text-orange-700 mb-2 block w-fit">⚠️ 투자 리스크</span>
       코스피 200 지수 자체의 하락 리스크를 그대로 수반합니다. 삼성전자·SK하이닉스 두 종목이 전체의 40% 이상을 차지해 반도체 업황에 민감하며, 환율·글로벌 경기 침체 시 하방 압력이 커질 수 있습니다.
     </div>
-    <div data-i18n-html="card.kodexTr.strategy" class="strategy-box rounded-lg p-3 text-xs text-gray-700 leading-relaxed mt-auto">
+    <div class="strategy-box rounded-lg p-3 text-xs text-gray-700 leading-relaxed mt-auto">
       <span class="insight-tag bg-green-100 text-green-700 mb-2 block w-fit">✅ 투자 전략</span>
       <strong>장기 적립식 투자(DCA)에 최적화</strong>된 상품. 배당소득세 없이 복리 효과를 누릴 수 있어 10년 이상 장기 포트폴리오 핵심 편입 종목으로 적합합니다. 매월 일정 금액 자동 매수 전략 추천합니다.
     </div>
@@ -232,17 +315,17 @@ colors: { vibrantBlue: '#2563eb', electricTeal: '#0d9488', sunsetOrange: '#ea580
   <!-- KODEX 200 -->
   <div class="bg-white rounded-xl shadow-md p-6 border-t-4 border-vibrantBlue card-hover flex flex-col">
     <div class="text-4xl mb-3">🇰🇷</div>
-    <h3 class="text-lg font-bold mb-2 text-gray-900" data-i18n="card.kodex.title">KODEX 200</h3>
-    <p class="text-gray-600 text-sm mb-4" data-i18n="card.kodex.summary">대한민국 대표 우량 기업 200종목에 분산 투자하는 가장 대표적인 시장 지수 ETF로 안정적인 배당 현금흐름을 창출합니다.</p>
-    <div data-i18n-html="card.kodex.momentum" class="insight-box rounded-lg p-3 mb-3 text-xs text-gray-700 leading-relaxed">
+    <h3 class="text-lg font-bold mb-2 text-gray-900">KODEX 200</h3>
+    <p class="text-gray-600 text-sm mb-4">대한민국 대표 우량 기업 200종목에 분산 투자하는 가장 대표적인 시장 지수 ETF로 안정적인 배당 현금흐름을 창출합니다.</p>
+    <div class="insight-box rounded-lg p-3 mb-3 text-xs text-gray-700 leading-relaxed">
       <span class="insight-tag bg-sky-100 text-sky-700 mb-2 block w-fit">📌 핵심 모멘텀</span>
       코스피 지수 저평가 해소(코리아 디스카운트 완화) 움직임과 외국인 자금 유입 확대가 주요 모멘텀입니다. 국내 밸류업 프로그램 도입으로 자사주 소각·배당 확대 정책이 강화되어 ETF 구성 종목의 주주환원율이 상승하고 있습니다.
     </div>
-    <div data-i18n-html="card.kodex.risk" class="risk-box rounded-lg p-3 mb-3 text-xs text-gray-700 leading-relaxed">
+    <div class="risk-box rounded-lg p-3 mb-3 text-xs text-gray-700 leading-relaxed">
       <span class="insight-tag bg-orange-100 text-orange-700 mb-2 block w-fit">⚠️ 투자 리스크</span>
       배당금이 지급될 때 배당소득세(15.4%)가 발생하며, 배당 재투자 효율이 TR 구조 대비 낮습니다. 글로벌 경기 침체, 원화 약세, 지정학적 리스크(한반도 긴장) 상황에서 하락 폭이 크게 나타날 수 있습니다.
     </div>
-    <div data-i18n-html="card.kodex.strategy" class="strategy-box rounded-lg p-3 text-xs text-gray-700 leading-relaxed mt-auto">
+    <div class="strategy-box rounded-lg p-3 text-xs text-gray-700 leading-relaxed mt-auto">
       <span class="insight-tag bg-green-100 text-green-700 mb-2 block w-fit">✅ 투자 전략</span>
       현금 흐름이 필요한 투자자에게 적합. <strong>배당금 수령 후 직접 재투자</strong>하거나 생활비로 활용하는 인출 전략에 유리합니다. 거래량이 가장 많아 단기 시장 대응 목적으로도 활용 가능합니다.
     </div>
@@ -254,29 +337,29 @@ colors: { vibrantBlue: '#2563eb', electricTeal: '#0d9488', sunsetOrange: '#ea580
 <!-- 3. 파이 차트 -->
 <section>
 <div class="text-center mb-10">
-<div class="text-brightPurple font-bold tracking-wider mb-2" data-i18n="section.weights.eyebrow">PORTFOLIO WEIGHTS</div>
-<h2 class="text-3xl font-bold text-deepNavy mb-4" data-i18n="section.weights.title">🥧 ETF별 핵심 구성 종목 비중 (TOP 5)</h2>
+<div class="text-brightPurple font-bold tracking-wider mb-2">PORTFOLIO WEIGHTS</div>
+<h2 class="text-3xl font-bold text-deepNavy mb-4">🥧 ETF별 핵심 구성 종목 비중 (TOP 5)</h2>
 </div>
 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
 <div class="bg-white rounded-2xl shadow-md p-6 border-t-4 border-sunsetOrange card-hover">
-<h3 class="text-center font-bold text-gray-800 mb-4 flex justify-center items-center" data-i18n-html="section.weights.tiger"><span class="mr-2">⚡</span> TIGER AI 전력기기</h3>
+<h3 class="text-center font-bold text-gray-800 mb-4 flex justify-center items-center"><span class="mr-2">⚡</span> TIGER AI 전력기기</h3>
 <div class="relative h-64 w-full">
 <canvas id="pieTiger"></canvas>
-<div class="absolute inset-0 pr-[35%] md:pr-[30%] flex flex-col items-center justify-center pointer-events-none text-center"><span class="text-xs text-gray-500 font-semibold" data-i18n-html="chart.pie.tiger.center">전력기기<br>집중형</span></div>
+<div class="absolute inset-0 pr-[35%] md:pr-[30%] flex flex-col items-center justify-center pointer-events-none text-center"><span class="text-xs text-gray-500 font-semibold">전력기기<br>집중형</span></div>
 </div>
 </div>
 <div class="bg-white rounded-2xl shadow-md p-6 border-t-4 border-vibrantBlue card-hover">
-<h3 class="text-center font-bold text-gray-800 mb-4 flex justify-center items-center" data-i18n-html="section.weights.kodex"><span class="mr-2">🇰🇷</span> KODEX 200</h3>
+<h3 class="text-center font-bold text-gray-800 mb-4 flex justify-center items-center"><span class="mr-2">🇰🇷</span> KODEX 200</h3>
 <div class="relative h-64 w-full">
 <canvas id="pieKodex"></canvas>
-<div class="absolute inset-0 pr-[35%] md:pr-[30%] flex flex-col items-center justify-center pointer-events-none text-center"><span class="text-xs text-gray-500 font-semibold" data-i18n-html="chart.pie.kodex.center">시장 대표<br>분산형</span></div>
+<div class="absolute inset-0 pr-[35%] md:pr-[30%] flex flex-col items-center justify-center pointer-events-none text-center"><span class="text-xs text-gray-500 font-semibold">시장 대표<br>분산형</span></div>
 </div>
 </div>
 <div class="bg-white rounded-2xl shadow-md p-6 border-t-4 border-brightPurple card-hover">
-<h3 class="text-center font-bold text-gray-800 mb-4 flex justify-center items-center" data-i18n-html="section.weights.kodexTr"><span class="mr-2">🇰🇷</span> KODEX 200TR</h3>
+<h3 class="text-center font-bold text-gray-800 mb-4 flex justify-center items-center"><span class="mr-2">🇰🇷</span> KODEX 200TR</h3>
 <div class="relative h-64 w-full">
 <canvas id="pieKodexTR"></canvas>
-<div class="absolute inset-0 pr-[35%] md:pr-[30%] flex flex-col items-center justify-center pointer-events-none text-center"><span class="text-xs text-brightPurple font-bold" data-i18n-html="chart.pie.tr.center">배당금<br>재투자</span></div>
+<div class="absolute inset-0 pr-[35%] md:pr-[30%] flex flex-col items-center justify-center pointer-events-none text-center"><span class="text-xs text-brightPurple font-bold">배당금<br>재투자</span></div>
 </div>
 </div>
 </div>
@@ -285,36 +368,48 @@ colors: { vibrantBlue: '#2563eb', electricTeal: '#0d9488', sunsetOrange: '#ea580
 <!-- 4. 반도체 엔진 & TOP 10 (상세 인사이트 포함) -->
 <section class="bg-gray-100 rounded-2xl shadow-inner p-8 border-t-4 border-gray-300">
 <div class="text-center mb-10">
-<div class="text-electricTeal font-bold tracking-wider mb-2" data-i18n="section.semi.eyebrow">MARKET ENGINE</div>
-<h2 class="text-3xl font-bold text-deepNavy mb-4" data-i18n="section.semi.title">🇰🇷 지수와 ETF를 견인하는 '반도체 투톱' 인사이트</h2>
+<div class="text-electricTeal font-bold tracking-wider mb-2">MARKET ENGINE</div>
+<h2 class="text-3xl font-bold text-deepNavy mb-4">🇰🇷 지수와 ETF를 견인하는 '반도체 투톱' 인사이트</h2>
 </div>
 <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
 
   <!-- 삼성전자 -->
   <div class="bg-white p-6 rounded-xl shadow-md border-l-4 border-indigo-500">
-    <h3 class="text-2xl font-bold text-gray-800 mb-3 flex items-center" data-i18n-html="semi.samsung.title"><span class="text-2xl mr-2">📱</span> 삼성전자 <span class="ml-2 text-sm font-normal text-gray-500">(005930)</span></h3>
-    <p class="text-gray-700 text-sm leading-relaxed mb-4" data-i18n="semi.samsung.summary">HBM3E 12단 양산 본격화 및 엔비디아 퀄테스트 통과로 메모리 반도체 사이클 반등을 주도. KOSPI 지수 내 비중 30%대로 코스피·KODEX 200·KODEX 200TR 전체 수익률에 직접적 영향을 미치는 핵심 종목입니다.</p>
+    <h3 class="text-2xl font-bold text-gray-800 mb-3 flex items-center"><span class="text-2xl mr-2">📱</span> 삼성전자 <span class="ml-2 text-sm font-normal text-gray-500">(005930)</span></h3>
+    <p class="text-gray-700 text-sm leading-relaxed mb-4">HBM3E 12단 양산 본격화 및 엔비디아 퀄테스트 통과로 메모리 반도체 사이클 반등을 주도. KOSPI 지수 내 비중 30%대로 코스피·KODEX 200·KODEX 200TR 전체 수익률에 직접적 영향을 미치는 핵심 종목입니다.</p>
     <div class="grid grid-cols-1 gap-3">
-      <div class="insight-box rounded-lg p-3 text-xs text-gray-700 leading-relaxed" data-i18n-html="semi.samsung.point"><span class="insight-tag bg-sky-100 text-sky-700 mb-2 block w-fit">📌 투자 포인트</span>
-        <strong>① HBM 사업 정상화:</strong> HBM3E 16단 개발 및 엔비디아 납품 확대로 2025~2026년 HBM 매출이 빠르게 증가할 전망. <strong>② 파운드리 반등:</strong> GAA(3nm) 공정 수율 개선으로 TSMC와의 격차 縮小 중. <strong>③ 주주환원 강화:</strong> 밸류업 프로그램에 따른 자사주 소각 규모 확대가 주가 하방 지지 요인.</div>
-      <div class="risk-box rounded-lg p-3 text-xs text-gray-700 leading-relaxed" data-i18n-html="semi.samsung.risk"><span class="insight-tag bg-orange-100 text-orange-700 mb-2 block w-fit">⚠️ 핵심 리스크</span>
-        파운드리 적자 지속 가능성, 중국 반도체 수출규제 강화, 메모리 업황 재고 조정 사이클 재진입 위험. 환율 하락(원화 강세) 시 수출 비중이 높은 삼성전자에 부정적 영향.</div>
-      <div class="strategy-box rounded-lg p-3 text-xs text-gray-700 leading-relaxed" data-i18n-html="semi.samsung.strategy"><span class="insight-tag bg-green-100 text-green-700 mb-2 block w-fit">✅ 투자 전략</span>
-        HBM 납품 확대 공식화 뉴스 혹은 파운드리 흑자 전환 발표 시 매수 기회. 장기 분할 매수 관점에서 <strong>PBR 1.0배 이하 구간이 역사적 저가 매수 포인트</strong>.</div>
+      <div class="insight-box rounded-lg p-3 text-xs text-gray-700 leading-relaxed">
+        <span class="insight-tag bg-sky-100 text-sky-700 mb-2 block w-fit">📌 투자 포인트</span>
+        <strong>① HBM 사업 정상화:</strong> HBM3E 16단 개발 및 엔비디아 납품 확대로 2025~2026년 HBM 매출이 빠르게 증가할 전망. <strong>② 파운드리 반등:</strong> GAA(3nm) 공정 수율 개선으로 TSMC와의 격차 縮小 중. <strong>③ 주주환원 강화:</strong> 밸류업 프로그램에 따른 자사주 소각 규모 확대가 주가 하방 지지 요인.
+      </div>
+      <div class="risk-box rounded-lg p-3 text-xs text-gray-700 leading-relaxed">
+        <span class="insight-tag bg-orange-100 text-orange-700 mb-2 block w-fit">⚠️ 핵심 리스크</span>
+        파운드리 적자 지속 가능성, 중국 반도체 수출규제 강화, 메모리 업황 재고 조정 사이클 재진입 위험. 환율 하락(원화 강세) 시 수출 비중이 높은 삼성전자에 부정적 영향.
+      </div>
+      <div class="strategy-box rounded-lg p-3 text-xs text-gray-700 leading-relaxed">
+        <span class="insight-tag bg-green-100 text-green-700 mb-2 block w-fit">✅ 투자 전략</span>
+        HBM 납품 확대 공식화 뉴스 혹은 파운드리 흑자 전환 발표 시 매수 기회. 장기 분할 매수 관점에서 <strong>PBR 1.0배 이하 구간이 역사적 저가 매수 포인트</strong>.
+      </div>
     </div>
   </div>
 
   <!-- SK하이닉스 -->
   <div class="bg-white p-6 rounded-xl shadow-md border-l-4 border-rose-500">
-    <h3 class="text-2xl font-bold text-gray-800 mb-3 flex items-center" data-i18n-html="semi.sk.title"><span class="text-2xl mr-2">💾</span> SK하이닉스 <span class="ml-2 text-sm font-normal text-gray-500">(000660)</span></h3>
-    <p class="text-gray-700 text-sm leading-relaxed mb-4" data-i18n="semi.sk.summary">글로벌 HBM 시장 점유율 1위(약 50~55%)로 AI 데이터센터 폭발적 수요의 최대 수혜자. 엔비디아에 HBM3E를 독점 납품하며 AI 반도체 슈퍼사이클의 핵심 수혜주로 자리매김했습니다.</p>
+    <h3 class="text-2xl font-bold text-gray-800 mb-3 flex items-center"><span class="text-2xl mr-2">💾</span> SK하이닉스 <span class="ml-2 text-sm font-normal text-gray-500">(000660)</span></h3>
+    <p class="text-gray-700 text-sm leading-relaxed mb-4">글로벌 HBM 시장 점유율 1위(약 50~55%)로 AI 데이터센터 폭발적 수요의 최대 수혜자. 엔비디아에 HBM3E를 독점 납품하며 AI 반도체 슈퍼사이클의 핵심 수혜주로 자리매김했습니다.</p>
     <div class="grid grid-cols-1 gap-3">
-      <div class="insight-box rounded-lg p-3 text-xs text-gray-700 leading-relaxed" data-i18n-html="semi.sk.point"><span class="insight-tag bg-sky-100 text-sky-700 mb-2 block w-fit">📌 투자 포인트</span>
-        <strong>① HBM 독보적 경쟁력:</strong> HBM4 개발 선도로 2026~2027년까지 기술 우위 유지 전망. <strong>② 역대 최대 실적 행진:</strong> AI 수요에 따른 HBM·DDR5 ASP 상승으로 영업이익률 30%대 목표. <strong>③ 미국 인디애나 공장 가동:</strong> 현지 생산으로 수출규제 리스크 헤지 및 빅테크 고객 다변화.</div>
-      <div class="risk-box rounded-lg p-3 text-xs text-gray-700 leading-relaxed" data-i18n-html="semi.sk.risk"><span class="insight-tag bg-orange-100 text-orange-700 mb-2 block w-fit">⚠️ 핵심 리스크</span>
-        삼성전자·마이크론의 HBM 추격으로 시장 지배력 약화 가능성. 고객사 집중(엔비디아 단일 고객 의존도 과다). AI 투자 거품론 확산 시 업황 급반전 가능성. 반도체 소재·장비 수출규제 강화 리스크.</div>
-      <div class="strategy-box rounded-lg p-3 text-xs text-gray-700 leading-relaxed" data-i18n-html="semi.sk.strategy"><span class="insight-tag bg-green-100 text-green-700 mb-2 block w-fit">✅ 투자 전략</span>
-        AI 인프라 투자 확대 사이클과 연동하여 <strong>엔비디아·마이크로소프트·아마존 등 빅테크 실적 발표 시즌</strong>에 주목. 분기 실적 발표 전후 변동성 확대 구간을 분할 매수 기회로 활용.</div>
+      <div class="insight-box rounded-lg p-3 text-xs text-gray-700 leading-relaxed">
+        <span class="insight-tag bg-sky-100 text-sky-700 mb-2 block w-fit">📌 투자 포인트</span>
+        <strong>① HBM 독보적 경쟁력:</strong> HBM4 개발 선도로 2026~2027년까지 기술 우위 유지 전망. <strong>② 역대 최대 실적 행진:</strong> AI 수요에 따른 HBM·DDR5 ASP 상승으로 영업이익률 30%대 목표. <strong>③ 미국 인디애나 공장 가동:</strong> 현지 생산으로 수출규제 리스크 헤지 및 빅테크 고객 다변화.
+      </div>
+      <div class="risk-box rounded-lg p-3 text-xs text-gray-700 leading-relaxed">
+        <span class="insight-tag bg-orange-100 text-orange-700 mb-2 block w-fit">⚠️ 핵심 리스크</span>
+        삼성전자·마이크론의 HBM 추격으로 시장 지배력 약화 가능성. 고객사 집중(엔비디아 단일 고객 의존도 과다). AI 투자 거품론 확산 시 업황 급반전 가능성. 반도체 소재·장비 수출규제 강화 리스크.
+      </div>
+      <div class="strategy-box rounded-lg p-3 text-xs text-gray-700 leading-relaxed">
+        <span class="insight-tag bg-green-100 text-green-700 mb-2 block w-fit">✅ 투자 전략</span>
+        AI 인프라 투자 확대 사이클과 연동하여 <strong>엔비디아·마이크로소프트·아마존 등 빅테크 실적 발표 시즌</strong>에 주목. 분기 실적 발표 전후 변동성 확대 구간을 분할 매수 기회로 활용.
+      </div>
     </div>
   </div>
 
@@ -330,23 +425,29 @@ colors: { vibrantBlue: '#2563eb', electricTeal: '#0d9488', sunsetOrange: '#ea580
 <section class="bg-white rounded-2xl shadow-lg p-8">
 <div class="text-center mb-10">
 <div class="text-vibrantBlue font-bold tracking-wider mb-2">NEXT-GEN EXPORT ENGINES</div>
-<h2 class="text-3xl font-bold text-deepNavy mb-4" data-i18n="section.exports.title">🚢 차세대 수출 성장 엔진: 방산·조선·우주항공</h2>
+<h2 class="text-3xl font-bold text-deepNavy mb-4">🚢 차세대 수출 성장 엔진: 방산·조선·우주항공</h2>
 </div>
 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
 
   <!-- 방산 -->
   <div class="bg-slate-50 rounded-xl p-6 border-t-4 border-green-600 shadow-sm flex flex-col h-full card-hover">
     <div>
-      <h3 class="text-xl font-bold text-gray-800 mb-3" data-i18n-html="exports.def.title"><span class="mr-2">🛡️</span> K-방산</h3>
-      <div class="insight-box rounded-lg p-3 mb-3 text-xs text-gray-700 leading-relaxed" data-i18n-html="exports.def.momentum"><span class="insight-tag bg-sky-100 text-sky-700 mb-2 block w-fit">📌 핵심 모멘텀</span>
-        러-우 전쟁 장기화로 유럽 NATO 회원국들의 방산 예산이 GDP 2% 이상으로 급증. 폴란드·루마니아·호주 등으로의 K2 전차·K9 자주포 수출이 역대 최대 규모를 경신 중. 한국 방산의 가격 대비 성능(가성비) 우위가 글로벌 시장에서 높은 평가를 받고 있습니다.</div>
-      <div class="risk-box rounded-lg p-3 mb-3 text-xs text-gray-700 leading-relaxed" data-i18n-html="exports.def.risk"><span class="insight-tag bg-orange-100 text-orange-700 mb-2 block w-fit">⚠️ 주의 사항</span>
-        지정학적 긴장 완화(종전 협상 등) 시 수요 둔화 가능성. 수출 계약 이행 지연 및 품질 이슈 발생 시 주가 급락. 환율 변동이 수출 대금 환산에 영향.</div>
-      <div class="strategy-box rounded-lg p-3 mb-4 text-xs text-gray-700 leading-relaxed" data-i18n-html="exports.def.strategy"><span class="insight-tag bg-green-100 text-green-700 mb-2 block w-fit">✅ 투자 전략</span>
-        대형 수출 계약 발표 이벤트를 앞둔 사전 매수 전략 유효. 한화에어로·LIG넥스원·현대로템 등 수주 잔고가 풍부한 종목 선별 접근.</div>
+      <h3 class="text-xl font-bold text-gray-800 mb-3"><span class="mr-2">🛡️</span> K-방산</h3>
+      <div class="insight-box rounded-lg p-3 mb-3 text-xs text-gray-700 leading-relaxed">
+        <span class="insight-tag bg-sky-100 text-sky-700 mb-2 block w-fit">📌 핵심 모멘텀</span>
+        러-우 전쟁 장기화로 유럽 NATO 회원국들의 방산 예산이 GDP 2% 이상으로 급증. 폴란드·루마니아·호주 등으로의 K2 전차·K9 자주포 수출이 역대 최대 규모를 경신 중. 한국 방산의 가격 대비 성능(가성비) 우위가 글로벌 시장에서 높은 평가를 받고 있습니다.
+      </div>
+      <div class="risk-box rounded-lg p-3 mb-3 text-xs text-gray-700 leading-relaxed">
+        <span class="insight-tag bg-orange-100 text-orange-700 mb-2 block w-fit">⚠️ 주의 사항</span>
+        지정학적 긴장 완화(종전 협상 등) 시 수요 둔화 가능성. 수출 계약 이행 지연 및 품질 이슈 발생 시 주가 급락. 환율 변동이 수출 대금 환산에 영향.
+      </div>
+      <div class="strategy-box rounded-lg p-3 mb-4 text-xs text-gray-700 leading-relaxed">
+        <span class="insight-tag bg-green-100 text-green-700 mb-2 block w-fit">✅ 투자 전략</span>
+        대형 수출 계약 발표 이벤트를 앞둔 사전 매수 전략 유효. 한화에어로·LIG넥스원·현대로템 등 수주 잔고가 풍부한 종목 선별 접근.
+      </div>
     </div>
     <div class="mt-auto pt-4 border-t border-gray-200">
-      <h4 class="text-xs font-bold text-gray-700 mb-2" data-i18n="list.marketCapTop10">시가총액 TOP 10 주가</h4>
+      <h4 class="text-xs font-bold text-gray-700 mb-2">시가총액 TOP 10 주가</h4>
       <div id="list-def" class="grid grid-cols-2 gap-x-3 gap-y-1.5 text-[11px]"></div>
     </div>
   </div>
@@ -354,16 +455,22 @@ colors: { vibrantBlue: '#2563eb', electricTeal: '#0d9488', sunsetOrange: '#ea580
   <!-- 조선 -->
   <div class="bg-slate-50 rounded-xl p-6 border-t-4 border-blue-500 shadow-sm flex flex-col h-full card-hover">
     <div>
-      <h3 class="text-xl font-bold text-gray-800 mb-3" data-i18n-html="exports.ship.title"><span class="mr-2">⛴️</span> 조선</h3>
-      <div class="insight-box rounded-lg p-3 mb-3 text-xs text-gray-700 leading-relaxed" data-i18n-html="exports.ship.momentum"><span class="insight-tag bg-sky-100 text-sky-700 mb-2 block w-fit">📌 핵심 모멘텀</span>
-        LNG선·암모니아 운반선 등 친환경 특수선 발주 급증으로 수주 잔고가 3~4년치를 상회. 한국 조선 3사(HD현대·삼성중공업·한화오션)의 기술 독점력이 높아 중국 경쟁사 대비 고부가가치 선박 수주를 독식. 선박 발주 사이클이 2026~2028년까지 호황 지속 전망.</div>
-      <div class="risk-box rounded-lg p-3 mb-3 text-xs text-gray-700 leading-relaxed" data-i18n-html="exports.ship.risk"><span class="insight-tag bg-orange-100 text-orange-700 mb-2 block w-fit">⚠️ 주의 사항</span>
-        강재(후판) 가격 급등 시 수익성 악화 우려. 수주 잔고가 많아도 실제 매출 인식은 수년 후에 집중. 중국 조선업체의 저가 공세 및 기술 추격 리스크 상존.</div>
-      <div class="strategy-box rounded-lg p-3 mb-4 text-xs text-gray-700 leading-relaxed" data-i18n-html="exports.ship.strategy"><span class="insight-tag bg-green-100 text-green-700 mb-2 block w-fit">✅ 투자 전략</span>
-        선가(선박 가격) 상승 사이클 초기에 편입하는 것이 유리. HD현대중공업·HD한국조선해양처럼 수주 잔고가 견고한 대형주 중심으로 장기 보유 접근 권장.</div>
+      <h3 class="text-xl font-bold text-gray-800 mb-3"><span class="mr-2">⛴️</span> 조선</h3>
+      <div class="insight-box rounded-lg p-3 mb-3 text-xs text-gray-700 leading-relaxed">
+        <span class="insight-tag bg-sky-100 text-sky-700 mb-2 block w-fit">📌 핵심 모멘텀</span>
+        LNG선·암모니아 운반선 등 친환경 특수선 발주 급증으로 수주 잔고가 3~4년치를 상회. 한국 조선 3사(HD현대·삼성중공업·한화오션)의 기술 독점력이 높아 중국 경쟁사 대비 고부가가치 선박 수주를 독식. 선박 발주 사이클이 2026~2028년까지 호황 지속 전망.
+      </div>
+      <div class="risk-box rounded-lg p-3 mb-3 text-xs text-gray-700 leading-relaxed">
+        <span class="insight-tag bg-orange-100 text-orange-700 mb-2 block w-fit">⚠️ 주의 사항</span>
+        강재(후판) 가격 급등 시 수익성 악화 우려. 수주 잔고가 많아도 실제 매출 인식은 수년 후에 집중. 중국 조선업체의 저가 공세 및 기술 추격 리스크 상존.
+      </div>
+      <div class="strategy-box rounded-lg p-3 mb-4 text-xs text-gray-700 leading-relaxed">
+        <span class="insight-tag bg-green-100 text-green-700 mb-2 block w-fit">✅ 투자 전략</span>
+        선가(선박 가격) 상승 사이클 초기에 편입하는 것이 유리. HD현대중공업·HD한국조선해양처럼 수주 잔고가 견고한 대형주 중심으로 장기 보유 접근 권장.
+      </div>
     </div>
     <div class="mt-auto pt-4 border-t border-gray-200">
-      <h4 class="text-xs font-bold text-gray-700 mb-2" data-i18n="list.marketCapTop10">시가총액 TOP 10 주가</h4>
+      <h4 class="text-xs font-bold text-gray-700 mb-2">시가총액 TOP 10 주가</h4>
       <div id="list-ship" class="grid grid-cols-2 gap-x-3 gap-y-1.5 text-[11px]"></div>
     </div>
   </div>
@@ -371,16 +478,22 @@ colors: { vibrantBlue: '#2563eb', electricTeal: '#0d9488', sunsetOrange: '#ea580
   <!-- 우주항공 -->
   <div class="bg-slate-50 rounded-xl p-6 border-t-4 border-indigo-600 shadow-sm flex flex-col h-full card-hover">
     <div>
-      <h3 class="text-xl font-bold text-gray-800 mb-3" data-i18n-html="exports.aero.title"><span class="mr-2">🛰️</span> 우주항공</h3>
-      <div class="insight-box rounded-lg p-3 mb-3 text-xs text-gray-700 leading-relaxed" data-i18n-html="exports.aero.momentum"><span class="insight-tag bg-sky-100 text-sky-700 mb-2 block w-fit">📌 핵심 모멘텀</span>
-        누리호 성공과 한국항공우주청(KASA) 출범으로 국가 우주 개발 예산이 대폭 확대. 저궤도 위성통신(LEO) 시장 성장과 함께 인텔리안테크·AP위성 등 위성 통신 장비 수요가 증가. 방산과의 시너지 속에 한화에어로·한국항공우주(KAI)의 항공기·위성 수출 확대가 기대됩니다.</div>
-      <div class="risk-box rounded-lg p-3 mb-3 text-xs text-gray-700 leading-relaxed" data-i18n-html="exports.aero.risk"><span class="insight-tag bg-orange-100 text-orange-700 mb-2 block w-fit">⚠️ 주의 사항</span>
-        우주 사업은 개발 비용이 막대하고 상업화까지 긴 시간이 소요됩니다. 스페이스X 등 글로벌 선도기업과의 기술 격차가 크며, 정부 예산 정책 변화에 실적이 크게 연동됩니다.</div>
-      <div class="strategy-box rounded-lg p-3 mb-4 text-xs text-gray-700 leading-relaxed" data-i18n-html="exports.aero.strategy"><span class="insight-tag bg-green-100 text-green-700 mb-2 block w-fit">✅ 투자 전략</span>
-        테마 초기 국면으로 변동성이 높습니다. <strong>포트폴리오 내 비중을 5~10% 이내</strong>로 제한하고, 정부 계약·위성 발사 성공 이벤트를 촉매 삼아 분할 접근하는 것이 안전합니다.</div>
+      <h3 class="text-xl font-bold text-gray-800 mb-3"><span class="mr-2">🛰️</span> 우주항공</h3>
+      <div class="insight-box rounded-lg p-3 mb-3 text-xs text-gray-700 leading-relaxed">
+        <span class="insight-tag bg-sky-100 text-sky-700 mb-2 block w-fit">📌 핵심 모멘텀</span>
+        누리호 성공과 한국항공우주청(KASA) 출범으로 국가 우주 개발 예산이 대폭 확대. 저궤도 위성통신(LEO) 시장 성장과 함께 인텔리안테크·AP위성 등 위성 통신 장비 수요가 증가. 방산과의 시너지 속에 한화에어로·한국항공우주(KAI)의 항공기·위성 수출 확대가 기대됩니다.
+      </div>
+      <div class="risk-box rounded-lg p-3 mb-3 text-xs text-gray-700 leading-relaxed">
+        <span class="insight-tag bg-orange-100 text-orange-700 mb-2 block w-fit">⚠️ 주의 사항</span>
+        우주 사업은 개발 비용이 막대하고 상업화까지 긴 시간이 소요됩니다. 스페이스X 등 글로벌 선도기업과의 기술 격차가 크며, 정부 예산 정책 변화에 실적이 크게 연동됩니다.
+      </div>
+      <div class="strategy-box rounded-lg p-3 mb-4 text-xs text-gray-700 leading-relaxed">
+        <span class="insight-tag bg-green-100 text-green-700 mb-2 block w-fit">✅ 투자 전략</span>
+        테마 초기 국면으로 변동성이 높습니다. <strong>포트폴리오 내 비중을 5~10% 이내</strong>로 제한하고, 정부 계약·위성 발사 성공 이벤트를 촉매 삼아 분할 접근하는 것이 안전합니다.
+      </div>
     </div>
     <div class="mt-auto pt-4 border-t border-gray-200">
-      <h4 class="text-xs font-bold text-gray-700 mb-2" data-i18n="list.marketCapTop10">시가총액 TOP 10 주가</h4>
+      <h4 class="text-xs font-bold text-gray-700 mb-2">시가총액 TOP 10 주가</h4>
       <div id="list-aero" class="grid grid-cols-2 gap-x-3 gap-y-1.5 text-[11px]"></div>
     </div>
   </div>
@@ -392,12 +505,12 @@ colors: { vibrantBlue: '#2563eb', electricTeal: '#0d9488', sunsetOrange: '#ea580
 <section class="bg-white rounded-2xl shadow-lg p-8">
   <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
     <div>
-      <h2 class="text-3xl font-bold text-deepNavy mb-4" data-i18n="section.radar.title">📊 ETF 투자 매력도 비교</h2>
-      <p class="text-gray-600 text-sm mb-4" data-i18n="section.radar.subtitle">성장 잠재력, 안정성, 배당 복리 효과, AI 노출도, 수출 모멘텀 5가지 지표로 각 ETF의 상대적 투자 매력도를 레이더 차트로 시각화합니다.</p>
+      <h2 class="text-3xl font-bold text-deepNavy mb-4">📊 ETF 투자 매력도 비교</h2>
+      <p class="text-gray-600 text-sm mb-4">성장 잠재력, 안정성, 배당 복리 효과, AI 노출도, 수출 모멘텀 5가지 지표로 각 ETF의 상대적 투자 매력도를 레이더 차트로 시각화합니다.</p>
       <div class="space-y-2 text-sm">
-        <div class="flex items-center gap-2" data-i18n-html="section.radar.legendTiger"><span class="w-3 h-3 rounded-full bg-sunsetOrange inline-block"></span><span class="font-semibold">TIGER AI전력기기</span> — 성장·AI 노출도 최고, 안정성 낮음</div>
-        <div class="flex items-center gap-2" data-i18n-html="section.radar.legendTr"><span class="w-3 h-3 rounded-full bg-brightPurple inline-block"></span><span class="font-semibold">KODEX 200TR</span> — 배당 복리 효과 최고, 균형 잡힌 포트폴리오</div>
-        <div class="flex items-center gap-2" data-i18n-html="section.radar.legendKodex"><span class="w-3 h-3 rounded-full bg-vibrantBlue inline-block"></span><span class="font-semibold">KODEX 200</span> — 안정성·배당 현금흐름 우선, 장기 분산 투자</div>
+        <div class="flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-sunsetOrange inline-block"></span><span class="font-semibold">TIGER AI전력기기</span> — 성장·AI 노출도 최고, 안정성 낮음</div>
+        <div class="flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-brightPurple inline-block"></span><span class="font-semibold">KODEX 200TR</span> — 배당 복리 효과 최고, 균형 잡힌 포트폴리오</div>
+        <div class="flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-vibrantBlue inline-block"></span><span class="font-semibold">KODEX 200</span> — 안정성·배당 현금흐름 우선, 장기 분산 투자</div>
       </div>
     </div>
     <div class="chart-container"><canvas id="radarChart"></canvas></div>
@@ -406,262 +519,26 @@ colors: { vibrantBlue: '#2563eb', electricTeal: '#0d9488', sunsetOrange: '#ea580
 
 <section>
   <div class="bg-gray-900 rounded-2xl shadow-xl p-8">
-    <h2 class="text-white text-2xl font-bold mb-4 text-center" data-i18n="section.power.title">⚡ 글로벌 AI 데이터센터 전력 수요 전망 (TWh)</h2>
-    <p class="text-gray-400 text-sm text-center mb-6" data-i18n="section.power.subtitle">AI 연산 수요 폭발로 2030년까지 전력 수요가 2022년 대비 약 2.5배 증가할 전망. TIGER AI전력기기 ETF의 핵심 투자 근거입니다.</p>
+    <h2 class="text-white text-2xl font-bold mb-4 text-center">⚡ 글로벌 AI 데이터센터 전력 수요 전망 (TWh)</h2>
+    <p class="text-gray-400 text-sm text-center mb-6">AI 연산 수요 폭발로 2030년까지 전력 수요가 2022년 대비 약 2.5배 증가할 전망. TIGER AI전력기기 ETF의 핵심 투자 근거입니다.</p>
     <div class="chart-container bg-white rounded-xl p-4"><canvas id="barChart"></canvas></div>
   </div>
 </section>
 
 <section class="bg-white rounded-2xl shadow-lg p-8 border-t-8 border-electricTeal">
-  <h2 class="text-3xl font-bold text-deepNavy mb-2 text-center" data-i18n="section.line.title">📈 KODEX 200TR vs KODEX 200 장기 복리 성장 시뮬레이션</h2>
-  <p class="text-gray-500 text-sm text-center mb-6" data-i18n="section.line.subtitle">초기 투자금 100 기준, 연 배당수익률 2.5% 가정 시 TR(배당 재투자) 구조의 장기 복리 효과를 시뮬레이션한 가상 시나리오입니다.</p>
+  <h2 class="text-3xl font-bold text-deepNavy mb-2 text-center">📈 KODEX 200TR vs KODEX 200 장기 복리 성장 시뮬레이션</h2>
+  <p class="text-gray-500 text-sm text-center mb-6">초기 투자금 100 기준, 연 배당수익률 2.5% 가정 시 TR(배당 재투자) 구조의 장기 복리 효과를 시뮬레이션한 가상 시나리오입니다.</p>
   <div class="chart-container"><canvas id="lineChart"></canvas></div>
 </section>
 
 </main>
 
 <footer class="bg-deepNavy text-gray-400 text-xs text-center py-6 mt-8">
-  <p data-i18n="footer.disclaimer">본 자료는 투자 참고용 정보이며, 투자 판단의 최종 책임은 투자자 본인에게 있습니다. 주가 데이터는 Yahoo Finance 기반 최신 스냅샷 기준이며 실제 체결 시세와 차이가 있을 수 있습니다.</p>
-  <p class="mt-1" data-i18n="footer.dataSource">※ 실시간 갱신 버튼은 GitHub Actions가 주기적으로 저장한 Yahoo Finance 스냅샷을 불러옵니다.</p>
+  <p>본 자료는 투자 참고용 정보이며, 투자 판단의 최종 책임은 투자자 본인에게 있습니다. 주가 데이터는 네이버 금융 실시간 API 기준이며 실제 체결 시세와 차이가 있을 수 있습니다.</p>
+  <p class="mt-1">※ 실시간 데이터는 네이버 금융 JSONP를 우선 사용하고, 실패 시 기존 Yahoo Finance / Google Sheets 연동으로 대체됩니다.</p>
 </footer>
 
 <script>
-
-// --- 다국어 번역 로직 ---
-const LANGUAGE_FILES = {
-  ko: 'i18n/ko.json',
-  en: 'i18n/en.json',
-  'zh-CN': 'i18n/zh-CN.json',
-  ja: 'i18n/ja.json',
-  vi: 'i18n/vi.json',
-  de: 'i18n/de.json',
-  fr: 'i18n/fr.json'
-};
-const LANGUAGE_NAMES = { ko: '한국어', en: 'English', 'zh-CN': '中文', ja: '日本語', vi: 'Tiếng Việt', de: 'Deutsch', fr: 'Français' };
-const LANGUAGE_FLAGS = { ko: '🇰🇷', en: '🇺🇸', 'zh-CN': '🇨🇳', ja: '🇯🇵', vi: '🇻🇳', de: '🇩🇪', fr: '🇫🇷' };
-const ENTITY_TRANSLATIONS = {
-    'TIGER 코리아 AI 전력기기 TOP3 플러스': { en: 'TIGER Korea AI Power Equipment TOP3 Plus', 'zh-CN': 'TIGER 韩国AI电力设备TOP3 Plus', ja: 'TIGER 韓国AI電力機器TOP3プラス', vi: 'TIGER Korea AI Thiết bị điện TOP3 Plus', de: 'TIGER Korea AI Energieausrüstung TOP3 Plus', fr: 'TIGER Korea AI équipements électriques TOP3 Plus' },
-    'TIGER AI전력기기': { en: 'TIGER AI Power Equipment', 'zh-CN': 'TIGER AI电力设备', ja: 'TIGER AI電力機器', vi: 'TIGER AI Thiết bị điện', de: 'TIGER AI-Energieausrüstung', fr: 'TIGER AI équipements électriques' },
-    'TIGER AI 전력기기': { en: 'TIGER AI Power Equipment', 'zh-CN': 'TIGER AI电力设备', ja: 'TIGER AI電力機器', vi: 'TIGER AI Thiết bị điện', de: 'TIGER AI-Energieausrüstung', fr: 'TIGER AI équipements électriques' },
-    'TIGER 전력기기': { en: 'TIGER Power Equipment', 'zh-CN': 'TIGER电力设备', ja: 'TIGER電力機器', vi: 'TIGER Thiết bị điện', de: 'TIGER Energieausrüstung', fr: 'TIGER équipements électriques' },
-    'LS일렉트릭': { en: 'LS ELECTRIC', 'zh-CN': 'LS ELECTRIC', ja: 'LS ELECTRIC', vi: 'LS ELECTRIC', de: 'LS ELECTRIC', fr: 'LS ELECTRIC' },
-    'HD현대일렉트릭': { en: 'HD Hyundai Electric', 'zh-CN': 'HD现代电气', ja: 'HD現代エレクトリック', vi: 'HD Hyundai Electric', de: 'HD Hyundai Electric', fr: 'HD Hyundai Electric' },
-    '효성중공업': { en: 'Hyosung Heavy Industries', 'zh-CN': '晓星重工业', ja: '暁星重工業', vi: 'Hyosung Heavy Industries', de: 'Hyosung Heavy Industries', fr: 'Hyosung Heavy Industries' },
-    '가온전선': { en: 'Gaon Cable', 'zh-CN': 'Gaon Cable', ja: 'Gaon Cable', vi: 'Gaon Cable', de: 'Gaon Cable', fr: 'Gaon Cable' },
-    '일진전기': { en: 'Iljin Electric', 'zh-CN': 'Iljin Electric', ja: 'Iljin Electric', vi: 'Iljin Electric', de: 'Iljin Electric', fr: 'Iljin Electric' },
-    '삼성전자': { en: 'Samsung Electronics', 'zh-CN': '三星电子', ja: 'サムスン電子', vi: 'Samsung Electronics', de: 'Samsung Electronics', fr: 'Samsung Electronics' },
-    'SK하이닉스': { en: 'SK hynix', 'zh-CN': 'SK海力士', ja: 'SKハイニックス', vi: 'SK hynix', de: 'SK hynix', fr: 'SK hynix' },
-    '한미반도체': { en: 'Hanmi Semiconductor', 'zh-CN': 'Hanmi Semiconductor', ja: 'Hanmi Semiconductor', vi: 'Hanmi Semiconductor', de: 'Hanmi Semiconductor', fr: 'Hanmi Semiconductor' },
-    '이수페타시스': { en: 'Isu Petasys', 'zh-CN': 'Isu Petasys', ja: 'Isu Petasys', vi: 'Isu Petasys', de: 'Isu Petasys', fr: 'Isu Petasys' },
-    '리노공업': { en: 'Leeno Industrial', 'zh-CN': 'Leeno Industrial', ja: 'Leeno Industrial', vi: 'Leeno Industrial', de: 'Leeno Industrial', fr: 'Leeno Industrial' },
-    '동진쎄미켐': { en: 'Dongjin Semichem', 'zh-CN': 'Dongjin Semichem', ja: 'Dongjin Semichem', vi: 'Dongjin Semichem', de: 'Dongjin Semichem', fr: 'Dongjin Semichem' },
-    '솔브레인': { en: 'Soulbrain', 'zh-CN': 'Soulbrain', ja: 'Soulbrain', vi: 'Soulbrain', de: 'Soulbrain', fr: 'Soulbrain' },
-    '원익IPS': { en: 'Wonik IPS', 'zh-CN': 'Wonik IPS', ja: 'Wonik IPS', vi: 'Wonik IPS', de: 'Wonik IPS', fr: 'Wonik IPS' },
-    '현대차': { en: 'Hyundai Motor', 'zh-CN': '现代汽车', ja: '現代自動車', vi: 'Hyundai Motor', de: 'Hyundai Motor', fr: 'Hyundai Motor' },
-    'KB금융': { en: 'KB Financial Group', 'zh-CN': 'KB金融集团', ja: 'KB金融グループ', vi: 'KB Financial Group', de: 'KB Financial Group', fr: 'KB Financial Group' },
-    '기아': { en: 'Kia', 'zh-CN': '起亚', ja: '起亜', vi: 'Kia', de: 'Kia', fr: 'Kia' },
-    '한화에어로': { en: 'Hanwha Aerospace', 'zh-CN': '韩华航空航天', ja: 'ハンファエアロスペース', vi: 'Hanwha Aerospace', de: 'Hanwha Aerospace', fr: 'Hanwha Aerospace' },
-    '한국항공우주청': { en: 'Korea AeroSpace Administration', 'zh-CN': '韩国航空宇宙厅', ja: '韓国航空宇宙庁', vi: 'Cơ quan Hàng không Vũ trụ Hàn Quốc', de: 'Korea AeroSpace Administration', fr: 'Korea AeroSpace Administration' },
-    '한국항공우주': { en: 'Korea Aerospace Industries', 'zh-CN': '韩国航空宇宙产业', ja: '韓国航空宇宙産業', vi: 'Korea Aerospace Industries', de: 'Korea Aerospace Industries', fr: 'Korea Aerospace Industries' },
-    'LIG넥스원': { en: 'LIG Nex1', 'zh-CN': 'LIG Nex1', ja: 'LIG Nex1', vi: 'LIG Nex1', de: 'LIG Nex1', fr: 'LIG Nex1' },
-    '현대로템': { en: 'Hyundai Rotem', 'zh-CN': '现代Rotem', ja: '現代ロテム', vi: 'Hyundai Rotem', de: 'Hyundai Rotem', fr: 'Hyundai Rotem' },
-    '한화오션': { en: 'Hanwha Ocean', 'zh-CN': '韩华海洋', ja: 'ハンファオーシャン', vi: 'Hanwha Ocean', de: 'Hanwha Ocean', fr: 'Hanwha Ocean' },
-    '한화시스템': { en: 'Hanwha Systems', 'zh-CN': '韩华系统', ja: 'ハンファシステム', vi: 'Hanwha Systems', de: 'Hanwha Systems', fr: 'Hanwha Systems' },
-    '풍산': { en: 'Poongsan', 'zh-CN': 'Poongsan', ja: 'Poongsan', vi: 'Poongsan', de: 'Poongsan', fr: 'Poongsan' },
-    'SNT모티브': { en: 'SNT Motiv', 'zh-CN': 'SNT Motiv', ja: 'SNT Motiv', vi: 'SNT Motiv', de: 'SNT Motiv', fr: 'SNT Motiv' },
-    '아이쓰리시스': { en: 'i3system', 'zh-CN': 'i3system', ja: 'i3system', vi: 'i3system', de: 'i3system', fr: 'i3system' },
-    '휴니드': { en: 'Huneed Technologies', 'zh-CN': 'Huneed Technologies', ja: 'Huneed Technologies', vi: 'Huneed Technologies', de: 'Huneed Technologies', fr: 'Huneed Technologies' },
-    'HD현대중공업': { en: 'HD Hyundai Heavy Industries', 'zh-CN': 'HD现代重工', ja: 'HD現代重工業', vi: 'HD Hyundai Heavy Industries', de: 'HD Hyundai Heavy Industries', fr: 'HD Hyundai Heavy Industries' },
-    'HD한국조선': { en: 'HD Korea Shipbuilding & Offshore Engineering', 'zh-CN': 'HD韩国造船海洋', ja: 'HD韓国造船海洋', vi: 'HD Korea Shipbuilding & Offshore Engineering', de: 'HD Korea Shipbuilding & Offshore Engineering', fr: 'HD Korea Shipbuilding & Offshore Engineering' },
-    'HD현대': { en: 'HD Hyundai', 'zh-CN': 'HD现代', ja: 'HD現代', vi: 'HD Hyundai', de: 'HD Hyundai', fr: 'HD Hyundai' },
-    '삼성중공업': { en: 'Samsung Heavy Industries', 'zh-CN': '三星重工', ja: 'サムスン重工業', vi: 'Samsung Heavy Industries', de: 'Samsung Heavy Industries', fr: 'Samsung Heavy Industries' },
-    'HD현대미포': { en: 'HD Hyundai Mipo', 'zh-CN': 'HD现代尾浦', ja: 'HD現代尾浦', vi: 'HD Hyundai Mipo', de: 'HD Hyundai Mipo', fr: 'HD Hyundai Mipo' },
-    '한화엔진': { en: 'Hanwha Engine', 'zh-CN': '韩华发动机', ja: 'ハンファエンジン', vi: 'Hanwha Engine', de: 'Hanwha Engine', fr: 'Hanwha Engine' },
-    '한국카본': { en: 'Hankuk Carbon', 'zh-CN': 'Hankuk Carbon', ja: 'Hankuk Carbon', vi: 'Hankuk Carbon', de: 'Hankuk Carbon', fr: 'Hankuk Carbon' },
-    '동성화인텍': { en: 'Dongsung Finetec', 'zh-CN': 'Dongsung Finetec', ja: 'Dongsung Finetec', vi: 'Dongsung Finetec', de: 'Dongsung Finetec', fr: 'Dongsung Finetec' },
-    '세진중공업': { en: 'Sejin Heavy Industries', 'zh-CN': 'Sejin Heavy Industries', ja: 'Sejin Heavy Industries', vi: 'Sejin Heavy Industries', de: 'Sejin Heavy Industries', fr: 'Sejin Heavy Industries' },
-    '일승': { en: 'Ilseung', 'zh-CN': 'Ilseung', ja: 'Ilseung', vi: 'Ilseung', de: 'Ilseung', fr: 'Ilseung' },
-    '인텔리안테크': { en: 'Intellian Technologies', 'zh-CN': 'Intellian Technologies', ja: 'Intellian Technologies', vi: 'Intellian Technologies', de: 'Intellian Technologies', fr: 'Intellian Technologies' },
-    '쎄트렉아이': { en: 'Satrec Initiative', 'zh-CN': 'Satrec Initiative', ja: 'Satrec Initiative', vi: 'Satrec Initiative', de: 'Satrec Initiative', fr: 'Satrec Initiative' },
-    'AP위성': { en: 'AP Satellite', 'zh-CN': 'AP Satellite', ja: 'AP Satellite', vi: 'AP Satellite', de: 'AP Satellite', fr: 'AP Satellite' },
-    '켄코아에어로': { en: 'Kencoa Aerospace', 'zh-CN': 'Kencoa Aerospace', ja: 'Kencoa Aerospace', vi: 'Kencoa Aerospace', de: 'Kencoa Aerospace', fr: 'Kencoa Aerospace' },
-    '제노코': { en: 'Genohco', 'zh-CN': 'Genohco', ja: 'Genohco', vi: 'Genohco', de: 'Genohco', fr: 'Genohco' },
-    '컨텍': { en: 'CONTEC', 'zh-CN': 'CONTEC', ja: 'CONTEC', vi: 'CONTEC', de: 'CONTEC', fr: 'CONTEC' },
-    '비츠로테크': { en: 'Vitzro Tech', 'zh-CN': 'Vitzro Tech', ja: 'Vitzro Tech', vi: 'Vitzro Tech', de: 'Vitzro Tech', fr: 'Vitzro Tech' }
-};
-const ENTITY_KEYS = Object.keys(ENTITY_TRANSLATIONS).sort((a, b) => b.length - a.length);
-const PHRASE_REPLACEMENTS = {
-    ja: {
-        '📌 コア勢い': '📌 コアモメンタム',
-        'コア勢い': 'コアモメンタム',
-        '防山': '防衛産業'
-    },
-    vi: {
-        '👍 Động lực cốt lõi': '📌 Động lực cốt lõi',
-        'Core Momentum': 'Động lực cốt lõi',
-        'Investment points': 'Điểm đầu tư',
-        'Key risks': 'Rủi ro chính',
-        'Precautions': 'Lưu ý',
-        'Investment Strategy': 'Chiến lược đầu tư',
-        'Top 10 Stocks by Market Cap': 'Top 10 cổ phiếu theo vốn hóa'
-    },
-    de: {
-        'Core Momentum': 'Kernmomentum',
-        'Investment points': 'Investmentpunkte',
-        'Key risks': 'Hauptrisiken',
-        'Precautions': 'Vorsichtspunkte',
-        'Investment Strategy': 'Anlagestrategie',
-        'Top 10 Stocks by Market Cap': 'Top 10 Aktien nach Marktkapitalisierung'
-    },
-    fr: {
-        'Core Momentum': 'Momentum clé',
-        'Investment points': "Points d'investissement",
-        'Key risks': 'Risques clés',
-        'Precautions': 'Précautions',
-        'Investment Strategy': "Stratégie d'investissement",
-        'Top 10 Stocks by Market Cap': 'Top 10 des actions par capitalisation'
-    }
-};
-const I18N_ENTITY_KEYS = {
-    'market.samsung': '삼성전자',
-    'market.sk': 'SK하이닉스',
-    'market.tiger': 'TIGER 전력기기',
-    'card.tiger.title': 'TIGER 코리아 AI 전력기기 TOP3 플러스'
-};
-const loadedI18n = {};
-let currentLanguage = 'ko';
-let lastRefreshState = 'loading';
-let lastRefreshVars = {};
-
-function interpolate(template, values = {}) {
-    return String(template || '').replace(/\{(\w+)\}/g, (_, key) => values[key] ?? '');
-}
-
-function activeDictionary() {
-    return loadedI18n[currentLanguage] || loadedI18n.ko || {};
-}
-
-function t(key, values = {}) {
-    if (currentLanguage !== 'ko' && I18N_ENTITY_KEYS[key]) return formatEntityName(I18N_ENTITY_KEYS[key]);
-    const dict = activeDictionary();
-    const fallback = loadedI18n.ko || {};
-    return localizeEntityText(interpolate(dict[key] || fallback[key] || key, values));
-}
-
-function escapeRegExp(value) {
-    return String(value).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-}
-
-function formatEntityName(koreanName, lang = currentLanguage) {
-    if (lang === 'ko') return koreanName;
-    const translated = ENTITY_TRANSLATIONS[koreanName]?.[lang] || ENTITY_TRANSLATIONS[koreanName]?.en;
-    if (!translated || translated === koreanName) return koreanName;
-    return `${translated} (${koreanName})`;
-}
-
-function localizeEntityText(value) {
-    if (currentLanguage === 'ko') return value;
-    let out = String(value || '');
-    const phraseMap = PHRASE_REPLACEMENTS[currentLanguage] || {};
-    Object.entries(phraseMap).forEach(([from, to]) => {
-        out = out.replace(new RegExp(escapeRegExp(from), 'g'), to);
-    });
-    const replacements = [];
-    ENTITY_KEYS.forEach((term, index) => {
-        out = out.replace(new RegExp(escapeRegExp(term), 'g'), () => {
-            const token = `__ETF_ENTITY_${index}_${replacements.length}__`;
-            replacements.push([token, formatEntityName(term)]);
-            return token;
-        });
-    });
-    replacements.forEach(([token, replacement]) => {
-        out = out.replace(token, replacement);
-    });
-    return out;
-}
-
-async function loadI18n(lang) {
-    if (loadedI18n[lang]) return loadedI18n[lang];
-    const response = await fetch(`${LANGUAGE_FILES[lang]}?ts=${Date.now()}`, { cache: 'no-store' });
-    if (!response.ok) throw new Error(`Failed to load ${lang} translations`);
-    const json = await response.json();
-    loadedI18n[lang] = json;
-    return json;
-}
-
-function hasUsableTranslations(lang, dict) {
-    if (lang === 'ko') return true;
-    const requiredCount = Object.keys(loadedI18n.ko || {}).filter(key => !key.startsWith('_')).length;
-    const translatedCount = Object.keys(dict || {}).filter(key => !key.startsWith('_')).length;
-    return requiredCount > 0 && translatedCount >= Math.max(10, Math.floor(requiredCount * 0.85));
-}
-
-function applyStaticTranslations() {
-    document.documentElement.lang = currentLanguage === 'zh-CN' ? 'zh-Hans' : currentLanguage;
-    document.documentElement.dataset.lang = currentLanguage;
-    document.title = t('meta.title');
-    document.querySelectorAll('[data-i18n]').forEach(el => {
-        el.textContent = t(el.dataset.i18n);
-    });
-    document.querySelectorAll('[data-i18n-html]').forEach(el => {
-        el.innerHTML = t(el.dataset.i18nHtml);
-    });
-    updateLanguageButtons();
-    renderAllStockLists();
-    if (latestQuotePayload && Array.isArray(latestQuotePayload.quotes)) applyQuotes(latestQuotePayload.quotes);
-    updateChartLanguage();
-    setRefreshStatus('', lastRefreshState, lastRefreshVars, false);
-}
-
-function updateLanguageButtons() {
-    document.querySelectorAll('.language-btn').forEach(button => {
-        const isActive = button.dataset.lang === currentLanguage;
-        const label = LANGUAGE_NAMES[button.dataset.lang] || button.dataset.lang;
-        button.textContent = LANGUAGE_FLAGS[button.dataset.lang] || label;
-        button.title = label;
-        button.setAttribute('aria-label', label);
-        button.setAttribute('aria-pressed', isActive ? 'true' : 'false');
-    });
-}
-
-function setLanguageStatus(message, state = 'ready') {
-    const el = document.getElementById('language-status');
-    if (!el) return;
-    el.textContent = message || t('language.status.ready');
-    el.className = 'language-status ' + (state === 'error' ? 'text-red-500' : state === 'pending' ? 'text-amber-600' : 'text-slate-500');
-}
-
-async function setLanguage(lang) {
-    try {
-        await loadI18n('ko');
-        const dict = await loadI18n(lang);
-        if (!hasUsableTranslations(lang, dict)) {
-            currentLanguage = 'ko';
-            localStorage.setItem('preferredLanguage', 'ko');
-            applyStaticTranslations();
-            setLanguageStatus(t('language.status.pending', { language: LANGUAGE_NAMES[lang] || lang }), 'pending');
-            return;
-        }
-        currentLanguage = lang;
-        localStorage.setItem('preferredLanguage', lang);
-        applyStaticTranslations();
-        setLanguageStatus('', 'ready');
-    } catch (error) {
-        console.error(error);
-        currentLanguage = 'ko';
-        applyStaticTranslations();
-        setLanguageStatus(t('language.status.error'), 'error');
-    }
-}
-
-function initializeI18n() {
-    document.querySelectorAll('.language-btn').forEach(button => {
-        button.addEventListener('click', () => setLanguage(button.dataset.lang));
-    });
-    const preferred = localStorage.getItem('preferredLanguage') || 'ko';
-    setLanguage(LANGUAGE_FILES[preferred] ? preferred : 'ko');
-}
-
 // --- 40개 주요 종목 데이터 (초기 기준가 및 티커) ---
 const stockData = {
     semi: [
@@ -694,19 +571,690 @@ const stockData = {
     ]
 };
 
+const LANG_KEY = 'etfMomentumLanguage';
+const WATCHLIST_KEY = 'etfMomentumWatchlistV1';
+const WATCHLIST_PAGE_SIZE = 35;
+const UPDATE_INTERVAL_MS = 5000;
+let currentLanguage = localStorage.getItem(LANG_KEY) || 'ko';
+let watchlistItems = [];
+let watchlistPage = 0;
+let watchTouchStartX = 0;
+let watchEditMode = false;
+let watchDragState = null;
+let pendingWatchMatch = null;
+
+const WATCHLIST_EXTRA_CATALOG = [
+    { source: 'naver', name: 'TIGER 코리아 AI 전력기기 TOP3 플러스', symbol: '0117V0', aliases: ['TIGER 전력기기', 'TIGER AI 전력기기', 'TIGER 코리아 AI 전력기기', '타이거 전력기기'] },
+    { source: 'naver', name: 'KODEX 200', symbol: '069500', aliases: ['코덱스 200', 'KODEX200'] },
+    { source: 'naver', name: 'KODEX 200TR', symbol: '278530', aliases: ['코덱스 200TR', 'KODEX200TR', 'KODEX 200 TR'] }
+];
+
+const GLOBAL_WATCHLIST_CATALOG = [
+    { source: 'google', name: 'Apple', symbol: 'NASDAQ:AAPL', aliases: ['애플', 'Apple Inc', 'AAPL'] },
+    { source: 'google', name: 'Microsoft', symbol: 'NASDAQ:MSFT', aliases: ['마이크로소프트', 'Microsoft Corp', 'MSFT'] },
+    { source: 'google', name: 'NVIDIA', symbol: 'NASDAQ:NVDA', aliases: ['엔비디아', 'Nvidia Corp', 'NVDA'] },
+    { source: 'google', name: 'Tesla', symbol: 'NASDAQ:TSLA', aliases: ['테슬라', 'Tesla Inc', 'TSLA'] },
+    { source: 'google', name: 'Alphabet Class A', symbol: 'NASDAQ:GOOGL', aliases: ['구글', '알파벳', 'Google', 'Alphabet', 'GOOGL'] },
+    { source: 'google', name: 'Amazon', symbol: 'NASDAQ:AMZN', aliases: ['아마존', 'Amazon.com', 'AMZN'] },
+    { source: 'google', name: 'Meta Platforms', symbol: 'NASDAQ:META', aliases: ['메타', '페이스북', 'Facebook', 'META'] },
+    { source: 'google', name: 'Netflix', symbol: 'NASDAQ:NFLX', aliases: ['넷플릭스', 'NFLX'] },
+    { source: 'google', name: 'Broadcom', symbol: 'NASDAQ:AVGO', aliases: ['브로드컴', 'AVGO'] },
+    { source: 'google', name: 'Taiwan Semiconductor Manufacturing', symbol: 'NYSE:TSM', aliases: ['TSMC', '대만반도체', '타이완반도체', 'TSM'] },
+    { source: 'google', name: 'Berkshire Hathaway Class B', symbol: 'NYSE:BRK.B', aliases: ['버크셔해서웨이', 'Berkshire Hathaway', 'BRK.B'] },
+    { source: 'google', name: 'JPMorgan Chase', symbol: 'NYSE:JPM', aliases: ['제이피모건', 'JP모건', 'JPM'] },
+    { source: 'google', name: 'SPDR S&P 500 ETF Trust', symbol: 'NYSEARCA:SPY', aliases: ['SPY', 'S&P 500 ETF', '스파이 ETF'] },
+    { source: 'google', name: 'Invesco QQQ Trust', symbol: 'NASDAQ:QQQ', aliases: ['QQQ', '나스닥 ETF', '나스닥100 ETF'] },
+    { source: 'google', name: 'Vanguard S&P 500 ETF', symbol: 'NYSEARCA:VOO', aliases: ['VOO', '뱅가드 S&P 500 ETF'] },
+    { source: 'google', name: 'Vanguard Total Stock Market ETF', symbol: 'NYSEARCA:VTI', aliases: ['VTI', '미국 전체 주식 ETF'] },
+    { source: 'google', name: 'iShares Core S&P 500 ETF', symbol: 'NYSEARCA:IVV', aliases: ['IVV', '아이셰어즈 S&P 500 ETF'] }
+];
+
+const LANGUAGE_META = {
+    ko: { google: 'ko', label: '한국어' },
+    en: { google: 'en', label: 'English' },
+    ja: { google: 'ja', label: '日本語' },
+    'zh-CN': { google: 'zh-CN', label: '中文' },
+    vi: { google: 'vi', label: 'Tiếng Việt' },
+    de: { google: 'de', label: 'Deutsch' },
+    fr: { google: 'fr', label: 'Français' }
+};
+
+const UI_TRANSLATIONS = {
+    ko: {
+        refreshButton: '실시간 갱신',
+        heroTitle: '3대 주도 ETF<br><span class="text-electricTeal">성장 모멘텀 분석 리포트</span>',
+        heroSubtitle: '최근 급등한 <strong>TIGER 코리아 AI 전력기기 TOP3 플러스</strong>, <strong>KODEX 200TR</strong>, <strong>KODEX 200</strong> ETF의 상승 원인과 미래 주도 테마로서의 가치를 직관적인 데이터로 분석합니다.',
+        marketTitle: '실시간 시장 지수 & ETF 현재가',
+        marketInterval: '(5초 업데이트 / 클릭 시 전체 동기화)',
+        watchlistTitle: '관심 종목 현재가',
+        watchlistSubtitle: '네이버 증권 또는 Google Finance에서 종목을 찾은 뒤, 종목명과 코드/티커를 입력해 관심 종목을 추가하세요.',
+        sourceNaver: '네이버 증권',
+        sourceGoogle: 'Google Finance',
+        openSearch: '검색 열기',
+        resetWatchlist: '기본값 복원',
+        addWatchlist: '추가',
+        editWatchlist: '편집',
+        doneEdit: '완료',
+        editHelp: '위/아래 버튼으로 순서를 바꾸고 삭제 버튼으로 종목을 제거할 수 있습니다.',
+        dragHandle: '드래그',
+        moveUp: '위로',
+        moveDown: '아래로',
+        namePlaceholder: '종목명 예: 삼성전자',
+        symbolPlaceholder: '코드/티커 예: 005930 또는 AAPL:NASDAQ',
+        searchPlaceholder: '검색어 예: 삼성전자, AAPL',
+        remove: '삭제',
+        livePrice: '현재가',
+        closeChange: '전일비',
+        openChange: '시가비',
+        naverRealtime: '네이버 실시간',
+        googleCheck: 'Google Finance 확인',
+        stooqDelay: '보조 데이터',
+        noPrice: '가격 대기 중',
+        duplicate: '이미 추가된 종목입니다.',
+        needFields: '종목명, 회사명, ETF 이름 또는 코드/티커를 입력해 주세요.',
+        checkingName: '입력한 이름을 네이버 증권과 Google Finance에서 찾는 중...',
+        noNameMatch: '비슷한 종목을 찾지 못했습니다. 정확한 이름이나 코드/티커를 입력해 주세요.',
+        confirmAddQuestion: '이 종목을 추가하고 싶으신가요?',
+        confirmAddDetail: item => `${item.name} (${item.symbol})로 찾았습니다.`,
+        yesChoice: '예',
+        noChoice: '아니오',
+        cancelled: '종목 추가를 취소했습니다.',
+        added: '관심 종목에 추가했습니다.',
+        resetDone: '기본 관심 종목으로 복원했습니다.',
+        pageLabel: page => `${page.current} / ${page.total} 페이지`,
+        loading: '실시간 데이터 불러오는 중...',
+        ok: () => `업데이트 완료 ${new Date().toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' })} · 5초마다 확인`,
+        warn: '일부 종목만 업데이트됨',
+        error: '실시간 데이터 조회 실패'
+    },
+    en: {
+        refreshButton: 'Live Refresh',
+        heroTitle: 'Three Leading ETFs<br><span class="text-electricTeal">Growth Momentum Analysis Report</span>',
+        heroSubtitle: 'This report analyzes the drivers and future thematic value of <strong>TIGER Korea AI Power Equipment TOP3 Plus</strong>, <strong>KODEX 200TR</strong>, and <strong>KODEX 200</strong> with intuitive market data.',
+        marketTitle: 'Live Market Indices & ETF Prices',
+        marketInterval: '(5-second checks / click to sync all)',
+        watchlistTitle: 'Watchlist Prices',
+        watchlistSubtitle: 'Open Naver Securities or Google Finance, find a symbol, then add it with its name and code or ticker.',
+        sourceNaver: 'Naver Securities',
+        sourceGoogle: 'Google Finance',
+        openSearch: 'Open Search',
+        resetWatchlist: 'Reset Defaults',
+        addWatchlist: 'Add',
+        editWatchlist: 'Edit',
+        doneEdit: 'Done',
+        editHelp: 'Use the up/down buttons to reorder symbols and the delete button to remove them.',
+        dragHandle: 'Drag',
+        moveUp: 'Up',
+        moveDown: 'Down',
+        namePlaceholder: 'Name e.g. Samsung Electronics',
+        symbolPlaceholder: 'Code/Ticker e.g. 005930 or AAPL:NASDAQ',
+        searchPlaceholder: 'Search e.g. Samsung Electronics, AAPL',
+        remove: 'Remove',
+        livePrice: 'Price',
+        closeChange: 'Prev. close',
+        openChange: 'Open',
+        naverRealtime: 'Naver real-time',
+        googleCheck: 'Check on Google Finance',
+        stooqDelay: 'Auxiliary data',
+        noPrice: 'Waiting for price',
+        duplicate: 'This symbol is already in the watchlist.',
+        needFields: 'Enter a name, company, ETF name, or code/ticker.',
+        checkingName: 'Searching Naver Securities and Google Finance for that name...',
+        noNameMatch: 'No similar symbol was found. Please enter a more exact name or code/ticker.',
+        confirmAddQuestion: 'Do you want to add this symbol?',
+        confirmAddDetail: item => `Found ${item.name} (${item.symbol}).`,
+        yesChoice: 'Yes',
+        noChoice: 'No',
+        cancelled: 'Symbol addition was cancelled.',
+        added: 'Added to the watchlist.',
+        resetDone: 'Restored the default watchlist.',
+        pageLabel: page => `Page ${page.current} / ${page.total}`,
+        loading: 'Loading live data...',
+        ok: () => `Updated ${new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })} · checking every 5 sec`,
+        warn: 'Some symbols were not updated',
+        error: 'Live data lookup failed'
+    },
+    ja: {
+        refreshButton: 'リアルタイム更新',
+        heroTitle: '主要ETF 3選<br><span class="text-electricTeal">成長モメンタム分析レポート</span>',
+        heroSubtitle: '<strong>TIGER Korea AI Power Equipment TOP3 Plus</strong>、<strong>KODEX 200TR</strong>、<strong>KODEX 200</strong>の上昇要因とテーマ価値を直感的なデータで分析します。',
+        marketTitle: '市場指数・ETFのリアルタイム価格',
+        marketInterval: '(5秒ごとに確認 / クリックで全体同期)',
+        watchlistTitle: 'ウォッチリスト価格',
+        watchlistSubtitle: 'Naver証券またはGoogle Financeで銘柄を探し、名称とコード/ティッカーを入力して追加してください。',
+        sourceNaver: 'Naver証券',
+        sourceGoogle: 'Google Finance',
+        openSearch: '検索を開く',
+        resetWatchlist: '初期値に戻す',
+        addWatchlist: '追加',
+        editWatchlist: '編集',
+        doneEdit: '完了',
+        editHelp: '上下ボタンで順序を変更し、削除ボタンで銘柄を外せます。',
+        dragHandle: 'ドラッグ',
+        moveUp: '上へ',
+        moveDown: '下へ',
+        namePlaceholder: '銘柄名 例: Samsung Electronics',
+        symbolPlaceholder: 'コード/ティッカー 例: 005930 または AAPL:NASDAQ',
+        searchPlaceholder: '検索語 例: Samsung Electronics, AAPL',
+        remove: '削除',
+        livePrice: '現在値',
+        closeChange: '前日比',
+        openChange: '始値比',
+        naverRealtime: 'Naverリアルタイム',
+        googleCheck: 'Google Financeで確認',
+        stooqDelay: '補助データ',
+        noPrice: '価格待機中',
+        duplicate: 'すでに追加されています。',
+        needFields: '名称、会社名、ETF名、またはコード/ティッカーを入力してください。',
+        checkingName: 'Naver証券とGoogle Financeで名称を検索中...',
+        noNameMatch: '近い銘柄が見つかりません。より正確な名称またはコード/ティッカーを入力してください。',
+        confirmAddQuestion: 'この銘柄を追加しますか？',
+        confirmAddDetail: item => `${item.name} (${item.symbol}) が見つかりました。`,
+        yesChoice: 'はい',
+        noChoice: 'いいえ',
+        cancelled: '銘柄の追加をキャンセルしました。',
+        added: 'ウォッチリストに追加しました。',
+        resetDone: '初期ウォッチリストに戻しました。',
+        pageLabel: page => `${page.current} / ${page.total} ページ`,
+        loading: 'リアルタイムデータを読み込み中...',
+        ok: () => `更新完了 ${new Date().toLocaleTimeString('ja-JP', { hour: '2-digit', minute: '2-digit' })} · 5秒ごとに確認`,
+        warn: '一部の銘柄のみ更新',
+        error: 'リアルタイムデータ取得失敗'
+    },
+    'zh-CN': {
+        refreshButton: '实时刷新',
+        heroTitle: '三大领先ETF<br><span class="text-electricTeal">成长动能分析报告</span>',
+        heroSubtitle: '用直观数据分析 <strong>TIGER Korea AI Power Equipment TOP3 Plus</strong>、<strong>KODEX 200TR</strong>、<strong>KODEX 200</strong> 的上涨原因和主题价值。',
+        marketTitle: '实时市场指数与ETF价格',
+        marketInterval: '(每5秒检查 / 点击同步全部)',
+        watchlistTitle: '自选股当前价格',
+        watchlistSubtitle: '打开 Naver 证券或 Google Finance 查找标的，然后输入名称和代码/股票代码添加。',
+        sourceNaver: 'Naver 证券',
+        sourceGoogle: 'Google Finance',
+        openSearch: '打开搜索',
+        resetWatchlist: '恢复默认',
+        addWatchlist: '添加',
+        editWatchlist: '编辑',
+        doneEdit: '完成',
+        editHelp: '使用上/下按钮调整顺序，用删除按钮移除标的。',
+        dragHandle: '拖动',
+        moveUp: '上移',
+        moveDown: '下移',
+        namePlaceholder: '名称 例: Samsung Electronics',
+        symbolPlaceholder: '代码/股票代码 例: 005930 或 AAPL:NASDAQ',
+        searchPlaceholder: '搜索词 例: Samsung Electronics, AAPL',
+        remove: '删除',
+        livePrice: '现价',
+        closeChange: '较前收',
+        openChange: '较开盘',
+        naverRealtime: 'Naver 实时',
+        googleCheck: '在 Google Finance 查看',
+        stooqDelay: '辅助数据',
+        noPrice: '等待价格',
+        duplicate: '该标的已添加。',
+        needFields: '请输入名称、公司名、ETF名称或代码/股票代码。',
+        checkingName: '正在 Naver 证券和 Google Finance 中查找该名称...',
+        noNameMatch: '未找到相似标的。请输入更准确的名称或代码/股票代码。',
+        confirmAddQuestion: '要添加这个标的吗？',
+        confirmAddDetail: item => `找到 ${item.name} (${item.symbol})。`,
+        yesChoice: '是',
+        noChoice: '否',
+        cancelled: '已取消添加标的。',
+        added: '已添加到自选股。',
+        resetDone: '已恢复默认自选股。',
+        pageLabel: page => `第 ${page.current} / ${page.total} 页`,
+        loading: '正在加载实时数据...',
+        ok: () => `更新完成 ${new Date().toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' })} · 每5秒检查`,
+        warn: '部分标的未更新',
+        error: '实时数据查询失败'
+    },
+    vi: {
+        refreshButton: 'Cập nhật trực tiếp',
+        heroTitle: '3 ETF dẫn dắt<br><span class="text-electricTeal">Báo cáo phân tích đà tăng trưởng</span>',
+        heroSubtitle: 'Phân tích nguyên nhân tăng và giá trị chủ đề tương lai của <strong>TIGER Korea AI Power Equipment TOP3 Plus</strong>, <strong>KODEX 200TR</strong>, <strong>KODEX 200</strong> bằng dữ liệu trực quan.',
+        marketTitle: 'Chỉ số thị trường & giá ETF trực tiếp',
+        marketInterval: '(kiểm tra mỗi 5 giây / bấm để đồng bộ)',
+        watchlistTitle: 'Giá danh mục quan tâm',
+        watchlistSubtitle: 'Mở Naver Securities hoặc Google Finance, tìm mã rồi nhập tên và mã/ticker để thêm.',
+        sourceNaver: 'Naver Securities',
+        sourceGoogle: 'Google Finance',
+        openSearch: 'Mở tìm kiếm',
+        resetWatchlist: 'Khôi phục mặc định',
+        addWatchlist: 'Thêm',
+        editWatchlist: 'Sửa',
+        doneEdit: 'Xong',
+        editHelp: 'Dùng nút lên/xuống để đổi thứ tự và nút xóa để gỡ mã.',
+        dragHandle: 'Kéo',
+        moveUp: 'Lên',
+        moveDown: 'Xuống',
+        namePlaceholder: 'Tên ví dụ: Samsung Electronics',
+        symbolPlaceholder: 'Mã/Ticker ví dụ: 005930 hoặc AAPL:NASDAQ',
+        searchPlaceholder: 'Tìm kiếm ví dụ: Samsung Electronics, AAPL',
+        remove: 'Xóa',
+        livePrice: 'Giá',
+        closeChange: 'So với đóng cửa',
+        openChange: 'So với mở cửa',
+        naverRealtime: 'Naver trực tiếp',
+        googleCheck: 'Xem trên Google Finance',
+        stooqDelay: 'Dữ liệu phụ',
+        noPrice: 'Đang chờ giá',
+        duplicate: 'Mã này đã có trong danh sách.',
+        needFields: 'Nhập tên, công ty, tên ETF hoặc mã/ticker.',
+        checkingName: 'Đang tìm tên này trên Naver Securities và Google Finance...',
+        noNameMatch: 'Không tìm thấy mã tương tự. Vui lòng nhập tên hoặc mã/ticker chính xác hơn.',
+        confirmAddQuestion: 'Bạn muốn thêm mã này?',
+        confirmAddDetail: item => `Đã tìm thấy ${item.name} (${item.symbol}).`,
+        yesChoice: 'Có',
+        noChoice: 'Không',
+        cancelled: 'Đã hủy thêm mã.',
+        added: 'Đã thêm vào danh sách.',
+        resetDone: 'Đã khôi phục danh sách mặc định.',
+        pageLabel: page => `Trang ${page.current} / ${page.total}`,
+        loading: 'Đang tải dữ liệu trực tiếp...',
+        ok: () => `Đã cập nhật ${new Date().toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' })} · kiểm tra mỗi 5 giây`,
+        warn: 'Một số mã chưa cập nhật',
+        error: 'Không thể lấy dữ liệu trực tiếp'
+    },
+    de: {
+        refreshButton: 'Live aktualisieren',
+        heroTitle: '3 führende ETFs<br><span class="text-electricTeal">Analysebericht zum Wachstumsmomentum</span>',
+        heroSubtitle: 'Analyse der Kurstreiber und des thematischen Potenzials von <strong>TIGER Korea AI Power Equipment TOP3 Plus</strong>, <strong>KODEX 200TR</strong> und <strong>KODEX 200</strong> anhand anschaulicher Daten.',
+        marketTitle: 'Live-Marktindizes & ETF-Kurse',
+        marketInterval: '(alle 5 Sekunden prüfen / Klick synchronisiert alles)',
+        watchlistTitle: 'Watchlist-Kurse',
+        watchlistSubtitle: 'Naver Securities oder Google Finance öffnen, Symbol suchen und Name sowie Code/Ticker hinzufügen.',
+        sourceNaver: 'Naver Securities',
+        sourceGoogle: 'Google Finance',
+        openSearch: 'Suche öffnen',
+        resetWatchlist: 'Standard wiederherstellen',
+        addWatchlist: 'Hinzufügen',
+        editWatchlist: 'Bearbeiten',
+        doneEdit: 'Fertig',
+        editHelp: 'Mit den Hoch/Runter-Tasten sortieren und mit Löschen entfernen.',
+        dragHandle: 'Ziehen',
+        moveUp: 'Hoch',
+        moveDown: 'Runter',
+        namePlaceholder: 'Name z. B. Samsung Electronics',
+        symbolPlaceholder: 'Code/Ticker z. B. 005930 oder AAPL:NASDAQ',
+        searchPlaceholder: 'Suche z. B. Samsung Electronics, AAPL',
+        remove: 'Entfernen',
+        livePrice: 'Kurs',
+        closeChange: 'Vortag',
+        openChange: 'Eröffnung',
+        naverRealtime: 'Naver Echtzeit',
+        googleCheck: 'Bei Google Finance prüfen',
+        stooqDelay: 'Hilfsdaten',
+        noPrice: 'Warte auf Kurs',
+        duplicate: 'Dieses Symbol ist bereits vorhanden.',
+        needFields: 'Name, Unternehmen, ETF-Name oder Code/Ticker eingeben.',
+        checkingName: 'Suche diesen Namen bei Naver Securities und Google Finance...',
+        noNameMatch: 'Kein ähnliches Symbol gefunden. Bitte genaueren Namen oder Code/Ticker eingeben.',
+        confirmAddQuestion: 'Möchten Sie dieses Symbol hinzufügen?',
+        confirmAddDetail: item => `${item.name} (${item.symbol}) gefunden.`,
+        yesChoice: 'Ja',
+        noChoice: 'Nein',
+        cancelled: 'Hinzufügen abgebrochen.',
+        added: 'Zur Watchlist hinzugefügt.',
+        resetDone: 'Standard-Watchlist wiederhergestellt.',
+        pageLabel: page => `Seite ${page.current} / ${page.total}`,
+        loading: 'Live-Daten werden geladen...',
+        ok: () => `Aktualisiert ${new Date().toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' })} · Prüfung alle 5 Sekunden`,
+        warn: 'Einige Symbole wurden nicht aktualisiert',
+        error: 'Live-Datenabfrage fehlgeschlagen'
+    },
+    fr: {
+        refreshButton: 'Actualisation live',
+        heroTitle: '3 ETF leaders<br><span class="text-electricTeal">Rapport d’analyse du momentum de croissance</span>',
+        heroSubtitle: 'Analyse des moteurs de hausse et de la valeur thématique de <strong>TIGER Korea AI Power Equipment TOP3 Plus</strong>, <strong>KODEX 200TR</strong> et <strong>KODEX 200</strong> avec des données intuitives.',
+        marketTitle: 'Indices de marché & prix ETF en direct',
+        marketInterval: '(vérification toutes les 5 s / clic pour synchroniser)',
+        watchlistTitle: 'Prix de la liste de suivi',
+        watchlistSubtitle: 'Ouvrez Naver Securities ou Google Finance, trouvez un symbole, puis ajoutez-le avec son nom et son code/ticker.',
+        sourceNaver: 'Naver Securities',
+        sourceGoogle: 'Google Finance',
+        openSearch: 'Ouvrir la recherche',
+        resetWatchlist: 'Réinitialiser',
+        addWatchlist: 'Ajouter',
+        editWatchlist: 'Modifier',
+        doneEdit: 'Terminer',
+        editHelp: 'Utilisez les boutons haut/bas pour réordonner et supprimer pour retirer un titre.',
+        dragHandle: 'Glisser',
+        moveUp: 'Monter',
+        moveDown: 'Descendre',
+        namePlaceholder: 'Nom ex. Samsung Electronics',
+        symbolPlaceholder: 'Code/Ticker ex. 005930 ou AAPL:NASDAQ',
+        searchPlaceholder: 'Recherche ex. Samsung Electronics, AAPL',
+        remove: 'Supprimer',
+        livePrice: 'Prix',
+        closeChange: 'Clôture préc.',
+        openChange: 'Ouverture',
+        naverRealtime: 'Naver temps réel',
+        googleCheck: 'Voir sur Google Finance',
+        stooqDelay: 'Données auxiliaires',
+        noPrice: 'En attente du prix',
+        duplicate: 'Ce symbole est déjà dans la liste.',
+        needFields: 'Saisissez un nom, une société, un ETF ou un code/ticker.',
+        checkingName: 'Recherche de ce nom sur Naver Securities et Google Finance...',
+        noNameMatch: 'Aucun symbole similaire trouvé. Saisissez un nom ou code/ticker plus précis.',
+        confirmAddQuestion: 'Voulez-vous ajouter ce titre ?',
+        confirmAddDetail: item => `${item.name} (${item.symbol}) trouvé.`,
+        yesChoice: 'Oui',
+        noChoice: 'Non',
+        cancelled: 'Ajout du titre annulé.',
+        added: 'Ajouté à la liste de suivi.',
+        resetDone: 'Liste par défaut restaurée.',
+        pageLabel: page => `Page ${page.current} / ${page.total}`,
+        loading: 'Chargement des données live...',
+        ok: () => `Mis à jour ${new Date().toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })} · vérification toutes les 5 s`,
+        warn: 'Certains symboles non actualisés',
+        error: 'Échec de la récupération live'
+    }
+};
+
+const NAME_TRANSLATIONS = {
+    '코스피': { en: 'KOSPI', ja: 'KOSPI', 'zh-CN': 'KOSPI', vi: 'KOSPI', de: 'KOSPI', fr: 'KOSPI' },
+    '코스닥': { en: 'KOSDAQ', ja: 'KOSDAQ', 'zh-CN': 'KOSDAQ', vi: 'KOSDAQ', de: 'KOSDAQ', fr: 'KOSDAQ' },
+    '삼성전자': { en: 'Samsung Electronics', ja: 'Samsung Electronics', 'zh-CN': '三星电子', vi: 'Samsung Electronics', de: 'Samsung Electronics', fr: 'Samsung Electronics' },
+    'SK하이닉스': { en: 'SK hynix', ja: 'SK hynix', 'zh-CN': 'SK海力士', vi: 'SK hynix', de: 'SK hynix', fr: 'SK hynix' },
+    'TIGER 전력기기': { en: 'TIGER Power Equipment', ja: 'TIGER Power Equipment', 'zh-CN': 'TIGER电力设备', vi: 'TIGER Thiết bị điện', de: 'TIGER Energieausrüstung', fr: 'TIGER équipements électriques' },
+    'KODEX 200': { en: 'KODEX 200', ja: 'KODEX 200', 'zh-CN': 'KODEX 200', vi: 'KODEX 200', de: 'KODEX 200', fr: 'KODEX 200' },
+    'KODEX 200TR': { en: 'KODEX 200TR', ja: 'KODEX 200TR', 'zh-CN': 'KODEX 200TR', vi: 'KODEX 200TR', de: 'KODEX 200TR', fr: 'KODEX 200TR' },
+    'TIGER 코리아 AI 전력기기 TOP3 플러스': { en: 'TIGER Korea AI Power Equipment TOP3 Plus', ja: 'TIGER Korea AI Power Equipment TOP3 Plus', 'zh-CN': 'TIGER Korea AI电力设备TOP3 Plus', vi: 'TIGER Korea AI Power Equipment TOP3 Plus', de: 'TIGER Korea AI Power Equipment TOP3 Plus', fr: 'TIGER Korea AI Power Equipment TOP3 Plus' },
+    '한미반도체': { en: 'Hanmi Semiconductor', ja: 'Hanmi Semiconductor', 'zh-CN': '韩美半导体', vi: 'Hanmi Semiconductor', de: 'Hanmi Semiconductor', fr: 'Hanmi Semiconductor' },
+    'HPSP': { en: 'HPSP', ja: 'HPSP', 'zh-CN': 'HPSP', vi: 'HPSP', de: 'HPSP', fr: 'HPSP' },
+    '이수페타시스': { en: 'Isu Petasys', ja: 'Isu Petasys', 'zh-CN': 'Isu Petasys', vi: 'Isu Petasys', de: 'Isu Petasys', fr: 'Isu Petasys' },
+    '리노공업': { en: 'Leeno Industrial', ja: 'Leeno Industrial', 'zh-CN': 'Leeno Industrial', vi: 'Leeno Industrial', de: 'Leeno Industrial', fr: 'Leeno Industrial' },
+    '동진쎄미켐': { en: 'Dongjin Semichem', ja: 'Dongjin Semichem', 'zh-CN': '东进世美肯', vi: 'Dongjin Semichem', de: 'Dongjin Semichem', fr: 'Dongjin Semichem' },
+    '솔브레인': { en: 'Soulbrain', ja: 'Soulbrain', 'zh-CN': 'Soulbrain', vi: 'Soulbrain', de: 'Soulbrain', fr: 'Soulbrain' },
+    '원익IPS': { en: 'Wonik IPS', ja: 'Wonik IPS', 'zh-CN': 'Wonik IPS', vi: 'Wonik IPS', de: 'Wonik IPS', fr: 'Wonik IPS' },
+    'ISC': { en: 'ISC', ja: 'ISC', 'zh-CN': 'ISC', vi: 'ISC', de: 'ISC', fr: 'ISC' },
+    '한화에어로': { en: 'Hanwha Aerospace', ja: 'Hanwha Aerospace', 'zh-CN': '韩华航空航天', vi: 'Hanwha Aerospace', de: 'Hanwha Aerospace', fr: 'Hanwha Aerospace' },
+    '한국항공우주': { en: 'Korea Aerospace Industries', ja: 'Korea Aerospace Industries', 'zh-CN': '韩国航空宇宙产业', vi: 'Korea Aerospace Industries', de: 'Korea Aerospace Industries', fr: 'Korea Aerospace Industries' },
+    'LIG넥스원': { en: 'LIG Nex1', ja: 'LIG Nex1', 'zh-CN': 'LIG Nex1', vi: 'LIG Nex1', de: 'LIG Nex1', fr: 'LIG Nex1' },
+    '현대로템': { en: 'Hyundai Rotem', ja: 'Hyundai Rotem', 'zh-CN': '现代Rotem', vi: 'Hyundai Rotem', de: 'Hyundai Rotem', fr: 'Hyundai Rotem' },
+    '한화오션': { en: 'Hanwha Ocean', ja: 'Hanwha Ocean', 'zh-CN': '韩华海洋', vi: 'Hanwha Ocean', de: 'Hanwha Ocean', fr: 'Hanwha Ocean' },
+    '한화시스템': { en: 'Hanwha Systems', ja: 'Hanwha Systems', 'zh-CN': '韩华系统', vi: 'Hanwha Systems', de: 'Hanwha Systems', fr: 'Hanwha Systems' },
+    '풍산': { en: 'Poongsan', ja: 'Poongsan', 'zh-CN': '丰山', vi: 'Poongsan', de: 'Poongsan', fr: 'Poongsan' },
+    'SNT모티브': { en: 'SNT Motiv', ja: 'SNT Motiv', 'zh-CN': 'SNT Motiv', vi: 'SNT Motiv', de: 'SNT Motiv', fr: 'SNT Motiv' },
+    '아이쓰리시스': { en: 'i3system', ja: 'i3system', 'zh-CN': 'i3system', vi: 'i3system', de: 'i3system', fr: 'i3system' },
+    '휴니드': { en: 'Huneed Technologies', ja: 'Huneed Technologies', 'zh-CN': 'Huneed Technologies', vi: 'Huneed Technologies', de: 'Huneed Technologies', fr: 'Huneed Technologies' },
+    'HD현대중공업': { en: 'HD Hyundai Heavy Industries', ja: 'HD Hyundai Heavy Industries', 'zh-CN': 'HD现代重工', vi: 'HD Hyundai Heavy Industries', de: 'HD Hyundai Heavy Industries', fr: 'HD Hyundai Heavy Industries' },
+    'HD한국조선': { en: 'HD Korea Shipbuilding', ja: 'HD Korea Shipbuilding', 'zh-CN': 'HD韩国造船', vi: 'HD Korea Shipbuilding', de: 'HD Korea Shipbuilding', fr: 'HD Korea Shipbuilding' },
+    '삼성중공업': { en: 'Samsung Heavy Industries', ja: 'Samsung Heavy Industries', 'zh-CN': '三星重工', vi: 'Samsung Heavy Industries', de: 'Samsung Heavy Industries', fr: 'Samsung Heavy Industries' },
+    'HD현대미포': { en: 'HD Hyundai Mipo', ja: 'HD Hyundai Mipo', 'zh-CN': 'HD现代尾浦', vi: 'HD Hyundai Mipo', de: 'HD Hyundai Mipo', fr: 'HD Hyundai Mipo' },
+    '한화엔진': { en: 'Hanwha Engine', ja: 'Hanwha Engine', 'zh-CN': '韩华发动机', vi: 'Hanwha Engine', de: 'Hanwha Engine', fr: 'Hanwha Engine' },
+    '한국카본': { en: 'Hankuk Carbon', ja: 'Hankuk Carbon', 'zh-CN': '韩国碳素', vi: 'Hankuk Carbon', de: 'Hankuk Carbon', fr: 'Hankuk Carbon' },
+    '동성화인텍': { en: 'Dongsung Finetec', ja: 'Dongsung Finetec', 'zh-CN': 'Dongsung Finetec', vi: 'Dongsung Finetec', de: 'Dongsung Finetec', fr: 'Dongsung Finetec' },
+    '세진중공업': { en: 'Sejin Heavy Industries', ja: 'Sejin Heavy Industries', 'zh-CN': 'Sejin Heavy Industries', vi: 'Sejin Heavy Industries', de: 'Sejin Heavy Industries', fr: 'Sejin Heavy Industries' },
+    '일승': { en: 'Il Seung', ja: 'Il Seung', 'zh-CN': 'Il Seung', vi: 'Il Seung', de: 'Il Seung', fr: 'Il Seung' },
+    '인텔리안테크': { en: 'Intellian Technologies', ja: 'Intellian Technologies', 'zh-CN': 'Intellian Technologies', vi: 'Intellian Technologies', de: 'Intellian Technologies', fr: 'Intellian Technologies' },
+    '쎄트렉아이': { en: 'Satrec Initiative', ja: 'Satrec Initiative', 'zh-CN': 'Satrec Initiative', vi: 'Satrec Initiative', de: 'Satrec Initiative', fr: 'Satrec Initiative' },
+    'AP위성': { en: 'AP Satellite', ja: 'AP Satellite', 'zh-CN': 'AP Satellite', vi: 'AP Satellite', de: 'AP Satellite', fr: 'AP Satellite' },
+    '켄코아에어로': { en: 'Kencoa Aerospace', ja: 'Kencoa Aerospace', 'zh-CN': 'Kencoa Aerospace', vi: 'Kencoa Aerospace', de: 'Kencoa Aerospace', fr: 'Kencoa Aerospace' },
+    '제노코': { en: 'Genohco', ja: 'Genohco', 'zh-CN': 'Genohco', vi: 'Genohco', de: 'Genohco', fr: 'Genohco' },
+    '컨텍': { en: 'CONTEC', ja: 'CONTEC', 'zh-CN': 'CONTEC', vi: 'CONTEC', de: 'CONTEC', fr: 'CONTEC' },
+    '비츠로테크': { en: 'Vitzro Tech', ja: 'Vitzro Tech', 'zh-CN': 'Vitzro Tech', vi: 'Vitzro Tech', de: 'Vitzro Tech', fr: 'Vitzro Tech' }
+};
+
+function t(key) {
+    const pack = UI_TRANSLATIONS[currentLanguage] || UI_TRANSLATIONS.ko;
+    return pack[key] || UI_TRANSLATIONS.ko[key] || key;
+}
+
+function localizedName(name) {
+    if (currentLanguage === 'ko') return name;
+    const translated = NAME_TRANSLATIONS[name] && NAME_TRANSLATIONS[name][currentLanguage];
+    return translated && translated !== name ? `${translated} (${name})` : name;
+}
+
+function escapeHtml(value) {
+    return String(value || '').replace(/[&<>"']/g, char => ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#39;'
+    }[char]));
+}
+
+function localizedNameHtml(name) {
+    if (currentLanguage === 'ko') return escapeHtml(name);
+    const translated = NAME_TRANSLATIONS[name] && NAME_TRANSLATIONS[name][currentLanguage];
+    return translated && translated !== name
+        ? `${escapeHtml(translated)} (<span class="notranslate" translate="no">${escapeHtml(name)}</span>)`
+        : escapeHtml(name);
+}
+
+function normalizeSymbol(symbol) {
+    return String(symbol || '').trim().toUpperCase().replace(/\s+/g, '').replace(/[^A-Z0-9:._-]/g, '');
+}
+
+function isDomesticSymbol(symbol) {
+    return /^\d{6}$/.test(normalizeSymbol(symbol)) || /^[0-9A-Z]{6}$/.test(normalizeSymbol(symbol)) && /[A-Z]/.test(normalizeSymbol(symbol));
+}
+
+function getAllBaseStocks() {
+    return [...stockData.semi, ...stockData.def, ...stockData.ship, ...stockData.aero];
+}
+
+function getDefaultWatchlist() {
+    const unique = new Map();
+    getAllBaseStocks().forEach(stock => {
+        if (!unique.has(stock.ticker)) {
+            unique.set(stock.ticker, {
+                source: 'naver',
+                name: stock.name,
+                symbol: stock.ticker,
+                price: stock.price,
+                addedAt: 0
+            });
+        }
+    });
+    return [...unique.values()].slice(0, WATCHLIST_PAGE_SIZE);
+}
+
+function normalizeNameSearch(value) {
+    return String(value || '')
+        .toLowerCase()
+        .replace(/[()[\]{}'"`.,·ㆍ_\-:/\\|+&]/g, '')
+        .replace(/\s+/g, '')
+        .trim();
+}
+
+function levenshteinDistance(a, b) {
+    const left = normalizeNameSearch(a);
+    const right = normalizeNameSearch(b);
+    if (left === right) return 0;
+    if (!left) return right.length;
+    if (!right) return left.length;
+    const prev = Array.from({ length: right.length + 1 }, (_, i) => i);
+    const curr = new Array(right.length + 1);
+    for (let i = 1; i <= left.length; i++) {
+        curr[0] = i;
+        for (let j = 1; j <= right.length; j++) {
+            const cost = left[i - 1] === right[j - 1] ? 0 : 1;
+            curr[j] = Math.min(curr[j - 1] + 1, prev[j] + 1, prev[j - 1] + cost);
+        }
+        for (let j = 0; j <= right.length; j++) prev[j] = curr[j];
+    }
+    return prev[right.length];
+}
+
+function nameSimilarity(query, candidate) {
+    const q = normalizeNameSearch(query);
+    const c = normalizeNameSearch(candidate);
+    if (!q || !c) return 0;
+    if (q === c) return 1;
+    if (c.includes(q) || q.includes(c)) {
+        const ratio = Math.min(q.length, c.length) / Math.max(q.length, c.length);
+        return Math.max(0.82, ratio);
+    }
+    const distance = levenshteinDistance(q, c);
+    return Math.max(0, 1 - (distance / Math.max(q.length, c.length)));
+}
+
+function sourceFromNaverType(typeCode, code) {
+    const domesticTypes = new Set(['KOSPI', 'KOSDAQ', 'KONEX', 'ETF', 'ETN']);
+    return domesticTypes.has(String(typeCode || '').toUpperCase()) || /^\d{6}$/.test(code) ? 'naver' : 'google';
+}
+
+function symbolFromNaverAutocomplete(item) {
+    const code = normalizeSymbol(item.code || item.reutersCode);
+    const typeCode = String(item.typeCode || '').toUpperCase();
+    if (sourceFromNaverType(typeCode, code) === 'naver') return code;
+    const exchangeMap = {
+        NASDAQ: 'NASDAQ',
+        NYSE: 'NYSE',
+        AMEX: 'AMEX',
+        TOKYO: 'TYO',
+        HONG_KONG: 'HKG',
+        SHANGHAI: 'SHA',
+        SHENZHEN: 'SHE',
+        HOCHIMINH: 'HOSE',
+        HANOI: 'HNX'
+    };
+    return `${exchangeMap[typeCode] || typeCode || 'NASDAQ'}:${code}`;
+}
+
+function getWatchlistSearchCatalog() {
+    const items = [
+        ...getAllBaseStocks().map(stock => ({ source: 'naver', name: stock.name, symbol: stock.ticker, aliases: [] })),
+        ...WATCHLIST_EXTRA_CATALOG,
+        ...GLOBAL_WATCHLIST_CATALOG
+    ];
+    const unique = new Map();
+    items.forEach(item => {
+        const symbol = normalizeSymbol(item.symbol);
+        const key = `${item.source}:${symbol}`;
+        if (!symbol || unique.has(key)) return;
+        const translations = NAME_TRANSLATIONS[item.name] ? Object.values(NAME_TRANSLATIONS[item.name]) : [];
+        unique.set(key, {
+            source: item.source,
+            name: item.name,
+            symbol,
+            aliases: [...new Set([item.name, symbol, ...(item.aliases || []), ...translations].filter(Boolean))]
+        });
+    });
+    return [...unique.values()];
+}
+
+function findLocalWatchlistMatch(query, preferredSource = '') {
+    const normalizedQuery = normalizeNameSearch(query);
+    if (normalizedQuery.length < 2) return null;
+    const matches = getWatchlistSearchCatalog().map(item => {
+        const scores = item.aliases.map(alias => nameSimilarity(query, alias));
+        const score = Math.max(...scores);
+        const exact = item.aliases.some(alias => normalizeNameSearch(alias) === normalizedQuery);
+        const sourceBonus = preferredSource && item.source === preferredSource ? 0.025 : 0;
+        return { item, score: Math.min(1, score + sourceBonus), exact };
+    }).filter(match => match.score >= (normalizedQuery.length <= 3 ? 0.72 : 0.58));
+    matches.sort((a, b) => Number(b.exact) - Number(a.exact) || b.score - a.score);
+    return matches[0] || null;
+}
+
+async function fetchJsonWithProxy(url) {
+    try {
+        const response = await fetch(url, { cache: 'no-store', credentials: 'omit' });
+        if (response.ok) return response.json();
+    } catch (error) {
+        console.warn('Direct lookup blocked, trying proxy:', error);
+    }
+    const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`;
+    const response = await fetch(proxyUrl, { cache: 'no-store' });
+    if (!response.ok) throw new Error(`Proxy lookup failed: ${response.status}`);
+    return response.json();
+}
+
+async function lookupNaverFinanceName(query) {
+    const url = `https://ac.stock.naver.com/ac?q=${encodeURIComponent(query)}&target=stock,ipo,index,marketindicator`;
+    const data = await fetchJsonWithProxy(url);
+    const items = Array.isArray(data.items) ? data.items : [];
+    const candidates = items.map(entry => {
+        const symbol = symbolFromNaverAutocomplete(entry);
+        const source = sourceFromNaverType(entry.typeCode, normalizeSymbol(entry.code || entry.reutersCode));
+        const item = { source, name: entry.name || symbol, symbol };
+        const score = Math.max(nameSimilarity(query, entry.name), nameSimilarity(query, symbol));
+        const exact = normalizeNameSearch(query) === normalizeNameSearch(entry.name) || normalizeSymbol(query) === symbol;
+        return { item, score, exact };
+    }).filter(match => match.item.symbol && match.score >= 0.42);
+    candidates.sort((a, b) => Number(b.exact) - Number(a.exact) || b.score - a.score);
+    return candidates[0] || null;
+}
+
+async function lookupGoogleFinanceName(query) {
+    const local = findLocalWatchlistMatch(query, 'google');
+    if (local && local.item.source === 'google') return local;
+    return null;
+}
+
+function withTimeout(promise, ms) {
+    return Promise.race([
+        promise,
+        new Promise(resolve => setTimeout(() => resolve(null), ms))
+    ]);
+}
+
+async function resolveWatchlistName(query, preferredSource = '') {
+    const localMatch = findLocalWatchlistMatch(query, preferredSource);
+    if (localMatch && localMatch.exact) return localMatch;
+    const lookups = [
+        withTimeout(lookupNaverFinanceName(query).catch(() => null), 1800),
+        Promise.resolve(lookupGoogleFinanceName(query).catch(() => null))
+    ];
+    const results = await Promise.allSettled(lookups);
+    const externalMatches = results
+        .filter(result => result.status === 'fulfilled' && result.value)
+        .map(result => result.value);
+    const matches = [...externalMatches, ...(localMatch ? [localMatch] : [])];
+    if (!matches.length) return null;
+    matches.sort((a, b) => {
+        const preferredA = preferredSource && a.item.source === preferredSource ? 1 : 0;
+        const preferredB = preferredSource && b.item.source === preferredSource ? 1 : 0;
+        return Number(b.exact) - Number(a.exact) || preferredB - preferredA || b.score - a.score;
+    });
+    return matches[0];
+}
+
+function loadWatchlist() {
+    try {
+        const stored = JSON.parse(localStorage.getItem(WATCHLIST_KEY) || '[]');
+        if (Array.isArray(stored) && stored.length) {
+            return stored.map(item => ({
+                source: item.source || (isDomesticSymbol(item.symbol) ? 'naver' : 'google'),
+                name: item.name || item.symbol,
+                symbol: normalizeSymbol(item.symbol),
+                price: toNumber(item.price),
+                addedAt: item.addedAt || Date.now()
+            })).filter(item => item.symbol);
+        }
+    } catch (error) {
+        console.warn('Watchlist load failed:', error);
+    }
+    return getDefaultWatchlist();
+}
+
+function saveWatchlist() {
+    localStorage.setItem(WATCHLIST_KEY, JSON.stringify(watchlistItems));
+}
+
 // HTML 리스트 동적 생성 함수
 function renderStockList(containerId, dataArray) {
     const container = document.getElementById(containerId);
-    if (!container) return;
     let html = '';
     dataArray.forEach(stock => {
         html += `
         <a href="https://www.google.com/finance/quote/${stock.ticker}:KRX" target="_blank" class="stock-link flex justify-between border-b border-gray-100 pb-1 hover:bg-gray-100 p-1 rounded transition-colors" data-ticker="${stock.ticker}">
-            <span class="text-gray-600">${formatEntityName(stock.name)}</span>
-            <span class="font-bold text-gray-800 transition-colors duration-300" id="sub-price-${stock.ticker}">${stock.price.toLocaleString('ko-KR')}</span>
+            <span class="text-gray-600" data-stock-ko="${stock.name}">${localizedNameHtml(stock.name)}</span>
+            <span class="font-bold text-gray-800 transition-colors duration-300 notranslate" translate="no" id="sub-price-${stock.ticker}">${stock.price.toLocaleString('ko-KR')}</span>
         </a>`;
     });
     container.innerHTML = html;
+}
+
+function refreshStockListNames() {
+    document.querySelectorAll('[data-stock-ko]').forEach(el => {
+        el.innerHTML = localizedNameHtml(el.dataset.stockKo);
+    });
 }
 
 function renderAllStockLists() {
@@ -717,6 +1265,423 @@ function renderAllStockLists() {
 }
 
 renderAllStockLists();
+
+function googleFinanceUrl(symbol, query = '') {
+    const raw = normalizeSymbol(symbol);
+    if (raw.includes(':')) {
+        const parts = raw.split(':');
+        const maybeExchangeFirst = parts[0].length > 4 && parts[1];
+        return maybeExchangeFirst
+            ? `https://www.google.com/finance/quote/${encodeURIComponent(parts[1])}:${encodeURIComponent(parts[0])}`
+            : `https://www.google.com/finance/quote/${encodeURIComponent(raw)}`;
+    }
+    const search = query || raw;
+    return `https://www.google.com/finance/search?q=${encodeURIComponent(search)}`;
+}
+
+const WATCH_SOURCE_HOME_URLS = {
+    naver: 'https://finance.naver.com/',
+    google: 'https://www.google.com/finance/beta/'
+};
+
+function openWatchSourceHome(source) {
+    const url = WATCH_SOURCE_HOME_URLS[source] || WATCH_SOURCE_HOME_URLS.naver;
+    window.open(url, '_blank', 'noopener');
+}
+
+function watchlistItemUrl(item) {
+    if (item.source === 'naver' && isDomesticSymbol(item.symbol)) {
+        return `https://finance.naver.com/item/main.naver?code=${encodeURIComponent(item.symbol)}`;
+    }
+    return googleFinanceUrl(item.symbol, item.name);
+}
+
+function stooqSymbolFor(item) {
+    const raw = normalizeSymbol(item.symbol);
+    if (!raw) return '';
+    if (/^\d{6}$/.test(raw)) return '';
+    if (raw.includes(':')) {
+        const [left, right] = raw.split(':');
+        const exchangeFirst = left.length > 4;
+        const ticker = exchangeFirst ? right : left;
+        const exchange = exchangeFirst ? left : right;
+        const suffixMap = {
+            NASDAQ: 'us', NYSE: 'us', AMEX: 'us', US: 'us',
+            TSE: 'jp', TYO: 'jp', JP: 'jp',
+            LON: 'uk', LSE: 'uk',
+            XETRA: 'de', ETR: 'de', FRA: 'de',
+            EPA: 'fr', PAR: 'fr',
+            HKG: 'hk', HKEX: 'hk',
+            SHA: 'cn', SHE: 'cn', SSE: 'cn', SZSE: 'cn'
+        };
+        return `${ticker.toLowerCase()}.${suffixMap[exchange] || 'us'}`;
+    }
+    return `${raw.toLowerCase()}.us`;
+}
+
+function setWatchlistMessage(message, state = 'idle') {
+    const el = document.getElementById('watchlist-message');
+    if (!el) return;
+    el.textContent = message || '';
+    el.className = 'text-xs mt-2 min-h-[18px] ' + (
+        state === 'error' ? 'text-red-500' :
+        state === 'ok' ? 'text-emerald-600' :
+        'text-gray-400'
+    );
+}
+
+function renderWatchlist() {
+    const grid = document.getElementById('watchlist-grid');
+    if (!grid) return;
+    const totalPages = Math.max(1, Math.ceil(watchlistItems.length / WATCHLIST_PAGE_SIZE));
+    watchlistPage = Math.min(Math.max(0, watchlistPage), totalPages - 1);
+    const pageStart = watchlistPage * WATCHLIST_PAGE_SIZE;
+    const pageItems = watchlistItems.slice(pageStart, pageStart + WATCHLIST_PAGE_SIZE);
+    grid.innerHTML = pageItems.map((item, pageIndex) => {
+        const absoluteIndex = pageStart + pageIndex;
+        const sourceText = item.source === 'naver' ? t('naverRealtime') : t('googleCheck');
+        const priceText = item.price ? formatNum(item.price) : '--';
+        const currency = item.source === 'naver' ? '원' : '';
+        const editClass = watchEditMode ? ' is-editing' : '';
+        return `
+        <div class="watchlist-card${editClass} rounded-xl border border-slate-100 bg-slate-50 p-3 shadow-sm card-hover flex flex-col" data-watch-card="${item.symbol}">
+            <div class="flex items-start justify-between gap-2">
+                <a href="${watchlistItemUrl(item)}" target="_blank" class="min-w-0 font-bold text-sm text-deepNavy hover:text-vibrantBlue" title="${item.name}">
+                    <span data-watch-name="${item.symbol}">${localizedNameHtml(item.name)}</span>
+                </a>
+                <button type="button" class="watch-remove text-[11px] px-2 py-1 rounded-full bg-white text-gray-400 hover:text-red-500 border border-gray-100" data-remove-symbol="${item.symbol}">${t('remove')}</button>
+            </div>
+            <div class="watch-edit-controls grid-cols-4 gap-1 mt-3">
+                <button type="button" class="watch-drag-handle rounded-lg bg-deepNavy border border-deepNavy px-2 py-2 text-xs font-bold text-white" data-drag-handle="${item.symbol}" aria-label="${t('dragHandle')} ${item.name}">☰ ${t('dragHandle')}</button>
+                <button type="button" class="watch-order-btn rounded-lg bg-white border border-teal-100 px-2 py-2 text-xs font-bold text-teal-700" data-move-symbol="${item.symbol}" data-move-dir="-1" ${absoluteIndex === 0 ? 'disabled' : ''}>${t('moveUp')}</button>
+                <button type="button" class="watch-order-btn rounded-lg bg-white border border-teal-100 px-2 py-2 text-xs font-bold text-teal-700" data-move-symbol="${item.symbol}" data-move-dir="1" ${absoluteIndex === watchlistItems.length - 1 ? 'disabled' : ''}>${t('moveDown')}</button>
+                <button type="button" class="rounded-lg bg-red-50 border border-red-100 px-2 py-2 text-xs font-bold text-red-600" data-remove-symbol="${item.symbol}">${t('remove')}</button>
+            </div>
+            <div class="text-[11px] text-gray-400 mt-1"><span class="notranslate" translate="no">${item.symbol}</span> · ${sourceText}</div>
+            <div class="mt-3 text-xl font-extrabold text-gray-900 watchlist-price notranslate" translate="no"><span data-watch-price="${item.symbol}">${priceText}</span><span class="text-xs font-normal ml-0.5">${currency}</span></div>
+            <div class="mt-auto pt-3 text-[11px] space-y-1">
+                <div class="flex justify-between rounded bg-white px-2 py-1"><span class="text-gray-500">${t('closeChange')}</span><span data-watch-close="${item.symbol}" class="text-gray-400 notranslate" translate="no">-</span></div>
+                <div class="flex justify-between rounded bg-white px-2 py-1"><span class="text-gray-500">${t('openChange')}</span><span data-watch-open="${item.symbol}" class="text-gray-400 notranslate" translate="no">-</span></div>
+                <div data-watch-status="${item.symbol}" class="text-gray-400 truncate">${item.source === 'google' ? t('googleCheck') : t('noPrice')}</div>
+            </div>
+        </div>`;
+    }).join('');
+
+    const label = document.getElementById('watchlist-page-label');
+    if (label) label.textContent = t('pageLabel')({ current: watchlistPage + 1, total: totalPages });
+    const editButton = document.getElementById('watch-edit-btn');
+    if (editButton) {
+        editButton.textContent = watchEditMode ? t('doneEdit') : t('editWatchlist');
+        editButton.setAttribute('aria-pressed', String(watchEditMode));
+    }
+    const editHelp = document.getElementById('watch-edit-help');
+    if (editHelp) editHelp.classList.toggle('hidden', !watchEditMode);
+    const dots = document.getElementById('watch-dots');
+    if (dots) {
+        dots.innerHTML = Array.from({ length: totalPages }, (_, index) => `<button type="button" class="watchlist-dot ${index === watchlistPage ? 'active' : ''}" data-watch-page="${index}" aria-label="Page ${index + 1}"></button>`).join('');
+    }
+    document.getElementById('watch-prev').disabled = watchlistPage === 0;
+    document.getElementById('watch-next').disabled = watchlistPage >= totalPages - 1;
+}
+
+function queryWatchElements(symbol, attr) {
+    return [...document.querySelectorAll(`[${attr}]`)].filter(el => el.getAttribute(attr) === symbol);
+}
+
+function setWatchText(symbol, attr, text, className) {
+    queryWatchElements(symbol, attr).forEach(el => {
+        el.textContent = text;
+        if (className) el.className = className;
+    });
+}
+
+function applyWatchlistQuote(quote) {
+    const symbol = normalizeSymbol(quote.code || quote.id || quote.ticker);
+    if (!symbol) return false;
+    const item = watchlistItems.find(entry => entry.symbol === symbol || entry.symbol === normalizeSymbol(quote.ticker));
+    if (!item) return true;
+    const price = toNumber(quote.price);
+    if (price === null) return false;
+    item.price = price;
+    queryWatchElements(item.symbol, 'data-watch-price').forEach(el => {
+        const oldPrice = readDisplayedNumber(el);
+        flashPriceElement(el, price, oldPrice, false);
+    });
+    const closeYest = toNumber(quote.closeyest);
+    const rawChange = toNumber(quote.change);
+    const closeDiff = rawChange !== null ? rawChange : (closeYest !== null ? price - closeYest : null);
+    const closePct = toNumber(quote.changepct);
+    const computedClosePct = closePct !== null ? closePct : (closeDiff !== null && closeYest ? (closeDiff / closeYest) * 100 : null);
+    setChangeText(item.symbol, 'data-watch-close', closeDiff, computedClosePct);
+    const openPrice = toNumber(quote.priceopen);
+    const openDiff = openPrice !== null ? price - openPrice : null;
+    const openPct = openDiff !== null && openPrice ? (openDiff / openPrice) * 100 : null;
+    setChangeText(item.symbol, 'data-watch-open', openDiff, openPct);
+    setWatchText(item.symbol, 'data-watch-status', item.source === 'naver' ? t('naverRealtime') : t('stooqDelay'), 'text-emerald-600 truncate');
+    return true;
+}
+
+function setChangeText(symbol, attr, diff, percent) {
+    if (diff === null || !Number.isFinite(diff)) return;
+    const sign = diff > 0 ? '▲' : (diff < 0 ? '▼' : '-');
+    const className = diff > 0 ? 'text-red-500' : (diff < 0 ? 'text-blue-500' : 'text-gray-500');
+    const percentText = percent === null || !Number.isFinite(percent)
+        ? ''
+        : ` (${percent > 0 ? '+' : ''}${percent.toFixed(2)}%)`;
+    setWatchText(symbol, attr, `${sign} ${formatNum(Math.abs(diff))}${percentText}`, className);
+}
+
+function getDomesticWatchlistCodes() {
+    return watchlistItems
+        .filter(item => item.source === 'naver' && isDomesticSymbol(item.symbol))
+        .map(item => item.symbol);
+}
+
+function addResolvedWatchlistItem(item, options = {}) {
+    const source = item.source || (isDomesticSymbol(item.symbol) ? 'naver' : 'google');
+    const symbol = normalizeSymbol(item.symbol);
+    const name = String(item.name || symbol).trim();
+    if (!name || !symbol) {
+        setWatchlistMessage(t('needFields'), 'error');
+        return false;
+    }
+    if (watchlistItems.some(item => item.symbol === symbol)) {
+        setWatchlistMessage(t('duplicate'), 'error');
+        return false;
+    }
+    watchlistItems.push({ source, name, symbol, price: toNumber(item.price), addedAt: Date.now() });
+    watchlistPage = Math.floor((watchlistItems.length - 1) / WATCHLIST_PAGE_SIZE);
+    saveWatchlist();
+    renderWatchlist();
+    setWatchlistMessage(t('added'), 'ok');
+    document.getElementById('watch-name').value = '';
+    document.getElementById('watch-symbol').value = '';
+    document.getElementById('watch-query').value = '';
+    if (options.openSource) openWatchSourceHome(source);
+    refreshMarketData();
+    return true;
+}
+
+function updateWatchConfirmDetail() {
+    const detail = document.getElementById('watch-confirm-detail');
+    if (!detail || !pendingWatchMatch) return;
+    const detailText = t('confirmAddDetail');
+    const item = pendingWatchMatch.item;
+    const displayItem = {
+        name: localizedName(item.name),
+        symbol: item.symbol
+    };
+    detail.textContent = typeof detailText === 'function'
+        ? detailText(displayItem)
+        : `${displayItem.name} (${displayItem.symbol})`;
+}
+
+function showWatchMatchConfirm(match) {
+    pendingWatchMatch = match;
+    updateWatchConfirmDetail();
+    const modal = document.getElementById('watch-confirm-modal');
+    if (modal) modal.classList.add('is-open');
+}
+
+function closeWatchMatchConfirm(cancelled = false) {
+    pendingWatchMatch = null;
+    const modal = document.getElementById('watch-confirm-modal');
+    if (modal) modal.classList.remove('is-open');
+    if (cancelled) setWatchlistMessage(t('cancelled'), 'idle');
+}
+
+async function addWatchlistItem() {
+    const source = document.getElementById('watch-source').value;
+    openWatchSourceHome(source);
+    const name = document.getElementById('watch-name').value.trim();
+    const query = document.getElementById('watch-query').value.trim();
+    const typedName = name || query;
+    const symbol = normalizeSymbol(document.getElementById('watch-symbol').value);
+
+    if (symbol) {
+        addResolvedWatchlistItem({ source, name: name || query || symbol, symbol });
+        return;
+    }
+    if (!typedName) {
+        setWatchlistMessage(t('needFields'), 'error');
+        return;
+    }
+
+    setWatchlistMessage(t('checkingName'), 'idle');
+    const match = await resolveWatchlistName(typedName, source);
+    if (!match) {
+        setWatchlistMessage(t('noNameMatch'), 'error');
+        return;
+    }
+    if (match.exact || match.score >= 0.96) {
+        addResolvedWatchlistItem(match.item);
+        return;
+    }
+    showWatchMatchConfirm(match);
+}
+
+function removeWatchlistItem(symbol) {
+    watchlistItems = watchlistItems.filter(item => item.symbol !== symbol);
+    if (!watchlistItems.length) watchlistItems = getDefaultWatchlist();
+    saveWatchlist();
+    renderWatchlist();
+}
+
+function moveWatchlistItem(symbol, direction) {
+    const fromIndex = watchlistItems.findIndex(item => item.symbol === symbol);
+    if (fromIndex < 0) return;
+    const toIndex = fromIndex + Number(direction);
+    if (toIndex < 0 || toIndex >= watchlistItems.length) return;
+    const [item] = watchlistItems.splice(fromIndex, 1);
+    watchlistItems.splice(toIndex, 0, item);
+    watchlistPage = Math.floor(toIndex / WATCHLIST_PAGE_SIZE);
+    saveWatchlist();
+    renderWatchlist();
+}
+
+function moveWatchlistItemTo(symbol, targetSymbol) {
+    const fromIndex = watchlistItems.findIndex(item => item.symbol === symbol);
+    const targetIndex = watchlistItems.findIndex(item => item.symbol === targetSymbol);
+    if (fromIndex < 0 || targetIndex < 0 || fromIndex === targetIndex) return;
+    const [item] = watchlistItems.splice(fromIndex, 1);
+    const adjustedTarget = fromIndex < targetIndex ? targetIndex : targetIndex;
+    watchlistItems.splice(adjustedTarget, 0, item);
+    watchlistPage = Math.floor(adjustedTarget / WATCHLIST_PAGE_SIZE);
+    saveWatchlist();
+    renderWatchlist();
+}
+
+function clearWatchDragClasses() {
+    document.querySelectorAll('.watchlist-card.is-dragging, .watchlist-card.is-drop-target').forEach(card => {
+        card.classList.remove('is-dragging', 'is-drop-target');
+    });
+}
+
+function startWatchDrag(event) {
+    const handle = event.target.closest('[data-drag-handle]');
+    if (!handle || !watchEditMode) return;
+    event.preventDefault();
+    const symbol = handle.dataset.dragHandle;
+    watchDragState = { symbol, targetSymbol: null, pointerId: event.pointerId };
+    const card = handle.closest('[data-watch-card]');
+    if (card) card.classList.add('is-dragging');
+    document.body.style.cursor = 'grabbing';
+    try { handle.setPointerCapture(event.pointerId); } catch (error) { /* Pointer capture can fail on older browsers. */ }
+}
+
+function updateWatchDrag(event) {
+    if (!watchDragState) return;
+    event.preventDefault();
+    const element = document.elementFromPoint(event.clientX, event.clientY);
+    const card = element && element.closest ? element.closest('[data-watch-card]') : null;
+    document.querySelectorAll('.watchlist-card.is-drop-target').forEach(item => item.classList.remove('is-drop-target'));
+    if (card && card.dataset.watchCard !== watchDragState.symbol) {
+        watchDragState.targetSymbol = card.dataset.watchCard;
+        card.classList.add('is-drop-target');
+    } else {
+        watchDragState.targetSymbol = null;
+    }
+    if (event.clientY < 90) window.scrollBy({ top: -12, behavior: 'auto' });
+    if (event.clientY > window.innerHeight - 90) window.scrollBy({ top: 12, behavior: 'auto' });
+}
+
+function endWatchDrag(event) {
+    if (!watchDragState) return;
+    event.preventDefault();
+    const { symbol, targetSymbol } = watchDragState;
+    watchDragState = null;
+    document.body.style.cursor = '';
+    clearWatchDragClasses();
+    if (targetSymbol) moveWatchlistItemTo(symbol, targetSymbol);
+}
+
+function toggleWatchEditMode() {
+    watchEditMode = !watchEditMode;
+    watchDragState = null;
+    clearWatchDragClasses();
+    renderWatchlist();
+}
+
+function openWatchSearch() {
+    const source = document.getElementById('watch-source').value;
+    openWatchSourceHome(source);
+}
+
+function resetWatchlist() {
+    watchlistItems = getDefaultWatchlist();
+    watchlistPage = 0;
+    saveWatchlist();
+    renderWatchlist();
+    setWatchlistMessage(t('resetDone'), 'ok');
+    refreshMarketData();
+}
+
+function initWatchlistControls() {
+    watchlistItems = loadWatchlist();
+    renderWatchlist();
+    const searchInput = document.getElementById('watch-query');
+    const nameInput = document.getElementById('watch-name');
+    const symbolInput = document.getElementById('watch-symbol');
+    if (searchInput) searchInput.placeholder = t('searchPlaceholder');
+    if (nameInput) nameInput.placeholder = t('namePlaceholder');
+    if (symbolInput) symbolInput.placeholder = t('symbolPlaceholder');
+    document.getElementById('watch-add-btn').addEventListener('click', addWatchlistItem);
+    document.getElementById('watch-search-btn').addEventListener('click', openWatchSearch);
+    document.getElementById('watch-reset-btn').addEventListener('click', resetWatchlist);
+    document.getElementById('watch-edit-btn').addEventListener('click', toggleWatchEditMode);
+    document.getElementById('watch-confirm-yes').addEventListener('click', () => {
+        if (pendingWatchMatch) addResolvedWatchlistItem(pendingWatchMatch.item);
+        closeWatchMatchConfirm(false);
+    });
+    document.getElementById('watch-confirm-no').addEventListener('click', () => closeWatchMatchConfirm(true));
+    document.querySelectorAll('[data-watch-confirm-cancel]').forEach(el => {
+        el.addEventListener('click', () => closeWatchMatchConfirm(true));
+    });
+    document.addEventListener('keydown', event => {
+        if (event.key === 'Escape' && pendingWatchMatch) closeWatchMatchConfirm(true);
+    });
+    document.getElementById('watch-prev').addEventListener('click', () => { watchlistPage--; renderWatchlist(); });
+    document.getElementById('watch-next').addEventListener('click', () => { watchlistPage++; renderWatchlist(); });
+    document.getElementById('watch-dots').addEventListener('click', event => {
+        const page = event.target && event.target.dataset.watchPage;
+        if (page !== undefined) {
+            watchlistPage = Number(page);
+            renderWatchlist();
+        }
+    });
+    document.getElementById('watchlist-grid').addEventListener('click', event => {
+        const move = event.target.closest('[data-move-symbol]');
+        if (move) {
+            event.preventDefault();
+            moveWatchlistItem(move.dataset.moveSymbol, move.dataset.moveDir);
+            return;
+        }
+        const remove = event.target.closest('[data-remove-symbol]');
+        if (remove) {
+            event.preventDefault();
+            removeWatchlistItem(remove.dataset.removeSymbol);
+        }
+    });
+    document.getElementById('watchlist-grid').addEventListener('pointerdown', startWatchDrag);
+    document.addEventListener('pointermove', updateWatchDrag);
+    document.addEventListener('pointerup', endWatchDrag);
+    document.addEventListener('pointercancel', endWatchDrag);
+    const track = document.getElementById('watchlist-track');
+    track.addEventListener('touchstart', event => {
+        if (watchEditMode) return;
+        watchTouchStartX = event.changedTouches[0].clientX;
+    }, { passive: true });
+    track.addEventListener('touchend', event => {
+        if (watchEditMode) return;
+        const diff = event.changedTouches[0].clientX - watchTouchStartX;
+        if (Math.abs(diff) < 60) return;
+        const totalPages = Math.max(1, Math.ceil(watchlistItems.length / WATCHLIST_PAGE_SIZE));
+        if (diff < 0 && watchlistPage < totalPages - 1) watchlistPage++;
+        if (diff > 0 && watchlistPage > 0) watchlistPage--;
+        renderWatchlist();
+    }, { passive: true });
+}
+
 
 // --- Naver Finance JSONP / Yahoo Finance / Google Sheets 실시간 연동 로직 ---
 // ★ 새 Google Sheets ID 적용 (3차 수정본)
@@ -761,18 +1726,14 @@ function readDisplayedNumber(el) {
     return toNumber(el.innerText);
 }
 
-function setRefreshStatus(message, state = 'idle', vars = {}, remember = true) {
+function setRefreshStatus(message, state = 'idle') {
     const el = document.getElementById('refresh-status');
     if (!el) return;
-    if (remember) {
-        lastRefreshState = state;
-        lastRefreshVars = vars;
-    }
     const defaultMessages = {
-        loading: t('status.loading'),
-        ok: t('status.ok', vars),
-        warn: t('status.warn', vars),
-        error: t('status.error')
+        loading: t('loading'),
+        ok: t('ok')(),
+        warn: t('warn'),
+        error: t('error')
     };
     el.textContent = message || defaultMessages[state] || '';
     el.className = 'text-xs font-normal ml-3 ' + (
@@ -808,9 +1769,7 @@ function setChangeElement(elementId, diff, percent, isIndex = false) {
     const percentText = percent === null || !Number.isFinite(percent)
         ? ''
         : ` (${percent > 0 ? '+' : ''}${percent.toFixed(2)}%)`;
-    el.innerHTML = percentText
-        ? `${sign} ${absDiff}<span class="desktop-percent">${percentText}</span><span class="mobile-percent">${percentText}</span>`
-        : `${sign} ${absDiff}`;
+    el.textContent = `${sign} ${absDiff}${percentText}`;
 }
 
 function setTopUnavailable(config) { return; }
@@ -879,6 +1838,7 @@ function normalizeNaverStockQuote(data) {
     const config = QUOTE_CONFIG[id];
     return {
         id,
+        code,
         name: config ? config.name : (data.nm || code),
         ticker: code,
         price: naverNumber(data.nv),
@@ -911,7 +1871,7 @@ function chunkArray(items, size) {
 
 async function loadNaverFinanceFeed() {
     const subCodes = [...stockData.semi, ...stockData.def, ...stockData.ship, ...stockData.aero].map(item => item.ticker);
-    const stockCodes = [...new Set([...Object.keys(NAVER_CODE_TO_TOP_ID), ...subCodes])];
+    const stockCodes = [...new Set([...Object.keys(NAVER_CODE_TO_TOP_ID), ...subCodes, ...getDomesticWatchlistCodes()])];
     const stockRequests = chunkArray(stockCodes, 20).map(codes => loadNaverRealtime(`SERVICE_ITEM:${codes.join(',')}`));
     const responses = await Promise.all([loadNaverRealtime('SERVICE_INDEX:KOSPI,KOSDAQ'), ...stockRequests]);
     const rows = responses.flatMap(parseNaverRealtimeResponse);
@@ -1008,17 +1968,52 @@ async function loadYahooFinanceFeed() {
     return rows;
 }
 
-let latestQuotePayload = null;
+async function fetchStooqWatchQuote(item) {
+    const symbol = stooqSymbolFor(item);
+    if (!symbol) throw new Error(`No Stooq symbol for ${item.symbol}`);
+    const url = `https://stooq.com/q/l/?s=${encodeURIComponent(symbol)}&f=sd2t2ohlcv&h&e=json&_=${Date.now()}`;
+    const response = await fetch(url);
+    if (!response.ok) throw new Error(`Stooq quote failed: ${symbol}`);
+    const json = await response.json();
+    const row = json && json.symbols && json.symbols[0];
+    const price = row ? toNumber(row.close) : null;
+    if (price === null) throw new Error(`Stooq quote missing price: ${symbol}`);
+    const open = toNumber(row.open);
+    return {
+        id: item.symbol,
+        code: item.symbol,
+        ticker: item.symbol,
+        name: item.name,
+        price,
+        priceopen: open,
+        closeyest: null,
+        change: null,
+        changepct: null,
+        tradetime: row.time || '',
+        datadelay: '',
+        status: 'AUX'
+    };
+}
+
+async function loadStooqWatchlistFeed() {
+    const overseas = watchlistItems.filter(item => item.source === 'google' || !isDomesticSymbol(item.symbol));
+    if (!overseas.length) return [];
+    const settled = await Promise.allSettled(overseas.map(fetchStooqWatchQuote));
+    return settled.filter(item => item.status === 'fulfilled').map(item => item.value);
+}
 
 async function loadLiveQuoteFeed() {
-    const response = await fetch(`data/korea-stockmarket-quotes.json?ts=${Date.now()}`, { cache: 'no-store' });
-    if (!response.ok) throw new Error('Quote snapshot request failed.');
-    const payload = await response.json();
-    if (!Array.isArray(payload.quotes) || !payload.quotes.length) {
-        throw new Error('Quote snapshot contains no rows.');
+    try {
+        return await loadNaverFinanceFeed();
+    } catch (naverError) {
+        console.warn('Naver Finance 실패, Yahoo Finance로 대체:', naverError);
+        try {
+            return await loadYahooFinanceFeed();
+        } catch (yahooError) {
+            console.warn('Yahoo Finance 실패, Google Sheets로 대체:', yahooError);
+            return await loadGoogleFinanceFeed();
+        }
     }
-    latestQuotePayload = payload;
-    return payload.quotes;
 }
 
 function applyTopQuote(id, quote) {
@@ -1054,19 +2049,86 @@ function applySubQuote(quote) {
 }
 
 function applyQuotes(rows) {
-    const quoteMap = new Map(rows.map(row => [String(row.id), row]));
+    const quoteMap = new Map();
+    rows.forEach(row => {
+        quoteMap.set(String(row.id), row);
+        if (row.code) quoteMap.set(String(row.code), row);
+        if (row.ticker) quoteMap.set(String(row.ticker), row);
+    });
     const missing = [];
     Object.keys(QUOTE_CONFIG).forEach(id => {
         const quote = quoteMap.get(id);
         if (!quote || !applyTopQuote(id, quote)) missing.push((quote && quote.name) || id);
     });
     rows.forEach(row => {
-        if (/^\d{6}$/.test(String(row.id)) && !applySubQuote(row)) {
+        const code = String(row.code || row.id);
+        if (/^[0-9A-Z]{6}$/.test(code) && !applySubQuote({ ...row, id: code })) {
             missing.push(row.name || row.id);
         }
+        if (!applyWatchlistQuote(row)) missing.push(row.name || row.id);
     });
     return { total: rows.length, missing: [...new Set(missing)] };
 }
+
+function applyLanguage(lang, shouldTranslatePage = true) {
+    currentLanguage = lang;
+    localStorage.setItem(LANG_KEY, lang);
+    document.documentElement.lang = lang;
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+        const value = t(el.dataset.i18n);
+        if (typeof value === 'string') el.textContent = value;
+    });
+    document.querySelectorAll('[data-i18n-html]').forEach(el => {
+        const value = t(el.dataset.i18nHtml);
+        if (typeof value === 'string') el.innerHTML = value;
+    });
+    document.querySelectorAll('.language-btn').forEach(btn => {
+        btn.setAttribute('aria-pressed', String(btn.dataset.lang === lang));
+    });
+    const searchInput = document.getElementById('watch-query');
+    const nameInput = document.getElementById('watch-name');
+    const symbolInput = document.getElementById('watch-symbol');
+    if (searchInput) searchInput.placeholder = t('searchPlaceholder');
+    if (nameInput) nameInput.placeholder = t('namePlaceholder');
+    if (symbolInput) symbolInput.placeholder = t('symbolPlaceholder');
+    refreshStockListNames();
+    renderWatchlist();
+    updateWatchConfirmDetail();
+    updateChartsForLanguage();
+    setRefreshStatus('', 'ok');
+    updateRefreshButtonMode();
+    if (shouldTranslatePage) triggerGoogleTranslate(lang);
+}
+
+function triggerGoogleTranslate(lang) {
+    const googleLang = (LANGUAGE_META[lang] && LANGUAGE_META[lang].google) || lang;
+    let tries = 0;
+    const timer = setInterval(() => {
+        const combo = document.querySelector('.goog-te-combo');
+        tries++;
+        if (combo) {
+            combo.value = googleLang;
+            combo.dispatchEvent(new Event('change'));
+            clearInterval(timer);
+        } else if (tries > 25) {
+            clearInterval(timer);
+        }
+    }, 200);
+}
+
+function googleTranslateElementInit() {
+    new google.translate.TranslateElement({
+        pageLanguage: 'ko',
+        includedLanguages: 'ko,en,ja,zh-CN,vi,de,fr',
+        autoDisplay: false
+    }, 'google_translate_element');
+}
+
+window.googleTranslateElementInit = googleTranslateElementInit;
+
+document.querySelectorAll('.language-btn').forEach(btn => {
+    btn.addEventListener('click', () => applyLanguage(btn.dataset.lang));
+});
 
 let refreshInFlight = false;
 
@@ -1080,11 +2142,17 @@ async function refreshMarketData() {
     setRefreshStatus('', 'loading');
     try {
         const rows = await loadLiveQuoteFeed();
+        const stooqRows = await loadStooqWatchlistFeed().catch(error => {
+            console.warn('Stooq 보조 데이터 실패:', error);
+            return [];
+        });
+        const googleOnlySymbols = new Set(watchlistItems.filter(item => item.source === 'google' || !isDomesticSymbol(item.symbol)).map(item => item.symbol));
+        stooqRows.forEach(row => googleOnlySymbols.delete(row.code || row.id));
+        googleOnlySymbols.forEach(symbol => setWatchText(symbol, 'data-watch-status', t('googleCheck'), 'text-amber-600 truncate'));
+        rows.push(...stooqRows);
         const result = applyQuotes(rows);
-        const stamp = latestQuotePayload && latestQuotePayload.generatedAt ? new Date(latestQuotePayload.generatedAt) : new Date();
-        const time = stamp.toLocaleTimeString(currentLanguage === 'ko' ? 'ko-KR' : undefined, { hour: '2-digit', minute: '2-digit' });
-        const state = result.missing.length || (latestQuotePayload && latestQuotePayload.stale) ? 'warn' : 'ok';
-        setRefreshStatus('', state, { time });
+        saveWatchlist();
+        setRefreshStatus('', result.missing.length ? 'warn' : 'ok');
     } catch (error) {
         console.error(error);
         setRefreshStatus('', 'error');
@@ -1095,50 +2163,137 @@ async function refreshMarketData() {
     }
 }
 
+function updateRefreshButtonMode() {
+    const header = document.querySelector('header');
+    const button = document.getElementById('refresh-btn');
+    if (!header || !button) return;
+    const isBelowHero = header.getBoundingClientRect().bottom <= 0;
+    button.classList.toggle('is-compact', isBelowHero);
+    button.setAttribute('aria-label', isBelowHero ? t('refreshButton') : '');
+}
+
 document.getElementById('refresh-btn').addEventListener('click', refreshMarketData);
+window.addEventListener('scroll', updateRefreshButtonMode, { passive: true });
+window.addEventListener('resize', updateRefreshButtonMode);
 window.addEventListener('load', () => {
-    initializeI18n();
+    initWatchlistControls();
+    applyLanguage(currentLanguage, false);
+    updateRefreshButtonMode();
     refreshMarketData();
 });
-setInterval(refreshMarketData, 30000);
+setInterval(refreshMarketData, UPDATE_INTERVAL_MS);
 
 // --- 차트 스크립트 ---
-const pieOptions={responsive:true,maintainAspectRatio:false,cutout:'65%',plugins:{legend:{position:'right',labels:{boxWidth:12,font:{size:11,family:'Pretendard'}}},tooltip:{callbacks:{label:function(ctx){return ' '+ctx.label+': '+ctx.parsed+'%';}}}}};
-const charts = {};
-function chartLabels() {
-    return {
-        tigerPie: ['LS일렉트릭','HD현대일렉트릭','효성중공업','가온전선','일진전기'].map(name => formatEntityName(name)).concat(t('chart.labels.etc')),
-        marketPie: ['삼성전자','SK하이닉스','현대차','KB금융','기아'].map(name => formatEntityName(name)).concat(t('chart.labels.remaining195')),
-        radar: [t('chart.radar.growth'), t('chart.radar.stability'), t('chart.radar.compounding'), t('chart.radar.ai'), t('chart.radar.exports')],
-        barYears: [t('chart.bar.2022'), t('chart.bar.2023'), t('chart.bar.2024'), t('chart.bar.2026'), t('chart.bar.2030')],
-        lineYears: [t('chart.line.year1'), t('chart.line.year3'), t('chart.line.year5'), t('chart.line.year10'), t('chart.line.year15')]
-    };
-}
-const initialChartLabels = chartLabels();
-charts.pieTiger = new Chart(document.getElementById('pieTiger').getContext('2d'), {type:'doughnut',data:{labels:initialChartLabels.tigerPie,datasets:[{data:[29,26,20,8,7,10],backgroundColor:['#ea580c','#f97316','#fb923c','#fdba74','#fed7aa','#f1f5f9'],borderWidth:1}]},options:pieOptions});
-charts.pieKodex = new Chart(document.getElementById('pieKodex').getContext('2d'), {type:'doughnut',data:{labels:initialChartLabels.marketPie,datasets:[{data:[31,12,4,3,3,47],backgroundColor:['#2563eb','#3b82f6','#60a5fa','#93c5fd','#bfdbfe','#f1f5f9'],borderWidth:1}]},options:pieOptions});
-charts.pieKodexTR = new Chart(document.getElementById('pieKodexTR').getContext('2d'), {type:'doughnut',data:{labels:initialChartLabels.marketPie,datasets:[{data:[31,12,4,3,3,47],backgroundColor:['#9333ea','#a855f7','#c084fc','#d8b4fe','#e9d5ff','#f1f5f9'],borderWidth:1}]},options:pieOptions});
-charts.radar = new Chart(document.getElementById('radarChart').getContext('2d'), {type:'radar',data:{labels:initialChartLabels.radar,datasets:[{label:formatEntityName('TIGER AI전력기기'),data:[95,45,30,95,90],borderColor:'#ea580c',backgroundColor:'rgba(234,88,12,0.2)'},{label:'KODEX 200TR',data:[75,85,95,75,70],borderColor:'#9333ea',backgroundColor:'rgba(147,51,234,0.2)'},{label:'KODEX 200',data:[75,85,75,75,70],borderColor:'#2563eb',backgroundColor:'rgba(37,99,235,0.2)'}]},options:{responsive:true,maintainAspectRatio:false}});
-charts.bar = new Chart(document.getElementById('barChart').getContext('2d'), {type:'bar',data:{labels:initialChartLabels.barYears,datasets:[{label:t('chart.bar.powerDemand'),data:[460,500,620,800,1150],backgroundColor:['#f97316','#fb923c','#ea580c','#c2410c','#9a3412'],borderRadius:6}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#1e293b'}}},scales:{y:{beginAtZero:false,ticks:{callback:function(v){return v+'TWh'}}}}}});
-charts.line = new Chart(document.getElementById('lineChart').getContext('2d'), {type:'line',data:{labels:initialChartLabels.lineYears,datasets:[{label:t('chart.line.tr'),data:[105,122,145,210,310],borderColor:'#0d9488',fill:true,backgroundColor:'rgba(13,148,136,0.1)',tension:0.4},{label:t('chart.line.regular'),data:[105,116,130,170,220],borderColor:'#2563eb',tension:0.4,fill:false}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'top'}}}});
+const CHART_TRANSLATIONS = {
+    ko: {
+        tigerPie: ['LS일렉트릭','HD현대일렉트릭','효성중공업','가온전선','일진전기','기타'],
+        kodexPie: ['삼성전자','SK하이닉스','현대차','KB금융','기아','나머지 195개'],
+        radarLabels: ['성장 잠재력','시장 안정성','배당 복리 효과','AI/기술 노출도','수출 모멘텀'],
+        barYears: ['2022년','2023년','2024년','2026년','2030년'],
+        lineYears: ['1년차','3년차','5년차','10년차','15년차'],
+        tigerAi: 'TIGER AI',
+        kodex200tr: 'KODEX 200TR (배당 재투자)',
+        kodex200: 'KODEX 200 (일반)',
+        powerDemand: '전력 수요 (TWh)'
+    },
+    en: {
+        tigerPie: ['LS Electric (LS일렉트릭)','HD Hyundai Electric (HD현대일렉트릭)','Hyosung Heavy Industries (효성중공업)','Gaon Cable (가온전선)','Iljin Electric (일진전기)','Others (기타)'],
+        kodexPie: ['Samsung Electronics (삼성전자)','SK hynix (SK하이닉스)','Hyundai Motor (현대차)','KB Financial (KB금융)','Kia (기아)','Other 195 names (나머지 195개)'],
+        radarLabels: ['Growth potential','Market stability','Dividend compounding','AI/tech exposure','Export momentum'],
+        barYears: ['2022','2023','2024','2026','2030'],
+        lineYears: ['Year 1','Year 3','Year 5','Year 10','Year 15'],
+        tigerAi: 'TIGER AI',
+        kodex200tr: 'KODEX 200TR (dividend reinvested)',
+        kodex200: 'KODEX 200 (standard)',
+        powerDemand: 'Power demand (TWh)'
+    },
+    ja: {
+        tigerPie: ['LS Electric (LS일렉트릭)','HD Hyundai Electric (HD현대일렉트릭)','Hyosung Heavy Industries (효성중공업)','Gaon Cable (가온전선)','Iljin Electric (일진전기)','その他 (기타)'],
+        kodexPie: ['Samsung Electronics (삼성전자)','SK hynix (SK하이닉스)','Hyundai Motor (현대차)','KB Financial (KB금융)','Kia (기아)','その他195銘柄 (나머지 195개)'],
+        radarLabels: ['成長余地','市場安定性','配当複利効果','AI/技術エクスポージャー','輸出モメンタム'],
+        barYears: ['2022年','2023年','2024年','2026年','2030年'],
+        lineYears: ['1年目','3年目','5年目','10年目','15年目'],
+        tigerAi: 'TIGER AI',
+        kodex200tr: 'KODEX 200TR (配当再投資)',
+        kodex200: 'KODEX 200 (一般)',
+        powerDemand: '電力需要 (TWh)'
+    },
+    'zh-CN': {
+        tigerPie: ['LS Electric (LS일렉트릭)','HD Hyundai Electric (HD현대일렉트릭)','晓星重工 (효성중공업)','Gaon Cable (가온전선)','Iljin Electric (일진전기)','其他 (기타)'],
+        kodexPie: ['三星电子 (삼성전자)','SK海力士 (SK하이닉스)','现代汽车 (현대차)','KB金融 (KB금융)','起亚 (기아)','其余195只 (나머지 195개)'],
+        radarLabels: ['成长潜力','市场稳定性','股息复利效果','AI/技术敞口','出口动能'],
+        barYears: ['2022年','2023年','2024年','2026年','2030年'],
+        lineYears: ['第1年','第3年','第5年','第10年','第15年'],
+        tigerAi: 'TIGER AI',
+        kodex200tr: 'KODEX 200TR (股息再投资)',
+        kodex200: 'KODEX 200 (普通)',
+        powerDemand: '电力需求 (TWh)'
+    },
+    vi: {
+        tigerPie: ['LS Electric (LS일렉트릭)','HD Hyundai Electric (HD현대일렉트릭)','Hyosung Heavy Industries (효성중공업)','Gaon Cable (가온전선)','Iljin Electric (일진전기)','Khác (기타)'],
+        kodexPie: ['Samsung Electronics (삼성전자)','SK hynix (SK하이닉스)','Hyundai Motor (현대차)','KB Financial (KB금융)','Kia (기아)','195 mã còn lại (나머지 195개)'],
+        radarLabels: ['Tiềm năng tăng trưởng','Ổn định thị trường','Hiệu ứng tái đầu tư cổ tức','Tiếp xúc AI/công nghệ','Đà xuất khẩu'],
+        barYears: ['2022','2023','2024','2026','2030'],
+        lineYears: ['Năm 1','Năm 3','Năm 5','Năm 10','Năm 15'],
+        tigerAi: 'TIGER AI',
+        kodex200tr: 'KODEX 200TR (tái đầu tư cổ tức)',
+        kodex200: 'KODEX 200 (thường)',
+        powerDemand: 'Nhu cầu điện (TWh)'
+    },
+    de: {
+        tigerPie: ['LS Electric (LS일렉트릭)','HD Hyundai Electric (HD현대일렉트릭)','Hyosung Heavy Industries (효성중공업)','Gaon Cable (가온전선)','Iljin Electric (일진전기)','Sonstige (기타)'],
+        kodexPie: ['Samsung Electronics (삼성전자)','SK hynix (SK하이닉스)','Hyundai Motor (현대차)','KB Financial (KB금융)','Kia (기아)','Weitere 195 Titel (나머지 195개)'],
+        radarLabels: ['Wachstumspotenzial','Marktstabilität','Dividenden-Zinseszins','AI/Tech-Exposure','Exportmomentum'],
+        barYears: ['2022','2023','2024','2026','2030'],
+        lineYears: ['Jahr 1','Jahr 3','Jahr 5','Jahr 10','Jahr 15'],
+        tigerAi: 'TIGER AI',
+        kodex200tr: 'KODEX 200TR (Dividenden reinvestiert)',
+        kodex200: 'KODEX 200 (normal)',
+        powerDemand: 'Strombedarf (TWh)'
+    },
+    fr: {
+        tigerPie: ['LS Electric (LS일렉트릭)','HD Hyundai Electric (HD현대일렉트릭)','Hyosung Heavy Industries (효성중공업)','Gaon Cable (가온전선)','Iljin Electric (일진전기)','Autres (기타)'],
+        kodexPie: ['Samsung Electronics (삼성전자)','SK hynix (SK하이닉스)','Hyundai Motor (현대차)','KB Financial (KB금융)','Kia (기아)','195 autres titres (나머지 195개)'],
+        radarLabels: ['Potentiel de croissance','Stabilité du marché','Effet de réinvestissement','Exposition IA/tech','Momentum export'],
+        barYears: ['2022','2023','2024','2026','2030'],
+        lineYears: ['Année 1','Année 3','Année 5','Année 10','Année 15'],
+        tigerAi: 'TIGER AI',
+        kodex200tr: 'KODEX 200TR (dividendes réinvestis)',
+        kodex200: 'KODEX 200 (standard)',
+        powerDemand: 'Demande électrique (TWh)'
+    }
+};
 
-function updateChartLanguage() {
-    if (!charts.pieTiger) return;
-    const labels = chartLabels();
-    charts.pieTiger.data.labels = labels.tigerPie;
-    charts.pieKodex.data.labels = labels.marketPie;
-    charts.pieKodexTR.data.labels = labels.marketPie;
-    charts.radar.data.labels = labels.radar;
-    charts.radar.data.datasets[0].label = formatEntityName('TIGER AI전력기기');
-    charts.radar.data.datasets[1].label = 'KODEX 200TR';
-    charts.radar.data.datasets[2].label = 'KODEX 200';
-    charts.bar.data.labels = labels.barYears;
-    charts.bar.data.datasets[0].label = t('chart.bar.powerDemand');
-    charts.line.data.labels = labels.lineYears;
-    charts.line.data.datasets[0].label = t('chart.line.tr');
-    charts.line.data.datasets[1].label = t('chart.line.regular');
-    Object.values(charts).forEach(chart => chart.update());
+function chartText() {
+    return CHART_TRANSLATIONS[currentLanguage] || CHART_TRANSLATIONS.ko;
+}
+
+const pieOptions={responsive:true,maintainAspectRatio:false,cutout:'65%',plugins:{legend:{position:'right',labels:{boxWidth:12,font:{size:11,family:'Pretendard'}}},tooltip:{callbacks:{label:function(ctx){return ' '+ctx.label+': '+ctx.parsed+'%';}}}}};
+let pieTigerChart = new Chart(document.getElementById('pieTiger').getContext('2d'), {type:'doughnut',data:{labels:chartText().tigerPie,datasets:[{data:[29,26,20,8,7,10],backgroundColor:['#ea580c','#f97316','#fb923c','#fdba74','#fed7aa','#f1f5f9'],borderWidth:1}]},options:pieOptions});
+let pieKodexChart = new Chart(document.getElementById('pieKodex').getContext('2d'), {type:'doughnut',data:{labels:chartText().kodexPie,datasets:[{data:[31,12,4,3,3,47],backgroundColor:['#2563eb','#3b82f6','#60a5fa','#93c5fd','#bfdbfe','#f1f5f9'],borderWidth:1}]},options:pieOptions});
+let pieKodexTRChart = new Chart(document.getElementById('pieKodexTR').getContext('2d'), {type:'doughnut',data:{labels:chartText().kodexPie,datasets:[{data:[31,12,4,3,3,47],backgroundColor:['#9333ea','#a855f7','#c084fc','#d8b4fe','#e9d5ff','#f1f5f9'],borderWidth:1}]},options:pieOptions});
+
+let radarChart = new Chart(document.getElementById('radarChart').getContext('2d'), {type:'radar',data:{labels:chartText().radarLabels,datasets:[{label:chartText().tigerAi,data:[95,45,30,95,90],borderColor:'#ea580c',backgroundColor:'rgba(234,88,12,0.2)'},{label:'KODEX 200TR',data:[75,85,95,75,70],borderColor:'#9333ea',backgroundColor:'rgba(147,51,234,0.2)'},{label:'KODEX 200',data:[75,85,75,75,70],borderColor:'#2563eb',backgroundColor:'rgba(37,99,235,0.2)'}]},options:{responsive:true,maintainAspectRatio:false}});
+let barChart = new Chart(document.getElementById('barChart').getContext('2d'), {type:'bar',data:{labels:chartText().barYears,datasets:[{label:chartText().powerDemand,data:[460,500,620,800,1150],backgroundColor:['#f97316','#fb923c','#ea580c','#c2410c','#9a3412'],borderRadius:6}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#1e293b'}}},scales:{y:{beginAtZero:false,ticks:{callback:function(v){return v+'TWh'}}}}}});
+let lineChart = new Chart(document.getElementById('lineChart').getContext('2d'), {type:'line',data:{labels:chartText().lineYears,datasets:[{label:chartText().kodex200tr,data:[105,122,145,210,310],borderColor:'#0d9488',fill:true,backgroundColor:'rgba(13,148,136,0.1)',tension:0.4},{label:chartText().kodex200,data:[105,116,130,170,220],borderColor:'#2563eb',tension:0.4,fill:false}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'top'}}}});
+
+function updateChartsForLanguage() {
+    if (!pieTigerChart) return;
+    const labels = chartText();
+    pieTigerChart.data.labels = labels.tigerPie;
+    pieKodexChart.data.labels = labels.kodexPie;
+    pieKodexTRChart.data.labels = labels.kodexPie;
+    radarChart.data.labels = labels.radarLabels;
+    radarChart.data.datasets[0].label = labels.tigerAi;
+    barChart.data.labels = labels.barYears;
+    barChart.data.datasets[0].label = labels.powerDemand;
+    lineChart.data.labels = labels.lineYears;
+    lineChart.data.datasets[0].label = labels.kodex200tr;
+    lineChart.data.datasets[1].label = labels.kodex200;
+    [pieTigerChart, pieKodexChart, pieKodexTRChart, radarChart, barChart, lineChart].forEach(chart => chart.update());
 }
 </script>
+<div id="google_translate_element" class="google-translate-shell"></div>
+<script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 </body>
 </html>

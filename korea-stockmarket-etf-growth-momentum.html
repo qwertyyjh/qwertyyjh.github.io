@@ -78,6 +78,10 @@ body.theme-dark .text-gray-600, body.theme-dark .text-gray-500, body.theme-dark 
 body.theme-dark .border-gray-100, body.theme-dark .border-gray-200, body.theme-dark .border-slate-100 { border-color: rgba(148, 163, 184, 0.22) !important; }
 body.theme-dark .watchlist-shell { background: #181a1d; box-shadow: 0 18px 40px rgba(0,0,0,0.42); }
 body.theme-dark .watch-add-panel { background: #121416; border-color: rgba(148, 163, 184, 0.22); }
+body.theme-dark .watchlist-empty-state { background: linear-gradient(135deg, rgba(20, 184, 166, 0.12), rgba(96, 165, 250, 0.08)); border-color: rgba(148, 163, 184, 0.38); }
+body.theme-dark .watchlist-empty-icon { background: #11201f; color: #5eead4; box-shadow: inset 0 0 0 1px rgba(94, 234, 212, 0.26); }
+body.theme-dark .watchlist-empty-title { color: #dbeafe; }
+body.theme-dark .watchlist-empty-body { color: #cbd5e1; }
 body.theme-dark .watch-change-box, body.theme-dark .quote-change-box { background: rgba(18, 20, 22, 0.82); box-shadow: inset 0 0 0 1px rgba(148, 163, 184, 0.16); }
 body.theme-dark .watchlist-card, body.theme-dark .quote-card { box-shadow: 0 3px 12px rgba(0,0,0,0.22); }
 body.theme-dark .watch-card-theme-0 { background: #1b2028; border-color: #2f4d83; }
@@ -157,11 +161,21 @@ body.theme-dark .portfolio-chart-card .portfolio-center-label.text-brightPurple 
 .watch-edit-btn { background: #f8fafc; color: #475569; }
 .watch-edit-btn:hover { background: #eef2f7; }
 .watch-edit-btn[aria-pressed="true"] { background: #0d9488; color: white; border-color: #0d9488; }
+.watch-header-btn:disabled { opacity: 0.45; cursor: not-allowed; }
 .watch-add-toggle { background: #3b9b91; color: #fff; border-color: #3b9b91; }
 .watch-add-toggle:hover { background: #287f76; }
 .watch-add-panel { display: none; margin: -8px 0 24px; border: 1px solid #e2e8f0; border-radius: 18px; background: #f8fafc; padding: 14px; }
 .watch-add-panel.is-open { display: block; }
 .market-grid, .watchlist-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 154px), 1fr)); gap: 12px; }
+.watchlist-grid.is-empty { display: block; }
+.watchlist-empty-state { border: 1px dashed #94a3b8; border-radius: 18px; background: linear-gradient(135deg, rgba(59, 155, 145, 0.08), rgba(37, 99, 235, 0.06)); padding: clamp(22px, 4vw, 38px); text-align: center; }
+.watchlist-empty-icon { width: 54px; height: 54px; margin: 0 auto 14px; border-radius: 9999px; display: flex; align-items: center; justify-content: center; background: #ecfeff; color: #0f766e; box-shadow: inset 0 0 0 1px rgba(20, 184, 166, 0.22); }
+.watchlist-empty-icon svg { width: 28px; height: 28px; }
+.watchlist-empty-title { font-size: clamp(1.08rem, 2vw, 1.35rem); font-weight: 900; color: #1e3a8a; line-height: 1.25; }
+.watchlist-empty-body { max-width: 520px; margin: 8px auto 18px; color: #64748b; font-size: 0.95rem; line-height: 1.55; }
+.watchlist-empty-action { min-height: 44px; border-radius: 9999px; padding: 0 18px; display: inline-flex; align-items: center; justify-content: center; gap: 7px; background: #3b9b91; color: #fff; font-weight: 900; box-shadow: 0 10px 22px rgba(59, 155, 145, 0.22); }
+.watchlist-empty-action:hover { background: #287f76; transform: translateY(-1px); }
+.watchlist-empty-action svg { width: 18px; height: 18px; }
 .quote-card, .watchlist-card { min-height: 128px; overflow: hidden; position: relative; border-radius: 14px; border: 1px solid #dbe5ff; background: #eef3ff; padding: 14px 14px 13px; text-align: center; box-shadow: 0 3px 10px rgba(15, 23, 42, 0.06); text-decoration: none; display: flex; flex-direction: column; }
 .quote-card.card-hover:hover, .watchlist-card.card-hover:hover { transform: translateY(-2px); box-shadow: 0 8px 18px rgba(15, 23, 42, 0.10); }
 .quote-title, .watch-card-title { display: block; min-height: 1.6em; font-size: 0.98rem; line-height: 1.15; font-weight: 900; color: #2563eb; overflow: hidden; overflow-wrap: anywhere; }
@@ -840,6 +854,9 @@ const UI_TRANSLATIONS = {
         watchlistTitle: '관심 종목 현재가',
         watchlistInterval: '(5초 업데이트)',
         watchlistSubtitle: '네이버 증권 또는 Google Finance에서 종목을 찾은 뒤, 종목명과 코드/티커를 입력해 관심 종목을 추가하세요.',
+        emptyWatchlistTitle: '아직 추가한 관심 종목이 없습니다.',
+        emptyWatchlistBody: '우측 상단의 종목 추가 버튼을 눌러 관심있는 주식이나 ETF를 직접 추가하면 이곳에 현재가가 표시됩니다.',
+        emptyWatchlistAction: '종목 추가하기',
         addStockButton: '종목 추가',
         themeButton: '다크 모드',
         themeDark: '다크 모드',
@@ -892,6 +909,9 @@ const UI_TRANSLATIONS = {
         watchlistTitle: 'Watchlist Prices',
         watchlistInterval: '(5-sec update)',
         watchlistSubtitle: 'Open Naver Securities or Google Finance, find a symbol, then add it with its name and code or ticker.',
+        emptyWatchlistTitle: 'No watchlist symbols yet.',
+        emptyWatchlistBody: 'Use the Add Symbol button in the top-right of this section to add stocks or ETFs you want to follow.',
+        emptyWatchlistAction: 'Add a Symbol',
         addStockButton: 'Add Symbol',
         themeButton: 'Dark Mode',
         themeDark: 'Dark Mode',
@@ -944,6 +964,9 @@ const UI_TRANSLATIONS = {
         watchlistTitle: 'ウォッチリスト価格',
         watchlistInterval: '(5秒更新)',
         watchlistSubtitle: 'Naver証券またはGoogle Financeで銘柄を探し、名称とコード/ティッカーを入力して追加してください。',
+        emptyWatchlistTitle: 'ウォッチリストはまだ空です。',
+        emptyWatchlistBody: 'このセクション右上の銘柄追加ボタンから、見たい株式やETFを追加できます。',
+        emptyWatchlistAction: '銘柄を追加',
         addStockButton: '銘柄追加',
         themeButton: 'ダークモード',
         themeDark: 'ダークモード',
@@ -996,6 +1019,9 @@ const UI_TRANSLATIONS = {
         watchlistTitle: '自选股当前价格',
         watchlistInterval: '(5秒更新)',
         watchlistSubtitle: '打开 Naver 证券或 Google Finance 查找标的，然后输入名称和代码/股票代码添加。',
+        emptyWatchlistTitle: '自选股列表还是空的。',
+        emptyWatchlistBody: '点击本区域右上角的添加标的按钮，即可添加想关注的股票或ETF。',
+        emptyWatchlistAction: '添加标的',
         addStockButton: '添加标的',
         themeButton: '深色模式',
         themeDark: '深色模式',
@@ -1048,6 +1074,9 @@ const UI_TRANSLATIONS = {
         watchlistTitle: 'Giá danh mục quan tâm',
         watchlistInterval: '(cập nhật 5 giây)',
         watchlistSubtitle: 'Mở Naver Securities hoặc Google Finance, tìm mã rồi nhập tên và mã/ticker để thêm.',
+        emptyWatchlistTitle: 'Danh mục quan tâm đang trống.',
+        emptyWatchlistBody: 'Nhấn nút Thêm mã ở góc phải của mục này để thêm cổ phiếu hoặc ETF bạn muốn theo dõi.',
+        emptyWatchlistAction: 'Thêm mã',
         addStockButton: 'Thêm mã',
         themeButton: 'Chế độ tối',
         themeDark: 'Chế độ tối',
@@ -1100,6 +1129,9 @@ const UI_TRANSLATIONS = {
         watchlistTitle: 'Watchlist-Kurse',
         watchlistInterval: '(5-Sek.-Update)',
         watchlistSubtitle: 'Naver Securities oder Google Finance öffnen, Symbol suchen und Name sowie Code/Ticker hinzufügen.',
+        emptyWatchlistTitle: 'Noch keine Symbole in der Watchlist.',
+        emptyWatchlistBody: 'Über Symbol hinzufügen oben rechts in diesem Bereich können Sie Aktien oder ETFs ergänzen.',
+        emptyWatchlistAction: 'Symbol hinzufügen',
         addStockButton: 'Symbol hinzufügen',
         themeButton: 'Dunkelmodus',
         themeDark: 'Dunkelmodus',
@@ -1152,6 +1184,9 @@ const UI_TRANSLATIONS = {
         watchlistTitle: 'Prix de la liste de suivi',
         watchlistInterval: '(mise à jour 5 s)',
         watchlistSubtitle: 'Ouvrez Naver Securities ou Google Finance, trouvez un symbole, puis ajoutez-le avec son nom et son code/ticker.',
+        emptyWatchlistTitle: 'La liste de suivi est encore vide.',
+        emptyWatchlistBody: 'Utilisez le bouton Ajouter un titre en haut à droite de cette section pour ajouter des actions ou ETF à suivre.',
+        emptyWatchlistAction: 'Ajouter un titre',
         addStockButton: 'Ajouter un titre',
         themeButton: 'Mode sombre',
         themeDark: 'Mode sombre',
@@ -1551,24 +1586,31 @@ class MockAuthService {
     }
 }
 
+function normalizeWatchlistItems(stored) {
+    if (!Array.isArray(stored)) return null;
+    return stored.map(item => ({
+        source: item.source || (isDomesticSymbol(item.symbol) ? 'naver' : 'google'),
+        name: item.name || item.symbol,
+        symbol: normalizeSymbol(item.symbol),
+        price: toNumber(item.price),
+        addedAt: item.addedAt || Date.now()
+    })).filter(item => item.symbol);
+}
+
 function loadWatchlist() {
     try {
-        let stored = null;
         const currentUser = MockAuthService.getCurrentUser();
         if (currentUser) {
-            stored = MockAuthService.getUserWatchlist(currentUser.uid);
+            const userStored = MockAuthService.getUserWatchlist(currentUser.uid);
+            const normalizedUserItems = normalizeWatchlistItems(userStored);
+            if (normalizedUserItems) return normalizedUserItems;
+            MockAuthService.saveUserWatchlist(currentUser.uid, []);
+            return [];
         }
-        if (!stored) {
-            stored = JSON.parse(localStorage.getItem(WATCHLIST_KEY) || '[]');
-        }
-        if (Array.isArray(stored) && stored.length) {
-            return stored.map(item => ({
-                source: item.source || (isDomesticSymbol(item.symbol) ? 'naver' : 'google'),
-                name: item.name || item.symbol,
-                symbol: normalizeSymbol(item.symbol),
-                price: toNumber(item.price),
-                addedAt: item.addedAt || Date.now()
-            })).filter(item => item.symbol);
+        const localStored = localStorage.getItem(WATCHLIST_KEY);
+        if (localStored !== null) {
+            const normalizedLocalItems = normalizeWatchlistItems(JSON.parse(localStored));
+            if (normalizedLocalItems) return normalizedLocalItems;
         }
     } catch (error) {
         console.warn('Watchlist load failed:', error);
@@ -1695,6 +1737,43 @@ function watchEditButtonMarkup() {
 function renderWatchlist() {
     const grid = document.getElementById('watchlist-grid');
     if (!grid) return;
+    if (!watchlistItems.length) {
+        watchEditMode = false;
+        watchlistPage = 0;
+        grid.classList.add('is-empty');
+        grid.innerHTML = `
+        <div class="watchlist-empty-state" role="status" aria-live="polite">
+            <div class="watchlist-empty-icon" aria-hidden="true">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M12 5v14m7-7H5"></path>
+                </svg>
+            </div>
+            <h3 class="watchlist-empty-title">${escapeHtml(t('emptyWatchlistTitle'))}</h3>
+            <p class="watchlist-empty-body">${escapeHtml(t('emptyWatchlistBody'))}</p>
+            <button type="button" class="watchlist-empty-action" data-watch-empty-add>
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M12 5v14m7-7H5"></path>
+                </svg>
+                <span>${escapeHtml(t('emptyWatchlistAction'))}</span>
+            </button>
+        </div>`;
+        const label = document.getElementById('watchlist-page-label');
+        if (label) label.textContent = '';
+        const editButton = document.getElementById('watch-edit-btn');
+        if (editButton) {
+            editButton.innerHTML = watchEditButtonMarkup();
+            editButton.setAttribute('aria-pressed', 'false');
+            editButton.disabled = true;
+        }
+        const editHelp = document.getElementById('watch-edit-help');
+        if (editHelp) editHelp.classList.add('hidden');
+        const dots = document.getElementById('watch-dots');
+        if (dots) dots.innerHTML = '';
+        document.getElementById('watch-prev').disabled = true;
+        document.getElementById('watch-next').disabled = true;
+        return;
+    }
+    grid.classList.remove('is-empty');
     const totalPages = Math.max(1, Math.ceil(watchlistItems.length / WATCHLIST_PAGE_SIZE));
     watchlistPage = Math.min(Math.max(0, watchlistPage), totalPages - 1);
     const pageStart = watchlistPage * WATCHLIST_PAGE_SIZE;
@@ -1734,6 +1813,7 @@ function renderWatchlist() {
     if (editButton) {
         editButton.innerHTML = watchEditButtonMarkup();
         editButton.setAttribute('aria-pressed', String(watchEditMode));
+        editButton.disabled = false;
     }
     const editHelp = document.getElementById('watch-edit-help');
     if (editHelp) editHelp.classList.toggle('hidden', !watchEditMode);
@@ -1884,7 +1964,7 @@ async function addWatchlistItem() {
 
 function removeWatchlistItem(symbol) {
     watchlistItems = watchlistItems.filter(item => item.symbol !== symbol);
-    if (!watchlistItems.length) watchlistItems = getDefaultWatchlist();
+    if (!watchlistItems.length) watchlistPage = 0;
     saveWatchlist();
     renderWatchlist();
 }
@@ -2026,6 +2106,12 @@ function initWatchlistControls() {
         }
     });
     document.getElementById('watchlist-grid').addEventListener('click', event => {
+        const emptyAdd = event.target.closest('[data-watch-empty-add]');
+        if (emptyAdd) {
+            event.preventDefault();
+            toggleWatchAddPanel(true);
+            return;
+        }
         const move = event.target.closest('[data-move-symbol]');
         if (move) {
             event.preventDefault();
@@ -2869,6 +2955,7 @@ function initAuthUI() {
     function handleWatchlistSync() {
         watchlistItems = loadWatchlist();
         if (typeof renderWatchlist === 'function') renderWatchlist();
+        return watchlistItems.length;
     }
 
     authBtn.addEventListener('click', () => {
@@ -2917,8 +3004,8 @@ function initAuthUI() {
 
             closeAuthModal();
             updateAuthBtnState();
-            handleWatchlistSync();
-            alert('로그인 되었습니다. 계정에 저장된 관심 주식을 불러옵니다.');
+            const loadedCount = handleWatchlistSync();
+            alert(loadedCount ? '로그인 되었습니다. 계정에 저장된 관심 주식을 불러옵니다.' : '로그인 되었습니다. 관심 종목을 직접 추가해 주세요.');
 
             submitBtn.disabled = false;
             submitBtn.textContent = '이메일로 로그인 / 가입';
@@ -3022,10 +3109,10 @@ function initAuthUI() {
     const handleSocial = async (provider) => {
         try {
             await MockAuthService.socialLogin(provider);
-            closeModal();
+            closeAuthModal();
             updateAuthBtnState();
-            handleWatchlistSync();
-            alert(provider + ' 계정으로 로그인 되었습니다. 계정에 저장된 관심 주식을 불러옵니다.');
+            const loadedCount = handleWatchlistSync();
+            alert(loadedCount ? provider + ' 계정으로 로그인 되었습니다. 계정에 저장된 관심 주식을 불러옵니다.' : provider + ' 계정으로 로그인 되었습니다. 관심 종목을 직접 추가해 주세요.');
         } catch (err) {
             console.error(err);
         }

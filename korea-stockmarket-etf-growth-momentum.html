@@ -39,7 +39,7 @@ body { font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI",
   justify-content: flex-end;
   pointer-events: none;
 }
-.floating-tools #refresh-btn, .floating-tools #theme-toggle-btn { pointer-events: auto; line-height: 1; }
+.floating-tools #refresh-btn, .floating-tools #theme-toggle-btn, .floating-tools #auth-btn, .floating-tools #auth-settings-btn { pointer-events: auto; line-height: 1; }
 .floating-tools #refresh-btn { min-width: 154px; min-height: 46px; justify-content: center; overflow: hidden; }
 .floating-tools #refresh-btn svg, .theme-toggle-btn svg { display: block; flex: none; margin: 0 !important; }
 .floating-tools #refresh-btn .refresh-label { max-width: 9rem; opacity: 1; white-space: nowrap; overflow: hidden; transition: max-width 0.2s ease, opacity 0.2s ease, margin 0.2s ease; }
@@ -80,6 +80,11 @@ body.theme-dark .watch-card-theme-9 { background: #202229; border-color: #4d5895
 body.theme-dark .watch-card-title, body.theme-dark .watch-price-row, body.theme-dark .quote-title, body.theme-dark .quote-price { color: #eff6ff !important; }
 body.theme-dark .quote-price .currency, body.theme-dark .watch-currency { color: #cbd5e1 !important; }
 body.theme-dark .theme-toggle-btn, body.theme-dark .floating-tools #refresh-btn { background: rgba(24, 26, 29, 0.92) !important; color: #dbeafe !important; border-color: rgba(148, 163, 184, 0.28) !important; }
+body.theme-dark .floating-tools #auth-btn, body.theme-dark .floating-tools #auth-settings-btn { background: rgba(248, 250, 252, 0.96) !important; color: #0f172a !important; border-color: rgba(203, 213, 225, 0.95) !important; box-shadow: 0 10px 26px rgba(0, 0, 0, 0.28); }
+body.theme-dark .floating-tools #auth-btn:hover, body.theme-dark .floating-tools #auth-settings-btn:hover { background: #ffffff !important; color: #0f172a !important; }
+body.theme-dark .floating-tools #auth-btn span, body.theme-dark .floating-tools #auth-settings-btn span { color: #0f172a !important; }
+body.theme-dark .floating-tools #auth-btn svg { color: #2563eb !important; }
+body.theme-dark .floating-tools #auth-settings-btn svg { color: #475569 !important; }
 body.theme-dark header.bg-deepNavy { background-color: #14181d !important; }
 body.theme-dark input, body.theme-dark select, body.theme-dark textarea { background-color: #111315 !important; color: #f8fafc !important; border-color: rgba(148, 163, 184, 0.32) !important; }
 body.theme-dark input::placeholder, body.theme-dark textarea::placeholder { color: #94a3b8 !important; opacity: 1; }
@@ -235,6 +240,13 @@ body { top: 0 !important; }
   .quote-change-row, .watch-change-row { grid-template-columns: 3.3em minmax(0, 1fr); }
   header { padding-top: 1rem !important; }
 }
+/* Auth Modal Styling */
+#auth-modal .watch-confirm-card { display: flex; flex-direction: column; }
+body.theme-dark #auth-modal .watch-confirm-card { background: #181a1d; color: #e5e7eb; border-color: rgba(148, 163, 184, 0.26); }
+body.theme-dark #auth-modal hr { border-color: rgba(148, 163, 184, 0.22); }
+body.theme-dark #auth-modal .bg-white { background-color: #111315 !important; }
+body.theme-dark #auth-modal .text-gray-700 { color: #dbeafe !important; }
+body.theme-dark #auth-modal .bg-gray-50 { background-color: #111315 !important; color: white !important; }
 </style>
 <script>
 tailwind.config = {
@@ -250,6 +262,16 @@ colors: { vibrantBlue: '#2563eb', electricTeal: '#0d9488', sunsetOrange: '#ea580
 
 <!-- 우측 상단 실시간 새로고침 플로팅 버튼 -->
 <div class="floating-tools fixed top-6 right-4 sm:right-8 z-50">
+<div class="flex items-center gap-2 mb-1 pointer-events-auto">
+<button id="auth-settings-btn" class="hidden bg-white/90 backdrop-blur-sm text-deepNavy px-3 py-2.5 rounded-full shadow-lg hover:shadow-xl hover:bg-white hover:scale-105 transition-all duration-300 flex items-center space-x-1.5 border border-gray-200 group">
+<svg class="w-4 h-4 text-gray-500 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+<span class="font-bold text-sm tracking-wide">설정</span>
+</button>
+<button id="auth-btn" class="bg-white/90 backdrop-blur-sm text-deepNavy px-3 py-2.5 rounded-full shadow-lg hover:shadow-xl hover:bg-white hover:scale-105 transition-all duration-300 flex items-center space-x-1.5 border border-gray-200 group">
+<svg class="w-5 h-5 text-vibrantBlue transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+<span id="auth-btn-label" class="font-bold text-sm tracking-wide">로그인</span>
+</button>
+</div>
 <button id="theme-toggle-btn" class="theme-toggle-btn" aria-label="화면 모드 전환" title="화면 모드 전환">
 <svg class="theme-moon" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
@@ -1410,9 +1432,106 @@ async function resolveWatchlistName(query, preferredSource = '') {
     return matches[0];
 }
 
+const MOCK_USERS_KEY = 'etfMomentumUsers';
+const MOCK_WATCHLISTS_KEY = 'etfMomentumWatchlists';
+const CURRENT_USER_KEY = 'etfMomentumCurrentUser';
+
+class MockAuthService {
+    static getCurrentUser() {
+        return JSON.parse(localStorage.getItem(CURRENT_USER_KEY));
+    }
+    static async login(email, password) {
+        await new Promise(r => setTimeout(r, 600));
+        const users = JSON.parse(localStorage.getItem(MOCK_USERS_KEY) || '{}');
+        if (!users[email]) {
+            users[email] = { email, password, displayName: email.split('@')[0], uid: 'local_' + btoa(email) };
+            localStorage.setItem(MOCK_USERS_KEY, JSON.stringify(users));
+        } else if (users[email].password !== password) {
+            throw new Error('비밀번호가 일치하지 않습니다.');
+        }
+        const user = { email: users[email].email, displayName: users[email].displayName || users[email].email.split('@')[0], uid: users[email].uid };
+        localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(user));
+        return user;
+    }
+    static async socialLogin(provider) {
+        await new Promise(r => setTimeout(r, 800));
+        const email = `user@${provider}.mock`;
+        const user = { email, displayName: `${provider} 사용자`, uid: `${provider}_` + Date.now() };
+        localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(user));
+        return user;
+    }
+    static async updateProfile(name, currentPassword, newPassword) {
+        await new Promise(r => setTimeout(r, 500));
+        const currentUser = this.getCurrentUser();
+        if (!currentUser) throw new Error('로그인되어 있지 않습니다.');
+
+        const users = JSON.parse(localStorage.getItem(MOCK_USERS_KEY) || '{}');
+        const userRec = users[currentUser.email];
+
+        if (userRec) {
+            if (newPassword) {
+                if (!currentPassword) throw new Error('기존 비밀번호를 입력해주세요.');
+                if (userRec.password !== currentPassword) throw new Error('기존 비밀번호가 일치하지 않습니다.');
+                userRec.password = newPassword;
+            }
+            userRec.displayName = name || userRec.displayName;
+            localStorage.setItem(MOCK_USERS_KEY, JSON.stringify(users));
+            currentUser.displayName = userRec.displayName;
+        } else {
+            if (newPassword) throw new Error('소셜 로그인 계정은 비밀번호를 변경할 수 없습니다.');
+            currentUser.displayName = name || currentUser.displayName;
+        }
+        localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(currentUser));
+        return currentUser;
+    }
+    static async deleteAccount(password) {
+        await new Promise(r => setTimeout(r, 500));
+        const currentUser = this.getCurrentUser();
+        if (!currentUser) throw new Error('로그인되어 있지 않습니다.');
+
+        const users = JSON.parse(localStorage.getItem(MOCK_USERS_KEY) || '{}');
+        const userRec = users[currentUser.email];
+
+        if (userRec && userRec.password) {
+            if (!password) throw new Error('비밀번호를 입력해주세요.');
+            if (userRec.password !== password) throw new Error('비밀번호가 일치하지 않습니다.');
+            delete users[currentUser.email];
+            localStorage.setItem(MOCK_USERS_KEY, JSON.stringify(users));
+        }
+
+        // delete watchlist data
+        const watchlists = JSON.parse(localStorage.getItem('etfMomentumWatchlists') || '{}');
+        if (watchlists[currentUser.uid]) {
+            delete watchlists[currentUser.uid];
+            localStorage.setItem('etfMomentumWatchlists', JSON.stringify(watchlists));
+        }
+
+        this.logout();
+    }
+    static logout() {
+        localStorage.removeItem(CURRENT_USER_KEY);
+    }
+    static getUserWatchlist(uid) {
+        const watchlists = JSON.parse(localStorage.getItem(MOCK_WATCHLISTS_KEY) || '{}');
+        return watchlists[uid] || null;
+    }
+    static saveUserWatchlist(uid, items) {
+        const watchlists = JSON.parse(localStorage.getItem(MOCK_WATCHLISTS_KEY) || '{}');
+        watchlists[uid] = items;
+        localStorage.setItem(MOCK_WATCHLISTS_KEY, JSON.stringify(watchlists));
+    }
+}
+
 function loadWatchlist() {
     try {
-        const stored = JSON.parse(localStorage.getItem(WATCHLIST_KEY) || '[]');
+        let stored = null;
+        const currentUser = MockAuthService.getCurrentUser();
+        if (currentUser) {
+            stored = MockAuthService.getUserWatchlist(currentUser.uid);
+        }
+        if (!stored) {
+            stored = JSON.parse(localStorage.getItem(WATCHLIST_KEY) || '[]');
+        }
         if (Array.isArray(stored) && stored.length) {
             return stored.map(item => ({
                 source: item.source || (isDomesticSymbol(item.symbol) ? 'naver' : 'google'),
@@ -1429,7 +1548,12 @@ function loadWatchlist() {
 }
 
 function saveWatchlist() {
-    localStorage.setItem(WATCHLIST_KEY, JSON.stringify(watchlistItems));
+    const currentUser = MockAuthService.getCurrentUser();
+    if (currentUser) {
+        MockAuthService.saveUserWatchlist(currentUser.uid, watchlistItems);
+    } else {
+        localStorage.setItem(WATCHLIST_KEY, JSON.stringify(watchlistItems));
+    }
 }
 
 // HTML 리스트 동적 생성 함수
@@ -2640,8 +2764,332 @@ function applyChartTheme(shouldUpdate = true) {
     });
     createCharts();
 }
+
+// Auth UI Logic
+function initAuthUI() {
+    const authBtn = document.getElementById('auth-btn');
+    const authLabel = document.getElementById('auth-btn-label');
+    const settingsBtn = document.getElementById('auth-settings-btn');
+
+    const authModal = document.getElementById('auth-modal');
+    const authClose = document.getElementById('auth-modal-close');
+    const authBackdrop = document.getElementById('auth-modal-backdrop');
+    const authForm = document.getElementById('auth-form');
+    const authEmail = document.getElementById('auth-email');
+    const authPassword = document.getElementById('auth-password');
+    const authError = document.getElementById('auth-error');
+
+    const settingsModal = document.getElementById('settings-modal');
+    const settingsClose = document.getElementById('settings-modal-close');
+    const settingsBackdrop = document.getElementById('settings-modal-backdrop');
+    const settingsForm = document.getElementById('settings-form');
+    const settingsName = document.getElementById('settings-name');
+    const settingsCurrentPassword = document.getElementById('settings-current-password');
+    const settingsNewPassword = document.getElementById('settings-new-password');
+    const settingsConfirmPassword = document.getElementById('settings-confirm-password');
+    const settingsError = document.getElementById('settings-error');
+    const settingsDeleteBtn = document.getElementById('settings-delete-btn');
+
+    const deleteModal = document.getElementById('delete-modal');
+    const deleteClose = document.getElementById('delete-modal-close');
+    const deleteBackdrop = document.getElementById('delete-modal-backdrop');
+    const deleteForm = document.getElementById('delete-form');
+    const deletePassword = document.getElementById('delete-password');
+    const deletePasswordContainer = document.getElementById('delete-password-container');
+    const deleteError = document.getElementById('delete-error');
+
+    function updateAuthBtnState() {
+        const user = MockAuthService.getCurrentUser();
+        if (user) {
+            authLabel.textContent = '로그아웃 (' + (user.displayName || user.email.split('@')[0]) + ')';
+            settingsBtn.classList.remove('hidden');
+        } else {
+            authLabel.textContent = '로그인';
+            settingsBtn.classList.add('hidden');
+        }
+    }
+
+    function handleWatchlistSync() {
+        watchlistItems = loadWatchlist();
+        if (typeof renderWatchlist === 'function') renderWatchlist();
+    }
+
+    authBtn.addEventListener('click', () => {
+        if (MockAuthService.getCurrentUser()) {
+            if(confirm('로그아웃 하시겠습니까?')) {
+                MockAuthService.logout();
+                updateAuthBtnState();
+                handleWatchlistSync();
+                alert('로그아웃 되었습니다. 기본 관심 주식으로 전환됩니다.');
+            }
+        } else {
+            authModal.classList.add('is-open');
+            authError.classList.add('hidden');
+        }
+    });
+
+    settingsBtn.addEventListener('click', () => {
+        const user = MockAuthService.getCurrentUser();
+        if (user) {
+            settingsName.value = user.displayName || user.email.split('@')[0];
+            settingsCurrentPassword.value = '';
+            settingsNewPassword.value = '';
+            settingsConfirmPassword.value = '';
+            settingsModal.classList.add('is-open');
+            settingsError.classList.add('hidden');
+        }
+    });
+
+    const closeAuthModal = () => authModal.classList.remove('is-open');
+    authClose.addEventListener('click', closeAuthModal);
+    authBackdrop.addEventListener('click', closeAuthModal);
+
+    const closeSettingsModal = () => settingsModal.classList.remove('is-open');
+    settingsClose.addEventListener('click', closeSettingsModal);
+    settingsBackdrop.addEventListener('click', closeSettingsModal);
+
+    authForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        try {
+            authError.classList.add('hidden');
+            const submitBtn = authForm.querySelector('button[type="submit"]');
+            submitBtn.disabled = true;
+            submitBtn.textContent = '처리중...';
+
+            await MockAuthService.login(authEmail.value, authPassword.value);
+
+            closeAuthModal();
+            updateAuthBtnState();
+            handleWatchlistSync();
+            alert('로그인 되었습니다. 계정에 저장된 관심 주식을 불러옵니다.');
+
+            submitBtn.disabled = false;
+            submitBtn.textContent = '이메일로 로그인 / 가입';
+            authEmail.value = '';
+            authPassword.value = '';
+        } catch (err) {
+            authError.textContent = err.message;
+            authError.classList.remove('hidden');
+            const submitBtn = authForm.querySelector('button[type="submit"]');
+            submitBtn.disabled = false;
+            submitBtn.textContent = '이메일로 로그인 / 가입';
+        }
+    });
+
+    settingsForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        try {
+            settingsError.classList.add('hidden');
+            const currentPass = settingsCurrentPassword.value;
+            const newPass = settingsNewPassword.value;
+            const confirmPass = settingsConfirmPassword.value;
+
+            if (newPass || confirmPass || currentPass) {
+                if (newPass !== confirmPass) {
+                    throw new Error('새 비밀번호가 서로 일치하지 않습니다.');
+                }
+                if (!currentPass) {
+                    throw new Error('기존 비밀번호를 입력해주세요.');
+                }
+                if (!newPass) {
+                    throw new Error('새 비밀번호를 입력해주세요.');
+                }
+            }
+
+            const submitBtn = settingsForm.querySelector('button[type="submit"]');
+            submitBtn.disabled = true;
+            submitBtn.textContent = '처리중...';
+
+            await MockAuthService.updateProfile(settingsName.value, currentPass, newPass);
+
+            closeSettingsModal();
+            updateAuthBtnState();
+            alert('계정 정보가 업데이트 되었습니다.');
+
+            submitBtn.disabled = false;
+            submitBtn.textContent = '변경사항 저장';
+        } catch (err) {
+            settingsError.textContent = err.message;
+            settingsError.classList.remove('hidden');
+            const submitBtn = settingsForm.querySelector('button[type="submit"]');
+            submitBtn.disabled = false;
+            submitBtn.textContent = '변경사항 저장';
+        }
+    });
+
+    settingsDeleteBtn.addEventListener('click', () => {
+        closeSettingsModal();
+        const user = MockAuthService.getCurrentUser();
+        if (user && user.email.endsWith('.mock')) {
+            deletePasswordContainer.classList.add('hidden');
+            deletePassword.required = false;
+        } else {
+            deletePasswordContainer.classList.remove('hidden');
+            deletePassword.required = true;
+        }
+        deletePassword.value = '';
+        deleteModal.classList.add('is-open');
+        deleteError.classList.add('hidden');
+    });
+
+    const closeDeleteModal = () => deleteModal.classList.remove('is-open');
+    if(deleteClose) deleteClose.addEventListener('click', closeDeleteModal);
+    if(deleteBackdrop) deleteBackdrop.addEventListener('click', closeDeleteModal);
+
+    deleteForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        try {
+            deleteError.classList.add('hidden');
+            const submitBtn = deleteForm.querySelector('button[type="submit"]');
+            submitBtn.disabled = true;
+            submitBtn.textContent = '처리중...';
+
+            await MockAuthService.deleteAccount(deletePassword.value);
+
+            closeDeleteModal();
+            updateAuthBtnState();
+            handleWatchlistSync();
+            alert('계정이 성공적으로 삭제되었습니다.');
+
+            submitBtn.disabled = false;
+            submitBtn.textContent = '예';
+        } catch (err) {
+            deleteError.textContent = err.message;
+            deleteError.classList.remove('hidden');
+            const submitBtn = deleteForm.querySelector('button[type="submit"]');
+            submitBtn.disabled = false;
+            submitBtn.textContent = '예';
+        }
+    });
+
+    const handleSocial = async (provider) => {
+        try {
+            await MockAuthService.socialLogin(provider);
+            closeModal();
+            updateAuthBtnState();
+            handleWatchlistSync();
+            alert(provider + ' 계정으로 로그인 되었습니다. 계정에 저장된 관심 주식을 불러옵니다.');
+        } catch (err) {
+            console.error(err);
+        }
+    };
+
+    document.getElementById('auth-google-btn').addEventListener('click', () => handleSocial('Google'));
+
+    updateAuthBtnState();
+}
+
+document.addEventListener('DOMContentLoaded', initAuthUI);
 </script>
+
+<!-- Auth Modal -->
+<div id="auth-modal" class="watch-confirm-modal" role="dialog" aria-modal="true" style="z-index: 2147483700;">
+    <div class="watch-confirm-backdrop" id="auth-modal-backdrop"></div>
+    <div class="watch-confirm-card text-left w-full mx-auto" style="max-width:340px;">
+        <div class="flex justify-between items-center mb-5">
+            <h3 class="text-xl font-extrabold text-deepNavy">계정 등록 / 로그인</h3>
+            <button id="auth-modal-close" class="text-gray-400 hover:text-gray-600 transition-colors">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+        </div>
+
+        <div class="space-y-3 mb-6">
+            <button id="auth-google-btn" class="w-full flex items-center justify-center gap-3 bg-white border border-gray-300 text-gray-700 font-bold py-3 px-4 rounded-xl hover:bg-gray-50 transition-colors shadow-sm">
+                <svg class="w-5 h-5" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+                Google로 로그인
+            </button>
+        </div>
+
+        <div class="relative flex items-center justify-center mb-6">
+            <hr class="w-full border-gray-200">
+            <span class="absolute bg-white px-3 text-xs text-gray-400 font-semibold rounded-full border border-gray-100">또는</span>
+        </div>
+
+        <form id="auth-form" class="space-y-3">
+            <div>
+                <input type="email" id="auth-email" placeholder="이메일 주소" class="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-vibrantBlue focus:bg-white transition-colors" required>
+            </div>
+            <div>
+                <input type="password" id="auth-password" placeholder="비밀번호 (가입 시 암호)" class="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-vibrantBlue focus:bg-white transition-colors" required>
+            </div>
+            <button type="submit" class="w-full bg-vibrantBlue text-white font-bold py-3 px-4 rounded-xl hover:bg-blue-700 transition-colors shadow-md mt-2">
+                이메일로 로그인 / 가입
+            </button>
+        </form>
+        <p class="text-xs text-gray-400 mt-4 text-center leading-relaxed">처음 로그인하시면 자동으로 계정이 생성되며,<br>내 관심 주식이 안전하게 연동 보관됩니다.</p>
+        <p id="auth-error" class="text-xs text-red-500 mt-3 text-center hidden"></p>
+    </div>
+</div>
+
 <div id="google_translate_element" class="google-translate-shell"></div>
+
+<!-- Settings Modal -->
+<div id="settings-modal" class="watch-confirm-modal" role="dialog" aria-modal="true" style="z-index: 2147483700;">
+    <div class="watch-confirm-backdrop" id="settings-modal-backdrop"></div>
+    <div class="watch-confirm-card text-left w-full mx-auto" style="max-width:340px;">
+        <div class="flex justify-between items-center mb-5">
+            <h3 class="text-xl font-extrabold text-deepNavy">계정 설정</h3>
+            <button id="settings-modal-close" class="text-gray-400 hover:text-gray-600 transition-colors">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+        </div>
+
+        <form id="settings-form" class="space-y-4">
+            <div>
+                <label class="block text-xs font-bold text-gray-700 mb-1">사용자 이름 (표시 이름)</label>
+                <input type="text" id="settings-name" placeholder="이름을 입력하세요" class="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-vibrantBlue focus:bg-white transition-colors" required>
+            </div>
+            <div>
+                <label class="block text-xs font-bold text-gray-700 mb-1">기존 비밀번호</label>
+                <input type="password" id="settings-current-password" placeholder="현재 비밀번호 입력 (변경 시에만)" class="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-vibrantBlue focus:bg-white transition-colors">
+            </div>
+            <div>
+                <label class="block text-xs font-bold text-gray-700 mb-1">새 비밀번호</label>
+                <input type="password" id="settings-new-password" placeholder="새 비밀번호 입력" class="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-vibrantBlue focus:bg-white transition-colors">
+            </div>
+            <div>
+                <label class="block text-xs font-bold text-gray-700 mb-1">새 비밀번호 확인</label>
+                <input type="password" id="settings-confirm-password" placeholder="새 비밀번호 재입력" class="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-vibrantBlue focus:bg-white transition-colors">
+            </div>
+            <button type="submit" class="w-full bg-deepNavy text-white font-bold py-3 px-4 rounded-xl hover:bg-blue-900 transition-colors shadow-md mt-4">
+                변경사항 저장
+            </button>
+            <div class="pt-4 mt-2 border-t border-gray-100">
+                <button type="button" id="settings-delete-btn" class="w-full bg-red-50 text-red-600 font-bold py-3 px-4 rounded-xl hover:bg-red-100 transition-colors shadow-sm border border-red-100">
+                    계정 삭제
+                </button>
+            </div>
+        </form>
+        <p id="settings-error" class="text-xs text-red-500 mt-3 text-center hidden"></p>
+    </div>
+</div>
+
+<!-- Delete Account Modal -->
+<div id="delete-modal" class="watch-confirm-modal" role="dialog" aria-modal="true" style="z-index: 2147483800;">
+    <div class="watch-confirm-backdrop" id="delete-modal-backdrop"></div>
+    <div class="watch-confirm-card text-left w-full mx-auto" style="max-width:340px;">
+        <h3 class="text-xl font-extrabold text-red-600 mb-2">계정 삭제</h3>
+        <p class="text-sm text-gray-600 mb-5">계정을 삭제하시겠습니까?<br>삭제 시 모든 관심 주식 데이터가 영구적으로 삭제되며 복구할 수 없습니다.</p>
+
+        <form id="delete-form" class="space-y-4">
+            <div id="delete-password-container">
+                <label class="block text-xs font-bold text-gray-700 mb-1">현재 비밀번호</label>
+                <input type="password" id="delete-password" placeholder="비밀번호를 입력하세요" class="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-red-500 focus:bg-white transition-colors">
+            </div>
+
+            <div class="flex justify-between items-center mt-6 pt-2 gap-3">
+                <button type="submit" class="flex-1 bg-red-600 text-white font-bold py-3 px-4 rounded-xl hover:bg-red-700 transition-colors shadow-md">
+                    예
+                </button>
+                <button type="button" id="delete-modal-close" class="flex-1 bg-gray-200 text-gray-800 font-bold py-3 px-4 rounded-xl hover:bg-gray-300 transition-colors shadow-md">
+                    아니오
+                </button>
+            </div>
+        </form>
+        <p id="delete-error" class="text-xs text-red-500 mt-3 text-center hidden"></p>
+    </div>
+</div>
+
 <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 </body>
 </html>

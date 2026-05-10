@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ETF 성장 모멘텀 분석: TIGER AI전력기기 & KODEX 200 시리즈</title>
+<title>K-STOCK : 한국주식 분석 - TIGER AI전력기기 & KODEX 200 시리즈</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <style>
@@ -29,43 +29,48 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 .risk-box { background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%); border-left: 4px solid #f97316; }
 .strategy-box { background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%); border-left: 4px solid #22c55e; }
 .floating-tools {
+  --floating-expanded-width: min(52vw, 176px);
+  --floating-compact-size: 40px;
   position: fixed !important;
-  top: max(12px, env(safe-area-inset-top)) !important;
-  right: calc(24px + env(safe-area-inset-right)) !important;
-  width: auto;
-  max-width: calc(100vw - 32px);
+  top: max(14px, env(safe-area-inset-top)) !important;
+  right: calc(16px + env(safe-area-inset-right)) !important;
+  width: var(--floating-expanded-width);
+  max-width: calc(100vw - 28px);
   z-index: 2147483000 !important;
   transform: none !important;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 7px;
   align-items: flex-end;
   justify-content: flex-end;
   pointer-events: none;
+  transition: width 0.18s ease, gap 0.18s ease;
 }
 .floating-tools #refresh-btn, .floating-tools #theme-toggle-btn, .floating-tools #auth-btn, .floating-tools #auth-settings-btn { pointer-events: auto; line-height: 1; }
-.floating-auth-row { display: flex; flex-direction: column; align-items: flex-end; justify-content: flex-end; gap: 8px; margin-bottom: 0; max-width: min(82vw, 460px); pointer-events: auto; transition: gap 0.2s ease, max-width 0.2s ease; }
-.floating-tools #auth-btn, .floating-tools #auth-settings-btn { min-height: 46px; max-width: min(76vw, 330px); overflow: hidden; justify-content: center; }
+.floating-auth-row { display: flex; flex-direction: column; align-items: flex-end; justify-content: flex-end; gap: 7px; margin-bottom: 0; width: 100%; max-width: var(--floating-expanded-width); pointer-events: auto; transition: gap 0.2s ease, max-width 0.2s ease, width 0.2s ease; }
+.floating-auth-row.is-compact { width: var(--floating-compact-size); max-width: var(--floating-compact-size); gap: 8px; }
+.floating-tools #auth-btn, .floating-tools #auth-settings-btn, .floating-tools #theme-toggle-btn, .floating-tools #refresh-btn { width: 100%; }
+.floating-tools #auth-btn, .floating-tools #auth-settings-btn { min-height: 42px; max-width: 100%; overflow: hidden; justify-content: center; }
 .floating-tools #auth-btn svg, .floating-tools #auth-settings-btn svg { display: block; flex: none; margin: 0 !important; }
 .floating-tools #auth-btn span, .floating-tools #auth-settings-btn span { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; transition: width 0.2s ease, max-width 0.2s ease, opacity 0.2s ease, margin 0.2s ease; }
-.floating-tools #auth-btn.is-compact, .floating-tools #auth-settings-btn.is-compact { width: 46px; min-width: 46px; max-width: 46px; height: 46px; padding: 0 !important; gap: 0 !important; border-radius: 9999px; }
+.floating-tools #auth-btn.is-compact, .floating-tools #auth-settings-btn.is-compact { width: var(--floating-compact-size); min-width: var(--floating-compact-size); max-width: var(--floating-compact-size); height: var(--floating-compact-size); min-height: var(--floating-compact-size); padding: 0 !important; gap: 0 !important; border-radius: 9999px; }
 .floating-tools #auth-btn.is-compact span, .floating-tools #auth-settings-btn.is-compact span { width: 0; max-width: 0; opacity: 0; margin-left: 0 !important; margin-right: 0 !important; }
-.floating-tools #auth-btn.is-compact svg, .floating-tools #auth-settings-btn.is-compact svg { width: 21px; height: 21px; }
-.floating-tools.is-below-hero { width: 46px; align-items: flex-end; gap: 10px; }
-.floating-tools.is-below-hero .floating-auth-row { max-width: 46px; gap: 10px; }
-.floating-tools #refresh-btn { min-width: 154px; min-height: 46px; justify-content: center; overflow: hidden; }
+.floating-tools #auth-btn.is-compact svg, .floating-tools #auth-settings-btn.is-compact svg { width: 20px; height: 20px; }
+.floating-tools.is-below-hero { width: var(--floating-compact-size); align-items: flex-end; gap: 8px; }
+.floating-tools.is-below-hero .floating-auth-row { width: var(--floating-compact-size); max-width: var(--floating-compact-size); gap: 8px; }
+.floating-tools #refresh-btn { min-width: 0; min-height: 42px; justify-content: center; overflow: hidden; }
 .floating-tools #refresh-btn svg, .theme-toggle-btn svg { display: block; flex: none; margin: 0 !important; }
 .floating-tools #refresh-btn .refresh-label { max-width: 9rem; opacity: 1; white-space: nowrap; overflow: hidden; transition: max-width 0.2s ease, opacity 0.2s ease, margin 0.2s ease; }
-.floating-tools #refresh-btn.is-compact { width: 46px; min-width: 46px; height: 46px; padding: 0 !important; gap: 0 !important; display: inline-flex !important; align-items: center !important; justify-content: center !important; }
+.floating-tools #refresh-btn.is-compact { width: var(--floating-compact-size); min-width: var(--floating-compact-size); max-width: var(--floating-compact-size); height: var(--floating-compact-size); min-height: var(--floating-compact-size); padding: 0 !important; gap: 0 !important; display: inline-flex !important; align-items: center !important; justify-content: center !important; }
 .floating-tools #refresh-btn.is-compact .refresh-label { width: 0; max-width: 0; opacity: 0; margin-left: 0 !important; margin-right: 0 !important; }
-.floating-tools #refresh-btn.is-compact svg { width: 22px; height: 22px; }
-.theme-toggle-btn { min-height: 40px; border-radius: 9999px; display: inline-flex; align-items: center; justify-content: center; gap: 7px; padding: 8px 12px; background: rgba(255,255,255,0.9); color: #1e3a8a; border: 1px solid rgba(226,232,240,0.95); box-shadow: 0 10px 24px rgba(15, 23, 42, 0.12); backdrop-filter: blur(10px); font-size: 0.82rem; font-weight: 900; transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease; }
+.floating-tools #refresh-btn.is-compact svg { width: 20px; height: 20px; }
+.theme-toggle-btn { width: 100%; min-height: 40px; border-radius: 9999px; display: inline-flex; align-items: center; justify-content: center; gap: 7px; padding: 8px 12px; background: rgba(255,255,255,0.9); color: #1e3a8a; border: 1px solid rgba(226,232,240,0.95); box-shadow: 0 10px 24px rgba(15, 23, 42, 0.12); backdrop-filter: blur(10px); font-size: 0.82rem; font-weight: 900; transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease; }
 .theme-toggle-btn:hover { transform: translateY(-1px); background: #fff; }
 .theme-toggle-btn svg { width: 17px; height: 17px; }
 .theme-toggle-btn .theme-label { max-width: 6rem; opacity: 1; white-space: nowrap; overflow: hidden; transition: max-width 0.2s ease, opacity 0.2s ease, margin 0.2s ease; }
-.theme-toggle-btn.is-compact { width: 46px; min-width: 46px; height: 46px; padding: 0 !important; gap: 0 !important; display: inline-flex; align-items: center; justify-content: center; overflow: hidden; }
+.theme-toggle-btn.is-compact { width: var(--floating-compact-size); min-width: var(--floating-compact-size); max-width: var(--floating-compact-size); height: var(--floating-compact-size); min-height: var(--floating-compact-size); padding: 0 !important; gap: 0 !important; display: inline-flex; align-items: center; justify-content: center; overflow: hidden; }
 .theme-toggle-btn.is-compact .theme-label { width: 0; max-width: 0; opacity: 0; margin-left: 0 !important; margin-right: 0 !important; }
-.theme-toggle-btn.is-compact svg { width: 21px; height: 21px; }
+.theme-toggle-btn.is-compact svg { width: 20px; height: 20px; }
 .theme-toggle-btn .theme-sun { display: none; }
 body.theme-dark .theme-toggle-btn .theme-moon { display: none; }
 body.theme-dark .theme-toggle-btn .theme-sun { display: block; }
@@ -258,16 +263,14 @@ body { top: 0 !important; }
 }
 @media (max-width: 640px) {
   .chart-container { height: 300px; }
-  .floating-tools { right: calc(10px + env(safe-area-inset-right)) !important; top: max(8px, env(safe-area-inset-top)) !important; width: min(88vw, 232px); gap: 7px; }
-  .floating-auth-row { max-width: min(88vw, 232px); gap: 7px; }
-  .floating-tools #auth-btn, .floating-tools #auth-settings-btn { max-width: min(88vw, 232px); }
-  .floating-tools #auth-btn, .floating-tools #auth-settings-btn { min-height: 42px; padding: 7px 10px !important; }
-  .floating-tools #auth-btn.is-compact, .floating-tools #auth-settings-btn.is-compact { width: 42px; min-width: 42px; max-width: 42px; height: 42px; padding: 0 !important; }
-  .floating-tools #refresh-btn { width: 100%; justify-content: center; padding: 8px 10px; }
-  .floating-tools #refresh-btn.is-compact { width: 44px; min-width: 44px; height: 44px; }
-  .theme-toggle-btn { min-height: 36px; padding: 7px 10px; font-size: 0.76rem; }
-  .theme-toggle-btn.is-compact { width: 42px; min-width: 42px; height: 42px; }
-  .language-tools { right: auto !important; top: auto !important; width: min(100%, 360px); margin: 122px auto 28px; }
+  .floating-tools { --floating-expanded-width: min(46vw, 164px); --floating-compact-size: 40px; right: calc(10px + env(safe-area-inset-right)) !important; top: max(10px, env(safe-area-inset-top)) !important; width: var(--floating-expanded-width); gap: 6px; }
+  .floating-auth-row { width: 100%; max-width: var(--floating-expanded-width); gap: 6px; }
+  .floating-tools.is-below-hero { width: var(--floating-compact-size); gap: 8px; }
+  .floating-tools.is-below-hero .floating-auth-row, .floating-auth-row.is-compact { width: var(--floating-compact-size); max-width: var(--floating-compact-size); gap: 8px; }
+  .floating-tools #auth-btn, .floating-tools #auth-settings-btn, .floating-tools #refresh-btn, .theme-toggle-btn { min-height: 38px; padding: 6px 9px !important; font-size: 0.72rem; }
+  .floating-tools #auth-btn.is-compact, .floating-tools #auth-settings-btn.is-compact, .floating-tools #refresh-btn.is-compact, .theme-toggle-btn.is-compact { width: var(--floating-compact-size); min-width: var(--floating-compact-size); max-width: var(--floating-compact-size); height: var(--floating-compact-size); min-height: var(--floating-compact-size); padding: 0 !important; }
+  .language-tools { right: auto !important; top: auto !important; width: min(100%, 360px); margin: 176px auto 28px; }
+  body.floating-controls-compact .language-tools { width: min(calc(100% - 72px), 302px); margin-left: 16px; margin-right: auto; }
   .language-panel { grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 4px; }
   .language-btn { min-height: 30px; font-size: 15px; }
   .watchlist-shell { padding: 22px 16px 24px; border-radius: 18px; }
@@ -282,9 +285,10 @@ body { top: 0 !important; }
 }
 @media (max-width: 420px) {
   .market-grid, .watchlist-grid { grid-template-columns: 1fr; }
-  .floating-tools { width: min(90vw, 206px); }
-  .floating-tools.is-below-hero { width: 42px; align-items: flex-end; }
-  .floating-tools.is-below-hero .floating-auth-row { flex-direction: column; max-width: 42px; }
+  .floating-tools { --floating-expanded-width: min(44vw, 152px); width: var(--floating-expanded-width); }
+  .floating-tools.is-below-hero { width: var(--floating-compact-size); align-items: flex-end; }
+  .floating-tools.is-below-hero .floating-auth-row { flex-direction: column; width: var(--floating-compact-size); max-width: var(--floating-compact-size); }
+  .language-tools { margin-top: 168px; }
 }
 @media (hover: none) {
   .card-hover:hover, .quote-card.card-hover:hover, .watchlist-card.card-hover:hover, .language-btn:hover, .theme-toggle-btn:hover { transform: none; }
@@ -3037,7 +3041,12 @@ function updateRefreshButtonMode() {
     const button = document.getElementById('refresh-btn');
     const themeButton = document.getElementById('theme-toggle-btn');
     if (!header || !button) return;
-    const isBelowHero = header.getBoundingClientRect().bottom <= 0;
+    const headerRect = header.getBoundingClientRect();
+    const toolsRect = tools ? tools.getBoundingClientRect() : null;
+    const compactStart = Math.max(36, Math.min(84, window.innerHeight * 0.08));
+    const controlsTouchHeroBottom = Boolean(toolsRect && toolsRect.bottom >= headerRect.bottom - 10);
+    const isBelowHero = headerRect.bottom <= 0 || window.scrollY >= compactStart || controlsTouchHeroBottom;
+    document.body.classList.toggle('floating-controls-compact', isBelowHero);
     if (tools) tools.classList.toggle('is-below-hero', isBelowHero);
     if (authRow) authRow.classList.toggle('is-compact', isBelowHero);
     if (authButton) {

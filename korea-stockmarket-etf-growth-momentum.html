@@ -843,23 +843,23 @@ const WATCHLIST_EXTRA_CATALOG = [
 ];
 
 const GLOBAL_WATCHLIST_CATALOG = [
-    { source: 'google', name: 'Apple', symbol: 'NASDAQ:AAPL', aliases: ['애플', 'Apple Inc', 'AAPL'] },
-    { source: 'google', name: 'Microsoft', symbol: 'NASDAQ:MSFT', aliases: ['마이크로소프트', 'Microsoft Corp', 'MSFT'] },
-    { source: 'google', name: 'NVIDIA', symbol: 'NASDAQ:NVDA', aliases: ['엔비디아', 'Nvidia Corp', 'NVDA'] },
-    { source: 'google', name: 'Tesla', symbol: 'NASDAQ:TSLA', aliases: ['테슬라', 'Tesla Inc', 'TSLA'] },
-    { source: 'google', name: 'Alphabet Class A', symbol: 'NASDAQ:GOOGL', aliases: ['구글', '알파벳', 'Google', 'Alphabet', 'GOOGL'] },
-    { source: 'google', name: 'Amazon', symbol: 'NASDAQ:AMZN', aliases: ['아마존', 'Amazon.com', 'AMZN'] },
-    { source: 'google', name: 'Meta Platforms', symbol: 'NASDAQ:META', aliases: ['메타', '페이스북', 'Facebook', 'META'] },
-    { source: 'google', name: 'Netflix', symbol: 'NASDAQ:NFLX', aliases: ['넷플릭스', 'NFLX'] },
-    { source: 'google', name: 'Broadcom', symbol: 'NASDAQ:AVGO', aliases: ['브로드컴', 'AVGO'] },
-    { source: 'google', name: 'Taiwan Semiconductor Manufacturing', symbol: 'NYSE:TSM', aliases: ['TSMC', '대만반도체', '타이완반도체', 'TSM'] },
-    { source: 'google', name: 'Berkshire Hathaway Class B', symbol: 'NYSE:BRK.B', aliases: ['버크셔해서웨이', 'Berkshire Hathaway', 'BRK.B'] },
-    { source: 'google', name: 'JPMorgan Chase', symbol: 'NYSE:JPM', aliases: ['제이피모건', 'JP모건', 'JPM'] },
-    { source: 'google', name: 'SPDR S&P 500 ETF Trust', symbol: 'NYSEARCA:SPY', aliases: ['SPY', 'S&P 500 ETF', '스파이 ETF'] },
-    { source: 'google', name: 'Invesco QQQ Trust', symbol: 'NASDAQ:QQQ', aliases: ['QQQ', '나스닥 ETF', '나스닥100 ETF'] },
-    { source: 'google', name: 'Vanguard S&P 500 ETF', symbol: 'NYSEARCA:VOO', aliases: ['VOO', '뱅가드 S&P 500 ETF'] },
-    { source: 'google', name: 'Vanguard Total Stock Market ETF', symbol: 'NYSEARCA:VTI', aliases: ['VTI', '미국 전체 주식 ETF'] },
-    { source: 'google', name: 'iShares Core S&P 500 ETF', symbol: 'NYSEARCA:IVV', aliases: ['IVV', '아이셰어즈 S&P 500 ETF'] }
+    { source: 'google', name: 'Apple Inc.', koName: '애플', symbol: 'NASDAQ:AAPL', naverReuters: 'AAPL.O', aliases: ['애플', 'Apple', 'Apple Inc', 'AAPL'] },
+    { source: 'google', name: 'Microsoft Corp.', koName: '마이크로소프트', symbol: 'NASDAQ:MSFT', naverReuters: 'MSFT.O', aliases: ['마이크로소프트', 'Microsoft', 'Microsoft Corp', 'MSFT'] },
+    { source: 'google', name: 'NVIDIA Corp.', koName: '엔비디아', symbol: 'NASDAQ:NVDA', naverReuters: 'NVDA.O', aliases: ['엔비디아', 'Nvidia', 'NVIDIA Corp', 'NVDA'] },
+    { source: 'google', name: 'Tesla Inc.', koName: '테슬라', symbol: 'NASDAQ:TSLA', naverReuters: 'TSLA.O', aliases: ['테슬라', 'Tesla', 'Tesla Inc', 'TSLA'] },
+    { source: 'google', name: 'Alphabet Inc. Class A', koName: '알파벳', symbol: 'NASDAQ:GOOGL', naverReuters: 'GOOGL.O', aliases: ['구글', '알파벳', 'Google', 'Alphabet', 'GOOGL'] },
+    { source: 'google', name: 'Amazon.com Inc.', koName: '아마존', symbol: 'NASDAQ:AMZN', naverReuters: 'AMZN.O', aliases: ['아마존', 'Amazon', 'Amazon.com', 'AMZN'] },
+    { source: 'google', name: 'Meta Platforms Inc.', koName: '메타', symbol: 'NASDAQ:META', naverReuters: 'META.O', aliases: ['메타', '페이스북', 'Facebook', 'META'] },
+    { source: 'google', name: 'Netflix Inc.', koName: '넷플릭스', symbol: 'NASDAQ:NFLX', naverReuters: 'NFLX.O', aliases: ['넷플릭스', 'Netflix', 'NFLX'] },
+    { source: 'google', name: 'Broadcom Inc.', koName: '브로드컴', symbol: 'NASDAQ:AVGO', naverReuters: 'AVGO.O', aliases: ['브로드컴', 'Broadcom', 'AVGO'] },
+    { source: 'google', name: 'Taiwan Semiconductor Manufacturing Co.', koName: 'TSMC', symbol: 'NYSE:TSM', naverReuters: 'TSM.N', aliases: ['TSMC', '대만반도체', '타이완반도체', 'TSM'] },
+    { source: 'google', name: 'Berkshire Hathaway Inc. Class B', koName: '버크셔해서웨이', symbol: 'NYSE:BRK.B', aliases: ['버크셔해서웨이', 'Berkshire Hathaway', 'BRK.B'] },
+    { source: 'google', name: 'JPMorgan Chase & Co.', koName: 'JP모건', symbol: 'NYSE:JPM', naverReuters: 'JPM.N', aliases: ['제이피모건', 'JP모건', 'JPM'] },
+    { source: 'google', name: 'SPDR S&P 500 ETF Trust', koName: '스파이 ETF', symbol: 'NYSEARCA:SPY', aliases: ['SPY', 'S&P 500 ETF', '스파이 ETF'] },
+    { source: 'google', name: 'Invesco QQQ Trust', koName: '나스닥100 ETF', symbol: 'NASDAQ:QQQ', naverReuters: 'QQQ.O', aliases: ['QQQ', '나스닥 ETF', '나스닥100 ETF'] },
+    { source: 'google', name: 'Vanguard S&P 500 ETF', koName: '뱅가드 S&P 500 ETF', symbol: 'NYSEARCA:VOO', aliases: ['VOO', '뱅가드 S&P 500 ETF'] },
+    { source: 'google', name: 'Vanguard Total Stock Market ETF', koName: '미국 전체 주식 ETF', symbol: 'NYSEARCA:VTI', aliases: ['VTI', '미국 전체 주식 ETF'] },
+    { source: 'google', name: 'iShares Core S&P 500 ETF', koName: '아이셰어즈 S&P 500 ETF', symbol: 'NYSEARCA:IVV', aliases: ['IVV', '아이셰어즈 S&P 500 ETF'] }
 ];
 
 const LANGUAGE_META = {
@@ -1330,6 +1330,13 @@ function localizedName(name) {
     return translated && translated !== name ? `${translated} (${name})` : name;
 }
 
+function displayWatchlistName(item) {
+    if (item && item.source === 'google' && item.koName && currentLanguage === 'ko') {
+        return `${item.name} (${item.koName})`;
+    }
+    return localizedName(item ? item.name : '');
+}
+
 function escapeHtml(value) {
     return String(value || '').replace(/[&<>"']/g, char => ({
         '&': '&amp;',
@@ -1348,12 +1355,37 @@ function localizedNameHtml(name) {
         : escapeHtml(name);
 }
 
+function displayWatchlistNameHtml(item) {
+    if (item && item.source === 'google' && item.koName && currentLanguage === 'ko') {
+        return `${escapeHtml(item.name)} (<span class="notranslate" translate="no">${escapeHtml(item.koName)}</span>)`;
+    }
+    return localizedNameHtml(item ? item.name : '');
+}
+
 function normalizeSymbol(symbol) {
     return String(symbol || '').trim().toUpperCase().replace(/\s+/g, '').replace(/[^A-Z0-9:._-]/g, '');
 }
 
 function isDomesticSymbol(symbol) {
     return /^\d{6}$/.test(normalizeSymbol(symbol)) || /^[0-9A-Z]{6}$/.test(normalizeSymbol(symbol)) && /[A-Z]/.test(normalizeSymbol(symbol));
+}
+
+function symbolTickerCore(symbol) {
+    const raw = normalizeSymbol(symbol);
+    if (!raw) return '';
+    if (raw.includes(':')) {
+        const [left, right] = raw.split(':');
+        return left.length > 4 && right ? right : left;
+    }
+    const dotMatch = raw.match(/^(.+?)\.[A-Z]{1,4}$/);
+    return dotMatch ? dotMatch[1] : raw;
+}
+
+function inferWatchSource(source, symbol) {
+    const raw = normalizeSymbol(symbol);
+    if (source === 'google') return 'google';
+    if (source === 'naver' && !isDomesticSymbol(raw)) return 'google';
+    return source || (isDomesticSymbol(raw) ? 'naver' : 'google');
 }
 
 function getAllBaseStocks() {
@@ -1454,11 +1486,25 @@ function getWatchlistSearchCatalog() {
         unique.set(key, {
             source: item.source,
             name: item.name,
+            koName: item.koName || '',
+            naverReuters: item.naverReuters || '',
             symbol,
-            aliases: [...new Set([item.name, symbol, ...(item.aliases || []), ...translations].filter(Boolean))]
+            aliases: [...new Set([item.name, item.koName, symbol, symbolTickerCore(symbol), ...(item.aliases || []), ...translations].filter(Boolean))]
         });
     });
     return [...unique.values()];
+}
+
+function findWatchlistCatalogItem(item) {
+    const rawSymbol = normalizeSymbol(item && item.symbol);
+    const rawName = String((item && item.name) || '').trim();
+    const core = symbolTickerCore(rawSymbol);
+    const normalizedName = normalizeNameSearch(rawName);
+    return getWatchlistSearchCatalog().find(entry => {
+        if (entry.symbol === rawSymbol) return true;
+        if (core && symbolTickerCore(entry.symbol) === core) return true;
+        return normalizedName && entry.aliases.some(alias => normalizeNameSearch(alias) === normalizedName);
+    }) || null;
 }
 
 function findLocalWatchlistMatch(query, preferredSource = '') {
@@ -1475,17 +1521,47 @@ function findLocalWatchlistMatch(query, preferredSource = '') {
     return matches[0] || null;
 }
 
-async function fetchJsonWithProxy(url) {
+async function fetchTextWithTimeout(url, options = {}, timeoutMs = 6500) {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), timeoutMs);
     try {
-        const response = await fetch(url, { cache: 'no-store', credentials: 'omit' });
-        if (response.ok) return response.json();
-    } catch (error) {
-        console.warn('Direct lookup blocked, trying proxy:', error);
+        const response = await fetch(url, { ...options, signal: controller.signal });
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        return response.text();
+    } finally {
+        clearTimeout(timer);
     }
-    const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`;
-    const response = await fetch(proxyUrl, { cache: 'no-store' });
-    if (!response.ok) throw new Error(`Proxy lookup failed: ${response.status}`);
-    return response.json();
+}
+
+function parseProxyJson(text) {
+    const data = JSON.parse(text);
+    if (data && typeof data.contents === 'string') {
+        return JSON.parse(data.contents);
+    }
+    return data;
+}
+
+async function fetchJsonWithProxy(url) {
+    const requestUrls = [
+        url,
+        `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
+        `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`,
+        `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(url)}`,
+        `https://corsproxy.io/?url=${encodeURIComponent(url)}`
+    ];
+    let lastError = null;
+    for (const requestUrl of requestUrls) {
+        try {
+            const text = await fetchTextWithTimeout(requestUrl, { cache: 'no-store', credentials: 'omit' });
+            return parseProxyJson(text);
+        } catch (error) {
+            lastError = error;
+            if (requestUrl === url) {
+                console.warn('Direct lookup blocked, trying proxy:', error);
+            }
+        }
+    }
+    throw lastError || new Error('Quote lookup failed.');
 }
 
 async function lookupNaverFinanceName(query) {
@@ -1630,13 +1706,21 @@ class MockAuthService {
 
 function normalizeWatchlistItems(stored) {
     if (!Array.isArray(stored)) return null;
-    return stored.map(item => ({
-        source: item.source || (isDomesticSymbol(item.symbol) ? 'naver' : 'google'),
-        name: item.name || item.symbol,
-        symbol: normalizeSymbol(item.symbol),
-        price: toNumber(item.price),
-        addedAt: item.addedAt || Date.now()
-    })).filter(item => item.symbol);
+    return stored.map(item => {
+        const rawSymbol = normalizeSymbol(item.symbol);
+        const catalogItem = findWatchlistCatalogItem(item);
+        const symbol = catalogItem ? catalogItem.symbol : rawSymbol;
+        const source = inferWatchSource(catalogItem ? catalogItem.source : item.source, symbol);
+        return {
+            source,
+            name: catalogItem ? catalogItem.name : (item.name || symbol),
+            koName: catalogItem ? catalogItem.koName : (item.koName || ''),
+            naverReuters: catalogItem ? catalogItem.naverReuters : (item.naverReuters || ''),
+            symbol,
+            price: toNumber(item.price),
+            addedAt: item.addedAt || Date.now()
+        };
+    }).filter(item => item.symbol);
 }
 
 function loadWatchlist() {
@@ -1766,6 +1850,19 @@ function watchThemeClass(index) {
     return `watch-card-theme-${index % 10}`;
 }
 
+function watchPriceDecimals(item) {
+    return item && item.source === 'naver' ? 0 : 2;
+}
+
+function formatWatchPrice(item) {
+    const price = toNumber(item && item.price);
+    return price === null ? '--' : formatNum(price, watchPriceDecimals(item));
+}
+
+function watchCurrencyText(item) {
+    return item && item.source === 'naver' ? '원' : '$';
+}
+
 function watchEditButtonMarkup() {
     const label = watchEditMode ? t('doneEdit') : t('editWatchlist');
     return `
@@ -1828,14 +1925,15 @@ function renderWatchlist() {
     grid.innerHTML = pageItems.map((item, pageIndex) => {
         const absoluteIndex = pageStart + pageIndex;
         const sourceText = item.source === 'naver' ? t('naverRealtime') : t('googleCheck');
-        const priceText = item.price ? formatNum(item.price) : '--';
-        const currency = item.source === 'naver' ? '원' : '';
+        const priceText = formatWatchPrice(item);
+        const currency = watchCurrencyText(item);
         const editClass = watchEditMode ? ' is-editing' : '';
         const themeClass = watchThemeClass(absoluteIndex);
+        const displayName = displayWatchlistName(item);
         return `
         <div class="watchlist-card quote-card ${themeClass}${editClass} card-hover flex flex-col" data-watch-card="${item.symbol}">
-            <a href="${watchlistItemUrl(item)}" target="_blank" class="watch-card-title quote-title" title="${item.name}">
-                    <span data-watch-name="${item.symbol}">${localizedNameHtml(item.name)}</span>
+            <a href="${watchlistItemUrl(item)}" target="_blank" class="watch-card-title quote-title" title="${escapeHtml(displayName)}">
+                    <span data-watch-name="${item.symbol}">${displayWatchlistNameHtml(item)}</span>
             </a>
             <button type="button" class="watch-remove text-[11px] px-2 py-1 rounded-full bg-white text-gray-400 hover:text-red-500 border border-gray-100" data-remove-symbol="${item.symbol}">${t('remove')}</button>
             <div class="watch-edit-controls grid-cols-4 gap-1 mt-3">
@@ -1898,32 +1996,37 @@ function applyWatchlistQuote(quote) {
     const price = toNumber(quote.price);
     if (price === null) return false;
     item.price = price;
+    queryWatchElements(item.symbol, 'data-watch-name').forEach(el => {
+        el.innerHTML = displayWatchlistNameHtml(item);
+        const titleLink = el.closest('.watch-card-title');
+        if (titleLink) titleLink.setAttribute('title', displayWatchlistName(item));
+    });
     queryWatchElements(item.symbol, 'data-watch-price').forEach(el => {
         const oldPrice = readDisplayedNumber(el);
-        flashPriceElement(el, price, oldPrice, false);
+        flashPriceElement(el, price, oldPrice, false, watchPriceDecimals(item));
     });
     const closeYest = toNumber(quote.closeyest);
     const rawChange = toNumber(quote.change);
     const closeDiff = rawChange !== null ? rawChange : (closeYest !== null ? price - closeYest : null);
     const closePct = toNumber(quote.changepct);
     const computedClosePct = closePct !== null ? closePct : (closeDiff !== null && closeYest ? (closeDiff / closeYest) * 100 : null);
-    setChangeText(item.symbol, 'data-watch-close', closeDiff, computedClosePct);
+    setChangeText(item.symbol, 'data-watch-close', closeDiff, computedClosePct, watchPriceDecimals(item));
     const openPrice = toNumber(quote.priceopen);
     const openDiff = openPrice !== null ? price - openPrice : null;
     const openPct = openDiff !== null && openPrice ? (openDiff / openPrice) * 100 : null;
-    setChangeText(item.symbol, 'data-watch-open', openDiff, openPct);
+    setChangeText(item.symbol, 'data-watch-open', openDiff, openPct, watchPriceDecimals(item));
     setWatchText(item.symbol, 'data-watch-status', item.source === 'naver' ? t('naverRealtime') : t('stooqDelay'), 'text-emerald-600 truncate');
     return true;
 }
 
-function setChangeText(symbol, attr, diff, percent) {
+function setChangeText(symbol, attr, diff, percent, decimals = 0) {
     if (diff === null || !Number.isFinite(diff)) return;
     const sign = diff > 0 ? '▲' : (diff < 0 ? '▼' : '-');
     const className = diff > 0 ? 'text-red-500' : (diff < 0 ? 'text-blue-500' : 'text-gray-500');
     const percentText = percent === null || !Number.isFinite(percent)
         ? ''
         : ` (${percent > 0 ? '+' : ''}${percent.toFixed(2)}%)`;
-    setWatchText(symbol, attr, `${sign} ${formatNum(Math.abs(diff))}${percentText}`, className);
+    setWatchText(symbol, attr, `${sign} ${formatNum(Math.abs(diff), decimals)}${percentText}`, className);
 }
 
 function getDomesticWatchlistCodes() {
@@ -1932,10 +2035,30 @@ function getDomesticWatchlistCodes() {
         .map(item => item.symbol);
 }
 
+async function refreshAddedWatchlistItem(item) {
+    if (item.source === 'google' || !isDomesticSymbol(item.symbol)) {
+        setWatchText(item.symbol, 'data-watch-status', t('loading'), 'text-amber-600 truncate');
+        try {
+            const quote = await fetchOverseasWatchQuote(item);
+            applyWatchlistQuote(quote);
+            saveWatchlist();
+            setRefreshStatus('', 'ok');
+        } catch (error) {
+            console.warn('해외 관심종목 즉시 갱신 실패:', error);
+            setWatchText(item.symbol, 'data-watch-status', t('googleCheck'), 'text-amber-600 truncate');
+        }
+        return;
+    }
+    refreshMarketData();
+}
+
 function addResolvedWatchlistItem(item, options = {}) {
-    const source = item.source || (isDomesticSymbol(item.symbol) ? 'naver' : 'google');
-    const symbol = normalizeSymbol(item.symbol);
-    const name = String(item.name || symbol).trim();
+    const catalogItem = findWatchlistCatalogItem(item);
+    const symbol = catalogItem ? catalogItem.symbol : normalizeSymbol(item.symbol);
+    const source = inferWatchSource(catalogItem ? catalogItem.source : item.source, symbol);
+    const name = String((catalogItem && catalogItem.name) || item.name || symbol).trim();
+    const koName = (catalogItem && catalogItem.koName) || item.koName || '';
+    const naverReuters = (catalogItem && catalogItem.naverReuters) || item.naverReuters || '';
     if (!name || !symbol) {
         setWatchlistMessage(t('needFields'), 'error');
         return false;
@@ -1944,7 +2067,8 @@ function addResolvedWatchlistItem(item, options = {}) {
         setWatchlistMessage(t('duplicate'), 'error');
         return false;
     }
-    watchlistItems.push({ source, name, symbol, price: toNumber(item.price), addedAt: Date.now() });
+    const addedItem = { source, name, koName, naverReuters, symbol, price: toNumber(item.price), addedAt: Date.now() };
+    watchlistItems.push(addedItem);
     watchlistPage = Math.floor((watchlistItems.length - 1) / WATCHLIST_PAGE_SIZE);
     saveWatchlist();
     renderWatchlist();
@@ -1954,7 +2078,7 @@ function addResolvedWatchlistItem(item, options = {}) {
     document.getElementById('watch-query').value = '';
     toggleWatchAddPanel(false);
     if (options.openSource) openWatchSourceHome(source);
-    refreshMarketData();
+    refreshAddedWatchlistItem(addedItem);
     return true;
 }
 
@@ -1964,7 +2088,7 @@ function updateWatchConfirmDetail() {
     const detailText = t('confirmAddDetail');
     const item = pendingWatchMatch.item;
     const displayItem = {
-        name: localizedName(item.name),
+        name: displayWatchlistName(item),
         symbol: item.symbol
     };
     detail.textContent = typeof detailText === 'function'
@@ -2364,9 +2488,9 @@ function setRefreshStatus(message, state = 'idle') {
     );
 }
 
-function flashPriceElement(el, newPrice, oldPrice, isIndex = false) {
+function flashPriceElement(el, newPrice, oldPrice, isIndex = false, decimals = null) {
     if (!el || newPrice === null) return;
-    el.innerText = formatNum(newPrice, isIndex ? 2 : 0);
+    el.innerText = formatNum(newPrice, decimals === null ? (isIndex ? 2 : 0) : decimals);
     el.classList.remove('flash-up', 'flash-down', 'text-gray-400');
     void el.offsetWidth;
     if (oldPrice !== null && newPrice > oldPrice) el.classList.add('flash-up');
@@ -2560,9 +2684,7 @@ function firstNumber(values) {
 
 async function fetchYahooQuote(id, symbol, name) {
     const url = `https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(symbol)}?interval=1m&range=1d&_=${Date.now()}`;
-    const response = await fetch(url);
-    if (!response.ok) throw new Error(`Yahoo quote failed: ${symbol}`);
-    const json = await response.json();
+    const json = await fetchJsonWithProxy(url);
     const result = json && json.chart && json.chart.result && json.chart.result[0];
     if (!result || !result.meta) throw new Error(`Yahoo quote missing: ${symbol}`);
     const meta = result.meta;
@@ -2588,13 +2710,93 @@ async function loadYahooFinanceFeed() {
     return rows;
 }
 
+function yahooSymbolForWatchItem(item) {
+    const raw = normalizeSymbol(item.symbol);
+    if (!raw) return '';
+    if (/^\d{6}$/.test(raw)) return yahooSymbolForTicker(raw);
+    return symbolTickerCore(raw).replace(/\./g, '-');
+}
+
+function naverReutersCandidates(item) {
+    const raw = normalizeSymbol(item.symbol);
+    const core = symbolTickerCore(raw);
+    if (!core || /^\d{6}$/.test(core)) return [];
+    const exchange = raw.includes(':') ? raw.split(':')[0] : '';
+    const suffixMap = {
+        NASDAQ: '.O',
+        NAS: '.O',
+        NSQ: '.O',
+        NYSE: '.N',
+        NYS: '.N',
+        AMEX: '.A',
+        ASE: '.A'
+    };
+    const preferred = item.naverReuters || (suffixMap[exchange] ? `${core}${suffixMap[exchange]}` : '');
+    return [...new Set([preferred, `${core}.O`, `${core}.N`, `${core}.A`].filter(Boolean))];
+}
+
+function stockInfoValue(data, code) {
+    const info = Array.isArray(data && data.stockItemTotalInfos) ? data.stockItemTotalInfos : [];
+    const found = info.find(item => item.code === code);
+    return found ? found.value : null;
+}
+
+function normalizeNaverOverseasQuote(item, data, reutersCode) {
+    if (!data || data.code === 'StockConflict' || !data.closePrice) {
+        throw new Error(`Naver overseas quote missing: ${reutersCode}`);
+    }
+    const price = toNumber(data.closePrice);
+    if (price === null) throw new Error(`Naver overseas quote has no price: ${reutersCode}`);
+    const change = toNumber(data.compareToPreviousClosePrice);
+    const changepct = toNumber(data.fluctuationsRatio);
+    const open = toNumber(stockInfoValue(data, 'openPrice'));
+    const previous = toNumber(stockInfoValue(data, 'basePrice'));
+    if (!item.koName && data.stockName) item.koName = data.stockName;
+    if ((!item.name || item.name === item.symbol) && data.stockNameEng) item.name = data.stockNameEng;
+    item.naverReuters = data.reutersCode || reutersCode;
+    return {
+        id: item.symbol,
+        code: item.symbol,
+        ticker: item.symbol,
+        name: item.name,
+        price,
+        priceopen: open,
+        closeyest: previous,
+        change,
+        changepct,
+        tradetime: data.localTradedAt || '',
+        datadelay: data.delayTimeName || '',
+        status: 'NAVER_OVERSEAS'
+    };
+}
+
+async function fetchNaverOverseasWatchQuote(item) {
+    const candidates = naverReutersCandidates(item);
+    let lastError = null;
+    for (const reutersCode of candidates) {
+        try {
+            const url = `https://api.stock.naver.com/stock/${encodeURIComponent(reutersCode)}/basic?_=${Date.now()}`;
+            const data = await fetchJsonWithProxy(url);
+            return normalizeNaverOverseasQuote(item, data, reutersCode);
+        } catch (error) {
+            lastError = error;
+        }
+    }
+    throw lastError || new Error(`No Naver overseas quote candidates for ${item.symbol}`);
+}
+
+async function fetchYahooWatchQuote(item) {
+    const symbol = yahooSymbolForWatchItem(item);
+    if (!symbol) throw new Error(`No Yahoo symbol for ${item.symbol}`);
+    const row = await fetchYahooQuote(item.symbol, symbol, item.name);
+    return { ...row, id: item.symbol, code: item.symbol, ticker: item.symbol, name: item.name };
+}
+
 async function fetchStooqWatchQuote(item) {
     const symbol = stooqSymbolFor(item);
     if (!symbol) throw new Error(`No Stooq symbol for ${item.symbol}`);
     const url = `https://stooq.com/q/l/?s=${encodeURIComponent(symbol)}&f=sd2t2ohlcv&h&e=json&_=${Date.now()}`;
-    const response = await fetch(url);
-    if (!response.ok) throw new Error(`Stooq quote failed: ${symbol}`);
-    const json = await response.json();
+    const json = await fetchJsonWithProxy(url);
     const row = json && json.symbols && json.symbols[0];
     const price = row ? toNumber(row.close) : null;
     if (price === null) throw new Error(`Stooq quote missing price: ${symbol}`);
@@ -2615,10 +2817,24 @@ async function fetchStooqWatchQuote(item) {
     };
 }
 
+async function fetchOverseasWatchQuote(item) {
+    try {
+        return await fetchNaverOverseasWatchQuote(item);
+    } catch (naverError) {
+        console.warn('Naver 해외 관심종목 실패, Yahoo로 대체:', naverError);
+    }
+    try {
+        return await fetchYahooWatchQuote(item);
+    } catch (yahooError) {
+        console.warn('Yahoo 해외 관심종목 실패, Stooq로 대체:', yahooError);
+        return fetchStooqWatchQuote(item);
+    }
+}
+
 async function loadStooqWatchlistFeed() {
     const overseas = watchlistItems.filter(item => item.source === 'google' || !isDomesticSymbol(item.symbol));
     if (!overseas.length) return [];
-    const settled = await Promise.allSettled(overseas.map(fetchStooqWatchQuote));
+    const settled = await Promise.allSettled(overseas.map(fetchOverseasWatchQuote));
     return settled.filter(item => item.status === 'fulfilled').map(item => item.value);
 }
 

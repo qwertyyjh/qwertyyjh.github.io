@@ -122,6 +122,8 @@ body.theme-dark .watch-page-button:not(:disabled) { background: #252a30; color: 
 body.theme-dark .watch-page-button:not(:disabled):hover { background: #303741; color: #ffffff; }
 body.theme-dark .watch-edit-btn { background: #202327; color: #e5e7eb; border-color: rgba(148, 163, 184, 0.26); }
 body.theme-dark .watch-edit-btn:hover { background: #252a30; }
+body.theme-dark .watch-clear-btn { background: #331b21; color: #fecdd3; border-color: rgba(244, 63, 94, 0.36); }
+body.theme-dark .watch-clear-btn:hover { background: #4a1f2a; color: #fff1f2; }
 body.theme-dark .watchlist-card.is-editing { background: #162220; border-color: #14b8a6; }
 body.theme-dark .watch-edit-controls button { background-color: #202327 !important; color: #e5e7eb !important; border-color: rgba(148, 163, 184, 0.26) !important; }
 body.theme-dark .watch-remove { background-color: #202327 !important; color: #e5e7eb !important; border-color: rgba(148, 163, 184, 0.26) !important; }
@@ -162,6 +164,8 @@ body.theme-dark .portfolio-chart-card .portfolio-center-label.text-brightPurple 
 .watch-edit-btn:hover { background: #eef2f7; }
 .watch-edit-btn[aria-pressed="true"] { background: #0d9488; color: white; border-color: #0d9488; }
 .watch-header-btn:disabled { opacity: 0.45; cursor: not-allowed; }
+.watch-clear-btn { background: #fff1f2; color: #e11d48; border-color: #fecdd3; }
+.watch-clear-btn:hover { background: #ffe4e6; color: #be123c; }
 .watch-add-toggle { background: #3b9b91; color: #fff; border-color: #3b9b91; }
 .watch-add-toggle:hover { background: #287f76; }
 .watch-add-panel { display: none; margin: -8px 0 24px; border: 1px solid #e2e8f0; border-radius: 18px; background: #f8fafc; padding: 14px; }
@@ -191,8 +195,14 @@ body.theme-dark .portfolio-chart-card .portfolio-center-label.text-brightPurple 
 .watch-symbol-line, .watch-status, [data-watch-status] { display: none !important; }
 .watch-remove { display: none; position: absolute; top: 8px; right: 8px; z-index: 2; }
 .watchlist-card.is-editing { min-height: 188px; border-color: #0d9488; background: #f0fdfa; }
-.watchlist-card.is-dragging { opacity: 0.55; transform: scale(0.98); }
-.watchlist-card.is-drop-target { outline: 3px solid rgba(37, 99, 235, 0.35); outline-offset: 3px; }
+.watchlist-card.is-dragging { opacity: 0.36; transform: scale(0.98); }
+.watchlist-card.is-drop-target { outline: 3px solid rgba(20, 184, 166, 0.42); outline-offset: 3px; }
+.watchlist-card.is-drop-before::before, .watchlist-card.is-drop-after::after { content: ""; position: absolute; top: 10px; bottom: 10px; width: 5px; border-radius: 9999px; background: #14b8a6; box-shadow: 0 0 0 4px rgba(20, 184, 166, 0.18), 0 10px 22px rgba(20, 184, 166, 0.28); z-index: 4; }
+.watchlist-card.is-drop-before::before { left: -10px; }
+.watchlist-card.is-drop-after::after { right: -10px; }
+.watch-drag-preview { position: fixed; left: 0; top: 0; z-index: 2147483500; pointer-events: none; opacity: 0.94; transform: translate3d(0, 0, 0) rotate(1deg) scale(1.02); box-shadow: 0 28px 70px rgba(15, 23, 42, 0.24); }
+.watch-drag-preview .watch-edit-controls, .watch-drag-preview .watch-remove { display: none !important; }
+.watchlist-drag-active { user-select: none; }
 .watchlist-price { font-variant-numeric: tabular-nums; }
 .watchlist-track { touch-action: pan-y; }
 .watch-page-controls { justify-content: flex-end; gap: 8px; }
@@ -433,6 +443,12 @@ colors: { vibrantBlue: '#2563eb', electricTeal: '#0d9488', sunsetOrange: '#ea580
 <span id="watchlist-page-label" class="text-xs font-semibold text-gray-400"></span>
 </div>
 <div class="watchlist-actions">
+<button type="button" id="watch-clear-btn" class="watch-header-btn watch-clear-btn hidden">
+<svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 6h18M8 6V4.75A1.75 1.75 0 019.75 3h4.5A1.75 1.75 0 0116 4.75V6m-9 0l.75 13.25A1.75 1.75 0 009.5 21h5a1.75 1.75 0 001.75-1.75L17 6"></path>
+</svg>
+<span data-i18n="clearAllWatchlist">전체 삭제</span>
+</button>
 <button type="button" id="watch-edit-btn" class="watch-header-btn watch-edit-btn" aria-pressed="false"></button>
 <button type="button" id="watch-toggle-add-btn" class="watch-header-btn watch-add-toggle">
 <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -486,6 +502,18 @@ colors: { vibrantBlue: '#2563eb', electricTeal: '#0d9488', sunsetOrange: '#ea580
 <div class="watch-confirm-toggle" role="group" aria-label="Confirm watchlist addition">
 <button type="button" id="watch-confirm-yes" class="watch-confirm-choice yes" data-i18n="yesChoice">예</button>
 <button type="button" id="watch-confirm-no" class="watch-confirm-choice no" data-i18n="noChoice">아니오</button>
+</div>
+</div>
+</div>
+
+<div id="watch-clear-modal" class="watch-confirm-modal" role="dialog" aria-modal="true" aria-labelledby="watch-clear-title">
+<div class="watch-confirm-backdrop" data-watch-clear-cancel></div>
+<div class="watch-confirm-card">
+<div class="text-3xl mb-2">🗑️</div>
+<h3 id="watch-clear-title" class="text-lg font-extrabold text-deepNavy" data-i18n="clearConfirmQuestion">전체삭제하시겠습니까?</h3>
+<div class="watch-confirm-toggle" role="group" aria-label="Confirm watchlist clear">
+<button type="button" id="watch-clear-yes" class="watch-confirm-choice yes" data-i18n="yesChoice">예</button>
+<button type="button" id="watch-clear-no" class="watch-confirm-choice no" data-i18n="noChoice">아니오</button>
 </div>
 </div>
 </div>
@@ -868,6 +896,8 @@ const UI_TRANSLATIONS = {
         addWatchlist: '추가',
         editWatchlist: '편집',
         doneEdit: '완료',
+        clearAllWatchlist: '전체 삭제',
+        clearConfirmQuestion: '전체삭제하시겠습니까?',
         editHelp: '위/아래 버튼으로 순서를 바꾸고 삭제 버튼으로 종목을 제거할 수 있습니다.',
         dragHandle: '드래그',
         moveUp: '위로',
@@ -923,6 +953,8 @@ const UI_TRANSLATIONS = {
         addWatchlist: 'Add',
         editWatchlist: 'Edit',
         doneEdit: 'Done',
+        clearAllWatchlist: 'Clear All',
+        clearConfirmQuestion: 'Clear all watchlist items?',
         editHelp: 'Use the up/down buttons to reorder symbols and the delete button to remove them.',
         dragHandle: 'Drag',
         moveUp: 'Up',
@@ -978,6 +1010,8 @@ const UI_TRANSLATIONS = {
         addWatchlist: '追加',
         editWatchlist: '編集',
         doneEdit: '完了',
+        clearAllWatchlist: 'すべて削除',
+        clearConfirmQuestion: 'すべて削除しますか？',
         editHelp: '上下ボタンで順序を変更し、削除ボタンで銘柄を外せます。',
         dragHandle: 'ドラッグ',
         moveUp: '上へ',
@@ -1033,6 +1067,8 @@ const UI_TRANSLATIONS = {
         addWatchlist: '添加',
         editWatchlist: '编辑',
         doneEdit: '完成',
+        clearAllWatchlist: '全部删除',
+        clearConfirmQuestion: '要全部删除吗？',
         editHelp: '使用上/下按钮调整顺序，用删除按钮移除标的。',
         dragHandle: '拖动',
         moveUp: '上移',
@@ -1088,6 +1124,8 @@ const UI_TRANSLATIONS = {
         addWatchlist: 'Thêm',
         editWatchlist: 'Sửa',
         doneEdit: 'Xong',
+        clearAllWatchlist: 'Xóa tất cả',
+        clearConfirmQuestion: 'Xóa toàn bộ danh sách?',
         editHelp: 'Dùng nút lên/xuống để đổi thứ tự và nút xóa để gỡ mã.',
         dragHandle: 'Kéo',
         moveUp: 'Lên',
@@ -1143,6 +1181,8 @@ const UI_TRANSLATIONS = {
         addWatchlist: 'Hinzufügen',
         editWatchlist: 'Bearbeiten',
         doneEdit: 'Fertig',
+        clearAllWatchlist: 'Alle löschen',
+        clearConfirmQuestion: 'Alle Einträge löschen?',
         editHelp: 'Mit den Hoch/Runter-Tasten sortieren und mit Löschen entfernen.',
         dragHandle: 'Ziehen',
         moveUp: 'Hoch',
@@ -1198,6 +1238,8 @@ const UI_TRANSLATIONS = {
         addWatchlist: 'Ajouter',
         editWatchlist: 'Modifier',
         doneEdit: 'Terminer',
+        clearAllWatchlist: 'Tout supprimer',
+        clearConfirmQuestion: 'Tout supprimer ?',
         editHelp: 'Utilisez les boutons haut/bas pour réordonner et supprimer pour retirer un titre.',
         dragHandle: 'Glisser',
         moveUp: 'Monter',
@@ -1765,6 +1807,11 @@ function renderWatchlist() {
             editButton.setAttribute('aria-pressed', 'false');
             editButton.disabled = true;
         }
+        const clearButton = document.getElementById('watch-clear-btn');
+        if (clearButton) {
+            clearButton.classList.add('hidden');
+            clearButton.disabled = true;
+        }
         const editHelp = document.getElementById('watch-edit-help');
         if (editHelp) editHelp.classList.add('hidden');
         const dots = document.getElementById('watch-dots');
@@ -1814,6 +1861,13 @@ function renderWatchlist() {
         editButton.innerHTML = watchEditButtonMarkup();
         editButton.setAttribute('aria-pressed', String(watchEditMode));
         editButton.disabled = false;
+    }
+    const clearButton = document.getElementById('watch-clear-btn');
+    if (clearButton) {
+        clearButton.classList.toggle('hidden', !watchEditMode);
+        clearButton.disabled = !watchEditMode || !watchlistItems.length;
+        clearButton.setAttribute('aria-label', t('clearAllWatchlist'));
+        clearButton.setAttribute('title', t('clearAllWatchlist'));
     }
     const editHelp = document.getElementById('watch-edit-help');
     if (editHelp) editHelp.classList.toggle('hidden', !watchEditMode);
@@ -1969,12 +2023,47 @@ function removeWatchlistItem(symbol) {
     renderWatchlist();
 }
 
+function showWatchClearConfirm() {
+    if (!watchlistItems.length) return;
+    const modal = document.getElementById('watch-clear-modal');
+    if (modal) modal.classList.add('is-open');
+}
+
+function closeWatchClearConfirm() {
+    const modal = document.getElementById('watch-clear-modal');
+    if (modal) modal.classList.remove('is-open');
+}
+
+function clearAllWatchlistItems() {
+    watchlistItems = [];
+    watchlistPage = 0;
+    watchEditMode = false;
+    removeWatchDragPreview();
+    clearWatchDragClasses();
+    saveWatchlist();
+    renderWatchlist();
+    closeWatchClearConfirm();
+    setWatchlistMessage('', 'idle');
+}
+
 function moveWatchlistItem(symbol, direction) {
     const fromIndex = watchlistItems.findIndex(item => item.symbol === symbol);
     if (fromIndex < 0) return;
     const toIndex = fromIndex + Number(direction);
     if (toIndex < 0 || toIndex >= watchlistItems.length) return;
     const [item] = watchlistItems.splice(fromIndex, 1);
+    watchlistItems.splice(toIndex, 0, item);
+    watchlistPage = Math.floor(toIndex / WATCHLIST_PAGE_SIZE);
+    saveWatchlist();
+    renderWatchlist();
+}
+
+function moveWatchlistItemToIndex(symbol, insertIndex) {
+    const fromIndex = watchlistItems.findIndex(item => item.symbol === symbol);
+    if (fromIndex < 0) return;
+    const [item] = watchlistItems.splice(fromIndex, 1);
+    const adjustedIndex = fromIndex < insertIndex ? insertIndex - 1 : insertIndex;
+    const toIndex = Math.max(0, Math.min(adjustedIndex, watchlistItems.length));
     watchlistItems.splice(toIndex, 0, item);
     watchlistPage = Math.floor(toIndex / WATCHLIST_PAGE_SIZE);
     saveWatchlist();
@@ -1994,9 +2083,49 @@ function moveWatchlistItemTo(symbol, targetSymbol) {
 }
 
 function clearWatchDragClasses() {
-    document.querySelectorAll('.watchlist-card.is-dragging, .watchlist-card.is-drop-target').forEach(card => {
-        card.classList.remove('is-dragging', 'is-drop-target');
+    document.querySelectorAll('.watchlist-card.is-dragging, .watchlist-card.is-drop-target, .watchlist-card.is-drop-before, .watchlist-card.is-drop-after').forEach(card => {
+        card.classList.remove('is-dragging', 'is-drop-target', 'is-drop-before', 'is-drop-after');
     });
+}
+
+function removeWatchDragPreview() {
+    if (watchDragState && watchDragState.preview && watchDragState.preview.parentNode) {
+        watchDragState.preview.parentNode.removeChild(watchDragState.preview);
+    }
+    document.body.classList.remove('watchlist-drag-active');
+}
+
+function updateWatchDragPreview(event) {
+    if (!watchDragState || !watchDragState.preview) return;
+    const x = event.clientX - watchDragState.offsetX;
+    const y = event.clientY - watchDragState.offsetY;
+    watchDragState.preview.style.transform = `translate3d(${x}px, ${y}px, 0) rotate(1deg) scale(1.02)`;
+}
+
+function resolveWatchInsertPosition(event) {
+    const cards = [...document.querySelectorAll('#watchlist-grid [data-watch-card]')]
+        .filter(card => card.dataset.watchCard !== watchDragState.symbol);
+    if (!cards.length) return { insertIndex: 0, targetCard: null, placement: 'before' };
+    let nearest = cards[0];
+    let nearestDistance = Number.POSITIVE_INFINITY;
+    cards.forEach(card => {
+        const rect = card.getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+        const distance = Math.hypot(event.clientX - centerX, event.clientY - centerY);
+        if (distance < nearestDistance) {
+            nearest = card;
+            nearestDistance = distance;
+        }
+    });
+    const rect = nearest.getBoundingClientRect();
+    const targetIndex = watchlistItems.findIndex(item => item.symbol === nearest.dataset.watchCard);
+    const after = event.clientY > rect.top + rect.height * 0.62 || (Math.abs(event.clientY - (rect.top + rect.height / 2)) < rect.height * 0.45 && event.clientX > rect.left + rect.width / 2);
+    return {
+        insertIndex: Math.max(0, targetIndex + (after ? 1 : 0)),
+        targetCard: nearest,
+        placement: after ? 'after' : 'before'
+    };
 }
 
 function startWatchDrag(event) {
@@ -2004,9 +2133,28 @@ function startWatchDrag(event) {
     if (!handle || !watchEditMode) return;
     event.preventDefault();
     const symbol = handle.dataset.dragHandle;
-    watchDragState = { symbol, targetSymbol: null, pointerId: event.pointerId };
     const card = handle.closest('[data-watch-card]');
+    const rect = card ? card.getBoundingClientRect() : null;
+    const preview = card ? card.cloneNode(true) : null;
+    if (preview && rect) {
+        preview.classList.add('watch-drag-preview');
+        preview.classList.remove('is-dragging', 'is-drop-target', 'is-drop-before', 'is-drop-after');
+        preview.style.width = `${rect.width}px`;
+        preview.style.minHeight = `${rect.height}px`;
+        document.body.appendChild(preview);
+    }
+    watchDragState = {
+        symbol,
+        targetSymbol: null,
+        insertIndex: watchlistItems.findIndex(item => item.symbol === symbol),
+        pointerId: event.pointerId,
+        offsetX: rect ? event.clientX - rect.left : 0,
+        offsetY: rect ? event.clientY - rect.top : 0,
+        preview
+    };
+    document.body.classList.add('watchlist-drag-active');
     if (card) card.classList.add('is-dragging');
+    updateWatchDragPreview(event);
     document.body.style.cursor = 'grabbing';
     try { handle.setPointerCapture(event.pointerId); } catch (error) { /* Pointer capture can fail on older browsers. */ }
 }
@@ -2014,12 +2162,13 @@ function startWatchDrag(event) {
 function updateWatchDrag(event) {
     if (!watchDragState) return;
     event.preventDefault();
-    const element = document.elementFromPoint(event.clientX, event.clientY);
-    const card = element && element.closest ? element.closest('[data-watch-card]') : null;
-    document.querySelectorAll('.watchlist-card.is-drop-target').forEach(item => item.classList.remove('is-drop-target'));
-    if (card && card.dataset.watchCard !== watchDragState.symbol) {
-        watchDragState.targetSymbol = card.dataset.watchCard;
-        card.classList.add('is-drop-target');
+    updateWatchDragPreview(event);
+    const { insertIndex, targetCard, placement } = resolveWatchInsertPosition(event);
+    document.querySelectorAll('.watchlist-card.is-drop-target, .watchlist-card.is-drop-before, .watchlist-card.is-drop-after').forEach(item => item.classList.remove('is-drop-target', 'is-drop-before', 'is-drop-after'));
+    watchDragState.insertIndex = insertIndex;
+    if (targetCard && targetCard.dataset.watchCard !== watchDragState.symbol) {
+        watchDragState.targetSymbol = targetCard.dataset.watchCard;
+        targetCard.classList.add('is-drop-target', placement === 'after' ? 'is-drop-after' : 'is-drop-before');
     } else {
         watchDragState.targetSymbol = null;
     }
@@ -2030,15 +2179,17 @@ function updateWatchDrag(event) {
 function endWatchDrag(event) {
     if (!watchDragState) return;
     event.preventDefault();
-    const { symbol, targetSymbol } = watchDragState;
+    const { symbol, insertIndex } = watchDragState;
+    removeWatchDragPreview();
     watchDragState = null;
     document.body.style.cursor = '';
     clearWatchDragClasses();
-    if (targetSymbol) moveWatchlistItemTo(symbol, targetSymbol);
+    if (Number.isFinite(insertIndex)) moveWatchlistItemToIndex(symbol, insertIndex);
 }
 
 function toggleWatchEditMode() {
     watchEditMode = !watchEditMode;
+    removeWatchDragPreview();
     watchDragState = null;
     clearWatchDragClasses();
     renderWatchlist();
@@ -2085,6 +2236,7 @@ function initWatchlistControls() {
     document.getElementById('watch-search-btn').addEventListener('click', openWatchSearch);
     document.getElementById('watch-reset-btn').addEventListener('click', resetWatchlist);
     document.getElementById('watch-edit-btn').addEventListener('click', toggleWatchEditMode);
+    document.getElementById('watch-clear-btn').addEventListener('click', showWatchClearConfirm);
     document.getElementById('watch-confirm-yes').addEventListener('click', () => {
         if (pendingWatchMatch) addResolvedWatchlistItem(pendingWatchMatch.item);
         closeWatchMatchConfirm(false);
@@ -2093,8 +2245,14 @@ function initWatchlistControls() {
     document.querySelectorAll('[data-watch-confirm-cancel]').forEach(el => {
         el.addEventListener('click', () => closeWatchMatchConfirm(true));
     });
+    document.getElementById('watch-clear-yes').addEventListener('click', clearAllWatchlistItems);
+    document.getElementById('watch-clear-no').addEventListener('click', closeWatchClearConfirm);
+    document.querySelectorAll('[data-watch-clear-cancel]').forEach(el => {
+        el.addEventListener('click', closeWatchClearConfirm);
+    });
     document.addEventListener('keydown', event => {
         if (event.key === 'Escape' && pendingWatchMatch) closeWatchMatchConfirm(true);
+        if (event.key === 'Escape') closeWatchClearConfirm();
     });
     document.getElementById('watch-prev').addEventListener('click', () => { watchlistPage--; renderWatchlist(); });
     document.getElementById('watch-next').addEventListener('click', () => { watchlistPage++; renderWatchlist(); });

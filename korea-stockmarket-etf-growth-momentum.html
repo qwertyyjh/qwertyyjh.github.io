@@ -9,7 +9,11 @@
 <style>
 .chart-container { position: relative; width: 100%; max-width: 800px; margin-left: auto; margin-right: auto; height: 320px; max-height: 450px; }
 @media (min-width: 768px) { .chart-container { height: 400px; } }
-body { font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; background-color: #f8fafc; color: #1e293b; }
+html { scroll-behavior: smooth; overflow-x: hidden; -webkit-text-size-adjust: 100%; }
+body { font-family: 'Pretendard', 'Apple SD Gothic Neo', 'Noto Sans KR', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; background-color: #f8fafc; color: #1e293b; min-height: 100vh; overflow-x: hidden; text-rendering: optimizeLegibility; -webkit-font-smoothing: antialiased; }
+button, a, input, select, textarea { font: inherit; }
+button, a { -webkit-tap-highlight-color: transparent; }
+button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 3px solid rgba(37, 99, 235, 0.42); outline-offset: 3px; }
 .card-hover { transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out; }
 .card-hover:hover { transform: translateY(-5px); box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1); }
 
@@ -40,6 +44,15 @@ body { font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI",
   pointer-events: none;
 }
 .floating-tools #refresh-btn, .floating-tools #theme-toggle-btn, .floating-tools #auth-btn, .floating-tools #auth-settings-btn { pointer-events: auto; line-height: 1; }
+.floating-auth-row { display: flex; align-items: center; justify-content: flex-end; gap: 8px; margin-bottom: 4px; max-width: min(82vw, 460px); pointer-events: auto; transition: gap 0.2s ease, max-width 0.2s ease; }
+.floating-tools #auth-btn, .floating-tools #auth-settings-btn { min-height: 46px; max-width: min(76vw, 330px); overflow: hidden; justify-content: center; }
+.floating-tools #auth-btn svg, .floating-tools #auth-settings-btn svg { display: block; flex: none; margin: 0 !important; }
+.floating-tools #auth-btn span, .floating-tools #auth-settings-btn span { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; transition: width 0.2s ease, max-width 0.2s ease, opacity 0.2s ease, margin 0.2s ease; }
+.floating-tools #auth-btn.is-compact, .floating-tools #auth-settings-btn.is-compact { width: 46px; min-width: 46px; max-width: 46px; height: 46px; padding: 0 !important; gap: 0 !important; border-radius: 9999px; }
+.floating-tools #auth-btn.is-compact span, .floating-tools #auth-settings-btn.is-compact span { width: 0; max-width: 0; opacity: 0; margin-left: 0 !important; margin-right: 0 !important; }
+.floating-tools #auth-btn.is-compact svg, .floating-tools #auth-settings-btn.is-compact svg { width: 21px; height: 21px; }
+.floating-tools.is-below-hero { gap: 10px; }
+.floating-tools.is-below-hero .floating-auth-row { max-width: 104px; }
 .floating-tools #refresh-btn { min-width: 154px; min-height: 46px; justify-content: center; overflow: hidden; }
 .floating-tools #refresh-btn svg, .theme-toggle-btn svg { display: block; flex: none; margin: 0 !important; }
 .floating-tools #refresh-btn .refresh-label { max-width: 9rem; opacity: 1; white-space: nowrap; overflow: hidden; transition: max-width 0.2s ease, opacity 0.2s ease, margin 0.2s ease; }
@@ -148,7 +161,7 @@ body.theme-dark .portfolio-chart-card .portfolio-center-label.text-brightPurple 
 .watch-add-toggle:hover { background: #287f76; }
 .watch-add-panel { display: none; margin: -8px 0 24px; border: 1px solid #e2e8f0; border-radius: 18px; background: #f8fafc; padding: 14px; }
 .watch-add-panel.is-open { display: block; }
-.market-grid, .watchlist-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.market-grid, .watchlist-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 154px), 1fr)); gap: 12px; }
 .quote-card, .watchlist-card { min-height: 128px; overflow: hidden; position: relative; border-radius: 14px; border: 1px solid #dbe5ff; background: #eef3ff; padding: 14px 14px 13px; text-align: center; box-shadow: 0 3px 10px rgba(15, 23, 42, 0.06); text-decoration: none; display: flex; flex-direction: column; }
 .quote-card.card-hover:hover, .watchlist-card.card-hover:hover { transform: translateY(-2px); box-shadow: 0 8px 18px rgba(15, 23, 42, 0.10); }
 .quote-title, .watch-card-title { display: block; min-height: 1.6em; font-size: 0.98rem; line-height: 1.15; font-weight: 900; color: #2563eb; overflow: hidden; overflow-wrap: anywhere; }
@@ -214,19 +227,23 @@ body.theme-dark .portfolio-chart-card .portfolio-center-label.text-brightPurple 
 .google-translate-shell { position: fixed; left: -9999px; top: -9999px; width: 1px; height: 1px; overflow: hidden; }
 .goog-te-banner-frame, .goog-te-gadget, .skiptranslate { display: none !important; }
 body { top: 0 !important; }
-@media (min-width: 640px) { .market-grid, .watchlist-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
-@media (min-width: 768px) { .market-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } .watchlist-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); } }
-@media (min-width: 1280px) { .market-grid, .watchlist-grid { grid-template-columns: repeat(7, minmax(0, 1fr)); } }
+@media (min-width: 1180px) { .market-grid, .watchlist-grid { grid-template-columns: repeat(7, minmax(0, 1fr)); } }
 @media (max-width: 1024px) {
   .watchlist-header { align-items: flex-start; flex-direction: column; }
   .watchlist-actions { width: 100%; justify-content: flex-start; }
 }
 @media (max-width: 640px) {
   .chart-container { height: 300px; }
-  .floating-tools { right: calc(12px + env(safe-area-inset-right)) !important; top: max(8px, env(safe-area-inset-top)) !important; width: min(88vw, 188px); }
+  .floating-tools { right: calc(10px + env(safe-area-inset-right)) !important; top: max(8px, env(safe-area-inset-top)) !important; width: min(88vw, 232px); gap: 7px; }
+  .floating-auth-row { max-width: min(88vw, 232px); gap: 6px; }
+  .floating-tools #auth-btn { max-width: min(62vw, 174px); }
+  .floating-tools #auth-settings-btn { max-width: 88px; }
+  .floating-tools #auth-btn, .floating-tools #auth-settings-btn { min-height: 42px; padding: 7px 10px !important; }
+  .floating-tools #auth-btn.is-compact, .floating-tools #auth-settings-btn.is-compact { width: 42px; min-width: 42px; max-width: 42px; height: 42px; padding: 0 !important; }
   .floating-tools #refresh-btn { width: 100%; justify-content: center; padding: 8px 10px; }
   .floating-tools #refresh-btn.is-compact { width: 44px; min-width: 44px; height: 44px; }
   .theme-toggle-btn { min-height: 36px; padding: 7px 10px; font-size: 0.76rem; }
+  .theme-toggle-btn.is-compact { width: 42px; min-width: 42px; height: 42px; }
   .language-tools { right: auto !important; top: auto !important; width: min(100%, 360px); margin: 122px auto 28px; }
   .language-panel { grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 4px; }
   .language-btn { min-height: 30px; font-size: 15px; }
@@ -239,6 +256,18 @@ body { top: 0 !important; }
   .quote-card, .watchlist-card { min-height: 122px; padding: 13px 12px; }
   .quote-change-row, .watch-change-row { grid-template-columns: 3.3em minmax(0, 1fr); }
   header { padding-top: 1rem !important; }
+}
+@media (max-width: 420px) {
+  .market-grid, .watchlist-grid { grid-template-columns: 1fr; }
+  .floating-tools { width: min(90vw, 206px); }
+  .floating-tools.is-below-hero { width: 42px; align-items: flex-end; }
+  .floating-tools.is-below-hero .floating-auth-row { flex-direction: column; max-width: 42px; }
+}
+@media (hover: none) {
+  .card-hover:hover, .quote-card.card-hover:hover, .watchlist-card.card-hover:hover, .language-btn:hover, .theme-toggle-btn:hover { transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; transition-duration: 0.01ms !important; }
 }
 /* Auth Modal Styling */
 #auth-modal .watch-confirm-card { display: flex; flex-direction: column; }
@@ -262,7 +291,7 @@ colors: { vibrantBlue: '#2563eb', electricTeal: '#0d9488', sunsetOrange: '#ea580
 
 <!-- 우측 상단 실시간 새로고침 플로팅 버튼 -->
 <div class="floating-tools fixed top-6 right-4 sm:right-8 z-50">
-<div class="flex items-center gap-2 mb-1 pointer-events-auto">
+<div class="floating-auth-row">
 <button id="auth-settings-btn" class="hidden bg-white/90 backdrop-blur-sm text-deepNavy px-3 py-2.5 rounded-full shadow-lg hover:shadow-xl hover:bg-white hover:scale-105 transition-all duration-300 flex items-center space-x-1.5 border border-gray-200 group">
 <svg class="w-4 h-4 text-gray-500 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
 <span class="font-bold text-sm tracking-wide">설정</span>
@@ -2541,10 +2570,28 @@ async function refreshMarketData() {
 
 function updateRefreshButtonMode() {
     const header = document.querySelector('header');
+    const tools = document.querySelector('.floating-tools');
+    const authRow = document.querySelector('.floating-auth-row');
+    const authButton = document.getElementById('auth-btn');
+    const authLabel = document.getElementById('auth-btn-label');
+    const settingsButton = document.getElementById('auth-settings-btn');
     const button = document.getElementById('refresh-btn');
     const themeButton = document.getElementById('theme-toggle-btn');
     if (!header || !button) return;
     const isBelowHero = header.getBoundingClientRect().bottom <= 0;
+    if (tools) tools.classList.toggle('is-below-hero', isBelowHero);
+    if (authRow) authRow.classList.toggle('is-compact', isBelowHero);
+    if (authButton) {
+        authButton.classList.toggle('is-compact', isBelowHero);
+        const authText = (authLabel && authLabel.textContent.trim()) || '로그인';
+        authButton.setAttribute('aria-label', authText);
+        authButton.setAttribute('title', authText);
+    }
+    if (settingsButton) {
+        settingsButton.classList.toggle('is-compact', isBelowHero);
+        settingsButton.setAttribute('aria-label', '설정');
+        settingsButton.setAttribute('title', '설정');
+    }
     button.classList.toggle('is-compact', isBelowHero);
     if (themeButton) themeButton.classList.toggle('is-compact', isBelowHero);
     button.setAttribute('aria-label', isBelowHero ? t('refreshButton') : '');
@@ -2807,6 +2854,16 @@ function initAuthUI() {
             authLabel.textContent = '로그인';
             settingsBtn.classList.add('hidden');
         }
+        if (authBtn) {
+            const authText = authLabel.textContent.trim();
+            authBtn.setAttribute('aria-label', authText);
+            authBtn.setAttribute('title', authText);
+        }
+        if (settingsBtn) {
+            settingsBtn.setAttribute('aria-label', '설정');
+            settingsBtn.setAttribute('title', '설정');
+        }
+        if (typeof updateRefreshButtonMode === 'function') updateRefreshButtonMode();
     }
 
     function handleWatchlistSync() {

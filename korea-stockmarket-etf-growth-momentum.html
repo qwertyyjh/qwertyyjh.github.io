@@ -44,15 +44,15 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
   pointer-events: none;
 }
 .floating-tools #refresh-btn, .floating-tools #theme-toggle-btn, .floating-tools #auth-btn, .floating-tools #auth-settings-btn { pointer-events: auto; line-height: 1; }
-.floating-auth-row { display: flex; align-items: center; justify-content: flex-end; gap: 8px; margin-bottom: 4px; max-width: min(82vw, 460px); pointer-events: auto; transition: gap 0.2s ease, max-width 0.2s ease; }
+.floating-auth-row { display: flex; flex-direction: column; align-items: flex-end; justify-content: flex-end; gap: 8px; margin-bottom: 0; max-width: min(82vw, 460px); pointer-events: auto; transition: gap 0.2s ease, max-width 0.2s ease; }
 .floating-tools #auth-btn, .floating-tools #auth-settings-btn { min-height: 46px; max-width: min(76vw, 330px); overflow: hidden; justify-content: center; }
 .floating-tools #auth-btn svg, .floating-tools #auth-settings-btn svg { display: block; flex: none; margin: 0 !important; }
 .floating-tools #auth-btn span, .floating-tools #auth-settings-btn span { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; transition: width 0.2s ease, max-width 0.2s ease, opacity 0.2s ease, margin 0.2s ease; }
 .floating-tools #auth-btn.is-compact, .floating-tools #auth-settings-btn.is-compact { width: 46px; min-width: 46px; max-width: 46px; height: 46px; padding: 0 !important; gap: 0 !important; border-radius: 9999px; }
 .floating-tools #auth-btn.is-compact span, .floating-tools #auth-settings-btn.is-compact span { width: 0; max-width: 0; opacity: 0; margin-left: 0 !important; margin-right: 0 !important; }
 .floating-tools #auth-btn.is-compact svg, .floating-tools #auth-settings-btn.is-compact svg { width: 21px; height: 21px; }
-.floating-tools.is-below-hero { gap: 10px; }
-.floating-tools.is-below-hero .floating-auth-row { max-width: 104px; }
+.floating-tools.is-below-hero { width: 46px; align-items: flex-end; gap: 10px; }
+.floating-tools.is-below-hero .floating-auth-row { max-width: 46px; gap: 10px; }
 .floating-tools #refresh-btn { min-width: 154px; min-height: 46px; justify-content: center; overflow: hidden; }
 .floating-tools #refresh-btn svg, .theme-toggle-btn svg { display: block; flex: none; margin: 0 !important; }
 .floating-tools #refresh-btn .refresh-label { max-width: 9rem; opacity: 1; white-space: nowrap; overflow: hidden; transition: max-width 0.2s ease, opacity 0.2s ease, margin 0.2s ease; }
@@ -259,9 +259,8 @@ body { top: 0 !important; }
 @media (max-width: 640px) {
   .chart-container { height: 300px; }
   .floating-tools { right: calc(10px + env(safe-area-inset-right)) !important; top: max(8px, env(safe-area-inset-top)) !important; width: min(88vw, 232px); gap: 7px; }
-  .floating-auth-row { max-width: min(88vw, 232px); gap: 6px; }
-  .floating-tools #auth-btn { max-width: min(62vw, 174px); }
-  .floating-tools #auth-settings-btn { max-width: 88px; }
+  .floating-auth-row { max-width: min(88vw, 232px); gap: 7px; }
+  .floating-tools #auth-btn, .floating-tools #auth-settings-btn { max-width: min(88vw, 232px); }
   .floating-tools #auth-btn, .floating-tools #auth-settings-btn { min-height: 42px; padding: 7px 10px !important; }
   .floating-tools #auth-btn.is-compact, .floating-tools #auth-settings-btn.is-compact { width: 42px; min-width: 42px; max-width: 42px; height: 42px; padding: 0 !important; }
   .floating-tools #refresh-btn { width: 100%; justify-content: center; padding: 8px 10px; }

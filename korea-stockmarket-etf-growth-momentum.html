@@ -331,6 +331,29 @@ body { top: 0 !important; }
 }
 :root { --app-web-header-height: 62px; }
 body { padding-top: var(--app-web-header-height) !important; }
+html.kstock-ios-webview body,
+body.kstock-ios-webview {
+  padding-top: 0 !important;
+}
+html.kstock-ios-webview .app-web-header,
+body.kstock-ios-webview .app-web-header,
+html.kstock-ios-webview .floating-tools,
+body.kstock-ios-webview .floating-tools {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  pointer-events: none !important;
+}
+html.kstock-ios-webview .language-tools,
+body.kstock-ios-webview .language-tools,
+html.kstock-ios-webview body.floating-controls-compact .language-tools,
+body.kstock-ios-webview.floating-controls-compact .language-tools {
+  margin-top: 0 !important;
+}
 .app-web-header {
   position: fixed;
   top: 0;
@@ -958,6 +981,32 @@ body.floating-controls-compact .language-tools {
     margin: 18px auto 24px !important;
   }
 }
+html.kstock-ios-webview body,
+body.kstock-ios-webview {
+  margin: 0 !important;
+  padding: 0 !important;
+  padding-top: 0 !important;
+}
+html.kstock-ios-webview .app-web-header,
+body.kstock-ios-webview .app-web-header,
+html.kstock-ios-webview .floating-tools,
+body.kstock-ios-webview .floating-tools {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  pointer-events: none !important;
+}
+html.kstock-ios-webview .language-tools,
+body.kstock-ios-webview .language-tools,
+html.kstock-ios-webview body.floating-controls-compact .language-tools,
+body.kstock-ios-webview.floating-controls-compact .language-tools {
+  width: min(100%, 340px) !important;
+  margin: 0 auto 18px !important;
+}
 /* Auth Modal Styling */
 #auth-modal .watch-confirm-card { display: flex; flex-direction: column; }
 body.theme-dark #auth-modal .watch-confirm-card { background: #181a1d; color: #e5e7eb; border-color: rgba(148, 163, 184, 0.26); }
@@ -976,7 +1025,7 @@ colors: { vibrantBlue: '#2563eb', electricTeal: '#0d9488', sunsetOrange: '#ea580
 }
 </script>
 </head>
-<body class="antialiased">
+<body class="antialiased kstock-web-shell">
 
 <div class="app-web-header" role="banner">
 <div class="app-web-header-inner">

@@ -329,9 +329,13 @@ body { top: 0 !important; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; transition-duration: 0.01ms !important; }
 }
+:root { --app-web-header-height: 62px; }
+body { padding-top: var(--app-web-header-height) !important; }
 .app-web-header {
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
+  right: 0;
   z-index: 2147483200;
   background: rgba(24, 26, 29, 0.98);
   color: #f8fafc;
@@ -939,6 +943,19 @@ header.bg-deepNavy {
     height: 31px;
     min-width: 31px;
     min-height: 31px;
+  }
+}
+.floating-tools { display: none !important; }
+.language-tools,
+body.floating-controls-compact .language-tools {
+  width: min(100%, 360px) !important;
+  margin: 24px auto 28px !important;
+}
+@media (max-width: 640px) {
+  .language-tools,
+  body.floating-controls-compact .language-tools {
+    width: min(100%, 360px) !important;
+    margin: 18px auto 24px !important;
   }
 }
 /* Auth Modal Styling */
@@ -1646,6 +1663,11 @@ colors: { vibrantBlue: '#2563eb', electricTeal: '#0d9488', sunsetOrange: '#ea580
 <footer class="bg-deepNavy text-gray-400 text-xs text-center py-6 mt-8">
   <p>본 자료는 투자 참고용 정보이며, 투자 판단의 최종 책임은 투자자 본인에게 있습니다. 주가 데이터는 네이버 금융 실시간 API 기준이며 실제 체결 시세와 차이가 있을 수 있습니다.</p>
   <p class="mt-1">※ 실시간 데이터는 네이버 금융 JSONP를 우선 사용하고, 실패 시 기존 Yahoo Finance / Google Sheets 연동으로 대체됩니다.</p>
+  <div class="mt-5 max-w-4xl mx-auto leading-relaxed space-y-2 text-gray-300 px-4">
+    <p class="font-semibold">© 2026 Yang Jeehoo. All rights reserved.</p>
+    <p>본 웹사이트 및 앱에 포함된 당사 소유 또는 당사가 이용권을 보유한 콘텐츠, 디자인, UI, 그래픽, 텍스트, 이미지 및 소스코드의 무단 복제, 배포, 전송, 수정 및 상업적 이용을 금합니다.</p>
+    <p>All content, design, UI, graphics, text, images, and source code owned by or licensed to Yang Jeehoo and included in this website and application may not be reproduced, distributed, transmitted, modified, or used commercially without prior permission.</p>
+  </div>
 </footer>
 
 <script>
@@ -2676,31 +2698,138 @@ async function resolveWatchlistName(query, preferredSource = '') {
     return matches[0];
 }
 
-const MOCK_USERS_KEY = 'etfMomentumUsers';
-const MOCK_WATCHLISTS_KEY = 'etfMomentumWatchlists';
+const LOCAL_USERS_KEY = 'etfMomentumLocalDeviceUsersV2';
+const LEGACY_USERS_KEY = 'etfMomentumUsers';
+const LOCAL_WATCHLISTS_KEY = 'etfMomentumWatchlists';
 const CURRENT_USER_KEY = 'etfMomentumCurrentUser';
 
-class MockAuthService {
+function readStorageJson(key, fallback) {
+    try {
+        const raw = localStorage.getItem(key);
+        return raw ? JSON.parse(raw) : fallback;
+    } catch {
+        return fallback;
+    }
+}
+
+function hasPasswordCryptoSupport() {
+    return Boolean(window.crypto && window.crypto.subtle && window.crypto.getRandomValues && window.TextEncoder);
+}
+
+function bytesToBase64(bytes) {
+    let binary = '';
+    bytes.forEach(byte => { binary += String.fromCharCode(byte); });
+    return btoa(binary);
+}
+
+function base64ToBytes(base64) {
+    return Uint8Array.from(atob(base64), char => char.charCodeAt(0));
+}
+
+function normalizeAuthEmail(email) {
+    return String(email || '').trim().toLowerCase();
+}
+
+function localDeviceUid(email) {
+    return 'local_' + btoa(unescape(encodeURIComponent(email))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/g, '');
+}
+
+class LocalDeviceAuthService {
+    static passwordIterations = 150000;
+
     static getCurrentUser() {
-        return JSON.parse(localStorage.getItem(CURRENT_USER_KEY));
+        return readStorageJson(CURRENT_USER_KEY, null);
+    }
+    static loadUsers() {
+        return readStorageJson(LOCAL_USERS_KEY, {});
+    }
+    static saveUsers(users) {
+        localStorage.setItem(LOCAL_USERS_KEY, JSON.stringify(users));
+    }
+    static async createPasswordRecord(password) {
+        if (!hasPasswordCryptoSupport()) {
+            throw new Error('이 브라우저는 로컬 암호 저장을 지원하지 않습니다. 최신 Safari 또는 Chrome에서 다시 시도해 주세요.');
+        }
+        const saltBytes = new Uint8Array(16);
+        window.crypto.getRandomValues(saltBytes);
+        const salt = bytesToBase64(saltBytes);
+        return {
+            algorithm: 'PBKDF2-SHA256',
+            iterations: this.passwordIterations,
+            salt,
+            passwordHash: await this.derivePasswordHash(password, salt, this.passwordIterations)
+        };
+    }
+    static async derivePasswordHash(password, salt, iterations) {
+        const encoder = new TextEncoder();
+        const keyMaterial = await window.crypto.subtle.importKey(
+            'raw',
+            encoder.encode(password),
+            'PBKDF2',
+            false,
+            ['deriveBits']
+        );
+        const bits = await window.crypto.subtle.deriveBits(
+            { name: 'PBKDF2', salt: base64ToBytes(salt), iterations, hash: 'SHA-256' },
+            keyMaterial,
+            256
+        );
+        return bytesToBase64(new Uint8Array(bits));
+    }
+    static async verifyPassword(userRec, password) {
+        if (!userRec) return false;
+        if (userRec.passwordHash && userRec.salt) {
+            const hash = await this.derivePasswordHash(password, userRec.salt, userRec.iterations || this.passwordIterations);
+            return hash === userRec.passwordHash;
+        }
+        return typeof userRec.password === 'string' && userRec.password === password;
+    }
+    static loadLegacyUser(emailKey, email) {
+        const legacyUsers = readStorageJson(LEGACY_USERS_KEY, {});
+        return legacyUsers[emailKey] || legacyUsers[email] || null;
+    }
+    static removeLegacyUser(emailKey, email) {
+        const legacyUsers = readStorageJson(LEGACY_USERS_KEY, {});
+        let changed = false;
+        [emailKey, email].forEach(key => {
+            if (key && legacyUsers[key]) {
+                delete legacyUsers[key];
+                changed = true;
+            }
+        });
+        if (changed) localStorage.setItem(LEGACY_USERS_KEY, JSON.stringify(legacyUsers));
     }
     static async login(email, password) {
         await new Promise(r => setTimeout(r, 600));
-        const users = JSON.parse(localStorage.getItem(MOCK_USERS_KEY) || '{}');
-        if (!users[email]) {
-            users[email] = { email, password, displayName: email.split('@')[0], uid: 'local_' + btoa(email) };
-            localStorage.setItem(MOCK_USERS_KEY, JSON.stringify(users));
-        } else if (users[email].password !== password) {
+        const emailKey = normalizeAuthEmail(email);
+        if (!emailKey) throw new Error('이메일 주소를 입력해 주세요.');
+        if (!password) throw new Error('비밀번호를 입력해 주세요.');
+
+        const users = this.loadUsers();
+        let userRec = users[emailKey] || this.loadLegacyUser(emailKey, email);
+        if (!userRec) {
+            userRec = {
+                email: emailKey,
+                displayName: emailKey.split('@')[0],
+                uid: localDeviceUid(emailKey),
+                ...(await this.createPasswordRecord(password))
+            };
+        } else if (!(await this.verifyPassword(userRec, password))) {
             throw new Error('비밀번호가 일치하지 않습니다.');
+        } else if (!userRec.passwordHash) {
+            Object.assign(userRec, await this.createPasswordRecord(password));
+            delete userRec.password;
         }
-        const user = { email: users[email].email, displayName: users[email].displayName || users[email].email.split('@')[0], uid: users[email].uid };
-        localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(user));
-        return user;
-    }
-    static async socialLogin(provider) {
-        await new Promise(r => setTimeout(r, 800));
-        const email = `user@${provider}.mock`;
-        const user = { email, displayName: `${provider} 사용자`, uid: `${provider}_` + Date.now() };
+
+        userRec.email = normalizeAuthEmail(userRec.email || emailKey);
+        userRec.displayName = userRec.displayName || userRec.email.split('@')[0];
+        userRec.uid = userRec.uid || localDeviceUid(userRec.email);
+        delete userRec.password;
+        users[emailKey] = userRec;
+        this.saveUsers(users);
+        this.removeLegacyUser(emailKey, email);
+
+        const user = { email: userRec.email, displayName: userRec.displayName, uid: userRec.uid, storage: 'local-device' };
         localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(user));
         return user;
     }
@@ -2709,21 +2838,23 @@ class MockAuthService {
         const currentUser = this.getCurrentUser();
         if (!currentUser) throw new Error('로그인되어 있지 않습니다.');
 
-        const users = JSON.parse(localStorage.getItem(MOCK_USERS_KEY) || '{}');
-        const userRec = users[currentUser.email];
+        const users = this.loadUsers();
+        const emailKey = normalizeAuthEmail(currentUser.email);
+        const userRec = users[emailKey];
 
         if (userRec) {
             if (newPassword) {
                 if (!currentPassword) throw new Error('기존 비밀번호를 입력해주세요.');
-                if (userRec.password !== currentPassword) throw new Error('기존 비밀번호가 일치하지 않습니다.');
-                userRec.password = newPassword;
+                if (!(await this.verifyPassword(userRec, currentPassword))) throw new Error('기존 비밀번호가 일치하지 않습니다.');
+                Object.assign(userRec, await this.createPasswordRecord(newPassword));
+                delete userRec.password;
             }
             userRec.displayName = name || userRec.displayName;
-            localStorage.setItem(MOCK_USERS_KEY, JSON.stringify(users));
+            users[emailKey] = userRec;
+            this.saveUsers(users);
             currentUser.displayName = userRec.displayName;
         } else {
-            if (newPassword) throw new Error('소셜 로그인 계정은 비밀번호를 변경할 수 없습니다.');
-            currentUser.displayName = name || currentUser.displayName;
+            throw new Error('이 기기에 저장된 계정 정보를 찾을 수 없습니다.');
         }
         localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(currentUser));
         return currentUser;
@@ -2733,21 +2864,20 @@ class MockAuthService {
         const currentUser = this.getCurrentUser();
         if (!currentUser) throw new Error('로그인되어 있지 않습니다.');
 
-        const users = JSON.parse(localStorage.getItem(MOCK_USERS_KEY) || '{}');
-        const userRec = users[currentUser.email];
+        const users = this.loadUsers();
+        const emailKey = normalizeAuthEmail(currentUser.email);
+        const userRec = users[emailKey];
 
-        if (userRec && userRec.password) {
-            if (!password) throw new Error('비밀번호를 입력해주세요.');
-            if (userRec.password !== password) throw new Error('비밀번호가 일치하지 않습니다.');
-            delete users[currentUser.email];
-            localStorage.setItem(MOCK_USERS_KEY, JSON.stringify(users));
-        }
+        if (!userRec) throw new Error('이 기기에 저장된 계정 정보를 찾을 수 없습니다.');
+        if (!password) throw new Error('비밀번호를 입력해주세요.');
+        if (!(await this.verifyPassword(userRec, password))) throw new Error('비밀번호가 일치하지 않습니다.');
+        delete users[emailKey];
+        this.saveUsers(users);
 
-        // delete watchlist data
-        const watchlists = JSON.parse(localStorage.getItem('etfMomentumWatchlists') || '{}');
+        const watchlists = JSON.parse(localStorage.getItem(LOCAL_WATCHLISTS_KEY) || '{}');
         if (watchlists[currentUser.uid]) {
             delete watchlists[currentUser.uid];
-            localStorage.setItem('etfMomentumWatchlists', JSON.stringify(watchlists));
+            localStorage.setItem(LOCAL_WATCHLISTS_KEY, JSON.stringify(watchlists));
         }
 
         this.logout();
@@ -2756,13 +2886,13 @@ class MockAuthService {
         localStorage.removeItem(CURRENT_USER_KEY);
     }
     static getUserWatchlist(uid) {
-        const watchlists = JSON.parse(localStorage.getItem(MOCK_WATCHLISTS_KEY) || '{}');
+        const watchlists = JSON.parse(localStorage.getItem(LOCAL_WATCHLISTS_KEY) || '{}');
         return watchlists[uid] || null;
     }
     static saveUserWatchlist(uid, items) {
-        const watchlists = JSON.parse(localStorage.getItem(MOCK_WATCHLISTS_KEY) || '{}');
+        const watchlists = JSON.parse(localStorage.getItem(LOCAL_WATCHLISTS_KEY) || '{}');
         watchlists[uid] = items;
-        localStorage.setItem(MOCK_WATCHLISTS_KEY, JSON.stringify(watchlists));
+        localStorage.setItem(LOCAL_WATCHLISTS_KEY, JSON.stringify(watchlists));
     }
 }
 
@@ -2787,12 +2917,12 @@ function normalizeWatchlistItems(stored) {
 
 function loadWatchlist() {
     try {
-        const currentUser = MockAuthService.getCurrentUser();
+        const currentUser = LocalDeviceAuthService.getCurrentUser();
         if (currentUser) {
-            const userStored = MockAuthService.getUserWatchlist(currentUser.uid);
+            const userStored = LocalDeviceAuthService.getUserWatchlist(currentUser.uid);
             const normalizedUserItems = normalizeWatchlistItems(userStored);
             if (normalizedUserItems) return normalizedUserItems;
-            MockAuthService.saveUserWatchlist(currentUser.uid, []);
+            LocalDeviceAuthService.saveUserWatchlist(currentUser.uid, []);
             return [];
         }
         const localStored = localStorage.getItem(WATCHLIST_KEY);
@@ -2807,9 +2937,9 @@ function loadWatchlist() {
 }
 
 function saveWatchlist() {
-    const currentUser = MockAuthService.getCurrentUser();
+    const currentUser = LocalDeviceAuthService.getCurrentUser();
     if (currentUser) {
-        MockAuthService.saveUserWatchlist(currentUser.uid, watchlistItems);
+        LocalDeviceAuthService.saveUserWatchlist(currentUser.uid, watchlistItems);
     } else {
         localStorage.setItem(WATCHLIST_KEY, JSON.stringify(watchlistItems));
     }
@@ -4992,12 +5122,13 @@ function chartTooltipOptions() {
 }
 
 function chartLegendOptions(position = 'top', extraLabels = {}) {
+    const labelFont = { family: 'Pretendard', size: 12, weight: '700', ...(extraLabels.font || {}) };
     return {
         position,
         labels: {
             color: getChartThemeColors().text,
-            font: { family: 'Pretendard' },
-            ...extraLabels
+            ...extraLabels,
+            font: labelFont
         }
     };
 }
@@ -5524,13 +5655,12 @@ function updateChartsForLanguage() {
 }
 
 function getChartThemeColors() {
-    const isDark = document.body.classList.contains('theme-dark');
     return {
-        text: isDark ? '#e5e7eb' : '#1e293b',
-        muted: isDark ? '#cbd5e1' : '#64748b',
-        grid: isDark ? 'rgba(148, 163, 184, 0.22)' : 'rgba(148, 163, 184, 0.22)',
-        tooltipBg: isDark ? 'rgba(17, 19, 21, 0.96)' : 'rgba(15, 23, 42, 0.92)',
-        tooltipBorder: isDark ? 'rgba(148, 163, 184, 0.32)' : 'rgba(226, 232, 240, 0.38)'
+        text: '#1e293b',
+        muted: '#475569',
+        grid: 'rgba(148, 163, 184, 0.26)',
+        tooltipBg: 'rgba(15, 23, 42, 0.94)',
+        tooltipBorder: 'rgba(226, 232, 240, 0.42)'
     };
 }
 
@@ -5578,7 +5708,7 @@ function initAuthUI() {
     const deleteError = document.getElementById('delete-error');
 
     function updateAuthBtnState() {
-        const user = MockAuthService.getCurrentUser();
+        const user = LocalDeviceAuthService.getCurrentUser();
         if (user) {
             authLabel.textContent = '로그아웃 (' + (user.displayName || user.email.split('@')[0]) + ')';
             settingsBtn.classList.remove('hidden');
@@ -5605,9 +5735,9 @@ function initAuthUI() {
     }
 
     authBtn.addEventListener('click', () => {
-        if (MockAuthService.getCurrentUser()) {
+        if (LocalDeviceAuthService.getCurrentUser()) {
             if(confirm('로그아웃 하시겠습니까?')) {
-                MockAuthService.logout();
+                LocalDeviceAuthService.logout();
                 updateAuthBtnState();
                 handleWatchlistSync();
                 alert('로그아웃 되었습니다. 기본 관심 주식으로 전환됩니다.');
@@ -5619,7 +5749,7 @@ function initAuthUI() {
     });
 
     settingsBtn.addEventListener('click', () => {
-        const user = MockAuthService.getCurrentUser();
+        const user = LocalDeviceAuthService.getCurrentUser();
         if (user) {
             settingsName.value = user.displayName || user.email.split('@')[0];
             settingsCurrentPassword.value = '';
@@ -5646,12 +5776,12 @@ function initAuthUI() {
             submitBtn.disabled = true;
             submitBtn.textContent = '처리중...';
 
-            await MockAuthService.login(authEmail.value, authPassword.value);
+            await LocalDeviceAuthService.login(authEmail.value, authPassword.value);
 
             closeAuthModal();
             updateAuthBtnState();
             const loadedCount = handleWatchlistSync();
-            alert(loadedCount ? '로그인 되었습니다. 계정에 저장된 관심 주식을 불러옵니다.' : '로그인 되었습니다. 관심 종목을 직접 추가해 주세요.');
+            alert(loadedCount ? '로그인 되었습니다. 이 기기에 저장된 관심 주식을 불러옵니다.' : '로그인 되었습니다. 관심 종목을 직접 추가해 주세요.');
 
             submitBtn.disabled = false;
             submitBtn.textContent = '이메일로 로그인 / 가입';
@@ -5690,11 +5820,11 @@ function initAuthUI() {
             submitBtn.disabled = true;
             submitBtn.textContent = '처리중...';
 
-            await MockAuthService.updateProfile(settingsName.value, currentPass, newPass);
+            await LocalDeviceAuthService.updateProfile(settingsName.value, currentPass, newPass);
 
             closeSettingsModal();
             updateAuthBtnState();
-            alert('계정 정보가 업데이트 되었습니다.');
+            alert('이 기기에 저장된 계정 정보가 업데이트되었습니다.');
 
             submitBtn.disabled = false;
             submitBtn.textContent = '변경사항 저장';
@@ -5709,14 +5839,8 @@ function initAuthUI() {
 
     settingsDeleteBtn.addEventListener('click', () => {
         closeSettingsModal();
-        const user = MockAuthService.getCurrentUser();
-        if (user && user.email.endsWith('.mock')) {
-            deletePasswordContainer.classList.add('hidden');
-            deletePassword.required = false;
-        } else {
-            deletePasswordContainer.classList.remove('hidden');
-            deletePassword.required = true;
-        }
+        deletePasswordContainer.classList.remove('hidden');
+        deletePassword.required = true;
         deletePassword.value = '';
         deleteModal.classList.add('is-open');
         deleteError.classList.add('hidden');
@@ -5734,12 +5858,12 @@ function initAuthUI() {
             submitBtn.disabled = true;
             submitBtn.textContent = '처리중...';
 
-            await MockAuthService.deleteAccount(deletePassword.value);
+            await LocalDeviceAuthService.deleteAccount(deletePassword.value);
 
             closeDeleteModal();
             updateAuthBtnState();
             handleWatchlistSync();
-            alert('계정이 성공적으로 삭제되었습니다.');
+            alert('이 기기에 저장된 계정과 관심 종목이 삭제되었습니다.');
 
             submitBtn.disabled = false;
             submitBtn.textContent = '예';
@@ -5751,20 +5875,6 @@ function initAuthUI() {
             submitBtn.textContent = '예';
         }
     });
-
-    const handleSocial = async (provider) => {
-        try {
-            await MockAuthService.socialLogin(provider);
-            closeAuthModal();
-            updateAuthBtnState();
-            const loadedCount = handleWatchlistSync();
-            alert(loadedCount ? provider + ' 계정으로 로그인 되었습니다. 계정에 저장된 관심 주식을 불러옵니다.' : provider + ' 계정으로 로그인 되었습니다. 관심 종목을 직접 추가해 주세요.');
-        } catch (err) {
-            console.error(err);
-        }
-    };
-
-    document.getElementById('auth-google-btn').addEventListener('click', () => handleSocial('Google'));
 
     updateAuthBtnState();
 }
@@ -5783,18 +5893,6 @@ document.addEventListener('DOMContentLoaded', initAuthUI);
             </button>
         </div>
 
-        <div class="space-y-3 mb-6">
-            <button id="auth-google-btn" class="w-full flex items-center justify-center gap-3 bg-white border border-gray-300 text-gray-700 font-bold py-3 px-4 rounded-xl hover:bg-gray-50 transition-colors shadow-sm">
-                <svg class="w-5 h-5" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
-                Google로 로그인
-            </button>
-        </div>
-
-        <div class="relative flex items-center justify-center mb-6">
-            <hr class="w-full border-gray-200">
-            <span class="absolute bg-white px-3 text-xs text-gray-400 font-semibold rounded-full border border-gray-100">또는</span>
-        </div>
-
         <form id="auth-form" class="space-y-3">
             <div>
                 <input type="email" id="auth-email" placeholder="이메일 주소" class="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-vibrantBlue focus:bg-white transition-colors" required>
@@ -5806,7 +5904,7 @@ document.addEventListener('DOMContentLoaded', initAuthUI);
                 이메일로 로그인 / 가입
             </button>
         </form>
-        <p class="text-xs text-gray-400 mt-4 text-center leading-relaxed">처음 로그인하시면 자동으로 계정이 생성되며,<br>내 관심 주식이 안전하게 연동 보관됩니다.</p>
+        <p class="text-xs text-gray-400 mt-4 text-center leading-relaxed">처음 로그인하시면 이 기기에만 계정이 생성됩니다.<br>비밀번호는 해시로 저장되며 서버로 전송되지 않습니다.</p>
         <p id="auth-error" class="text-xs text-red-500 mt-3 text-center hidden"></p>
     </div>
 </div>

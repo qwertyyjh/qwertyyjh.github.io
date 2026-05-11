@@ -224,6 +224,22 @@ body.theme-dark .portfolio-chart-card .portfolio-center-label.text-brightPurple 
 .watch-order-btn:disabled { opacity: 0.35; cursor: not-allowed; }
 .watch-drag-handle { cursor: grab; touch-action: none; user-select: none; }
 .watch-drag-handle:active { cursor: grabbing; }
+.market-actions { display: flex; align-items: center; justify-content: flex-end; gap: 10px; flex-wrap: wrap; margin: -6px 0 18px; }
+.market-add-panel { display: none; margin: -4px 0 20px; border: 1px solid #e2e8f0; border-radius: 18px; background: #f8fafc; padding: 14px; }
+.market-add-panel.is-open { display: block; }
+.market-card { transition: transform 0.18s ease, box-shadow 0.18s ease, opacity 0.18s ease; }
+.market-card.is-editing { min-height: 174px; border-color: #2563eb; background: #eff6ff; }
+.market-card.is-dragging { opacity: 0.36; transform: scale(0.98); }
+.market-card.is-drop-target { outline: 3px solid rgba(37, 99, 235, 0.32); outline-offset: 3px; }
+.market-card.is-drop-before::before, .market-card.is-drop-after::after { content: ""; position: absolute; top: 10px; bottom: 10px; width: 5px; border-radius: 9999px; background: #2563eb; box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.16), 0 10px 22px rgba(37, 99, 235, 0.24); z-index: 4; }
+.market-card.is-drop-before::before { left: -10px; }
+.market-card.is-drop-after::after { right: -10px; }
+.market-edit-controls { display: none; margin-top: 10px; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
+.market-card.is-editing .market-edit-controls { display: grid; }
+.market-edit-btn-small { min-height: 34px; border-radius: 9px; background: rgba(255,255,255,0.86); color: #475569; border: 1px solid rgba(226,232,240,0.9); font-size: 0.72rem; font-weight: 900; display: inline-flex; align-items: center; justify-content: center; gap: 4px; }
+.market-edit-btn-small:disabled { opacity: 0.35; cursor: not-allowed; }
+.market-drag-handle { cursor: grab; touch-action: none; user-select: none; }
+.market-drag-handle:active { cursor: grabbing; }
 #watchlist-section button, #watchlist-section input, #watchlist-section select { min-height: 42px; }
 #watchlist-section input, #watchlist-section select, #watchlist-section button { min-width: 0; }
 #watchlist-section [data-i18n], .watch-edit-controls button { overflow-wrap: anywhere; }
@@ -276,15 +292,22 @@ body { top: 0 !important; }
   .watchlist-shell { padding: 22px 16px 24px; border-radius: 18px; }
   .watchlist-title-icon { font-size: 2.15rem; }
   .watchlist-actions { display: grid; grid-template-columns: 1fr 1fr auto auto; gap: 7px; }
+  .market-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; align-items: stretch; margin-top: -2px; }
+  .market-add-panel { padding: 12px; border-radius: 14px; }
+  .market-add-panel .grid { grid-template-columns: 1fr !important; }
   .watch-header-btn { padding: 0 10px; font-size: 0.82rem; }
   .watch-page-controls { justify-content: end; }
   .watch-page-button { width: 40px; height: 40px; min-width: 40px !important; min-height: 40px !important; }
-  .quote-card, .watchlist-card { min-height: 122px; padding: 13px 12px; }
-  .quote-change-row, .watch-change-row { grid-template-columns: 3.3em minmax(0, 1fr); }
+  .market-grid, .watchlist-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .quote-card, .watchlist-card { min-height: 116px; padding: 12px 10px; border-radius: 12px; }
+  .quote-title, .watch-card-title { min-height: 2.1em; font-size: 0.84rem; line-height: 1.12; display: flex; align-items: center; justify-content: center; }
+  .quote-price, .watch-price-row { font-size: clamp(1.02rem, 5.5vw, 1.32rem); margin-top: 6px; margin-bottom: 8px; }
+  .quote-change-box, .watch-change-box { padding: 6px 7px; gap: 2px; }
+  .quote-change-row, .watch-change-row { grid-template-columns: 3em minmax(0, 1fr); gap: 3px; font-size: 0.68rem; line-height: 1.16; }
   header { padding-top: 1rem !important; }
 }
 @media (max-width: 420px) {
-  .market-grid, .watchlist-grid { grid-template-columns: 1fr; }
+  .market-grid, .watchlist-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .floating-tools { --floating-expanded-width: min(44vw, 152px); width: var(--floating-expanded-width); }
   .floating-tools.is-below-hero { width: var(--floating-compact-size); align-items: flex-end; }
   .floating-tools.is-below-hero .floating-auth-row { flex-direction: column; width: var(--floating-compact-size); max-width: var(--floating-compact-size); }
@@ -398,6 +421,146 @@ body.theme-dark .app-web-logo-dark { display: block !important; }
 .app-web-theme-sun { display: none !important; }
 body.theme-dark .app-web-theme-moon { display: none !important; }
 body.theme-dark .app-web-theme-sun { display: block !important; }
+.hero-brand-logo-light,
+.hero-brand-logo-dark {
+  width: clamp(64px, 16vw, 96px);
+  height: clamp(64px, 16vw, 96px);
+  object-fit: cover;
+  border-radius: 22px;
+  margin: 0 auto 18px;
+  box-shadow: 0 18px 38px rgba(15, 23, 42, 0.22);
+}
+.hero-brand-logo-dark { display: none; }
+body.theme-dark .hero-brand-logo-light { display: none; }
+body.theme-dark .hero-brand-logo-dark { display: block; }
+.dynamic-insight-dashboard {
+  background: linear-gradient(135deg, #0f172a 0%, #12233d 56%, #173b3b 100%);
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  border-radius: 24px;
+  color: #e5e7eb;
+  padding: 28px;
+  box-shadow: 0 22px 52px rgba(15, 23, 42, 0.20);
+}
+.dynamic-insight-dashboard h2 { color: #f8fafc; }
+.dynamic-insight-dashboard .dynamic-muted { color: #cbd5e1; }
+.dynamic-chip { display: inline-flex; align-items: center; gap: 5px; border-radius: 9999px; padding: 4px 9px; font-size: 0.7rem; font-weight: 900; border: 1px solid rgba(148, 163, 184, 0.24); background: rgba(248, 250, 252, 0.10); color: #dbeafe; white-space: nowrap; }
+.dynamic-news-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.dynamic-news-group { border-radius: 16px; background: rgba(15, 23, 42, 0.72); border: 1px solid rgba(148, 163, 184, 0.20); padding: 14px; min-width: 0; }
+.dynamic-news-group-title { display: flex; align-items: center; justify-content: space-between; gap: 8px; color: #f8fafc; font-size: 0.92rem; font-weight: 900; margin-bottom: 10px; }
+.dynamic-news-provider { color: #93c5fd; font-size: 0.68rem; font-weight: 900; white-space: nowrap; }
+.dynamic-news-links { display: grid; gap: 8px; }
+.dynamic-news-item { display: block; color: #e0f2fe; background: rgba(8, 47, 73, 0.46); border: 1px solid rgba(56, 189, 248, 0.20); border-radius: 12px; padding: 10px 11px; text-decoration: none; transition: transform 0.18s ease, background 0.18s ease; }
+.dynamic-news-item:hover { transform: translateY(-1px); background: rgba(8, 47, 73, 0.62); }
+.dynamic-news-title { display: block; color: inherit; font-size: 0.82rem; line-height: 1.42; font-weight: 800; word-break: keep-all; overflow-wrap: anywhere; }
+.dynamic-news-meta { display: block; margin-top: 5px; color: #9cc8ef; font-size: 0.68rem; font-weight: 700; }
+.dynamic-news-empty { color: #cbd5e1; font-size: 0.82rem; line-height: 1.5; padding: 10px 0 2px; }
+.dynamic-source-note { color: #94a3b8; font-size: 0.72rem; line-height: 1.45; margin-top: 12px; }
+body.theme-dark .dynamic-insight-dashboard { background: linear-gradient(135deg, #0b1017 0%, #111827 55%, #102522 100%); box-shadow: 0 22px 52px rgba(0, 0, 0, 0.36); }
+body.theme-dark .dynamic-news-group { background: rgba(17, 24, 39, 0.78); }
+body.theme-dark .dynamic-news-item { background: rgba(15, 23, 42, 0.82); }
+.theme-mode-sheet {
+  position: fixed;
+  inset: 0;
+  z-index: 2147483600;
+  display: none;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 12px;
+}
+.theme-mode-sheet.is-open {
+  display: flex;
+}
+.theme-mode-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.34);
+  backdrop-filter: blur(2px);
+}
+.theme-mode-panel {
+  position: relative;
+  width: min(100%, 420px);
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.96);
+  color: #0f172a;
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  box-shadow: 0 24px 70px rgba(15, 23, 42, 0.26);
+  padding: 10px 16px 18px;
+}
+.theme-mode-handle {
+  width: 38px;
+  height: 4px;
+  border-radius: 9999px;
+  background: rgba(100, 116, 139, 0.32);
+  margin: 0 auto 13px;
+}
+.theme-mode-title {
+  font-size: 1rem;
+  line-height: 1.2;
+  font-weight: 900;
+  margin: 0 0 10px;
+}
+.theme-mode-options {
+  display: grid;
+  gap: 6px;
+}
+.theme-mode-option {
+  width: 100%;
+  min-height: 50px;
+  border: 0;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 11px;
+  color: inherit;
+  background: transparent;
+  text-align: left;
+  font-weight: 800;
+  transition: background 0.16s ease, transform 0.16s ease;
+}
+.theme-mode-option:hover {
+  background: rgba(37, 99, 235, 0.08);
+  transform: translateY(-1px);
+}
+.theme-mode-option[aria-checked="true"] {
+  background: rgba(37, 99, 235, 0.12);
+}
+.theme-mode-option-icon {
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
+  border-radius: 9999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #f1f5f9;
+  color: #1e3a8a;
+}
+.theme-mode-option-icon svg {
+  width: 18px;
+  height: 18px;
+}
+.theme-mode-option-check {
+  margin-left: auto;
+  color: #2563eb;
+  opacity: 0;
+}
+.theme-mode-option[aria-checked="true"] .theme-mode-option-check {
+  opacity: 1;
+}
+body.theme-dark .theme-mode-panel {
+  background: rgba(24, 26, 29, 0.98);
+  color: #f8fafc;
+  border-color: rgba(148, 163, 184, 0.22);
+}
+body.theme-dark .theme-mode-option-icon {
+  background: rgba(148, 163, 184, 0.14);
+  color: #dbeafe;
+}
+body.theme-dark .theme-mode-option:hover,
+body.theme-dark .theme-mode-option[aria-checked="true"] {
+  background: rgba(96, 165, 250, 0.14);
+}
 .floating-tools {
   display: none !important;
 }
@@ -456,6 +619,10 @@ header.bg-deepNavy {
     margin-left: auto !important;
     margin-right: auto !important;
   }
+}
+@media (max-width: 768px) {
+  .dynamic-insight-dashboard { padding: 20px; border-radius: 20px; }
+  .dynamic-news-grid { grid-template-columns: 1fr; }
 }
 @media (max-width: 380px) {
   .app-web-header-inner {
@@ -530,6 +697,31 @@ colors: { vibrantBlue: '#2563eb', electricTeal: '#0d9488', sunsetOrange: '#ea580
 </div>
 </div>
 
+<div id="theme-mode-sheet" class="theme-mode-sheet" role="dialog" aria-modal="true" aria-labelledby="theme-mode-title">
+<div class="theme-mode-backdrop" id="theme-mode-backdrop"></div>
+<div class="theme-mode-panel">
+<div class="theme-mode-handle" aria-hidden="true"></div>
+<h2 id="theme-mode-title" class="theme-mode-title">모드 전환</h2>
+<div class="theme-mode-options" role="radiogroup" aria-label="화면 모드">
+<button type="button" class="theme-mode-option" data-theme-mode-option="system" role="radio" aria-checked="false">
+<span class="theme-mode-option-icon" aria-hidden="true"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.72 1.72 0 002.572 1.066c1.543-.94 3.31.826 2.37 2.37a1.72 1.72 0 001.066 2.572c1.756.426 1.756 2.924 0 3.35a1.72 1.72 0 00-1.066 2.573c.94 1.543-.827 3.31-2.37 2.37a1.72 1.72 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.72 1.72 0 00-2.573-1.066c-1.543.94-3.31-.827-2.37-2.37a1.72 1.72 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.72 1.72 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg></span>
+<span>시스템 설정에 따름</span>
+<span class="theme-mode-option-check" aria-hidden="true">✓</span>
+</button>
+<button type="button" class="theme-mode-option" data-theme-mode-option="light" role="radio" aria-checked="false">
+<span class="theme-mode-option-icon" aria-hidden="true"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M12 3v2m0 14v2m9-9h-2M5 12H3m15.36-6.36l-1.42 1.42M7.05 16.95l-1.41 1.41m12.72 0l-1.42-1.41M7.05 7.05L5.64 5.64"></path><circle cx="12" cy="12" r="4" stroke-width="2.2"></circle></svg></span>
+<span>라이트 모드</span>
+<span class="theme-mode-option-check" aria-hidden="true">✓</span>
+</button>
+<button type="button" class="theme-mode-option" data-theme-mode-option="dark" role="radio" aria-checked="false">
+<span class="theme-mode-option-icon" aria-hidden="true"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path></svg></span>
+<span>다크 모드</span>
+<span class="theme-mode-option-check" aria-hidden="true">✓</span>
+</button>
+</div>
+</div>
+</div>
+
 <!-- 우측 상단 실시간 새로고침 플로팅 버튼 -->
 <div class="floating-tools fixed top-6 right-4 sm:right-8 z-50">
 <div class="floating-auth-row">
@@ -574,8 +766,9 @@ colors: { vibrantBlue: '#2563eb', electricTeal: '#0d9488', sunsetOrange: '#ea580
 <button type="button" class="language-btn" data-lang="fr" aria-label="Français">🇫🇷</button>
 </div>
 </div>
-<div class="text-6xl mb-4">🚀</div>
-<h1 class="text-4xl md:text-5xl font-bold mb-6 leading-tight" data-i18n-html="heroTitle">3대 주도 ETF<br><span class="text-electricTeal">성장 모멘텀 분석 리포트</span></h1>
+<img src="assets/k-stock-logo-light.png" alt="K-STOCK:한국주식" class="hero-brand-logo-light">
+<img src="assets/k-stock-logo-dark.png" alt="K-STOCK:한국주식" class="hero-brand-logo-dark">
+<h1 class="text-4xl md:text-5xl font-bold mb-6 leading-tight" data-i18n-html="heroTitle">K-STOCK:한국주식</h1>
 <p class="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto" data-i18n-html="heroSubtitle">최근 급등한 <strong>TIGER 코리아 AI 전력기기 TOP3 플러스</strong>, <strong>KODEX 200TR</strong>, <strong>KODEX 200</strong> ETF의 상승 원인과 미래 주도 테마로서의 가치를 직관적인 데이터로 분석합니다.</p>
 </div>
 </header>
@@ -588,7 +781,32 @@ colors: { vibrantBlue: '#2563eb', electricTeal: '#0d9488', sunsetOrange: '#ea580
 <h2 class="text-2xl font-bold text-deepNavy mb-6 flex items-center flex-wrap gap-y-1">
 <span class="text-3xl mr-2">📊</span><span data-i18n="marketTitle">실시간 시장 지수 &amp; ETF 현재가</span> <span class="text-sm text-gray-400 font-normal ml-3" data-i18n="marketInterval">(5초 업데이트 / 클릭 시 전체 동기화)</span><span id="refresh-status" class="text-xs text-gray-400 font-normal ml-3">불러오는 중...</span>
 </h2>
-<div class="market-grid">
+<div class="market-actions">
+<button type="button" id="market-edit-btn" class="watch-header-btn watch-edit-btn" aria-pressed="false">선택 옵션</button>
+<button type="button" id="market-toggle-add-btn" class="watch-header-btn watch-add-toggle">
+<svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v14m7-7H5"></path></svg>
+<span>종목 추가</span>
+</button>
+</div>
+<div id="market-add-panel" class="market-add-panel">
+<p class="text-sm text-gray-500 mb-3">네이버 증권 또는 Google Finance에서 종목을 찾은 뒤, 종목명과 코드/티커를 입력해 시장 섹션에 추가하세요.</p>
+<div class="grid grid-cols-1 sm:grid-cols-5 gap-2">
+<select id="market-source" class="sm:col-span-1 rounded-lg border border-gray-200 px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-vibrantBlue">
+<option value="naver">네이버 증권</option>
+<option value="google">Google Finance</option>
+</select>
+<input id="market-query" type="text" class="sm:col-span-2 rounded-lg border border-gray-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-vibrantBlue" placeholder="검색어 예: 삼성전자, AAPL">
+<button type="button" id="market-search-btn" class="rounded-lg bg-slate-100 text-deepNavy px-3 py-2 text-sm font-bold hover:bg-slate-200">검색 열기</button>
+<button type="button" id="market-reset-btn" class="rounded-lg bg-red-50 text-red-600 px-3 py-2 text-sm font-bold hover:bg-red-100">기본값 복원</button>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-5 gap-2 mt-2">
+<input id="market-name" type="text" class="sm:col-span-2 rounded-lg border border-gray-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-electricTeal" placeholder="종목명 예: 삼성전자">
+<input id="market-symbol" type="text" class="sm:col-span-2 rounded-lg border border-gray-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-electricTeal" placeholder="코드/티커 예: 005930 또는 AAPL:NASDAQ">
+<button type="button" id="market-add-btn" class="rounded-lg bg-electricTeal text-white px-3 py-2 text-sm font-bold hover:bg-teal-700">추가</button>
+</div>
+<p id="market-message" class="text-xs text-gray-400 mt-2 min-h-[18px]"></p>
+</div>
+<div id="market-grid" class="market-grid">
 <a href="https://www.google.com/finance/quote/KOSPI:KRX" target="_blank" class="stock-link quote-card watch-card-theme-0 card-hover cursor-pointer">
 <div class="quote-title" data-stock-ko="코스피">코스피</div>
 <div class="quote-price transition-colors notranslate" translate="no"><span id="price-kospi">--</span></div>
@@ -597,12 +815,28 @@ colors: { vibrantBlue: '#2563eb', electricTeal: '#0d9488', sunsetOrange: '#ea580
 <div class="quote-change-row"><span class="quote-label">시가비</span><span id="change-kospi-open" class="text-gray-400">-</span></div>
 </div>
 </a>
+<a href="https://finance.naver.com/sise/sise_index.naver?code=KPI200" target="_blank" class="stock-link quote-card watch-card-theme-4 card-hover cursor-pointer">
+<div class="quote-title" data-stock-ko="코스피200">코스피200</div>
+<div class="quote-price transition-colors notranslate" translate="no"><span id="price-kospi200">--</span></div>
+<div class="quote-change-box">
+<div class="quote-change-row"><span class="quote-label">전일비</span><span id="change-kospi200-close" class="text-gray-400">-</span></div>
+<div class="quote-change-row"><span class="quote-label">시가비</span><span id="change-kospi200-open" class="text-gray-400">-</span></div>
+</div>
+</a>
 <a href="https://www.google.com/finance/quote/KOSDAQ:KRX" target="_blank" class="stock-link quote-card watch-card-theme-1 card-hover cursor-pointer">
 <div class="quote-title" data-stock-ko="코스닥">코스닥</div>
 <div class="quote-price transition-colors notranslate" translate="no"><span id="price-kosdaq">--</span></div>
 <div class="quote-change-box">
 <div class="quote-change-row"><span class="quote-label">전일비</span><span id="change-kosdaq-close" class="text-gray-400">-</span></div>
 <div class="quote-change-row"><span class="quote-label">시가비</span><span id="change-kosdaq-open" class="text-gray-400">-</span></div>
+</div>
+</a>
+<a href="https://finance.naver.com/marketindex/" target="_blank" class="stock-link quote-card watch-card-theme-8 card-hover cursor-pointer">
+<div class="quote-title" data-stock-ko="원/달러 환율">원/달러 환율</div>
+<div class="quote-price transition-colors notranslate" translate="no"><span id="price-usdkrw">--</span><span class="currency">원</span></div>
+<div class="quote-change-box">
+<div class="quote-change-row"><span class="quote-label">전일비</span><span id="change-usdkrw-close" class="text-gray-400">-</span></div>
+<div class="quote-change-row"><span class="quote-label">시가비</span><span id="change-usdkrw-open" class="text-gray-400">-</span></div>
 </div>
 </a>
 <a href="https://www.google.com/finance/quote/005930:KRX" target="_blank" class="stock-link quote-card watch-card-theme-0 card-hover cursor-pointer">
@@ -1043,15 +1277,27 @@ const stockData = {
 const LANG_KEY = 'etfMomentumLanguage';
 const THEME_KEY = 'etfMomentumTheme';
 const WATCHLIST_KEY = 'etfMomentumWatchlistV1';
+const MARKET_ITEMS_KEY = 'etfMomentumMarketItemsV1';
 const WATCHLIST_PAGE_SIZE = 35;
+const WATCHLIST_MOBILE_PAGE_SIZE = 10;
 const UPDATE_INTERVAL_MS = 5000;
+const MARKET_DEFAULT_TOP_IDS = ['kospi', 'kospi200', 'kosdaq', 'usdkrw', 'samsung', 'sk', 'tiger', 'kodex200', 'kodex200tr'];
 let currentLanguage = localStorage.getItem(LANG_KEY) || 'ko';
+let marketItems = [];
+let marketEditMode = false;
+let marketDragState = null;
 let watchlistItems = [];
 let watchlistPage = 0;
 let watchTouchStartX = 0;
 let watchEditMode = false;
 let watchDragState = null;
 let pendingWatchMatch = null;
+
+function getWatchlistPageSize() {
+    return window.matchMedia && window.matchMedia('(max-width: 640px)').matches
+        ? WATCHLIST_MOBILE_PAGE_SIZE
+        : WATCHLIST_PAGE_SIZE;
+}
 
 const WATCHLIST_EXTRA_CATALOG = [
     { source: 'naver', name: 'TIGER 코리아 AI 전력기기 TOP3 플러스', symbol: '0117V0', aliases: ['TIGER 전력기기', 'TIGER AI 전력기기', 'TIGER 코리아 AI 전력기기', '타이거 전력기기'] },
@@ -1092,7 +1338,7 @@ const LANGUAGE_META = {
 const UI_TRANSLATIONS = {
     ko: {
         refreshButton: '실시간 갱신',
-        heroTitle: '3대 주도 ETF<br><span class="text-electricTeal">성장 모멘텀 분석 리포트</span>',
+        heroTitle: 'K-STOCK:한국주식',
         heroSubtitle: '최근 급등한 <strong>TIGER 코리아 AI 전력기기 TOP3 플러스</strong>, <strong>KODEX 200TR</strong>, <strong>KODEX 200</strong> ETF의 상승 원인과 미래 주도 테마로서의 가치를 직관적인 데이터로 분석합니다.',
         marketTitle: '실시간 시장 지수 & ETF 현재가',
         marketInterval: '(5초 업데이트 / 클릭 시 전체 동기화)',
@@ -1149,7 +1395,7 @@ const UI_TRANSLATIONS = {
     },
     en: {
         refreshButton: 'Live Refresh',
-        heroTitle: 'Three Leading ETFs<br><span class="text-electricTeal">Growth Momentum Analysis Report</span>',
+        heroTitle: 'K-STOCK:한국주식',
         heroSubtitle: 'This report analyzes the drivers and future thematic value of <strong>TIGER Korea AI Power Equipment TOP3 Plus</strong>, <strong>KODEX 200TR</strong>, and <strong>KODEX 200</strong> with intuitive market data.',
         marketTitle: 'Live Market Indices & ETF Prices',
         marketInterval: '(5-second checks / click to sync all)',
@@ -1206,7 +1452,7 @@ const UI_TRANSLATIONS = {
     },
     ja: {
         refreshButton: 'リアルタイム更新',
-        heroTitle: '主要ETF 3選<br><span class="text-electricTeal">成長モメンタム分析レポート</span>',
+        heroTitle: 'K-STOCK:한국주식',
         heroSubtitle: '<strong>TIGER Korea AI Power Equipment TOP3 Plus</strong>、<strong>KODEX 200TR</strong>、<strong>KODEX 200</strong>の上昇要因とテーマ価値を直感的なデータで分析します。',
         marketTitle: '市場指数・ETFのリアルタイム価格',
         marketInterval: '(5秒ごとに確認 / クリックで全体同期)',
@@ -1263,7 +1509,7 @@ const UI_TRANSLATIONS = {
     },
     'zh-CN': {
         refreshButton: '实时刷新',
-        heroTitle: '三大领先ETF<br><span class="text-electricTeal">成长动能分析报告</span>',
+        heroTitle: 'K-STOCK:한국주식',
         heroSubtitle: '用直观数据分析 <strong>TIGER Korea AI Power Equipment TOP3 Plus</strong>、<strong>KODEX 200TR</strong>、<strong>KODEX 200</strong> 的上涨原因和主题价值。',
         marketTitle: '实时市场指数与ETF价格',
         marketInterval: '(每5秒检查 / 点击同步全部)',
@@ -1320,7 +1566,7 @@ const UI_TRANSLATIONS = {
     },
     vi: {
         refreshButton: 'Cập nhật trực tiếp',
-        heroTitle: '3 ETF dẫn dắt<br><span class="text-electricTeal">Báo cáo phân tích đà tăng trưởng</span>',
+        heroTitle: 'K-STOCK:한국주식',
         heroSubtitle: 'Phân tích nguyên nhân tăng và giá trị chủ đề tương lai của <strong>TIGER Korea AI Power Equipment TOP3 Plus</strong>, <strong>KODEX 200TR</strong>, <strong>KODEX 200</strong> bằng dữ liệu trực quan.',
         marketTitle: 'Chỉ số thị trường & giá ETF trực tiếp',
         marketInterval: '(kiểm tra mỗi 5 giây / bấm để đồng bộ)',
@@ -1377,7 +1623,7 @@ const UI_TRANSLATIONS = {
     },
     de: {
         refreshButton: 'Live aktualisieren',
-        heroTitle: '3 führende ETFs<br><span class="text-electricTeal">Analysebericht zum Wachstumsmomentum</span>',
+        heroTitle: 'K-STOCK:한국주식',
         heroSubtitle: 'Analyse der Kurstreiber und des thematischen Potenzials von <strong>TIGER Korea AI Power Equipment TOP3 Plus</strong>, <strong>KODEX 200TR</strong> und <strong>KODEX 200</strong> anhand anschaulicher Daten.',
         marketTitle: 'Live-Marktindizes & ETF-Kurse',
         marketInterval: '(alle 5 Sekunden prüfen / Klick synchronisiert alles)',
@@ -1434,7 +1680,7 @@ const UI_TRANSLATIONS = {
     },
     fr: {
         refreshButton: 'Actualisation live',
-        heroTitle: '3 ETF leaders<br><span class="text-electricTeal">Rapport d’analyse du momentum de croissance</span>',
+        heroTitle: 'K-STOCK:한국주식',
         heroSubtitle: 'Analyse des moteurs de hausse et de la valeur thématique de <strong>TIGER Korea AI Power Equipment TOP3 Plus</strong>, <strong>KODEX 200TR</strong> et <strong>KODEX 200</strong> avec des données intuitives.',
         marketTitle: 'Indices de marché & prix ETF en direct',
         marketInterval: '(vérification toutes les 5 s / clic pour synchroniser)',
@@ -2029,6 +2275,455 @@ function watchlistItemUrl(item) {
     return googleFinanceUrl(item.symbol, item.name);
 }
 
+function marketTopHref(id) {
+    const map = {
+        kospi: 'https://www.google.com/finance/quote/KOSPI:KRX',
+        kospi200: 'https://finance.naver.com/sise/sise_index.naver?code=KPI200',
+        kosdaq: 'https://www.google.com/finance/quote/KOSDAQ:KRX',
+        usdkrw: 'https://finance.naver.com/marketindex/',
+        samsung: 'https://www.google.com/finance/quote/005930:KRX',
+        sk: 'https://www.google.com/finance/quote/000660:KRX',
+        tiger: 'https://finance.naver.com/item/main.naver?code=0117V0',
+        kodex200: 'https://www.google.com/finance/quote/069500:KRX',
+        kodex200tr: 'https://www.google.com/finance/quote/278530:KRX'
+    };
+    return map[id] || '#';
+}
+
+function marketTopItem(id) {
+    const config = QUOTE_CONFIG[id];
+    if (!config) return null;
+    return {
+        kind: 'top',
+        id,
+        source: config.isIndex || config.isFx ? 'index' : 'naver',
+        name: config.name,
+        symbol: config.naverCode || id,
+        href: marketTopHref(id)
+    };
+}
+
+function getDefaultMarketItems() {
+    return MARKET_DEFAULT_TOP_IDS.map(marketTopItem).filter(Boolean);
+}
+
+function marketItemKey(item) {
+    return item && item.kind === 'top'
+        ? `top:${item.id}`
+        : `custom:${item.source || 'naver'}:${normalizeSymbol(item && item.symbol)}`;
+}
+
+function normalizeMarketItems(stored) {
+    if (!Array.isArray(stored)) return null;
+    return stored.map(item => {
+        if (item && item.kind === 'top' && MARKET_DEFAULT_TOP_IDS.includes(item.id)) {
+            return marketTopItem(item.id);
+        }
+        const symbol = normalizeSymbol(item && item.symbol);
+        if (!symbol) return null;
+        return {
+            kind: 'custom',
+            source: inferWatchSource(item.source, symbol),
+            name: String(item.name || symbol).trim(),
+            koName: item.koName || '',
+            naverReuters: item.naverReuters || '',
+            symbol,
+            price: toNumber(item.price),
+            addedAt: item.addedAt || Date.now()
+        };
+    }).filter(Boolean);
+}
+
+function ensureDefaultMarketItems(items) {
+    const normalized = normalizeMarketItems(items) || [];
+    const seen = new Set(normalized.map(marketItemKey));
+    const missingDefaults = getDefaultMarketItems().filter(item => !seen.has(marketItemKey(item)));
+    return [...missingDefaults, ...normalized];
+}
+
+function loadMarketItems() {
+    try {
+        const stored = localStorage.getItem(MARKET_ITEMS_KEY);
+        if (stored !== null) return ensureDefaultMarketItems(JSON.parse(stored));
+    } catch (error) {
+        console.warn('Market items load failed:', error);
+    }
+    return getDefaultMarketItems();
+}
+
+function saveMarketItems() {
+    localStorage.setItem(MARKET_ITEMS_KEY, JSON.stringify(marketItems));
+}
+
+function marketCurrencyText(item) {
+    if (item.kind === 'top') {
+        const config = QUOTE_CONFIG[item.id];
+        if (!config || config.isIndex) return '';
+        return '원';
+    }
+    return watchCurrencyText(item);
+}
+
+function marketPriceDecimals(item) {
+    if (item.kind === 'top') {
+        const config = QUOTE_CONFIG[item.id];
+        return config && (config.isIndex || config.isFx) ? 2 : 0;
+    }
+    return watchPriceDecimals(item);
+}
+
+function marketItemUrl(item) {
+    return item.kind === 'top' ? item.href : watchlistItemUrl(item);
+}
+
+function marketEditButtonMarkup() {
+    return marketEditMode ? '완료' : '선택 옵션';
+}
+
+function marketCardHtml(item, index) {
+    const key = marketItemKey(item);
+    const isTop = item.kind === 'top';
+    const config = isTop ? QUOTE_CONFIG[item.id] : null;
+    const symbol = normalizeSymbol(item.symbol || item.id);
+    const priceAttr = isTop ? `id="${config.priceId}"` : `data-market-price="${symbol}"`;
+    const closeAttr = isTop ? `id="${config.closeId}"` : `data-market-close="${symbol}"`;
+    const openAttr = isTop ? `id="${config.openId}"` : `data-market-open="${symbol}"`;
+    const currency = marketCurrencyText(item);
+    const themeClass = `watch-card-theme-${index % 10}`;
+    const editClass = marketEditMode ? ' is-editing' : '';
+    const title = item.kind === 'top' ? localizedNameHtml(item.name) : displayWatchlistNameHtml(item);
+    return `
+      <a href="${escapeHtml(marketItemUrl(item))}" target="_blank" class="stock-link quote-card market-card ${themeClass}${editClass} card-hover cursor-pointer" data-market-key="${escapeHtml(key)}" data-market-symbol="${escapeHtml(symbol)}">
+        <div class="quote-title" data-market-name="${escapeHtml(symbol)}">${title}</div>
+        <div class="quote-price transition-colors notranslate" translate="no"><span ${priceAttr}>${item.price ? formatNum(item.price, marketPriceDecimals(item)) : '--'}</span>${currency ? `<span class="currency">${currency}</span>` : ''}</div>
+        <div class="quote-change-box">
+          <div class="quote-change-row"><span class="quote-label">전일비</span><span ${closeAttr} class="text-gray-400">-</span></div>
+          <div class="quote-change-row"><span class="quote-label">시가비</span><span ${openAttr} class="text-gray-400">-</span></div>
+        </div>
+        <div class="market-edit-controls">
+          <button type="button" class="market-edit-btn-small market-drag-handle" data-market-drag="${escapeHtml(key)}">드래그</button>
+          <button type="button" class="market-edit-btn-small" data-market-move="${escapeHtml(key)}" data-direction="-1" ${index === 0 ? 'disabled' : ''}>위</button>
+          <button type="button" class="market-edit-btn-small" data-market-move="${escapeHtml(key)}" data-direction="1" ${index >= marketItems.length - 1 ? 'disabled' : ''}>아래</button>
+          ${isTop ? '<span></span>' : `<button type="button" class="market-edit-btn-small text-red-500" data-market-remove="${escapeHtml(key)}">삭제</button>`}
+        </div>
+      </a>
+    `;
+}
+
+function renderMarketGrid() {
+    const grid = document.getElementById('market-grid');
+    if (!grid) return;
+    grid.innerHTML = marketItems.map(marketCardHtml).join('');
+    const editButton = document.getElementById('market-edit-btn');
+    if (editButton) {
+        editButton.textContent = marketEditButtonMarkup();
+        editButton.setAttribute('aria-pressed', String(marketEditMode));
+    }
+}
+
+function setMarketMessage(message, type = 'idle') {
+    const el = document.getElementById('market-message');
+    if (!el) return;
+    el.textContent = message || '';
+    el.className = 'text-xs mt-2 min-h-[18px] ' + (
+        type === 'error' ? 'text-red-500' :
+        type === 'ok' ? 'text-emerald-600' :
+        'text-gray-400'
+    );
+}
+
+function toggleMarketAddPanel(force) {
+    const panel = document.getElementById('market-add-panel');
+    const button = document.getElementById('market-toggle-add-btn');
+    if (!panel) return;
+    const shouldOpen = typeof force === 'boolean' ? force : !panel.classList.contains('is-open');
+    panel.classList.toggle('is-open', shouldOpen);
+    if (button) button.setAttribute('aria-expanded', String(shouldOpen));
+    if (shouldOpen) setTimeout(() => document.getElementById('market-name')?.focus(), 50);
+}
+
+function openMarketSearch() {
+    openWatchSourceHome(document.getElementById('market-source').value);
+}
+
+function resetMarketItems() {
+    marketItems = getDefaultMarketItems();
+    marketEditMode = false;
+    saveMarketItems();
+    renderMarketGrid();
+    setMarketMessage('기본 시장 카드로 복원했습니다.', 'ok');
+    refreshMarketData();
+}
+
+function addResolvedMarketItem(item, options = {}) {
+    const catalogItem = findWatchlistCatalogItem(item);
+    const symbol = catalogItem ? catalogItem.symbol : normalizeSymbol(item.symbol);
+    const source = inferWatchSource(catalogItem ? catalogItem.source : item.source, symbol);
+    const name = String((catalogItem && catalogItem.name) || item.name || symbol).trim();
+    const koName = (catalogItem && catalogItem.koName) || item.koName || '';
+    const naverReuters = (catalogItem && catalogItem.naverReuters) || item.naverReuters || '';
+    if (!name || !symbol) {
+        setMarketMessage(t('needFields'), 'error');
+        return false;
+    }
+    if (marketItems.some(entry => marketItemKey(entry) === `custom:${source}:${symbol}` || normalizeSymbol(entry.symbol) === symbol)) {
+        setMarketMessage(t('duplicate'), 'error');
+        return false;
+    }
+    const addedItem = { kind: 'custom', source, name, koName, naverReuters, symbol, price: toNumber(item.price), addedAt: Date.now() };
+    marketItems.push(addedItem);
+    saveMarketItems();
+    renderMarketGrid();
+    setMarketMessage(t('added'), 'ok');
+    ['market-name', 'market-symbol', 'market-query'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.value = '';
+    });
+    toggleMarketAddPanel(false);
+    if (options.openSource) openWatchSourceHome(source);
+    refreshAddedMarketItem(addedItem);
+    return true;
+}
+
+async function addMarketItem() {
+    const source = document.getElementById('market-source').value;
+    openWatchSourceHome(source);
+    const name = document.getElementById('market-name').value.trim();
+    const query = document.getElementById('market-query').value.trim();
+    const symbol = normalizeSymbol(document.getElementById('market-symbol').value);
+    const typedName = name || query;
+    if (symbol) {
+        addResolvedMarketItem({ source, name: name || query || symbol, symbol });
+        return;
+    }
+    if (!typedName) {
+        setMarketMessage(t('needFields'), 'error');
+        return;
+    }
+    setMarketMessage(t('checkingName'), 'idle');
+    const match = await resolveWatchlistName(typedName, source);
+    if (!match) {
+        setMarketMessage(t('noNameMatch'), 'error');
+        return;
+    }
+    addResolvedMarketItem(match.item);
+}
+
+function removeMarketItem(key) {
+    marketItems = marketItems.filter(item => marketItemKey(item) !== key || item.kind === 'top');
+    saveMarketItems();
+    renderMarketGrid();
+}
+
+function moveMarketItem(key, direction) {
+    const fromIndex = marketItems.findIndex(item => marketItemKey(item) === key);
+    if (fromIndex < 0) return;
+    const toIndex = fromIndex + Number(direction);
+    if (toIndex < 0 || toIndex >= marketItems.length) return;
+    const [item] = marketItems.splice(fromIndex, 1);
+    marketItems.splice(toIndex, 0, item);
+    saveMarketItems();
+    renderMarketGrid();
+}
+
+function moveMarketItemToIndex(key, insertIndex) {
+    const fromIndex = marketItems.findIndex(item => marketItemKey(item) === key);
+    if (fromIndex < 0) return;
+    const [item] = marketItems.splice(fromIndex, 1);
+    const adjustedIndex = fromIndex < insertIndex ? insertIndex - 1 : insertIndex;
+    const toIndex = Math.max(0, Math.min(adjustedIndex, marketItems.length));
+    marketItems.splice(toIndex, 0, item);
+    saveMarketItems();
+}
+
+function clearMarketDragClasses() {
+    document.querySelectorAll('#market-grid .market-card').forEach(card => {
+        card.classList.remove('is-dragging', 'is-drop-target', 'is-drop-before', 'is-drop-after');
+    });
+}
+
+function removeMarketDragPreview() {
+    const preview = document.querySelector('.watch-drag-preview[data-market-preview="true"]');
+    if (preview) preview.remove();
+}
+
+function startMarketDrag(event) {
+    const handle = event.target.closest('[data-market-drag]');
+    if (!handle || !marketEditMode) return;
+    event.preventDefault();
+    const key = handle.dataset.marketDrag;
+    const card = handle.closest('[data-market-key]');
+    if (!key || !card) return;
+    removeMarketDragPreview();
+    clearMarketDragClasses();
+    const rect = card.getBoundingClientRect();
+    const preview = card.cloneNode(true);
+    preview.dataset.marketPreview = 'true';
+    preview.classList.add('watch-drag-preview');
+    preview.style.width = `${rect.width}px`;
+    preview.style.height = `${rect.height}px`;
+    preview.style.transform = `translate3d(${rect.left}px, ${rect.top}px, 0) scale(1.02)`;
+    document.body.appendChild(preview);
+    card.classList.add('is-dragging');
+    marketDragState = {
+        key,
+        startX: event.clientX,
+        startY: event.clientY,
+        originLeft: rect.left,
+        originTop: rect.top,
+        pointerId: event.pointerId,
+        insertIndex: marketItems.findIndex(item => marketItemKey(item) === key)
+    };
+    if (handle.setPointerCapture && event.pointerId !== undefined) handle.setPointerCapture(event.pointerId);
+}
+
+function updateMarketDropTarget(event) {
+    if (!marketDragState) return;
+    clearMarketDragClasses();
+    const escapedKey = window.CSS && CSS.escape ? CSS.escape(marketDragState.key) : String(marketDragState.key).replace(/"/g, '\\"');
+    const source = document.querySelector(`#market-grid [data-market-key="${escapedKey}"]`);
+    if (source) source.classList.add('is-dragging');
+    const target = document.elementFromPoint(event.clientX, event.clientY)?.closest('#market-grid [data-market-key]');
+    if (!target || target.dataset.marketKey === marketDragState.key) return;
+    const rect = target.getBoundingClientRect();
+    const cards = [...document.querySelectorAll('#market-grid [data-market-key]')];
+    const targetIndex = cards.indexOf(target);
+    const after = Math.abs(event.clientY - rect.top) > rect.height / 2 || event.clientX > rect.left + rect.width / 2;
+    target.classList.add('is-drop-target', after ? 'is-drop-after' : 'is-drop-before');
+    marketDragState.insertIndex = targetIndex + (after ? 1 : 0);
+}
+
+function moveMarketDrag(event) {
+    if (!marketDragState) return;
+    const preview = document.querySelector('.watch-drag-preview[data-market-preview="true"]');
+    if (preview) {
+        const dx = event.clientX - marketDragState.startX;
+        const dy = event.clientY - marketDragState.startY;
+        preview.style.transform = `translate3d(${marketDragState.originLeft + dx}px, ${marketDragState.originTop + dy}px, 0) rotate(1deg) scale(1.02)`;
+    }
+    updateMarketDropTarget(event);
+}
+
+function endMarketDrag() {
+    if (!marketDragState) return;
+    const { key, insertIndex } = marketDragState;
+    removeMarketDragPreview();
+    clearMarketDragClasses();
+    moveMarketItemToIndex(key, insertIndex);
+    marketDragState = null;
+    renderMarketGrid();
+}
+
+function toggleMarketEditMode() {
+    marketEditMode = !marketEditMode;
+    if (!marketEditMode) {
+        removeMarketDragPreview();
+        clearMarketDragClasses();
+    }
+    renderMarketGrid();
+}
+
+function queryMarketElements(symbol, attr) {
+    return [...document.querySelectorAll(`[${attr}]`)].filter(el => el.getAttribute(attr) === symbol);
+}
+
+function setMarketText(symbol, attr, text, className) {
+    queryMarketElements(symbol, attr).forEach(el => {
+        el.textContent = text;
+        if (className) el.className = className;
+    });
+}
+
+function getDomesticMarketCodes() {
+    return marketItems
+        .filter(item => item.kind === 'custom' && item.source === 'naver' && isDomesticSymbol(item.symbol))
+        .map(item => item.symbol);
+}
+
+function applyMarketQuote(quote) {
+    const symbol = normalizeSymbol(quote.code || quote.id || quote.ticker);
+    if (!symbol) return false;
+    const item = marketItems.find(entry => entry.kind === 'custom' && (entry.symbol === symbol || entry.symbol === normalizeSymbol(quote.ticker)));
+    if (!item) return true;
+    const price = toNumber(quote.price);
+    if (price === null) return false;
+    item.price = price;
+    queryMarketElements(item.symbol, 'data-market-name').forEach(el => { el.innerHTML = displayWatchlistNameHtml(item); });
+    queryMarketElements(item.symbol, 'data-market-price').forEach(el => {
+        const oldPrice = readDisplayedNumber(el);
+        flashPriceElement(el, price, oldPrice, false, marketPriceDecimals(item));
+    });
+    const closeYest = toNumber(quote.closeyest);
+    const rawChange = toNumber(quote.change);
+    const closeDiff = rawChange !== null ? rawChange : (closeYest !== null ? price - closeYest : null);
+    const closePct = toNumber(quote.changepct);
+    const computedClosePct = closePct !== null ? closePct : (closeDiff !== null && closeYest ? (closeDiff / closeYest) * 100 : null);
+    setChangeText(item.symbol, 'data-market-close', closeDiff, computedClosePct, marketPriceDecimals(item));
+    const openPrice = toNumber(quote.priceopen);
+    const openDiff = openPrice !== null ? price - openPrice : null;
+    const openPct = openDiff !== null && openPrice ? (openDiff / openPrice) * 100 : null;
+    setChangeText(item.symbol, 'data-market-open', openDiff, openPct, marketPriceDecimals(item));
+    return true;
+}
+
+async function refreshAddedMarketItem(item) {
+    if (item.source === 'google' || !isDomesticSymbol(item.symbol)) {
+        try {
+            const quote = await fetchOverseasWatchQuote(item);
+            applyMarketQuote(quote);
+            saveMarketItems();
+            setRefreshStatus('', 'ok');
+        } catch (error) {
+            console.warn('해외 시장 카드 즉시 갱신 실패:', error);
+        }
+        return;
+    }
+    refreshMarketData();
+}
+
+async function loadAuxMarketFeed() {
+    const overseas = marketItems.filter(item => item.kind === 'custom' && (item.source === 'google' || !isDomesticSymbol(item.symbol)));
+    if (!overseas.length) return [];
+    const settled = await Promise.allSettled(overseas.map(fetchOverseasWatchQuote));
+    return settled.filter(item => item.status === 'fulfilled').map(item => item.value);
+}
+
+function initMarketControls() {
+    marketItems = loadMarketItems();
+    renderMarketGrid();
+    const searchInput = document.getElementById('market-query');
+    const nameInput = document.getElementById('market-name');
+    const symbolInput = document.getElementById('market-symbol');
+    if (searchInput) searchInput.placeholder = t('searchPlaceholder');
+    if (nameInput) nameInput.placeholder = t('namePlaceholder');
+    if (symbolInput) symbolInput.placeholder = t('symbolPlaceholder');
+    document.getElementById('market-toggle-add-btn')?.addEventListener('click', () => toggleMarketAddPanel());
+    document.getElementById('market-add-btn')?.addEventListener('click', addMarketItem);
+    document.getElementById('market-search-btn')?.addEventListener('click', openMarketSearch);
+    document.getElementById('market-reset-btn')?.addEventListener('click', resetMarketItems);
+    document.getElementById('market-edit-btn')?.addEventListener('click', toggleMarketEditMode);
+    const grid = document.getElementById('market-grid');
+    grid?.addEventListener('click', event => {
+        const move = event.target.closest('[data-market-move]');
+        if (move) {
+            event.preventDefault();
+            moveMarketItem(move.dataset.marketMove, Number(move.dataset.direction));
+            return;
+        }
+        const remove = event.target.closest('[data-market-remove]');
+        if (remove) {
+            event.preventDefault();
+            removeMarketItem(remove.dataset.marketRemove);
+            return;
+        }
+        if (marketEditMode) event.preventDefault();
+    });
+    grid?.addEventListener('pointerdown', startMarketDrag);
+    document.addEventListener('pointermove', moveMarketDrag);
+    document.addEventListener('pointerup', endMarketDrag);
+    document.addEventListener('pointercancel', endMarketDrag);
+}
+
 function stooqSymbolFor(item) {
     const raw = normalizeSymbol(item.symbol);
     if (!raw) return '';
@@ -2135,10 +2830,11 @@ function renderWatchlist() {
         return;
     }
     grid.classList.remove('is-empty');
-    const totalPages = Math.max(1, Math.ceil(watchlistItems.length / WATCHLIST_PAGE_SIZE));
+    const pageSize = getWatchlistPageSize();
+    const totalPages = Math.max(1, Math.ceil(watchlistItems.length / pageSize));
     watchlistPage = Math.min(Math.max(0, watchlistPage), totalPages - 1);
-    const pageStart = watchlistPage * WATCHLIST_PAGE_SIZE;
-    const pageItems = watchlistItems.slice(pageStart, pageStart + WATCHLIST_PAGE_SIZE);
+    const pageStart = watchlistPage * pageSize;
+    const pageItems = watchlistItems.slice(pageStart, pageStart + pageSize);
     grid.innerHTML = pageItems.map((item, pageIndex) => {
         const absoluteIndex = pageStart + pageIndex;
         const sourceText = item.source === 'naver' ? t('naverRealtime') : t('googleCheck');
@@ -2286,7 +2982,7 @@ function addResolvedWatchlistItem(item, options = {}) {
     }
     const addedItem = { source, name, koName, naverReuters, symbol, price: toNumber(item.price), addedAt: Date.now() };
     watchlistItems.push(addedItem);
-    watchlistPage = Math.floor((watchlistItems.length - 1) / WATCHLIST_PAGE_SIZE);
+    watchlistPage = Math.floor((watchlistItems.length - 1) / getWatchlistPageSize());
     saveWatchlist();
     renderWatchlist();
     setWatchlistMessage(t('added'), 'ok');
@@ -2394,7 +3090,7 @@ function moveWatchlistItem(symbol, direction) {
     if (toIndex < 0 || toIndex >= watchlistItems.length) return;
     const [item] = watchlistItems.splice(fromIndex, 1);
     watchlistItems.splice(toIndex, 0, item);
-    watchlistPage = Math.floor(toIndex / WATCHLIST_PAGE_SIZE);
+    watchlistPage = Math.floor(toIndex / getWatchlistPageSize());
     saveWatchlist();
     renderWatchlist();
 }
@@ -2406,7 +3102,7 @@ function moveWatchlistItemToIndex(symbol, insertIndex) {
     const adjustedIndex = fromIndex < insertIndex ? insertIndex - 1 : insertIndex;
     const toIndex = Math.max(0, Math.min(adjustedIndex, watchlistItems.length));
     watchlistItems.splice(toIndex, 0, item);
-    watchlistPage = Math.floor(toIndex / WATCHLIST_PAGE_SIZE);
+    watchlistPage = Math.floor(toIndex / getWatchlistPageSize());
     saveWatchlist();
     renderWatchlist();
 }
@@ -2418,7 +3114,7 @@ function moveWatchlistItemTo(symbol, targetSymbol) {
     const [item] = watchlistItems.splice(fromIndex, 1);
     const adjustedTarget = fromIndex < targetIndex ? targetIndex : targetIndex;
     watchlistItems.splice(adjustedTarget, 0, item);
-    watchlistPage = Math.floor(adjustedTarget / WATCHLIST_PAGE_SIZE);
+    watchlistPage = Math.floor(adjustedTarget / getWatchlistPageSize());
     saveWatchlist();
     renderWatchlist();
 }
@@ -2636,7 +3332,7 @@ function initWatchlistControls() {
         if (watchEditMode) return;
         const diff = event.changedTouches[0].clientX - watchTouchStartX;
         if (Math.abs(diff) < 60) return;
-        const totalPages = Math.max(1, Math.ceil(watchlistItems.length / WATCHLIST_PAGE_SIZE));
+        const totalPages = Math.max(1, Math.ceil(watchlistItems.length / getWatchlistPageSize()));
         if (diff < 0 && watchlistPage < totalPages - 1) watchlistPage++;
         if (diff > 0 && watchlistPage > 0) watchlistPage--;
         renderWatchlist();
@@ -2654,7 +3350,9 @@ const KOSDAQ_TICKERS = new Set(['403870', '058470', '052520', '357780', '240810'
 
 const QUOTE_CONFIG = {
     kospi: { priceId: 'price-kospi', closeId: 'change-kospi-close', openId: 'change-kospi-open', isIndex: true, naverCode: 'KOSPI', yahooSymbol: '^KS11', name: '코스피' },
+    kospi200: { priceId: 'price-kospi200', closeId: 'change-kospi200-close', openId: 'change-kospi200-open', isIndex: true, naverCode: 'KPI200', yahooSymbol: '^KS200', name: '코스피200' },
     kosdaq: { priceId: 'price-kosdaq', closeId: 'change-kosdaq-close', openId: 'change-kosdaq-open', isIndex: true, naverCode: 'KOSDAQ', yahooSymbol: '^KQ11', name: '코스닥' },
+    usdkrw: { priceId: 'price-usdkrw', closeId: 'change-usdkrw-close', openId: 'change-usdkrw-open', isFx: true, naverCode: 'FX_USDKRW', yahooSymbol: 'KRW=X', name: '원/달러 환율' },
     samsung: { priceId: 'price-samsung', closeId: 'change-samsung-close', openId: 'change-samsung-open', naverCode: '005930', yahooSymbol: '005930.KS', name: '삼성전자' },
     sk: { priceId: 'price-sk', closeId: 'change-sk-close', openId: 'change-sk-open', naverCode: '000660', yahooSymbol: '000660.KS', name: 'SK하이닉스' },
     tiger: { priceId: 'price-tiger', closeId: 'change-tiger-close', openId: 'change-tiger-open', naverCode: '0117V0', yahooSymbol: '0117V0.KS', name: 'TIGER 전력기기' },
@@ -2663,10 +3361,10 @@ const QUOTE_CONFIG = {
 };
 
 const NAVER_CODE_TO_TOP_ID = Object.entries(QUOTE_CONFIG).reduce((acc, [id, config]) => {
-    if (!config.isIndex && config.naverCode) acc[config.naverCode] = id;
+    if (!config.isIndex && !config.isFx && config.naverCode) acc[config.naverCode] = id;
     return acc;
 }, {});
-const NAVER_INDEX_TO_TOP_ID = { KOSPI: 'kospi', KOSDAQ: 'kosdaq' };
+const NAVER_INDEX_TO_TOP_ID = { KOSPI: 'kospi', KPI200: 'kospi200', KOSDAQ: 'kosdaq' };
 
 const formatNum = (num, decimals = 0) => Number(num).toLocaleString('ko-KR', {
     minimumFractionDigits: decimals,
@@ -2793,6 +3491,32 @@ function normalizeNaverIndexQuote(data) {
     };
 }
 
+function normalizeNaverExchangeQuote(data) {
+    const price = toNumber(data && (data.closePrice || data.nowPrice || data.basePrice));
+    if (price === null) return null;
+    const change = toNumber(data.compareToPreviousClosePrice || data.changePrice);
+    return {
+        id: 'usdkrw',
+        code: 'FX_USDKRW',
+        name: '원/달러 환율',
+        ticker: 'FX_USDKRW',
+        price,
+        priceopen: toNumber(data.openPrice),
+        closeyest: toNumber(data.basePrice) || (change !== null ? price - change : null),
+        change,
+        changepct: toNumber(data.fluctuationsRatio || data.changeRate),
+        tradetime: data.localTradedAt || '',
+        datadelay: '',
+        status: 'OK'
+    };
+}
+
+async function loadNaverExchangeRows() {
+    const data = await fetchJsonWithProxy(`https://api.stock.naver.com/marketindex/exchange/FX_USDKRW?_=${Date.now()}`);
+    const row = normalizeNaverExchangeQuote(data);
+    return row ? [row] : [];
+}
+
 function normalizeNaverStockQuote(data) {
     const code = String(data.cd || '');
     const id = NAVER_CODE_TO_TOP_ID[code] || code;
@@ -2832,10 +3556,15 @@ function chunkArray(items, size) {
 
 async function loadNaverFinanceFeed() {
     const subCodes = [...stockData.semi, ...stockData.def, ...stockData.ship, ...stockData.aero].map(item => item.ticker);
-    const stockCodes = [...new Set([...Object.keys(NAVER_CODE_TO_TOP_ID), ...subCodes, ...getDomesticWatchlistCodes()])];
+    const stockCodes = [...new Set([...Object.keys(NAVER_CODE_TO_TOP_ID), ...subCodes, ...getDomesticMarketCodes(), ...getDomesticWatchlistCodes()])];
     const stockRequests = chunkArray(stockCodes, 20).map(codes => loadNaverRealtime(`SERVICE_ITEM:${codes.join(',')}`));
-    const responses = await Promise.all([loadNaverRealtime('SERVICE_INDEX:KOSPI,KOSDAQ'), ...stockRequests]);
+    const responses = await Promise.all([loadNaverRealtime('SERVICE_INDEX:KOSPI,KPI200,KOSDAQ'), ...stockRequests]);
     const rows = responses.flatMap(parseNaverRealtimeResponse);
+    const exchangeRows = await loadNaverExchangeRows().catch(error => {
+        console.warn('Naver 환율 데이터 실패:', error);
+        return [];
+    });
+    rows.push(...exchangeRows);
     if (!rows.length) throw new Error('No Naver Finance quotes loaded.');
     return rows;
 }
@@ -3074,17 +3803,17 @@ function applyTopQuote(id, quote) {
     if (!config) return true;
     const price = toNumber(quote.price);
     if (price === null) { setTopUnavailable(config); return false; }
-    flashPriceById(config.priceId, price, !!config.isIndex);
+    flashPriceById(config.priceId, price, !!config.isIndex || !!config.isFx);
     const closeYest = toNumber(quote.closeyest);
     const rawChange = toNumber(quote.change);
     const closeDiff = rawChange !== null ? rawChange : (closeYest !== null ? price - closeYest : null);
     const closePct = toNumber(quote.changepct);
     const computedClosePct = closePct !== null ? closePct : (closeDiff !== null && closeYest ? (closeDiff / closeYest) * 100 : null);
-    setChangeElement(config.closeId, closeDiff, computedClosePct, !!config.isIndex);
+    setChangeElement(config.closeId, closeDiff, computedClosePct, !!config.isIndex || !!config.isFx);
     const openPrice = toNumber(quote.priceopen);
     const openDiff = openPrice !== null ? price - openPrice : null;
     const openPct = openDiff !== null && openPrice ? (openDiff / openPrice) * 100 : null;
-    setChangeElement(config.openId, openDiff, openPct, !!config.isIndex);
+    setChangeElement(config.openId, openDiff, openPct, !!config.isIndex || !!config.isFx);
     return true;
 }
 
@@ -3118,15 +3847,25 @@ function applyQuotes(rows) {
         if (/^[0-9A-Z]{6}$/.test(code) && !applySubQuote({ ...row, id: code })) {
             missing.push(row.name || row.id);
         }
+        if (!applyMarketQuote(row)) missing.push(row.name || row.id);
         if (!applyWatchlistQuote(row)) missing.push(row.name || row.id);
     });
     return { total: rows.length, missing: [...new Set(missing)] };
 }
 
+function getSystemTheme(systemIsDarkOverride) {
+    if (typeof systemIsDarkOverride === 'boolean') return systemIsDarkOverride ? 'dark' : 'light';
+    return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+}
+
 function getInitialTheme() {
     const stored = localStorage.getItem(THEME_KEY);
-    if (stored === 'dark' || stored === 'light') return stored;
-    return 'light';
+    if (stored === 'system' || stored === 'dark' || stored === 'light') return stored;
+    return 'system';
+}
+
+function getThemePreference() {
+    return document.body.dataset.themeMode || getInitialTheme();
 }
 
 function updateThemeToggle() {
@@ -3138,17 +3877,35 @@ function updateThemeToggle() {
     label.textContent = text;
     button.setAttribute('aria-label', text);
     button.setAttribute('title', text);
+    button.dataset.themeMode = getThemePreference();
 }
 
-function applyTheme(theme) {
-    const nextTheme = theme === 'dark' ? 'dark' : 'light';
-    document.body.classList.toggle('theme-dark', nextTheme === 'dark');
+function applyTheme(theme = 'system', systemIsDarkOverride) {
+    const nextTheme = theme === 'dark' || theme === 'light' || theme === 'system' ? theme : 'system';
+    const resolvedTheme = nextTheme === 'system' ? getSystemTheme(systemIsDarkOverride) : nextTheme;
+    document.body.classList.toggle('theme-dark', resolvedTheme === 'dark');
+    document.body.dataset.themeMode = nextTheme;
+    document.body.dataset.resolvedTheme = resolvedTheme;
     localStorage.setItem(THEME_KEY, nextTheme);
     updateThemeToggle();
+    if (typeof syncThemeModeSheetState === 'function') syncThemeModeSheetState();
 }
 
 function toggleTheme() {
     applyTheme(document.body.classList.contains('theme-dark') ? 'light' : 'dark');
+}
+
+function syncSystemThemePreference() {
+    if (getThemePreference() === 'system') applyTheme('system');
+}
+
+const systemThemeQuery = window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)') : null;
+if (systemThemeQuery) {
+    if (typeof systemThemeQuery.addEventListener === 'function') {
+        systemThemeQuery.addEventListener('change', syncSystemThemePreference);
+    } else if (typeof systemThemeQuery.addListener === 'function') {
+        systemThemeQuery.addListener(syncSystemThemePreference);
+    }
 }
 
 function applyLanguage(lang, shouldTranslatePage = true) {
@@ -3224,6 +3981,10 @@ async function refreshMarketData() {
     setRefreshStatus('', 'loading');
     try {
         const rows = await loadLiveQuoteFeed();
+        const marketRows = await loadAuxMarketFeed().catch(error => {
+            console.warn('시장 섹션 보조 데이터 실패:', error);
+            return [];
+        });
         const stooqRows = await loadStooqWatchlistFeed().catch(error => {
             console.warn('Stooq 보조 데이터 실패:', error);
             return [];
@@ -3231,7 +3992,7 @@ async function refreshMarketData() {
         const googleOnlySymbols = new Set(watchlistItems.filter(item => item.source === 'google' || !isDomesticSymbol(item.symbol)).map(item => item.symbol));
         stooqRows.forEach(row => googleOnlySymbols.delete(row.code || row.id));
         googleOnlySymbols.forEach(symbol => setWatchText(symbol, 'data-watch-status', t('googleCheck'), 'text-amber-600 truncate'));
-        rows.push(...stooqRows);
+        rows.push(...marketRows, ...stooqRows);
         const result = applyQuotes(rows);
         saveWatchlist();
         setRefreshStatus('', result.missing.length ? 'warn' : 'ok');
@@ -3279,6 +4040,42 @@ function updateRefreshButtonMode() {
     button.setAttribute('aria-label', isBelowHero ? t('refreshButton') : '');
 }
 
+function syncThemeModeSheetState() {
+    const activeMode = getThemePreference();
+    document.querySelectorAll('[data-theme-mode-option]').forEach(option => {
+        option.setAttribute('aria-checked', String(option.dataset.themeModeOption === activeMode));
+    });
+}
+
+function openThemeModeSheet() {
+    const sheet = document.getElementById('theme-mode-sheet');
+    if (!sheet) return;
+    syncThemeModeSheetState();
+    sheet.classList.add('is-open');
+}
+
+function closeThemeModeSheet() {
+    const sheet = document.getElementById('theme-mode-sheet');
+    if (sheet) sheet.classList.remove('is-open');
+}
+
+function initThemeModeSheet() {
+    const sheet = document.getElementById('theme-mode-sheet');
+    const backdrop = document.getElementById('theme-mode-backdrop');
+    if (!sheet) return;
+    backdrop && backdrop.addEventListener('click', closeThemeModeSheet);
+    document.querySelectorAll('[data-theme-mode-option]').forEach(option => {
+        option.addEventListener('click', () => {
+            applyTheme(option.dataset.themeModeOption || 'system');
+            closeThemeModeSheet();
+        });
+    });
+    document.addEventListener('keydown', event => {
+        if (event.key === 'Escape' && sheet.classList.contains('is-open')) closeThemeModeSheet();
+    });
+    syncThemeModeSheetState();
+}
+
 function initAppWebHeader() {
     const appAuthButton = document.getElementById('app-web-auth-btn');
     const appSettingsButton = document.getElementById('app-web-settings-btn');
@@ -3323,8 +4120,7 @@ function initAppWebHeader() {
         else if (typeof refreshMarketData === 'function') refreshMarketData();
     });
     appThemeButton.addEventListener('click', () => {
-        if (themeButton) themeButton.click();
-        else if (typeof toggleTheme === 'function') toggleTheme();
+        openThemeModeSheet();
         window.setTimeout(syncHeaderState, 80);
     });
 
@@ -3340,11 +4136,13 @@ function initAppWebHeader() {
 
 document.getElementById('refresh-btn').addEventListener('click', refreshMarketData);
 document.getElementById('theme-toggle-btn').addEventListener('click', toggleTheme);
+initThemeModeSheet();
 initAppWebHeader();
 window.addEventListener('scroll', updateRefreshButtonMode, { passive: true });
 window.addEventListener('resize', updateRefreshButtonMode);
 window.addEventListener('load', () => {
     applyTheme(getInitialTheme());
+    initMarketControls();
     initWatchlistControls();
     applyLanguage(currentLanguage, false);
     updateRefreshButtonMode();

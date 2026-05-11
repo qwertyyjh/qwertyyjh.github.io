@@ -839,6 +839,38 @@ colors: { vibrantBlue: '#2563eb', electricTeal: '#0d9488', sunsetOrange: '#ea580
 <div class="quote-change-row"><span class="quote-label">시가비</span><span id="change-usdkrw-open" class="text-gray-400">-</span></div>
 </div>
 </a>
+<a href="https://finance.naver.com/marketindex/" target="_blank" class="stock-link quote-card watch-card-theme-9 card-hover cursor-pointer">
+<div class="quote-title" data-stock-ko="원/엔 환율(100엔)">원/엔 환율(100엔)</div>
+<div class="quote-price transition-colors notranslate" translate="no"><span id="price-jpykrw">--</span><span class="currency">원</span></div>
+<div class="quote-change-box">
+<div class="quote-change-row"><span class="quote-label">전일비</span><span id="change-jpykrw-close" class="text-gray-400">-</span></div>
+<div class="quote-change-row"><span class="quote-label">시가비</span><span id="change-jpykrw-open" class="text-gray-400">-</span></div>
+</div>
+</a>
+<a href="https://finance.naver.com/marketindex/" target="_blank" class="stock-link quote-card watch-card-theme-2 card-hover cursor-pointer">
+<div class="quote-title" data-stock-ko="원/위안 환율">원/위안 환율</div>
+<div class="quote-price transition-colors notranslate" translate="no"><span id="price-cnykrw">--</span><span class="currency">원</span></div>
+<div class="quote-change-box">
+<div class="quote-change-row"><span class="quote-label">전일비</span><span id="change-cnykrw-close" class="text-gray-400">-</span></div>
+<div class="quote-change-row"><span class="quote-label">시가비</span><span id="change-cnykrw-open" class="text-gray-400">-</span></div>
+</div>
+</a>
+<a href="https://finance.naver.com/marketindex/" target="_blank" class="stock-link quote-card watch-card-theme-3 card-hover cursor-pointer">
+<div class="quote-title" data-stock-ko="원/유로 환율">원/유로 환율</div>
+<div class="quote-price transition-colors notranslate" translate="no"><span id="price-eurkrw">--</span><span class="currency">원</span></div>
+<div class="quote-change-box">
+<div class="quote-change-row"><span class="quote-label">전일비</span><span id="change-eurkrw-close" class="text-gray-400">-</span></div>
+<div class="quote-change-row"><span class="quote-label">시가비</span><span id="change-eurkrw-open" class="text-gray-400">-</span></div>
+</div>
+</a>
+<a href="https://finance.naver.com/marketindex/" target="_blank" class="stock-link quote-card watch-card-theme-5 card-hover cursor-pointer">
+<div class="quote-title" data-stock-ko="원/파운드 환율">원/파운드 환율</div>
+<div class="quote-price transition-colors notranslate" translate="no"><span id="price-gbpkrw">--</span><span class="currency">원</span></div>
+<div class="quote-change-box">
+<div class="quote-change-row"><span class="quote-label">전일비</span><span id="change-gbpkrw-close" class="text-gray-400">-</span></div>
+<div class="quote-change-row"><span class="quote-label">시가비</span><span id="change-gbpkrw-open" class="text-gray-400">-</span></div>
+</div>
+</a>
 <a href="https://www.google.com/finance/quote/005930:KRX" target="_blank" class="stock-link quote-card watch-card-theme-0 card-hover cursor-pointer">
 <div class="quote-title" data-stock-ko="삼성전자">삼성전자</div>
 <div class="quote-price transition-colors notranslate" translate="no"><span id="price-samsung">--</span><span class="currency">원</span></div>
@@ -1281,7 +1313,7 @@ const MARKET_ITEMS_KEY = 'etfMomentumMarketItemsV1';
 const WATCHLIST_PAGE_SIZE = 35;
 const WATCHLIST_MOBILE_PAGE_SIZE = 10;
 const UPDATE_INTERVAL_MS = 5000;
-const MARKET_DEFAULT_TOP_IDS = ['kospi', 'kospi200', 'kosdaq', 'usdkrw', 'samsung', 'sk', 'tiger', 'kodex200', 'kodex200tr'];
+const MARKET_DEFAULT_TOP_IDS = ['kospi', 'kospi200', 'kosdaq', 'usdkrw', 'jpykrw', 'cnykrw', 'eurkrw', 'gbpkrw', 'samsung', 'sk', 'tiger', 'kodex200', 'kodex200tr'];
 let currentLanguage = localStorage.getItem(LANG_KEY) || 'ko';
 let marketItems = [];
 let marketEditMode = false;
@@ -2281,6 +2313,10 @@ function marketTopHref(id) {
         kospi200: 'https://finance.naver.com/sise/sise_index.naver?code=KPI200',
         kosdaq: 'https://www.google.com/finance/quote/KOSDAQ:KRX',
         usdkrw: 'https://finance.naver.com/marketindex/',
+        jpykrw: 'https://finance.naver.com/marketindex/',
+        cnykrw: 'https://finance.naver.com/marketindex/',
+        eurkrw: 'https://finance.naver.com/marketindex/',
+        gbpkrw: 'https://finance.naver.com/marketindex/',
         samsung: 'https://www.google.com/finance/quote/005930:KRX',
         sk: 'https://www.google.com/finance/quote/000660:KRX',
         tiger: 'https://finance.naver.com/item/main.naver?code=0117V0',
@@ -2338,7 +2374,31 @@ function ensureDefaultMarketItems(items) {
     const normalized = normalizeMarketItems(items) || [];
     const seen = new Set(normalized.map(marketItemKey));
     const missingDefaults = getDefaultMarketItems().filter(item => !seen.has(marketItemKey(item)));
-    return [...missingDefaults, ...normalized];
+    const result = [...normalized];
+    missingDefaults.forEach(item => {
+        const defaultIndex = MARKET_DEFAULT_TOP_IDS.indexOf(item.id);
+        let insertAt = result.length;
+        for (let i = defaultIndex - 1; i >= 0; i--) {
+            const previousKey = `top:${MARKET_DEFAULT_TOP_IDS[i]}`;
+            const previousIndex = result.findIndex(entry => marketItemKey(entry) === previousKey);
+            if (previousIndex !== -1) {
+                insertAt = previousIndex + 1;
+                break;
+            }
+        }
+        if (insertAt === result.length) {
+            for (let i = defaultIndex + 1; i < MARKET_DEFAULT_TOP_IDS.length; i++) {
+                const nextKey = `top:${MARKET_DEFAULT_TOP_IDS[i]}`;
+                const nextIndex = result.findIndex(entry => marketItemKey(entry) === nextKey);
+                if (nextIndex !== -1) {
+                    insertAt = nextIndex;
+                    break;
+                }
+            }
+        }
+        result.splice(insertAt, 0, item);
+    });
+    return result;
 }
 
 function loadMarketItems() {
@@ -3353,6 +3413,10 @@ const QUOTE_CONFIG = {
     kospi200: { priceId: 'price-kospi200', closeId: 'change-kospi200-close', openId: 'change-kospi200-open', isIndex: true, naverCode: 'KPI200', yahooSymbol: '^KS200', name: '코스피200' },
     kosdaq: { priceId: 'price-kosdaq', closeId: 'change-kosdaq-close', openId: 'change-kosdaq-open', isIndex: true, naverCode: 'KOSDAQ', yahooSymbol: '^KQ11', name: '코스닥' },
     usdkrw: { priceId: 'price-usdkrw', closeId: 'change-usdkrw-close', openId: 'change-usdkrw-open', isFx: true, naverCode: 'FX_USDKRW', yahooSymbol: 'KRW=X', name: '원/달러 환율' },
+    jpykrw: { priceId: 'price-jpykrw', closeId: 'change-jpykrw-close', openId: 'change-jpykrw-open', isFx: true, naverCode: 'FX_JPYKRW', yahooSymbol: 'JPYKRW=X', yahooScale: 100, name: '원/엔 환율(100엔)' },
+    cnykrw: { priceId: 'price-cnykrw', closeId: 'change-cnykrw-close', openId: 'change-cnykrw-open', isFx: true, naverCode: 'FX_CNYKRW', yahooSymbol: 'CNYKRW=X', name: '원/위안 환율' },
+    eurkrw: { priceId: 'price-eurkrw', closeId: 'change-eurkrw-close', openId: 'change-eurkrw-open', isFx: true, naverCode: 'FX_EURKRW', yahooSymbol: 'EURKRW=X', name: '원/유로 환율' },
+    gbpkrw: { priceId: 'price-gbpkrw', closeId: 'change-gbpkrw-close', openId: 'change-gbpkrw-open', isFx: true, naverCode: 'FX_GBPKRW', yahooSymbol: 'GBPKRW=X', name: '원/파운드 환율' },
     samsung: { priceId: 'price-samsung', closeId: 'change-samsung-close', openId: 'change-samsung-open', naverCode: '005930', yahooSymbol: '005930.KS', name: '삼성전자' },
     sk: { priceId: 'price-sk', closeId: 'change-sk-close', openId: 'change-sk-open', naverCode: '000660', yahooSymbol: '000660.KS', name: 'SK하이닉스' },
     tiger: { priceId: 'price-tiger', closeId: 'change-tiger-close', openId: 'change-tiger-open', naverCode: '0117V0', yahooSymbol: '0117V0.KS', name: 'TIGER 전력기기' },
@@ -3365,6 +3429,10 @@ const NAVER_CODE_TO_TOP_ID = Object.entries(QUOTE_CONFIG).reduce((acc, [id, conf
     return acc;
 }, {});
 const NAVER_INDEX_TO_TOP_ID = { KOSPI: 'kospi', KPI200: 'kospi200', KOSDAQ: 'kosdaq' };
+const NAVER_EXCHANGE_TO_TOP_ID = Object.entries(QUOTE_CONFIG).reduce((acc, [id, config]) => {
+    if (config.isFx && config.naverCode) acc[config.naverCode] = id;
+    return acc;
+}, {});
 
 const formatNum = (num, decimals = 0) => Number(num).toLocaleString('ko-KR', {
     minimumFractionDigits: decimals,
@@ -3491,30 +3559,56 @@ function normalizeNaverIndexQuote(data) {
     };
 }
 
-function normalizeNaverExchangeQuote(data) {
-    const price = toNumber(data && (data.closePrice || data.nowPrice || data.basePrice));
+function signedNaverExchangeChange(info) {
+    const raw = toNumber(info && (info.fluctuations || info.compareToPreviousClosePrice || info.changePrice));
+    if (raw === null) return null;
+    const type = info && info.fluctuationsType;
+    const marker = String((type && (type.code || type.name || type.text)) || '').toUpperCase();
+    if (marker.includes('FALL') || marker.includes('하락') || marker === '5') return -Math.abs(raw);
+    if (marker.includes('RISE') || marker.includes('상승') || marker === '2') return Math.abs(raw);
+    return raw;
+}
+
+function normalizeNaverExchangeQuote(data, fallbackId = 'usdkrw') {
+    const info = data && (data.exchangeInfo || data);
+    const code = String((info && (info.reutersCode || info.code)) || '');
+    const id = NAVER_EXCHANGE_TO_TOP_ID[code] || fallbackId;
+    const config = QUOTE_CONFIG[id];
+    const price = toNumber(info && (info.closePrice || info.nowPrice || info.basePrice));
     if (price === null) return null;
-    const change = toNumber(data.compareToPreviousClosePrice || data.changePrice);
+    const change = signedNaverExchangeChange(info);
     return {
-        id: 'usdkrw',
-        code: 'FX_USDKRW',
-        name: '원/달러 환율',
-        ticker: 'FX_USDKRW',
+        id,
+        code: (config && config.naverCode) || code,
+        name: (config && config.name) || (info && info.name) || id,
+        ticker: (config && config.naverCode) || code,
         price,
-        priceopen: toNumber(data.openPrice),
-        closeyest: toNumber(data.basePrice) || (change !== null ? price - change : null),
+        priceopen: toNumber(info && info.openPrice),
+        closeyest: change !== null ? price - change : toNumber(info && info.basePrice),
         change,
-        changepct: toNumber(data.fluctuationsRatio || data.changeRate),
-        tradetime: data.localTradedAt || '',
+        changepct: toNumber(info && (info.fluctuationsRatio || info.changeRate)),
+        tradetime: (info && info.localTradedAt) || '',
         datadelay: '',
         status: 'OK'
     };
 }
 
 async function loadNaverExchangeRows() {
-    const data = await fetchJsonWithProxy(`https://api.stock.naver.com/marketindex/exchange/FX_USDKRW?_=${Date.now()}`);
-    const row = normalizeNaverExchangeQuote(data);
-    return row ? [row] : [];
+    const fxEntries = Object.entries(QUOTE_CONFIG).filter(([, config]) => config.isFx && config.naverCode);
+    const settled = await Promise.allSettled(fxEntries.map(async ([id, config]) => {
+        const data = await fetchJsonWithProxy(`https://api.stock.naver.com/marketindex/exchange/${config.naverCode}?_=${Date.now()}`);
+        return normalizeNaverExchangeQuote(data, id);
+    }));
+    const rows = settled.filter(item => item.status === 'fulfilled' && item.value).map(item => item.value);
+    const loadedIds = new Set(rows.map(row => row.id));
+    const missing = fxEntries.filter(([id]) => !loadedIds.has(id));
+    if (missing.length) {
+        const yahooSettled = await Promise.allSettled(missing.map(([id, config]) =>
+            fetchYahooQuote(id, config.yahooSymbol, config.name || id, config.yahooScale || 1)
+        ));
+        rows.push(...yahooSettled.filter(item => item.status === 'fulfilled').map(item => item.value));
+    }
+    return rows;
 }
 
 function normalizeNaverStockQuote(data) {
@@ -3628,16 +3722,21 @@ function firstNumber(values) {
     return null;
 }
 
-async function fetchYahooQuote(id, symbol, name) {
+async function fetchYahooQuote(id, symbol, name, scale = 1) {
     const url = `https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(symbol)}?interval=1m&range=1d&_=${Date.now()}`;
     const json = await fetchJsonWithProxy(url);
     const result = json && json.chart && json.chart.result && json.chart.result[0];
     if (!result || !result.meta) throw new Error(`Yahoo quote missing: ${symbol}`);
     const meta = result.meta;
     const quote = result.indicators && result.indicators.quote && result.indicators.quote[0];
-    const price = toNumber(meta.regularMarketPrice);
-    const closeyest = toNumber(meta.previousClose) ?? toNumber(meta.chartPreviousClose);
-    const priceopen = toNumber(meta.regularMarketOpen) ?? firstNumber(quote && quote.open);
+    const multiplier = Number.isFinite(Number(scale)) ? Number(scale) : 1;
+    const scaleValue = value => {
+        const num = toNumber(value);
+        return num === null ? null : num * multiplier;
+    };
+    const price = scaleValue(meta.regularMarketPrice);
+    const closeyest = scaleValue(meta.previousClose) ?? scaleValue(meta.chartPreviousClose);
+    const priceopen = scaleValue(meta.regularMarketOpen) ?? scaleValue(firstNumber(quote && quote.open));
     if (price === null) throw new Error(`Yahoo quote has no price: ${symbol}`);
     const change = closeyest !== null ? price - closeyest : null;
     const changepct = change !== null && closeyest ? (change / closeyest) * 100 : null;
@@ -3646,7 +3745,7 @@ async function fetchYahooQuote(id, symbol, name) {
 }
 
 async function loadYahooFinanceFeed() {
-    const topRequests = Object.entries(QUOTE_CONFIG).map(([id, config]) => fetchYahooQuote(id, config.yahooSymbol, config.name || id));
+    const topRequests = Object.entries(QUOTE_CONFIG).map(([id, config]) => fetchYahooQuote(id, config.yahooSymbol, config.name || id, config.yahooScale || 1));
     const subData = [...stockData.semi, ...stockData.def, ...stockData.ship, ...stockData.aero];
     const uniqueSub = [...new Map(subData.map(item => [item.ticker, item])).values()];
     const subRequests = uniqueSub.map(item => fetchYahooQuote(item.ticker, yahooSymbolForTicker(item.ticker), item.name));

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>K-STOCK : 한국주식 분석 - TIGER AI전력기기 & KODEX 200 시리즈</title>
+<title>K-STOCK:한국주식 분석 - TIGER AI전력기기 & KODEX 200 시리즈</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <style>
@@ -296,6 +296,187 @@ body { top: 0 !important; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; transition-duration: 0.01ms !important; }
 }
+.app-web-header {
+  position: sticky;
+  top: 0;
+  z-index: 2147483200;
+  background: rgba(24, 26, 29, 0.98);
+  color: #f8fafc;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.16);
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.18);
+  backdrop-filter: blur(16px);
+}
+.app-web-header-inner {
+  width: min(100%, 1280px);
+  min-height: 62px;
+  margin: 0 auto;
+  padding: 9px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.app-web-brand {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1 1 auto;
+}
+.app-web-logo {
+  width: 44px;
+  height: 44px;
+  flex: 0 0 44px;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #111827;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.12), 0 8px 18px rgba(0, 0, 0, 0.22);
+}
+.app-web-logo img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+.app-web-logo-dark { display: none !important; }
+body.theme-dark .app-web-logo-light { display: none !important; }
+body.theme-dark .app-web-logo-dark { display: block !important; }
+.app-web-copy {
+  min-width: 0;
+  display: grid;
+  gap: 1px;
+}
+.app-web-title {
+  font-size: clamp(1.03rem, 2.1vw, 1.28rem);
+  line-height: 1.08;
+  font-weight: 900;
+  letter-spacing: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.app-web-subtitle {
+  font-size: 0.84rem;
+  line-height: 1.12;
+  font-weight: 700;
+  color: rgba(203, 213, 225, 0.86);
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.app-web-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  flex: 0 0 auto;
+}
+.app-web-action {
+  width: 38px;
+  height: 38px;
+  min-width: 38px;
+  min-height: 38px;
+  border-radius: 9999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #f8fafc;
+  background: rgba(255, 255, 255, 0.045);
+  border: 1px solid rgba(148, 163, 184, 0.20);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  transition: transform 0.16s ease, background 0.16s ease, border-color 0.16s ease;
+}
+.app-web-action:hover {
+  transform: translateY(-1px);
+  background: rgba(255, 255, 255, 0.10);
+  border-color: rgba(96, 165, 250, 0.42);
+}
+.app-web-action svg {
+  width: 18px;
+  height: 18px;
+  display: block;
+}
+.app-web-theme-sun { display: none !important; }
+body.theme-dark .app-web-theme-moon { display: none !important; }
+body.theme-dark .app-web-theme-sun { display: block !important; }
+.floating-tools {
+  display: none !important;
+}
+.language-tools {
+  width: min(100%, 390px) !important;
+  margin: 20px auto 28px !important;
+}
+.language-panel {
+  grid-template-columns: repeat(7, minmax(0, 1fr)) !important;
+}
+header.bg-deepNavy {
+  padding-top: 1.75rem !important;
+}
+#auth-modal input,
+#auth-modal select,
+#auth-modal textarea,
+#settings-modal input,
+#settings-modal select,
+#settings-modal textarea,
+#delete-modal input,
+#delete-modal select,
+#delete-modal textarea {
+  font-size: 16px !important;
+}
+@media (max-width: 640px) {
+  .app-web-header-inner {
+    min-height: 58px;
+    padding: 8px 10px;
+    gap: 8px;
+  }
+  .app-web-brand { gap: 8px; }
+  .app-web-logo {
+    width: 40px;
+    height: 40px;
+    flex-basis: 40px;
+  }
+  .app-web-title { font-size: 1rem; }
+  .app-web-subtitle { font-size: 0.76rem; }
+  .app-web-actions { gap: 5px; }
+  .app-web-action {
+    width: 34px;
+    height: 34px;
+    min-width: 34px;
+    min-height: 34px;
+  }
+  .app-web-action svg {
+    width: 16px;
+    height: 16px;
+  }
+  .language-tools {
+    width: min(100%, 360px) !important;
+    margin: 18px auto 24px !important;
+  }
+  body.floating-controls-compact .language-tools {
+    width: min(100%, 360px) !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+}
+@media (max-width: 380px) {
+  .app-web-header-inner {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+  .app-web-logo {
+    width: 36px;
+    height: 36px;
+    flex-basis: 36px;
+  }
+  .app-web-title { font-size: 0.92rem; }
+  .app-web-subtitle { font-size: 0.68rem; }
+  .app-web-actions { gap: 4px; }
+  .app-web-action {
+    width: 31px;
+    height: 31px;
+    min-width: 31px;
+    min-height: 31px;
+  }
+}
 /* Auth Modal Styling */
 #auth-modal .watch-confirm-card { display: flex; flex-direction: column; }
 body.theme-dark #auth-modal .watch-confirm-card { background: #181a1d; color: #e5e7eb; border-color: rgba(148, 163, 184, 0.26); }
@@ -315,6 +496,39 @@ colors: { vibrantBlue: '#2563eb', electricTeal: '#0d9488', sunsetOrange: '#ea580
 </script>
 </head>
 <body class="antialiased">
+
+<div class="app-web-header" role="banner">
+<div class="app-web-header-inner">
+<div class="app-web-brand">
+<span class="app-web-logo" aria-hidden="true">
+<img class="app-web-logo-light" src="assets/k-stock-logo-light.png" alt="">
+<img class="app-web-logo-dark" src="assets/k-stock-logo-dark.png" alt="">
+</span>
+<span class="app-web-copy">
+<span class="app-web-title">K-STOCK:한국주식</span>
+<span class="app-web-subtitle">실시간 주가 대시보드</span>
+</span>
+</div>
+<nav class="app-web-actions" aria-label="주요 기능">
+<button type="button" id="app-web-auth-btn" class="app-web-action" aria-label="로그인" title="로그인">
+<svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM5 21a7 7 0 0114 0"></path></svg>
+</button>
+<button type="button" id="app-web-settings-btn" class="app-web-action" aria-label="설정" title="설정">
+<svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.72 1.72 0 002.572 1.066c1.543-.94 3.31.826 2.37 2.37a1.72 1.72 0 001.066 2.572c1.756.426 1.756 2.924 0 3.35a1.72 1.72 0 00-1.066 2.573c.94 1.543-.827 3.31-2.37 2.37a1.72 1.72 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.72 1.72 0 00-2.573-1.066c-1.543.94-3.31-.827-2.37-2.37a1.72 1.72 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.72 1.72 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+</button>
+<button type="button" id="app-web-refresh-btn" class="app-web-action" aria-label="새로고침" title="새로고침">
+<svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M4 4v5h5M20 20v-5h-5M5.5 15A7.5 7.5 0 0118 7.25L20 9M18.5 9A7.5 7.5 0 016 16.75L4 15"></path></svg>
+</button>
+<button type="button" id="app-web-theme-btn" class="app-web-action" aria-label="다크 모드" title="다크 모드">
+<svg class="app-web-theme-moon" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path></svg>
+<svg class="app-web-theme-sun" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M12 3v2m0 14v2m9-9h-2M5 12H3m15.36-6.36l-1.42 1.42M7.05 16.95l-1.41 1.41m12.72 0l-1.42-1.41M7.05 7.05L5.64 5.64"></path><circle cx="12" cy="12" r="4" stroke-width="2.2"></circle></svg>
+</button>
+<a id="app-web-open-link" class="app-web-action" href="https://qwertyyjh.github.io/korea-stockmarket-etf-growth-momentum.html" aria-label="공개 웹페이지 열기" title="공개 웹페이지 열기">
+<svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke-width="2.2"></circle><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M15.5 8.5l-2.1 4.9-4.9 2.1 2.1-4.9 4.9-2.1z"></path></svg>
+</a>
+</nav>
+</div>
+</div>
 
 <!-- 우측 상단 실시간 새로고침 플로팅 버튼 -->
 <div class="floating-tools fixed top-6 right-4 sm:right-8 z-50">
@@ -3065,8 +3279,68 @@ function updateRefreshButtonMode() {
     button.setAttribute('aria-label', isBelowHero ? t('refreshButton') : '');
 }
 
+function initAppWebHeader() {
+    const appAuthButton = document.getElementById('app-web-auth-btn');
+    const appSettingsButton = document.getElementById('app-web-settings-btn');
+    const appRefreshButton = document.getElementById('app-web-refresh-btn');
+    const appThemeButton = document.getElementById('app-web-theme-btn');
+    const authButton = document.getElementById('auth-btn');
+    const settingsButton = document.getElementById('auth-settings-btn');
+    const refreshButton = document.getElementById('refresh-btn');
+    const themeButton = document.getElementById('theme-toggle-btn');
+
+    if (!appAuthButton || !appSettingsButton || !appRefreshButton || !appThemeButton) return;
+
+    const syncHeaderState = () => {
+        const authLabel = document.getElementById('auth-btn-label');
+        const authText = (authLabel && authLabel.textContent.trim()) || '로그인';
+        const isDark = document.body.classList.contains('theme-dark');
+        const themeText = isDark ? t('themeLight') : t('themeDark');
+        appAuthButton.setAttribute('aria-label', authText);
+        appAuthButton.setAttribute('title', authText);
+        appThemeButton.setAttribute('aria-label', themeText);
+        appThemeButton.setAttribute('title', themeText);
+        appSettingsButton.setAttribute('aria-label', '설정');
+        appSettingsButton.setAttribute('title', '설정');
+        appRefreshButton.setAttribute('aria-label', t('refreshButton'));
+        appRefreshButton.setAttribute('title', t('refreshButton'));
+    };
+
+    appAuthButton.addEventListener('click', () => {
+        if (authButton) authButton.click();
+        window.setTimeout(syncHeaderState, 100);
+    });
+    appSettingsButton.addEventListener('click', () => {
+        if (settingsButton && !settingsButton.classList.contains('hidden')) {
+            settingsButton.click();
+        } else if (authButton) {
+            authButton.click();
+        }
+        window.setTimeout(syncHeaderState, 100);
+    });
+    appRefreshButton.addEventListener('click', () => {
+        if (refreshButton) refreshButton.click();
+        else if (typeof refreshMarketData === 'function') refreshMarketData();
+    });
+    appThemeButton.addEventListener('click', () => {
+        if (themeButton) themeButton.click();
+        else if (typeof toggleTheme === 'function') toggleTheme();
+        window.setTimeout(syncHeaderState, 80);
+    });
+
+    if (window.MutationObserver) {
+        const authLabel = document.getElementById('auth-btn-label');
+        const observer = new MutationObserver(syncHeaderState);
+        if (authLabel) observer.observe(authLabel, { childList: true, characterData: true, subtree: true });
+        if (settingsButton) observer.observe(settingsButton, { attributes: true, attributeFilter: ['class'] });
+        observer.observe(document.body, { attributes: true, attributeFilter: ['class'] });
+    }
+    syncHeaderState();
+}
+
 document.getElementById('refresh-btn').addEventListener('click', refreshMarketData);
 document.getElementById('theme-toggle-btn').addEventListener('click', toggleTheme);
+initAppWebHeader();
 window.addEventListener('scroll', updateRefreshButtonMode, { passive: true });
 window.addEventListener('resize', updateRefreshButtonMode);
 window.addEventListener('load', () => {

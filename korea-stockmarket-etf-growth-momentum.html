@@ -303,10 +303,14 @@ body { top: 0 !important; }
   .watch-page-controls { justify-content: end; }
   .watch-page-button { width: 40px; height: 40px; min-width: 40px !important; min-height: 40px !important; }
   .market-grid, .watchlist-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
-  .market-news-shell { padding: 16px; border-radius: 18px; }
-  .market-news-head { align-items: flex-start; flex-direction: column; }
-  .market-news-grid, .dynamic-news-grid { grid-template-columns: 1fr; }
-  .market-news-list { min-height: 0; }
+  .market-news-shell, .investor-ranking-shell { padding: 16px; border-radius: 18px; }
+  .market-news-head, .investor-ranking-head { align-items: flex-start; flex-direction: column; }
+  .market-news-grid, .dynamic-news-grid, .investor-ranking-grid { grid-template-columns: 1fr; }
+  .market-news-list, .investor-ranking-list { min-height: 0; }
+  .investor-ranking-row { grid-template-columns: 30px minmax(0, 1fr); }
+  .investor-ranking-amount { grid-column: 2; text-align: left; }
+  .section-order-item { grid-template-columns: auto minmax(0, 1fr) auto auto; }
+  #settings-modal .watch-confirm-card { max-height: calc(100vh - 28px); overflow: auto; }
   .chart-search-row, .compound-grid, .range-grid { grid-template-columns: 1fr; }
   .chart-btn { width: 100%; }
   .quote-card, .watchlist-card { min-height: 116px; padding: 12px 10px; border-radius: 12px; }
@@ -595,6 +599,284 @@ body.theme-dark .hero-brand-logo-dark { display: block; }
   font-weight: 700;
   margin-top: 2px;
 }
+.investor-ranking-shell {
+  background: rgba(255, 255, 255, 0.94);
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  border-radius: 22px;
+  box-shadow: 0 20px 48px rgba(15, 23, 42, 0.10);
+  padding: 22px;
+}
+.investor-ranking-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+.investor-ranking-title {
+  color: #111827;
+  font-size: 1.02rem;
+  font-weight: 900;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.investor-ranking-status {
+  color: #64748b;
+  font-size: 0.74rem;
+  font-weight: 800;
+  text-align: right;
+}
+.investor-ranking-refresh {
+  border: 1px solid rgba(37, 99, 235, 0.24);
+  border-radius: 9999px;
+  background: rgba(37, 99, 235, 0.08);
+  color: #1d4ed8;
+  font-size: 0.72rem;
+  font-weight: 900;
+  padding: 7px 10px;
+  cursor: pointer;
+  transition: transform 0.18s ease, background 0.18s ease;
+}
+.investor-ranking-refresh:hover { transform: translateY(-1px); background: rgba(37, 99, 235, 0.14); }
+.investor-ranking-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+.investor-ranking-card {
+  min-width: 0;
+  border-radius: 16px;
+  border: 1px solid rgba(203, 213, 225, 0.86);
+  background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+  padding: 15px;
+}
+.investor-ranking-card.sell { border-top: 4px solid #ef4444; }
+.investor-ranking-card.buy { border-top: 4px solid #14b8a6; }
+.investor-ranking-card-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.investor-ranking-card h3 {
+  color: #0f172a;
+  font-size: 0.92rem;
+  font-weight: 900;
+}
+.investor-ranking-card small {
+  display: block;
+  color: #64748b;
+  font-size: 0.66rem;
+  font-weight: 800;
+  margin-top: 2px;
+}
+.investor-ranking-count {
+  color: #64748b;
+  font-size: 0.68rem;
+  font-weight: 900;
+  white-space: nowrap;
+}
+.investor-ranking-list {
+  display: grid;
+  gap: 7px;
+  min-height: 446px;
+}
+.investor-ranking-row {
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr) auto;
+  gap: 8px;
+  align-items: center;
+  border-radius: 12px;
+  border: 1px solid rgba(226, 232, 240, 0.72);
+  color: #1e293b;
+  background: rgba(255, 255, 255, 0.74);
+  padding: 8px 9px;
+  text-decoration: none;
+  transition: background 0.18s ease, color 0.18s ease, transform 0.18s ease;
+}
+.investor-ranking-row:hover,
+.investor-ranking-row:focus-visible {
+  background: rgba(14, 165, 233, 0.10);
+  color: #0369a1;
+  outline: none;
+  transform: translateX(2px);
+}
+.investor-ranking-rank {
+  color: #94a3b8;
+  font-size: 0.7rem;
+  font-weight: 900;
+  line-height: 1.45;
+}
+.investor-ranking-name {
+  display: block;
+  min-width: 0;
+  font-size: 0.8rem;
+  font-weight: 900;
+  line-height: 1.3;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+.investor-ranking-meta {
+  display: block;
+  color: #64748b;
+  font-size: 0.66rem;
+  font-weight: 700;
+  margin-top: 2px;
+}
+.investor-ranking-amount {
+  text-align: right;
+  color: #0f172a;
+  font-size: 0.76rem;
+  font-weight: 900;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.investor-ranking-amount.positive { color: #0f766e; }
+.investor-ranking-amount.negative { color: #dc2626; }
+.investor-ranking-sub {
+  display: block;
+  color: #94a3b8;
+  font-size: 0.62rem;
+  font-weight: 800;
+  margin-top: 2px;
+}
+.investor-ranking-pager {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding-top: 12px;
+  margin-top: 12px;
+  border-top: 1px solid rgba(226, 232, 240, 0.8);
+}
+.investor-ranking-page-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 9999px;
+  border: 1px solid rgba(203, 213, 225, 0.86);
+  background: #fff;
+  color: #0f172a;
+  font-size: 0.88rem;
+  font-weight: 900;
+  line-height: 1;
+  cursor: pointer;
+  transition: transform 0.18s ease, background 0.18s ease, opacity 0.18s ease;
+}
+.investor-ranking-page-btn:hover { transform: translateY(-1px); background: #f1f5f9; }
+.investor-ranking-page-btn:disabled { cursor: default; opacity: 0.34; transform: none; }
+.investor-ranking-page-label {
+  color: #64748b;
+  font-size: 0.72rem;
+  font-weight: 900;
+  font-variant-numeric: tabular-nums;
+}
+.settings-tabs {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin-bottom: 14px;
+}
+.settings-tab-btn {
+  border: 1px solid rgba(203, 213, 225, 0.86);
+  border-radius: 12px;
+  background: #f8fafc;
+  color: #334155;
+  font-size: 0.78rem;
+  font-weight: 900;
+  padding: 9px 10px;
+  cursor: pointer;
+}
+.settings-tab-btn.is-active {
+  background: #0f172a;
+  color: #fff;
+  border-color: #0f172a;
+}
+.settings-tab-panel { display: none; }
+.settings-tab-panel.is-active { display: block; }
+.section-order-help {
+  color: #64748b;
+  font-size: 0.74rem;
+  line-height: 1.5;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.section-order-list {
+  display: grid;
+  gap: 8px;
+  max-height: min(46vh, 420px);
+  overflow: auto;
+  padding-right: 2px;
+}
+.section-order-item {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto auto;
+  gap: 8px;
+  align-items: center;
+  border: 1px solid rgba(203, 213, 225, 0.86);
+  border-radius: 12px;
+  background: #fff;
+  color: #0f172a;
+  padding: 9px;
+  transition: transform 0.16s ease, background 0.16s ease, border-color 0.16s ease, box-shadow 0.16s ease;
+}
+.section-order-item.is-dragging { opacity: 0.36; transform: scale(0.99); }
+.section-order-item.is-drop-before { border-top-color: #14b8a6; box-shadow: inset 0 3px 0 rgba(20, 184, 166, 0.46); }
+.section-order-item.is-drop-after { border-bottom-color: #14b8a6; box-shadow: inset 0 -3px 0 rgba(20, 184, 166, 0.46); }
+.section-order-handle {
+  width: 32px;
+  height: 32px;
+  border: 0;
+  border-radius: 9px;
+  background: #e2e8f0;
+  color: #334155;
+  font-size: 1rem;
+  font-weight: 900;
+  cursor: grab;
+  touch-action: none;
+}
+.section-order-title {
+  min-width: 0;
+  font-size: 0.78rem;
+  line-height: 1.3;
+  font-weight: 900;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+.section-order-move {
+  width: 30px;
+  height: 30px;
+  border: 1px solid rgba(203, 213, 225, 0.86);
+  border-radius: 9999px;
+  background: #fff;
+  color: #334155;
+  font-size: 0.84rem;
+  font-weight: 900;
+  cursor: pointer;
+}
+.section-order-move:disabled { opacity: 0.34; cursor: default; }
+.section-order-reset {
+  width: 100%;
+  margin-top: 12px;
+  border: 1px solid rgba(20, 184, 166, 0.24);
+  border-radius: 12px;
+  background: rgba(20, 184, 166, 0.08);
+  color: #0f766e;
+  font-size: 0.78rem;
+  font-weight: 900;
+  padding: 10px;
+  cursor: pointer;
+}
+.section-order-drag-preview {
+  position: fixed;
+  z-index: 2147483900;
+  pointer-events: none;
+  box-shadow: 0 20px 40px rgba(15, 23, 42, 0.24);
+  opacity: 0.94;
+  will-change: transform;
+}
+.section-order-drag-active { user-select: none; }
 .breaking-badge {
   display: inline-flex;
   align-items: center;
@@ -756,6 +1038,12 @@ body.theme-dark .dynamic-news-group { background: rgba(17, 24, 39, 0.78); }
 body.theme-dark .dynamic-news-item { background: rgba(15, 23, 42, 0.82); }
 body.theme-dark .market-news-shell,
 body.theme-dark .market-news-card,
+body.theme-dark .investor-ranking-shell,
+body.theme-dark .investor-ranking-card,
+body.theme-dark .investor-ranking-row,
+body.theme-dark .settings-tab-btn,
+body.theme-dark .section-order-item,
+body.theme-dark .section-order-move,
 body.theme-dark .chart-control-panel,
 body.theme-dark .comparison-row,
 body.theme-dark .range-control,
@@ -766,13 +1054,29 @@ body.theme-dark .compound-toggle {
 body.theme-dark .market-news-title,
 body.theme-dark .market-news-provider-name,
 body.theme-dark .market-news-link,
+body.theme-dark .investor-ranking-title,
+body.theme-dark .investor-ranking-card h3,
+body.theme-dark .investor-ranking-row,
+body.theme-dark .investor-ranking-amount,
+body.theme-dark .section-order-item,
+body.theme-dark .section-order-title,
 body.theme-dark .comparison-name,
 body.theme-dark .range-control label,
 body.theme-dark .compound-toggle { color: #f8fafc; }
 body.theme-dark .market-news-meta,
 body.theme-dark .market-news-rank,
 body.theme-dark .market-news-status,
+body.theme-dark .investor-ranking-meta,
+body.theme-dark .investor-ranking-rank,
+body.theme-dark .investor-ranking-status,
+body.theme-dark .investor-ranking-count,
+body.theme-dark .investor-ranking-sub,
+body.theme-dark .investor-ranking-page-label,
+body.theme-dark .section-order-help,
 body.theme-dark .comparison-meta { color: #cbd5e1; }
+body.theme-dark .settings-tab-btn.is-active { background: #2563eb; border-color: #2563eb; color: #fff; }
+body.theme-dark .section-order-handle { background: #334155; color: #e2e8f0; }
+body.theme-dark .section-order-reset { background: rgba(20, 184, 166, 0.14); color: #5eead4; border-color: rgba(20, 184, 166, 0.34); }
 body.theme-dark .chart-input,
 body.theme-dark .chart-number {
   background: #111827;
@@ -943,8 +1247,8 @@ header.bg-deepNavy {
 }
 @media (max-width: 768px) {
   .dynamic-insight-dashboard { padding: 20px; border-radius: 20px; }
-  .dynamic-news-grid, .market-news-grid { grid-template-columns: 1fr; }
-  .market-news-list { min-height: 0; }
+  .dynamic-news-grid, .market-news-grid, .investor-ranking-grid { grid-template-columns: 1fr; }
+  .market-news-list, .investor-ranking-list { min-height: 0; }
   .chart-search-row, .compound-grid, .range-grid { grid-template-columns: 1fr; }
   .chart-btn { width: 100%; }
 }
@@ -1139,7 +1443,7 @@ colors: { vibrantBlue: '#2563eb', electricTeal: '#0d9488', sunsetOrange: '#ea580
 <main class="max-w-7xl mx-auto px-4 sm:px-8 py-12 space-y-16">
 
 <!-- 1. 실시간 대시보드 -->
-<section>
+<section id="market-dashboard-section" data-section-order-key="market-dashboard">
 <div class="bg-white rounded-2xl shadow-lg p-6 border-l-8 border-vibrantBlue">
 <h2 class="text-2xl font-bold text-deepNavy mb-6 flex items-center flex-wrap gap-y-1">
 <span class="text-3xl mr-2">📊</span><span data-i18n="marketTitle">실시간 시장 지수 &amp; ETF 현재가</span> <span class="text-sm text-gray-400 font-normal ml-3" data-i18n="marketInterval">(5초 업데이트 / 클릭 시 전체 동기화)</span><span id="refresh-status" class="text-xs text-gray-400 font-normal ml-3">불러오는 중...</span>
@@ -1279,7 +1583,7 @@ colors: { vibrantBlue: '#2563eb', electricTeal: '#0d9488', sunsetOrange: '#ea580
 </section>
 
 <!-- 1-1. 금융 뉴스 -->
-<section id="market-news-section" class="market-news-shell" tabindex="0" data-tooltip="네이버 증권 공개 뉴스 목록과 Google News RSS 검색 결과를 API 키 없이 불러오며, 같은 제목과 유사 주제의 속보는 자동으로 합쳐 보여줍니다.">
+<section id="market-news-section" class="market-news-shell" tabindex="0" data-section-order-key="market-news" data-tooltip="네이버 증권 공개 뉴스 목록과 Google News RSS 검색 결과를 API 키 없이 불러오며, 같은 제목과 유사 주제의 속보는 자동으로 합쳐 보여줍니다.">
 <div class="market-news-head">
 <div class="market-news-title"><span>🗞️</span><span>네이버 증권 뉴스 &amp; Google Finance 뉴스</span></div>
 <div id="market-news-status" class="market-news-status">뉴스 불러오는 중...</div>
@@ -1306,8 +1610,55 @@ colors: { vibrantBlue: '#2563eb', electricTeal: '#0d9488', sunsetOrange: '#ea580
 </div>
 </section>
 
+<!-- 1-2. 종목별 순매수/순매도 랭킹 -->
+<section id="investor-ranking-section" class="investor-ranking-shell" tabindex="0" data-section-order-key="investor-ranking" data-tooltip="JangsTrading 공개 랭킹 JSON을 불러와 연기금 기준 1개월 순매수와 순매도 상위 종목을 보여줍니다.">
+<div class="investor-ranking-head">
+<div class="investor-ranking-title"><span>📈</span><span>종목별 순매수·순매도 랭킹</span></div>
+<div class="flex items-center gap-2 flex-wrap justify-end">
+<div id="investor-ranking-status" class="investor-ranking-status">랭킹 불러오는 중...</div>
+<button type="button" id="investor-ranking-refresh" class="investor-ranking-refresh" aria-label="종목별 랭킹 새로고침">새로고침</button>
+</div>
+</div>
+<div class="investor-ranking-grid">
+<article class="investor-ranking-card sell" data-ranking-panel="sell">
+<div class="investor-ranking-card-head">
+<div>
+<h3>종목별 순매도 랭킹</h3>
+<small>연기금 · 1개월 · 전체 시장</small>
+</div>
+<span id="investor-sell-count" class="investor-ranking-count">0개</span>
+</div>
+<div id="investor-sell-list" class="investor-ranking-list" aria-live="polite">
+<div class="dynamic-news-empty">순매도 랭킹을 확인하고 있습니다.</div>
+</div>
+<div class="investor-ranking-pager" aria-label="순매도 랭킹 페이지 이동">
+<button type="button" class="investor-ranking-page-btn" data-ranking-page="sell-prev" aria-label="순매도 이전 페이지">‹</button>
+<span id="investor-sell-page" class="investor-ranking-page-label">1 / 1</span>
+<button type="button" class="investor-ranking-page-btn" data-ranking-page="sell-next" aria-label="순매도 다음 페이지">›</button>
+</div>
+</article>
+<article class="investor-ranking-card buy" data-ranking-panel="buy">
+<div class="investor-ranking-card-head">
+<div>
+<h3>종목별 순매수 랭킹</h3>
+<small>연기금 · 1개월 · 전체 시장</small>
+</div>
+<span id="investor-buy-count" class="investor-ranking-count">0개</span>
+</div>
+<div id="investor-buy-list" class="investor-ranking-list" aria-live="polite">
+<div class="dynamic-news-empty">순매수 랭킹을 확인하고 있습니다.</div>
+</div>
+<div class="investor-ranking-pager" aria-label="순매수 랭킹 페이지 이동">
+<button type="button" class="investor-ranking-page-btn" data-ranking-page="buy-prev" aria-label="순매수 이전 페이지">‹</button>
+<span id="investor-buy-page" class="investor-ranking-page-label">1 / 1</span>
+<button type="button" class="investor-ranking-page-btn" data-ranking-page="buy-next" aria-label="순매수 다음 페이지">›</button>
+</div>
+</article>
+</div>
+</section>
+
 <!-- 2. 관심 종목 현재가 -->
-<section id="watchlist-section">
+<section id="watchlist-section" data-section-order-key="watchlist">
 <div class="watchlist-shell">
 <div class="watchlist-header">
 <div class="watchlist-title-wrap">
@@ -1393,7 +1744,7 @@ colors: { vibrantBlue: '#2563eb', electricTeal: '#0d9488', sunsetOrange: '#ea580
 </div>
 
 <!-- 2. 핵심 ETF 개요 + 투자 인사이트 -->
-<section>
+<section id="etf-overview-section" data-section-order-key="etf-overview">
 <div class="text-center mb-10">
 <h2 class="text-3xl font-bold text-deepNavy mb-4">💡 핵심 ETF 한눈에 보기 &amp; 투자 인사이트</h2>
 <p class="text-gray-600">각 ETF의 핵심 가치, 투자 포인트, 리스크 및 전략적 관점을 종합합니다.</p>
@@ -1461,7 +1812,7 @@ colors: { vibrantBlue: '#2563eb', electricTeal: '#0d9488', sunsetOrange: '#ea580
 </section>
 
 <!-- 3. 파이 차트 -->
-<section class="portfolio-section">
+<section id="portfolio-weights-section" class="portfolio-section" data-section-order-key="portfolio-weights">
 <div class="text-center mb-10">
 <div class="portfolio-eyebrow text-brightPurple font-bold tracking-wider mb-2">PORTFOLIO WEIGHTS</div>
 <h2 class="portfolio-heading text-3xl font-bold text-deepNavy mb-4">🥧 ETF별 핵심 구성 종목 비중 (TOP 5)</h2>
@@ -1492,7 +1843,7 @@ colors: { vibrantBlue: '#2563eb', electricTeal: '#0d9488', sunsetOrange: '#ea580
 </section>
 
 <!-- 4. 반도체 엔진 & TOP 10 (상세 인사이트 포함) -->
-<section class="bg-gray-100 rounded-2xl shadow-inner p-8 border-t-4 border-gray-300">
+<section id="semiconductor-engine-section" class="bg-gray-100 rounded-2xl shadow-inner p-8 border-t-4 border-gray-300" data-section-order-key="semiconductor-engine">
 <div class="text-center mb-10">
 <div class="text-electricTeal font-bold tracking-wider mb-2">MARKET ENGINE</div>
 <h2 class="text-3xl font-bold text-deepNavy mb-4">🇰🇷 지수와 ETF를 견인하는 '반도체 투톱' 인사이트</h2>
@@ -1548,7 +1899,7 @@ colors: { vibrantBlue: '#2563eb', electricTeal: '#0d9488', sunsetOrange: '#ea580
 </section>
 
 <!-- 5. 조방원우 & TOP 10 (상세 인사이트 포함) -->
-<section class="bg-white rounded-2xl shadow-lg p-8">
+<section id="export-engines-section" class="bg-white rounded-2xl shadow-lg p-8" data-section-order-key="export-engines">
 <div class="text-center mb-10">
 <div class="text-vibrantBlue font-bold tracking-wider mb-2">NEXT-GEN EXPORT ENGINES</div>
 <h2 class="text-3xl font-bold text-deepNavy mb-4">🚢 차세대 수출 성장 엔진: 조방원우 (조선·방산·원자력·우주항공)</h2>
@@ -1651,7 +2002,7 @@ colors: { vibrantBlue: '#2563eb', electricTeal: '#0d9488', sunsetOrange: '#ea580
 </section>
 
 <!-- 차트 레이아웃 영역 -->
-<section class="bg-white rounded-2xl shadow-lg p-8">
+<section id="etf-attractiveness-section" class="bg-white rounded-2xl shadow-lg p-8" data-section-order-key="etf-attractiveness">
   <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
     <div>
       <h2 class="text-3xl font-bold text-deepNavy mb-4">📊 ETF 투자 매력도 비교</h2>
@@ -1676,7 +2027,7 @@ colors: { vibrantBlue: '#2563eb', electricTeal: '#0d9488', sunsetOrange: '#ea580
   </div>
 </section>
 
-<section>
+<section id="power-demand-section" data-section-order-key="power-demand">
   <div class="bg-gray-900 rounded-2xl shadow-xl p-8">
     <h2 class="text-white text-2xl font-bold mb-4 text-center">⚡ 글로벌 AI 데이터센터 전력 수요 전망 (TWh)</h2>
     <p class="text-gray-400 text-sm text-center mb-6">AI 연산 수요 폭발로 2030년까지 전력 수요가 2022년 대비 약 2.5배 증가할 전망. TIGER AI전력기기 ETF의 핵심 투자 근거입니다.</p>
@@ -1684,7 +2035,7 @@ colors: { vibrantBlue: '#2563eb', electricTeal: '#0d9488', sunsetOrange: '#ea580
   </div>
 </section>
 
-<section class="bg-white rounded-2xl shadow-lg p-8 border-t-8 border-electricTeal">
+<section id="compound-simulation-section" class="bg-white rounded-2xl shadow-lg p-8 border-t-8 border-electricTeal" data-section-order-key="compound-simulation">
   <h2 class="text-3xl font-bold text-deepNavy mb-2 text-center">📈 ETF·펀드·배당주 장기 복리 성장 시뮬레이션</h2>
   <p class="text-gray-500 text-sm text-center mb-6">투자기간, 초기금액, 연 기대수익률, 배당수익률과 재투자 여부를 입력해 여러 상품의 복리 성장 경로를 비교합니다.</p>
   <div class="chart-control-panel mb-6" tabindex="0" data-tooltip="초기 투자금과 수익률 가정으로 계산한 시뮬레이션입니다. 실제 수익률, 세금, 환율, 보수, 추적오차는 반영되지 않습니다.">
@@ -1765,14 +2116,35 @@ const WATCHLIST_KEY = 'etfMomentumWatchlistV1';
 const MARKET_ITEMS_KEY = 'etfMomentumMarketItemsV1';
 const RADAR_ITEMS_KEY = 'etfMomentumRadarItemsV1';
 const COMPOUND_ITEMS_KEY = 'etfMomentumCompoundItemsV1';
+const SECTION_ORDER_KEY = 'etfMomentumSectionOrdersV1';
 const WATCHLIST_PAGE_SIZE = 35;
 const WATCHLIST_MOBILE_PAGE_SIZE = 10;
+const INVESTOR_RANKING_PAGE_SIZE = 10;
+const INVESTOR_RANKING_PERIOD = '1m';
+const INVESTOR_RANKING_LABEL = '연기금';
+const INVESTOR_RANKING_DATA_URL = 'https://www.jangstrading.com/data/stock-rankings.json';
+const INVESTOR_RANKING_META_URL = 'https://www.jangstrading.com/data/meta.json';
 const UPDATE_INTERVAL_MS = 5000;
 const MARKET_DEFAULT_TOP_IDS = ['kospi', 'kospi200', 'kosdaq', 'usdkrw', 'jpykrw', 'cnykrw', 'eurkrw', 'gbpkrw', 'samsung', 'sk', 'tiger', 'kodex200', 'kodex200tr'];
+const SECTION_ORDER_DEFAULTS = [
+    { key: 'market-dashboard', label: '실시간 시장 지수 & ETF 현재가' },
+    { key: 'market-news', label: '네이버 증권 뉴스 & Google Finance 뉴스' },
+    { key: 'investor-ranking', label: '종목별 순매수·순매도 랭킹' },
+    { key: 'watchlist', label: '관심 종목 현재가' },
+    { key: 'etf-overview', label: '핵심 ETF 한눈에 보기 & 투자 인사이트' },
+    { key: 'portfolio-weights', label: 'ETF별 핵심 구성 종목 비중' },
+    { key: 'semiconductor-engine', label: "반도체 투톱 인사이트" },
+    { key: 'export-engines', label: '차세대 수출 성장 엔진' },
+    { key: 'etf-attractiveness', label: 'ETF 투자 매력도 비교' },
+    { key: 'power-demand', label: '글로벌 AI 데이터센터 전력 수요 전망' },
+    { key: 'compound-simulation', label: 'ETF·펀드·배당주 장기 복리 성장 시뮬레이션' }
+];
 let currentLanguage = localStorage.getItem(LANG_KEY) || 'ko';
 let marketItems = [];
 let marketEditMode = false;
 let marketDragState = null;
+let investorRankingState = { data: [], meta: null, buyPage: 0, sellPage: 0, loadedAt: null };
+let sectionOrderDragState = null;
 let watchlistItems = [];
 let watchlistPage = 0;
 let watchTouchStartX = 0;
@@ -2697,6 +3069,176 @@ async function loadMarketNews() {
     if (status) status.textContent = `업데이트 ${new Date().toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' })}`;
 }
 
+function investorRankingValue(item) {
+    const periodValues = item && item.pension;
+    const value = periodValues && periodValues[INVESTOR_RANKING_PERIOD];
+    return toNumber(value) || 0;
+}
+
+function formatRankingMoney(valueInMillion) {
+    const value = toNumber(valueInMillion);
+    if (value === null || value === 0) return '0원';
+    const sign = value > 0 ? '+' : '-';
+    const won = Math.abs(value) * 1000000;
+    if (won >= 1000000000000) {
+        return `${sign}${(won / 1000000000000).toLocaleString('ko-KR', { maximumFractionDigits: 2 })}조원`;
+    }
+    if (won >= 100000000) {
+        return `${sign}${(won / 100000000).toLocaleString('ko-KR', { maximumFractionDigits: 0 })}억원`;
+    }
+    if (won >= 10000) {
+        return `${sign}${(won / 10000).toLocaleString('ko-KR', { maximumFractionDigits: 0 })}만원`;
+    }
+    return `${sign}${won.toLocaleString('ko-KR', { maximumFractionDigits: 0 })}원`;
+}
+
+function formatRankingPercent(value, fractionDigits = 2) {
+    const number = toNumber(value);
+    if (number === null) return '-';
+    return `${number > 0 ? '+' : ''}${number.toFixed(fractionDigits)}%`;
+}
+
+function getRankingMarketRatio(item, valueInMillion) {
+    const directRatio = toNumber(item.market_cap_ratio || item.marketCapRatio || item.marketRatio);
+    if (directRatio !== null) return directRatio;
+    const marketCap = toNumber(item.market_cap || item.marketCap);
+    const value = Math.abs(toNumber(valueInMillion) || 0);
+    if (!marketCap || !value) return null;
+    const netWon = value * 1000000;
+    const marketCapWon = marketCap > 100000000000 ? marketCap : marketCap * 100000000;
+    return (netWon / marketCapWon) * 100;
+}
+
+function rankingItemUrl(item) {
+    const ticker = String(item.ticker || '').trim();
+    if (/^\d{6}$/.test(ticker)) {
+        return `https://finance.naver.com/item/main.naver?code=${encodeURIComponent(ticker)}`;
+    }
+    return `https://www.jangstrading.com/stocks?investor=pension`;
+}
+
+function setInvestorRankingStatus(message, state = 'idle') {
+    const status = document.getElementById('investor-ranking-status');
+    if (!status) return;
+    status.textContent = message;
+    status.dataset.state = state;
+}
+
+function getInvestorRankingViews() {
+    const ranked = Array.isArray(investorRankingState.data) ? investorRankingState.data : [];
+    const withValues = ranked
+        .map(item => ({ item, value: investorRankingValue(item) }))
+        .filter(entry => Number.isFinite(entry.value) && entry.value !== 0);
+    return {
+        buy: withValues.filter(entry => entry.value > 0).sort((a, b) => b.value - a.value),
+        sell: withValues.filter(entry => entry.value < 0).sort((a, b) => a.value - b.value)
+    };
+}
+
+function renderInvestorRankingList(type, entries, page) {
+    const list = document.getElementById(type === 'buy' ? 'investor-buy-list' : 'investor-sell-list');
+    const count = document.getElementById(type === 'buy' ? 'investor-buy-count' : 'investor-sell-count');
+    const label = document.getElementById(type === 'buy' ? 'investor-buy-page' : 'investor-sell-page');
+    const prev = document.querySelector(`[data-ranking-page="${type}-prev"]`);
+    const next = document.querySelector(`[data-ranking-page="${type}-next"]`);
+    if (!list) return;
+
+    const totalPages = Math.max(1, Math.ceil(entries.length / INVESTOR_RANKING_PAGE_SIZE));
+    const safePage = Math.min(Math.max(0, page), totalPages - 1);
+    if (type === 'buy') investorRankingState.buyPage = safePage;
+    if (type === 'sell') investorRankingState.sellPage = safePage;
+    if (count) count.textContent = `${entries.length.toLocaleString('ko-KR')}개`;
+    if (label) label.textContent = `${safePage + 1} / ${totalPages}`;
+    if (prev) prev.disabled = safePage <= 0;
+    if (next) next.disabled = safePage >= totalPages - 1;
+
+    if (!entries.length) {
+        list.innerHTML = `<div class="dynamic-news-empty">${type === 'buy' ? '순매수' : '순매도'} 랭킹 데이터가 비어 있습니다.</div>`;
+        return;
+    }
+
+    const start = safePage * INVESTOR_RANKING_PAGE_SIZE;
+    const pageItems = entries.slice(start, start + INVESTOR_RANKING_PAGE_SIZE);
+    list.innerHTML = pageItems.map((entry, index) => {
+        const item = entry.item || {};
+        const rank = start + index + 1;
+        const ticker = String(item.ticker || '').trim();
+        const name = String(item.name || ticker || '이름 없음').trim();
+        const market = String(item.market || '시장 미상').trim();
+        const ratio = getRankingMarketRatio(item, entry.value);
+        const returnText = formatRankingPercent(item.price_change, 2);
+        const ratioText = ratio === null ? '-' : formatRankingPercent(ratio, 3);
+        const amountClass = entry.value > 0 ? 'positive' : 'negative';
+        const amountLabel = type === 'buy' ? '순매수액' : '순매도액';
+        const tooltip = `${rank}위 ${name} (${ticker || '티커 없음'}) · ${market} · ${amountLabel} ${formatRankingMoney(entry.value)} · 시총대비 ${ratioText} · 수익률 ${returnText}`;
+        return `<a class="investor-ranking-row" href="${escapeAttribute(rankingItemUrl(item))}" target="_blank" rel="noopener" data-tooltip="${escapeAttribute(tooltip)}">
+            <span class="investor-ranking-rank">${String(rank).padStart(2, '0')}</span>
+            <span>
+                <span class="investor-ranking-name">${escapeHtml(name)}</span>
+                <span class="investor-ranking-meta">${escapeHtml([ticker, market].filter(Boolean).join(' · '))} · 시총대비 ${escapeHtml(ratioText)} · 수익률 ${escapeHtml(returnText)}</span>
+            </span>
+            <span class="investor-ranking-amount ${amountClass}">${escapeHtml(formatRankingMoney(entry.value))}<span class="investor-ranking-sub">${amountLabel}</span></span>
+        </a>`;
+    }).join('');
+}
+
+function renderInvestorRankings() {
+    const views = getInvestorRankingViews();
+    renderInvestorRankingList('sell', views.sell, investorRankingState.sellPage);
+    renderInvestorRankingList('buy', views.buy, investorRankingState.buyPage);
+    const date = investorRankingState.meta?.business_date || investorRankingState.date || '-';
+    const updated = investorRankingState.meta?.last_updated ? ` · 기준 ${investorRankingState.meta.last_updated}` : '';
+    const loadedAt = investorRankingState.loadedAt
+        ? ` · 확인 ${investorRankingState.loadedAt.toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' })}`
+        : '';
+    setInvestorRankingStatus(`${INVESTOR_RANKING_LABEL} · ${INVESTOR_RANKING_PERIOD} · 기준일 ${date}${updated}${loadedAt}`, 'ok');
+}
+
+async function loadInvestorRankings() {
+    setInvestorRankingStatus('JangsTrading 랭킹 데이터를 불러오는 중...', 'loading');
+    try {
+        const [rankingResult, metaResult] = await Promise.allSettled([
+            fetchJsonWithProxy(INVESTOR_RANKING_DATA_URL, { timeoutMs: 9000 }),
+            fetchJsonWithProxy(INVESTOR_RANKING_META_URL, { timeoutMs: 9000 })
+        ]);
+        if (rankingResult.status !== 'fulfilled' || !Array.isArray(rankingResult.value?.data)) {
+            throw new Error('랭킹 JSON 구조를 확인할 수 없습니다.');
+        }
+        investorRankingState.data = rankingResult.value.data;
+        investorRankingState.date = rankingResult.value.date || '';
+        investorRankingState.meta = metaResult.status === 'fulfilled' && metaResult.value ? metaResult.value : null;
+        investorRankingState.buyPage = 0;
+        investorRankingState.sellPage = 0;
+        investorRankingState.loadedAt = new Date();
+        renderInvestorRankings();
+    } catch (error) {
+        console.warn('Investor ranking failed:', error);
+        investorRankingState.data = [];
+        investorRankingState.meta = null;
+        investorRankingState.loadedAt = null;
+        renderInvestorRankingList('sell', [], 0);
+        renderInvestorRankingList('buy', [], 0);
+        setInvestorRankingStatus('외부 JSON 연결이 지연되고 있습니다. CORS 또는 네트워크 상태를 확인해 주세요.', 'error');
+    }
+}
+
+function initInvestorRankingControls() {
+    const refresh = document.getElementById('investor-ranking-refresh');
+    if (refresh) refresh.addEventListener('click', loadInvestorRankings);
+    document.querySelectorAll('[data-ranking-page]').forEach(button => {
+        button.addEventListener('click', () => {
+            const action = button.dataset.rankingPage || '';
+            const views = getInvestorRankingViews();
+            if (action === 'buy-prev') investorRankingState.buyPage -= 1;
+            if (action === 'buy-next') investorRankingState.buyPage += 1;
+            if (action === 'sell-prev') investorRankingState.sellPage -= 1;
+            if (action === 'sell-next') investorRankingState.sellPage += 1;
+            renderInvestorRankingList('buy', views.buy, investorRankingState.buyPage);
+            renderInvestorRankingList('sell', views.sell, investorRankingState.sellPage);
+        });
+    });
+}
+
 async function lookupNaverFinanceName(query) {
     const url = `https://ac.stock.naver.com/ac?q=${encodeURIComponent(query)}&target=stock,ipo,index,marketindicator`;
     const data = await fetchJsonWithProxy(url);
@@ -2927,6 +3469,12 @@ class LocalDeviceAuthService {
         if (watchlists[currentUser.uid]) {
             delete watchlists[currentUser.uid];
             localStorage.setItem(LOCAL_WATCHLISTS_KEY, JSON.stringify(watchlists));
+        }
+
+        const sectionOrders = readStorageJson(SECTION_ORDER_KEY, {});
+        if (sectionOrders[currentUser.uid]) {
+            delete sectionOrders[currentUser.uid];
+            localStorage.setItem(SECTION_ORDER_KEY, JSON.stringify(sectionOrders));
         }
 
         this.logout();
@@ -5034,6 +5582,175 @@ function initInfoTooltips() {
     }, { passive: true });
 }
 
+function getSectionOrderOwnerKey() {
+    const user = LocalDeviceAuthService.getCurrentUser();
+    return user && user.uid ? user.uid : 'guest';
+}
+
+function getAvailableSectionKeys() {
+    const existingKeys = new Set([...document.querySelectorAll('[data-section-order-key]')].map(section => section.dataset.sectionOrderKey));
+    return SECTION_ORDER_DEFAULTS.map(item => item.key).filter(key => existingKeys.has(key));
+}
+
+function normalizeSectionOrder(order) {
+    const available = getAvailableSectionKeys();
+    const availableSet = new Set(available);
+    const normalized = [];
+    (Array.isArray(order) ? order : []).forEach(key => {
+        if (availableSet.has(key) && !normalized.includes(key)) normalized.push(key);
+    });
+    available.forEach(key => {
+        if (!normalized.includes(key)) normalized.push(key);
+    });
+    return normalized;
+}
+
+function readSectionOrderForCurrentOwner() {
+    const orders = readStorageJson(SECTION_ORDER_KEY, {});
+    return normalizeSectionOrder(orders[getSectionOrderOwnerKey()]);
+}
+
+function saveSectionOrderForCurrentOwner(order) {
+    const orders = readStorageJson(SECTION_ORDER_KEY, {});
+    orders[getSectionOrderOwnerKey()] = normalizeSectionOrder(order);
+    localStorage.setItem(SECTION_ORDER_KEY, JSON.stringify(orders));
+}
+
+function resetSectionOrderForCurrentOwner() {
+    const orders = readStorageJson(SECTION_ORDER_KEY, {});
+    delete orders[getSectionOrderOwnerKey()];
+    localStorage.setItem(SECTION_ORDER_KEY, JSON.stringify(orders));
+    applySavedSectionOrder();
+    renderSectionOrderSettings();
+}
+
+function findSectionByOrderKey(key) {
+    return [...document.querySelectorAll('[data-section-order-key]')].find(section => section.dataset.sectionOrderKey === key) || null;
+}
+
+function sectionLabelForKey(key) {
+    return (SECTION_ORDER_DEFAULTS.find(item => item.key === key) || {}).label || key;
+}
+
+function applySavedSectionOrder() {
+    const main = document.querySelector('main');
+    if (!main) return;
+    const anchor = [...main.children].find(child => !child.matches || !child.matches('[data-section-order-key]')) || null;
+    readSectionOrderForCurrentOwner().forEach(key => {
+        const section = findSectionByOrderKey(key);
+        if (section) main.insertBefore(section, anchor);
+    });
+}
+
+function renderSectionOrderSettings() {
+    const list = document.getElementById('section-order-list');
+    if (!list) return;
+    const order = readSectionOrderForCurrentOwner();
+    list.innerHTML = order.map((key, index) => {
+        const label = sectionLabelForKey(key);
+        const isFirst = index === 0;
+        const isLast = index === order.length - 1;
+        return `<div class="section-order-item" data-section-key="${escapeAttribute(key)}">
+            <button type="button" class="section-order-handle" data-section-drag-handle aria-label="${escapeAttribute(label)} 섹션 드래그 이동">☰</button>
+            <span class="section-order-title">${escapeHtml(label)}</span>
+            <button type="button" class="section-order-move" data-section-move="up" aria-label="${escapeAttribute(label)} 위로 이동" ${isFirst ? 'disabled' : ''}>↑</button>
+            <button type="button" class="section-order-move" data-section-move="down" aria-label="${escapeAttribute(label)} 아래로 이동" ${isLast ? 'disabled' : ''}>↓</button>
+        </div>`;
+    }).join('');
+}
+
+function moveSectionOrderKey(key, direction) {
+    const order = readSectionOrderForCurrentOwner();
+    const fromIndex = order.indexOf(key);
+    if (fromIndex < 0) return;
+    const toIndex = fromIndex + Number(direction);
+    if (toIndex < 0 || toIndex >= order.length) return;
+    const [moved] = order.splice(fromIndex, 1);
+    order.splice(toIndex, 0, moved);
+    saveSectionOrderForCurrentOwner(order);
+    applySavedSectionOrder();
+    renderSectionOrderSettings();
+}
+
+function removeSectionOrderDragPreview() {
+    if (sectionOrderDragState?.preview) sectionOrderDragState.preview.remove();
+}
+
+function clearSectionOrderDragState() {
+    document.body.classList.remove('section-order-drag-active');
+    document.querySelectorAll('.section-order-item.is-dragging').forEach(item => item.classList.remove('is-dragging'));
+    removeSectionOrderDragPreview();
+    sectionOrderDragState = null;
+}
+
+function updateSectionOrderDragPreview(event) {
+    if (!sectionOrderDragState?.preview) return;
+    const x = event.clientX - sectionOrderDragState.offsetX;
+    const y = event.clientY - sectionOrderDragState.offsetY;
+    sectionOrderDragState.preview.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+}
+
+function reorderSectionOrderListDuringDrag(event) {
+    if (!sectionOrderDragState?.list || !sectionOrderDragState.draggingItem) return;
+    const siblings = [...sectionOrderDragState.list.querySelectorAll('.section-order-item:not(.is-dragging)')];
+    const nextItem = siblings.find(item => {
+        const rect = item.getBoundingClientRect();
+        return event.clientY < rect.top + rect.height / 2;
+    });
+    if (nextItem) {
+        sectionOrderDragState.list.insertBefore(sectionOrderDragState.draggingItem, nextItem);
+    } else {
+        sectionOrderDragState.list.appendChild(sectionOrderDragState.draggingItem);
+    }
+}
+
+function startSectionOrderDrag(event) {
+    const handle = event.target.closest('[data-section-drag-handle]');
+    if (!handle || event.button > 0) return;
+    const item = handle.closest('.section-order-item');
+    const list = item && item.closest('#section-order-list');
+    if (!item || !list) return;
+    event.preventDefault();
+    const rect = item.getBoundingClientRect();
+    const preview = item.cloneNode(true);
+    preview.classList.add('section-order-drag-preview');
+    preview.style.width = `${rect.width}px`;
+    preview.style.height = `${rect.height}px`;
+    preview.style.transform = `translate3d(${rect.left}px, ${rect.top}px, 0)`;
+    document.body.appendChild(preview);
+    item.classList.add('is-dragging');
+    document.body.classList.add('section-order-drag-active');
+    sectionOrderDragState = {
+        pointerId: event.pointerId,
+        list,
+        draggingItem: item,
+        preview,
+        offsetX: event.clientX - rect.left,
+        offsetY: event.clientY - rect.top
+    };
+    try { handle.setPointerCapture(event.pointerId); } catch {}
+    updateSectionOrderDragPreview(event);
+}
+
+function updateSectionOrderDrag(event) {
+    if (!sectionOrderDragState || event.pointerId !== sectionOrderDragState.pointerId) return;
+    event.preventDefault();
+    updateSectionOrderDragPreview(event);
+    reorderSectionOrderListDuringDrag(event);
+}
+
+function endSectionOrderDrag(event) {
+    if (!sectionOrderDragState || event.pointerId !== sectionOrderDragState.pointerId) return;
+    const list = sectionOrderDragState.list;
+    const order = [...list.querySelectorAll('.section-order-item')]
+        .map(item => item.dataset.sectionKey)
+        .filter(Boolean);
+    saveSectionOrderForCurrentOwner(order);
+    applySavedSectionOrder();
+    clearSectionOrderDragState();
+    renderSectionOrderSettings();
+}
+
 document.getElementById('refresh-btn').addEventListener('click', refreshMarketData);
 document.getElementById('theme-toggle-btn').addEventListener('click', toggleTheme);
 initThemeModeSheet();
@@ -5045,12 +5762,15 @@ window.addEventListener('load', () => {
     applyTheme(getInitialTheme());
     initMarketControls();
     initWatchlistControls();
+    initInvestorRankingControls();
     applyLanguage(currentLanguage, false);
     updateRefreshButtonMode();
     refreshMarketData();
     loadMarketNews();
+    loadInvestorRankings();
 });
 setInterval(refreshMarketData, UPDATE_INTERVAL_MS);
+setInterval(loadInvestorRankings, 5 * 60 * 1000);
 
 // --- 차트 스크립트 ---
 const CHART_TRANSLATIONS = {
@@ -5686,6 +6406,7 @@ function createCharts() {
     lineChart = new Chart(document.getElementById('lineChart').getContext('2d'), {type:'line',data:{labels:Array.from({ length: compoundYears() + 1 }, (_, index) => `${index}년`),datasets:compoundItems.map((item, index) => { const color = item.color || CHART_SERIES_COLORS[index % CHART_SERIES_COLORS.length]; return {label:item.name,data:simulateCompound(item),borderColor:color,backgroundColor:colorWithAlpha(color, 0.10),tension:0.36,fill:index === 0}; })},options:lineOptions()});
 }
 
+applySavedSectionOrder();
 createCharts();
 initInteractiveChartControls();
 
@@ -5747,6 +6468,10 @@ function initAuthUI() {
     const settingsConfirmPassword = document.getElementById('settings-confirm-password');
     const settingsError = document.getElementById('settings-error');
     const settingsDeleteBtn = document.getElementById('settings-delete-btn');
+    const settingsTabButtons = [...document.querySelectorAll('[data-settings-tab]')];
+    const settingsPanels = [...document.querySelectorAll('[data-settings-panel]')];
+    const sectionOrderList = document.getElementById('section-order-list');
+    const sectionOrderReset = document.getElementById('section-order-reset');
 
     const deleteModal = document.getElementById('delete-modal');
     const deleteClose = document.getElementById('delete-modal-close');
@@ -5763,7 +6488,7 @@ function initAuthUI() {
             settingsBtn.classList.remove('hidden');
         } else {
             authLabel.textContent = '로그인';
-            settingsBtn.classList.add('hidden');
+            settingsBtn.classList.remove('hidden');
         }
         if (authBtn) {
             const authText = authLabel.textContent.trim();
@@ -5771,15 +6496,44 @@ function initAuthUI() {
             authBtn.setAttribute('title', authText);
         }
         if (settingsBtn) {
-            settingsBtn.setAttribute('aria-label', '설정');
-            settingsBtn.setAttribute('title', '설정');
+            const settingsTitle = user ? '계정 및 섹션 설정' : '섹션 순서 설정';
+            settingsBtn.setAttribute('aria-label', settingsTitle);
+            settingsBtn.setAttribute('title', settingsTitle);
         }
         if (typeof updateRefreshButtonMode === 'function') updateRefreshButtonMode();
+    }
+
+    function setAccountPanelEnabled(enabled) {
+        settingsForm.querySelectorAll('input, button').forEach(element => {
+            element.disabled = !enabled;
+        });
+        const accountTab = document.getElementById('settings-account-tab');
+        if (accountTab) {
+            accountTab.disabled = !enabled;
+            accountTab.setAttribute('aria-disabled', String(!enabled));
+        }
+    }
+
+    function activateSettingsTab(tab) {
+        const user = LocalDeviceAuthService.getCurrentUser();
+        const activeTab = tab === 'account' && !user ? 'order' : tab;
+        settingsTabButtons.forEach(button => {
+            const selected = button.dataset.settingsTab === activeTab;
+            button.classList.toggle('is-active', selected);
+            button.setAttribute('aria-selected', String(selected));
+        });
+        settingsPanels.forEach(panel => {
+            panel.classList.toggle('is-active', panel.dataset.settingsPanel === activeTab);
+        });
+        if (activeTab === 'order') renderSectionOrderSettings();
+        settingsError.classList.add('hidden');
     }
 
     function handleWatchlistSync() {
         watchlistItems = loadWatchlist();
         if (typeof renderWatchlist === 'function') renderWatchlist();
+        applySavedSectionOrder();
+        renderSectionOrderSettings();
         return watchlistItems.length;
     }
 
@@ -5804,10 +6558,38 @@ function initAuthUI() {
             settingsCurrentPassword.value = '';
             settingsNewPassword.value = '';
             settingsConfirmPassword.value = '';
-            settingsModal.classList.add('is-open');
-            settingsError.classList.add('hidden');
+            setAccountPanelEnabled(true);
+        } else {
+            settingsName.value = '';
+            settingsCurrentPassword.value = '';
+            settingsNewPassword.value = '';
+            settingsConfirmPassword.value = '';
+            setAccountPanelEnabled(false);
         }
+        renderSectionOrderSettings();
+        activateSettingsTab(user ? 'account' : 'order');
+        settingsModal.classList.add('is-open');
+        settingsError.classList.add('hidden');
     });
+
+    settingsTabButtons.forEach(button => {
+        button.addEventListener('click', () => activateSettingsTab(button.dataset.settingsTab));
+    });
+
+    if (sectionOrderList) {
+        sectionOrderList.addEventListener('click', event => {
+            const moveButton = event.target.closest('[data-section-move]');
+            if (!moveButton) return;
+            const item = moveButton.closest('.section-order-item');
+            if (!item) return;
+            moveSectionOrderKey(item.dataset.sectionKey, moveButton.dataset.sectionMove === 'up' ? -1 : 1);
+        });
+        sectionOrderList.addEventListener('pointerdown', startSectionOrderDrag);
+    }
+    document.addEventListener('pointermove', updateSectionOrderDrag, { passive: false });
+    document.addEventListener('pointerup', endSectionOrderDrag);
+    document.addEventListener('pointercancel', endSectionOrderDrag);
+    if (sectionOrderReset) sectionOrderReset.addEventListener('click', resetSectionOrderForCurrentOwner);
 
     const closeAuthModal = () => authModal.classList.remove('is-open');
     authClose.addEventListener('click', closeAuthModal);
@@ -5912,7 +6694,7 @@ function initAuthUI() {
             closeDeleteModal();
             updateAuthBtnState();
             handleWatchlistSync();
-            alert('이 기기에 저장된 계정과 관심 종목이 삭제되었습니다.');
+            alert('이 기기에 저장된 계정, 관심 종목, 섹션 순서가 삭제되었습니다.');
 
             submitBtn.disabled = false;
             submitBtn.textContent = '예';
@@ -5963,7 +6745,7 @@ document.addEventListener('DOMContentLoaded', initAuthUI);
 <!-- Settings Modal -->
 <div id="settings-modal" class="watch-confirm-modal" role="dialog" aria-modal="true" style="z-index: 2147483700;">
     <div class="watch-confirm-backdrop" id="settings-modal-backdrop"></div>
-    <div class="watch-confirm-card text-left w-full mx-auto" style="max-width:340px;">
+    <div class="watch-confirm-card text-left w-full mx-auto" style="max-width:520px;">
         <div class="flex justify-between items-center mb-5">
             <h3 class="text-xl font-extrabold text-deepNavy">계정 설정</h3>
             <button id="settings-modal-close" class="text-gray-400 hover:text-gray-600 transition-colors">
@@ -5971,7 +6753,12 @@ document.addEventListener('DOMContentLoaded', initAuthUI);
             </button>
         </div>
 
-        <form id="settings-form" class="space-y-4">
+        <div class="settings-tabs" role="tablist" aria-label="설정 메뉴">
+            <button type="button" id="settings-account-tab" class="settings-tab-btn is-active" data-settings-tab="account" role="tab" aria-selected="true" aria-controls="settings-account-panel">계정 정보</button>
+            <button type="button" id="settings-order-tab" class="settings-tab-btn" data-settings-tab="order" role="tab" aria-selected="false" aria-controls="settings-order-panel">섹션 순서</button>
+        </div>
+
+        <form id="settings-form" class="settings-tab-panel is-active space-y-4" data-settings-panel="account" role="tabpanel" aria-labelledby="settings-account-tab">
             <div>
                 <label class="block text-xs font-bold text-gray-700 mb-1">사용자 이름 (표시 이름)</label>
                 <input type="text" id="settings-name" placeholder="이름을 입력하세요" class="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-vibrantBlue focus:bg-white transition-colors" required>
@@ -5997,6 +6784,11 @@ document.addEventListener('DOMContentLoaded', initAuthUI);
                 </button>
             </div>
         </form>
+        <div id="settings-order-panel" class="settings-tab-panel" data-settings-panel="order" role="tabpanel" aria-labelledby="settings-order-tab">
+            <p class="section-order-help">드래그하거나 터치/펜으로 잡아 이동하면 섹션 위치가 실시간으로 따라 움직입니다. 저장된 순서는 이 브라우저의 localStorage에만 보관됩니다.</p>
+            <div id="section-order-list" class="section-order-list" aria-live="polite"></div>
+            <button type="button" id="section-order-reset" class="section-order-reset">기본 순서로 복원</button>
+        </div>
         <p id="settings-error" class="text-xs text-red-500 mt-3 text-center hidden"></p>
     </div>
 </div>
@@ -6006,7 +6798,7 @@ document.addEventListener('DOMContentLoaded', initAuthUI);
     <div class="watch-confirm-backdrop" id="delete-modal-backdrop"></div>
     <div class="watch-confirm-card text-left w-full mx-auto" style="max-width:340px;">
         <h3 class="text-xl font-extrabold text-red-600 mb-2">계정 삭제</h3>
-        <p class="text-sm text-gray-600 mb-5">계정을 삭제하시겠습니까?<br>삭제 시 모든 관심 주식 데이터가 영구적으로 삭제되며 복구할 수 없습니다.</p>
+        <p class="text-sm text-gray-600 mb-5">계정을 삭제하시겠습니까?<br>삭제 시 모든 관심 주식 데이터와 섹션 순서가 영구적으로 삭제되며 복구할 수 없습니다.</p>
 
         <form id="delete-form" class="space-y-4">
             <div id="delete-password-container">

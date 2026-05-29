@@ -932,6 +932,23 @@ body.coinbase-kstock .text-sunsetOrange {
   color: var(--cb-primary) !important;
 }
 
+body.coinbase-kstock main .bg-gray-900 {
+  background: #0b1426 !important;
+  color: #f8fafc !important;
+  border: 1px solid rgba(148, 163, 184, 0.28) !important;
+}
+
+body.coinbase-kstock main .bg-gray-900 h2,
+body.coinbase-kstock main .bg-gray-900 .text-white {
+  color: #ffffff !important;
+}
+
+body.coinbase-kstock main .bg-gray-900 p,
+body.coinbase-kstock main .bg-gray-900 .text-gray-400,
+body.coinbase-kstock main .bg-gray-900 .text-gray-500 {
+  color: #dbe4f0 !important;
+}
+
 body.coinbase-kstock .bg-vibrantBlue,
 body.coinbase-kstock .bg-electricTeal,
 body.coinbase-kstock .watch-add-toggle,
@@ -1189,6 +1206,29 @@ body.coinbase-kstock.theme-dark .text-sunsetOrange,
 body.coinbase-kstock.theme-dark .text-blue-500,
 body.coinbase-kstock.theme-dark .text-indigo-700 {
   color: #7fb2ff !important;
+}
+
+body.coinbase-kstock.theme-dark .quote-title,
+body.coinbase-kstock.theme-dark .quote-title *,
+body.coinbase-kstock.theme-dark .watch-card-title,
+body.coinbase-kstock.theme-dark .watch-card-title *,
+body.coinbase-kstock.theme-dark [data-stock-ko],
+body.coinbase-kstock.theme-dark [data-stock-ko] *,
+body.coinbase-kstock.theme-dark [data-watch-name],
+body.coinbase-kstock.theme-dark [data-watch-name] * {
+  color: #f8fafc !important;
+  opacity: 1 !important;
+}
+
+body.coinbase-kstock.theme-dark .stock-link .text-gray-600,
+body.coinbase-kstock.theme-dark .stock-link .text-gray-700 {
+  color: #eef4ff !important;
+}
+
+body.coinbase-kstock.theme-dark main .bg-gray-900 {
+  background: #0d1320 !important;
+  color: #f8fafc !important;
+  border-color: rgba(255, 255, 255, 0.16) !important;
 }
 
 body.coinbase-kstock.theme-dark .insight-tag {
@@ -4201,6 +4241,11 @@ function applyTheme(theme) {
     document.body.classList.toggle('theme-dark', nextTheme === 'dark');
     localStorage.setItem(THEME_KEY, nextTheme);
     updateThemeToggle();
+    try {
+        applyChartTheme();
+    } catch (error) {
+        // Charts are declared later in the script; the initial theme pass can safely skip them.
+    }
 }
 
 function toggleTheme() {

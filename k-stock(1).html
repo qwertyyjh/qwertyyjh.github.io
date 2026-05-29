@@ -376,6 +376,7 @@ body.coinbase-kstock .coinbase-brand {
   gap: 10px;
   color: var(--cb-ink);
   text-decoration: none;
+  overflow: visible;
 }
 
 body.coinbase-kstock .coinbase-logo-shell {
@@ -419,20 +420,29 @@ body.coinbase-kstock .coinbase-brand-text strong,
 body.coinbase-kstock .coinbase-brand-text span {
   display: block;
   min-width: 0;
+  white-space: nowrap;
+}
+
+body.coinbase-kstock .coinbase-brand-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2px;
+  min-width: 124px;
 }
 
 body.coinbase-kstock .coinbase-brand-text strong {
   color: var(--cb-primary);
   font-size: 18px;
-  line-height: 1.05;
+  line-height: 1;
   font-weight: 700;
 }
 
 body.coinbase-kstock .coinbase-brand-text span {
-  margin-top: 2px;
+  margin-top: 0;
   color: var(--cb-muted);
   font-size: 12px;
-  line-height: 1.2;
+  line-height: 1.15;
 }
 
 body.coinbase-kstock.theme-dark .coinbase-brand,
@@ -610,7 +620,11 @@ body.coinbase-kstock .coinbase-hero-proof {
 
 body.coinbase-kstock .coinbase-hero-stack {
   position: relative;
-  min-height: 480px;
+  min-height: 0;
+  display: grid;
+  gap: 18px;
+  align-content: center;
+  justify-items: end;
 }
 
 body.coinbase-kstock .product-ui-card-dark {
@@ -627,10 +641,8 @@ body.coinbase-kstock .coinbase-main-card {
 }
 
 body.coinbase-kstock .coinbase-float-card {
-  position: absolute;
-  right: 4px;
-  bottom: 6px;
-  width: min(340px, 62%);
+  position: static;
+  width: min(100%, 340px);
   padding: 22px;
 }
 
@@ -738,7 +750,7 @@ body.coinbase-kstock .hero-metric-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 10px;
-  margin-top: 20px;
+  margin-top: 0;
 }
 
 body.coinbase-kstock .hero-metric {
@@ -887,8 +899,30 @@ body.coinbase-kstock p,
 body.coinbase-kstock .text-gray-600,
 body.coinbase-kstock .text-gray-500,
 body.coinbase-kstock .text-gray-400,
+body.coinbase-kstock .text-gray-700,
+body.coinbase-kstock .text-slate-700,
+body.coinbase-kstock .text-slate-600,
+body.coinbase-kstock .text-slate-500,
+body.coinbase-kstock .text-slate-400,
 body.coinbase-kstock .watchlist-interval {
   color: var(--cb-body) !important;
+}
+
+body.coinbase-kstock main .text-gray-700,
+body.coinbase-kstock main .text-slate-700,
+body.coinbase-kstock main .text-gray-800,
+body.coinbase-kstock main .text-slate-800,
+body.coinbase-kstock main .text-gray-900,
+body.coinbase-kstock main .text-slate-900,
+body.coinbase-kstock main .text-black {
+  color: var(--cb-ink) !important;
+}
+
+body.coinbase-kstock main .text-xs,
+body.coinbase-kstock main .text-sm,
+body.coinbase-kstock .quote-change-row,
+body.coinbase-kstock .watch-change-row {
+  line-height: 1.45 !important;
 }
 
 body.coinbase-kstock .text-vibrantBlue,
@@ -1100,7 +1134,12 @@ body.coinbase-kstock.theme-dark .watchlist-title-text {
 body.coinbase-kstock.theme-dark p,
 body.coinbase-kstock.theme-dark .text-gray-600,
 body.coinbase-kstock.theme-dark .text-gray-500,
-body.coinbase-kstock.theme-dark .text-gray-400 {
+body.coinbase-kstock.theme-dark .text-gray-400,
+body.coinbase-kstock.theme-dark .text-gray-700,
+body.coinbase-kstock.theme-dark .text-slate-700,
+body.coinbase-kstock.theme-dark .text-slate-600,
+body.coinbase-kstock.theme-dark .text-slate-500,
+body.coinbase-kstock.theme-dark .text-slate-400 {
   color: #c4c7cd !important;
 }
 
@@ -1111,6 +1150,51 @@ body.coinbase-kstock.theme-dark .chart-container,
 body.coinbase-kstock.theme-dark .watch-add-panel {
   background: #16181c !important;
   border-color: rgba(255, 255, 255, 0.13) !important;
+}
+
+body.coinbase-kstock.theme-dark main .text-black,
+body.coinbase-kstock.theme-dark main .text-gray-700,
+body.coinbase-kstock.theme-dark main .text-gray-800,
+body.coinbase-kstock.theme-dark main .text-gray-900,
+body.coinbase-kstock.theme-dark main .text-slate-700,
+body.coinbase-kstock.theme-dark main .text-slate-800,
+body.coinbase-kstock.theme-dark main .text-slate-900 {
+  color: #f8fafc !important;
+}
+
+body.coinbase-kstock.theme-dark .quote-label,
+body.coinbase-kstock.theme-dark .watch-label,
+body.coinbase-kstock.theme-dark .portfolio-center-label,
+body.coinbase-kstock.theme-dark .watchlist-interval {
+  color: #d0d5dd !important;
+}
+
+body.coinbase-kstock.theme-dark .text-red-500,
+body.coinbase-kstock.theme-dark .text-red-600,
+body.coinbase-kstock.theme-dark .text-rose-700 {
+  color: #ff8a8a !important;
+}
+
+body.coinbase-kstock.theme-dark .text-green-600,
+body.coinbase-kstock.theme-dark .text-green-700,
+body.coinbase-kstock.theme-dark .text-emerald-600,
+body.coinbase-kstock.theme-dark .text-teal-700 {
+  color: #53d989 !important;
+}
+
+body.coinbase-kstock.theme-dark .text-vibrantBlue,
+body.coinbase-kstock.theme-dark .text-electricTeal,
+body.coinbase-kstock.theme-dark .text-brightPurple,
+body.coinbase-kstock.theme-dark .text-sunsetOrange,
+body.coinbase-kstock.theme-dark .text-blue-500,
+body.coinbase-kstock.theme-dark .text-indigo-700 {
+  color: #7fb2ff !important;
+}
+
+body.coinbase-kstock.theme-dark .insight-tag {
+  background: #24272d !important;
+  color: #f8fafc !important;
+  border: 1px solid rgba(255, 255, 255, 0.14) !important;
 }
 
 body.coinbase-kstock .coinbase-nav-actions {
@@ -1214,11 +1298,8 @@ body.coinbase-kstock main > section {
   }
 
   body.coinbase-kstock .coinbase-float-card {
-    position: relative;
-    right: auto;
-    bottom: auto;
     width: min(100%, 460px);
-    margin: -22px 0 0 auto;
+    margin: 0 0 0 auto;
   }
 }
 
@@ -1353,6 +1434,14 @@ body.coinbase-kstock main > section {
 @media (max-width: 1180px) {
   body.coinbase-kstock .coinbase-nav {
     grid-template-columns: 1fr !important;
+  }
+
+  body.coinbase-kstock .coinbase-brand {
+    width: 100%;
+  }
+
+  body.coinbase-kstock .coinbase-brand-text {
+    min-width: 0;
   }
 
   body.coinbase-kstock .coinbase-nav-actions {

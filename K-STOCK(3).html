@@ -2589,6 +2589,199 @@ body.nabakai-kstock .projection-table td:first-child {
   }
 }
 
+body.nabakai-kstock .coinbase-nav {
+  min-height: 52px !important;
+  padding: 8px var(--page-edge) !important;
+  display: grid !important;
+  grid-template-columns: minmax(0, max-content) minmax(0, max-content) 1fr !important;
+  align-items: center !important;
+  gap: 8px !important;
+}
+
+body.nabakai-kstock .coinbase-nav-links {
+  display: none !important;
+}
+
+body.nabakai-kstock .coinbase-brand {
+  min-width: 0 !important;
+  max-width: min(220px, calc(100vw - 212px)) !important;
+  overflow: hidden !important;
+}
+
+body.nabakai-kstock .coinbase-brand-text {
+  min-width: 0 !important;
+  overflow: hidden !important;
+}
+
+body.nabakai-kstock .coinbase-brand-text strong,
+body.nabakai-kstock .coinbase-brand-text span {
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+body.nabakai-kstock .coinbase-nav-actions {
+  width: auto !important;
+  min-width: 0 !important;
+  justify-self: start !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+  gap: 6px !important;
+}
+
+body.nabakai-kstock .coinbase-nav-actions .floating-tools {
+  width: auto !important;
+  max-width: none !important;
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+  gap: 6px !important;
+}
+
+body.nabakai-kstock .coinbase-nav-actions .floating-auth-row {
+  width: auto !important;
+  max-width: none !important;
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+  gap: 6px !important;
+}
+
+body.nabakai-kstock .coinbase-nav-actions .coinbase-nav-cta,
+body.nabakai-kstock .coinbase-nav-actions .floating-tools #auth-btn,
+body.nabakai-kstock .coinbase-nav-actions .floating-tools #auth-settings-btn,
+body.nabakai-kstock .coinbase-nav-actions .floating-tools #refresh-btn,
+body.nabakai-kstock .coinbase-nav-actions .theme-toggle-btn {
+  width: 36px !important;
+  min-width: 36px !important;
+  max-width: 36px !important;
+  height: 36px !important;
+  min-height: 36px !important;
+  padding: 0 !important;
+  gap: 0 !important;
+  border-radius: 999px !important;
+  overflow: hidden !important;
+  justify-content: center !important;
+  align-items: center !important;
+}
+
+body.nabakai-kstock .coinbase-nav-actions .coinbase-nav-cta {
+  display: inline-flex !important;
+  font-size: 0 !important;
+}
+
+body.nabakai-kstock .coinbase-nav-actions .coinbase-nav-cta-label,
+body.nabakai-kstock .coinbase-nav-actions .floating-tools #auth-btn span,
+body.nabakai-kstock .coinbase-nav-actions .floating-tools #auth-settings-btn span,
+body.nabakai-kstock .coinbase-nav-actions .floating-tools #refresh-btn .refresh-label,
+body.nabakai-kstock .coinbase-nav-actions .theme-toggle-btn .theme-label {
+  width: 0 !important;
+  max-width: 0 !important;
+  opacity: 0 !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  overflow: hidden !important;
+  pointer-events: none !important;
+}
+
+body.nabakai-kstock .coinbase-nav-actions .coinbase-nav-cta svg,
+body.nabakai-kstock .coinbase-nav-actions .floating-tools svg,
+body.nabakai-kstock .coinbase-nav-actions .theme-toggle-btn svg {
+  width: 18px !important;
+  height: 18px !important;
+  flex: none !important;
+  margin: 0 !important;
+}
+
+body.nabakai-kstock .coinbase-nav-actions .coinbase-nav-cta svg {
+  color: currentColor !important;
+}
+
+@media (max-width: 420px) {
+  body.nabakai-kstock .coinbase-nav {
+    gap: 6px !important;
+  }
+
+  body.nabakai-kstock .coinbase-logo-shell {
+    width: 32px !important;
+    height: 32px !important;
+    border-radius: 8px !important;
+  }
+
+  body.nabakai-kstock .coinbase-brand {
+    gap: 8px !important;
+    max-width: calc(100vw - 196px) !important;
+  }
+
+  body.nabakai-kstock .coinbase-brand-text strong {
+    font-size: 20px !important;
+  }
+
+  body.nabakai-kstock .coinbase-brand-text span {
+    display: none !important;
+  }
+
+  body.nabakai-kstock .coinbase-nav-actions,
+  body.nabakai-kstock .coinbase-nav-actions .floating-tools,
+  body.nabakai-kstock .coinbase-nav-actions .floating-auth-row {
+    gap: 5px !important;
+  }
+
+  body.nabakai-kstock .coinbase-nav-actions .coinbase-nav-cta,
+  body.nabakai-kstock .coinbase-nav-actions .floating-tools #auth-btn,
+  body.nabakai-kstock .coinbase-nav-actions .floating-tools #auth-settings-btn,
+  body.nabakai-kstock .coinbase-nav-actions .floating-tools #refresh-btn,
+  body.nabakai-kstock .coinbase-nav-actions .theme-toggle-btn {
+    width: 34px !important;
+    min-width: 34px !important;
+    max-width: 34px !important;
+    height: 34px !important;
+    min-height: 34px !important;
+  }
+}
+
+@media (max-width: 360px) {
+  body.nabakai-kstock .coinbase-logo-shell {
+    width: 30px !important;
+    height: 30px !important;
+  }
+
+  body.nabakai-kstock .coinbase-brand {
+    max-width: calc(100vw - 180px) !important;
+  }
+
+  body.nabakai-kstock .coinbase-brand-text strong {
+    font-size: 18px !important;
+  }
+
+  body.nabakai-kstock .coinbase-nav-actions,
+  body.nabakai-kstock .coinbase-nav-actions .floating-tools,
+  body.nabakai-kstock .coinbase-nav-actions .floating-auth-row {
+    gap: 4px !important;
+  }
+
+  body.nabakai-kstock .coinbase-nav-actions .coinbase-nav-cta,
+  body.nabakai-kstock .coinbase-nav-actions .floating-tools #auth-btn,
+  body.nabakai-kstock .coinbase-nav-actions .floating-tools #auth-settings-btn,
+  body.nabakai-kstock .coinbase-nav-actions .floating-tools #refresh-btn,
+  body.nabakai-kstock .coinbase-nav-actions .theme-toggle-btn {
+    width: 32px !important;
+    min-width: 32px !important;
+    max-width: 32px !important;
+    height: 32px !important;
+    min-height: 32px !important;
+  }
+
+  body.nabakai-kstock .coinbase-nav-actions .coinbase-nav-cta svg,
+  body.nabakai-kstock .coinbase-nav-actions .floating-tools svg,
+  body.nabakai-kstock .coinbase-nav-actions .theme-toggle-btn svg {
+    width: 17px !important;
+    height: 17px !important;
+  }
+}
+
 </style>
 <script>
 tailwind.config = {
@@ -2617,7 +2810,12 @@ colors: { vibrantBlue: '#2563eb', electricTeal: '#0d9488', sunsetOrange: '#ea580
     <a href="#portfolio-section">Portfolio</a>
   </div>
   <div class="coinbase-nav-actions">
-    <a class="coinbase-nav-cta" href="#watchlist-section">Open Dashboard</a>
+    <a class="coinbase-nav-cta" href="#watchlist-section" aria-label="Open Dashboard" title="Open Dashboard">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5.5A1.5 1.5 0 015.5 4h4A1.5 1.5 0 0111 5.5v4A1.5 1.5 0 019.5 11h-4A1.5 1.5 0 014 9.5v-4zM13 5.5A1.5 1.5 0 0114.5 4h4A1.5 1.5 0 0120 5.5v4a1.5 1.5 0 01-1.5 1.5h-4A1.5 1.5 0 0113 9.5v-4zM4 14.5A1.5 1.5 0 015.5 13h4a1.5 1.5 0 011.5 1.5v4A1.5 1.5 0 019.5 20h-4A1.5 1.5 0 014 18.5v-4zM13 14.5a1.5 1.5 0 011.5-1.5h4a1.5 1.5 0 011.5 1.5v4a1.5 1.5 0 01-1.5 1.5h-4a1.5 1.5 0 01-1.5-1.5v-4z"></path>
+      </svg>
+      <span class="coinbase-nav-cta-label">Open Dashboard</span>
+    </a>
     <!-- 우측 상단 실시간 새로고침 플로팅 버튼 -->
 <div class="floating-tools fixed top-6 right-4 sm:right-8 z-50">
 <div class="floating-auth-row">
@@ -5871,7 +6069,8 @@ function updateRefreshButtonMode() {
     }
     button.classList.toggle('is-compact', isBelowHero);
     if (themeButton) themeButton.classList.toggle('is-compact', isBelowHero);
-    button.setAttribute('aria-label', isBelowHero ? t('refreshButton') : '');
+    button.setAttribute('aria-label', t('refreshButton'));
+    button.setAttribute('title', t('refreshButton'));
 }
 
 function initNabakBottomNav() {

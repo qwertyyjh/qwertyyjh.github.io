@@ -818,7 +818,7 @@ body.coinbase-kstock .hero-etf-message {
 
 body.coinbase-kstock .hero-etf-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(162px, 1fr));
   gap: 8px;
 }
 
@@ -852,21 +852,39 @@ body.coinbase-kstock .hero-etf-card.is-drop-target {
 
 body.coinbase-kstock .hero-etf-title {
   color: #ffffff;
-  font-size: clamp(13px, 1.3vw, 16px);
+  font-size: var(--hero-etf-title-size, clamp(11px, 1vw, 14px));
   font-weight: 900;
-  line-height: 1.2;
+  line-height: 1.18;
   min-height: 2.35em;
+  white-space: normal;
+  word-break: keep-all !important;
+  overflow-wrap: normal !important;
+  text-wrap: balance;
 }
 
 body.coinbase-kstock .hero-etf-price {
   --hero-etf-price-color: #ffffff;
+  --hero-etf-price-size: clamp(16px, 1.2vw, 22px);
+  --hero-etf-price-max: 22;
+  --hero-etf-price-min: 14;
+  display: flex;
+  align-items: baseline;
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
   color: #ffffff;
   font-family: var(--cb-mono);
-  font-size: clamp(19px, 2.15vw, 27px);
+  font-size: var(--hero-etf-price-size);
   font-weight: 900;
   line-height: 1;
   letter-spacing: 0;
   white-space: nowrap;
+}
+
+body.coinbase-kstock .hero-etf-price [data-hero-etf-price] {
+  flex: 0 1 auto;
+  min-width: 0;
+  max-width: 100%;
 }
 
 body.coinbase-kstock .hero-etf-price [data-hero-etf-price],
@@ -878,10 +896,11 @@ body.coinbase-kstock .hero-etf-price .flash-down {
 }
 
 body.coinbase-kstock .hero-etf-unit {
+  flex: 0 0 auto;
   margin-left: 3px;
   color: var(--cb-muted-soft);
   font-family: var(--cb-sans);
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 900;
 }
 
@@ -5956,6 +5975,39 @@ function displayHeroEtfNameHtml(item) {
     return displayWatchlistNameHtml(item);
 }
 
+function fitHeroEtfTitleNode(titleEl) {
+    if (!titleEl) return;
+    titleEl.style.removeProperty('--hero-etf-title-size');
+    const maxSize = 14;
+    const minSize = 11;
+    let size = maxSize;
+    titleEl.style.setProperty('--hero-etf-title-size', `${size}px`);
+    const lineHeight = () => parseFloat(window.getComputedStyle(titleEl).lineHeight) || size * 1.18;
+    while (size > minSize && titleEl.scrollHeight > lineHeight() * 1.55) {
+        size -= 0.5;
+        titleEl.style.setProperty('--hero-etf-title-size', `${size}px`);
+    }
+}
+
+function fitHeroEtfPriceNode(priceEl) {
+    if (!priceEl) return;
+    priceEl.style.removeProperty('--hero-etf-price-size');
+    const computed = window.getComputedStyle(priceEl);
+    const maxSize = parseFloat(computed.getPropertyValue('--hero-etf-price-max')) || 22;
+    const minSize = parseFloat(computed.getPropertyValue('--hero-etf-price-min')) || 14;
+    let size = maxSize;
+    priceEl.style.setProperty('--hero-etf-price-size', `${size}px`);
+    while (size > minSize && priceEl.scrollWidth > priceEl.clientWidth + 1) {
+        size -= 0.5;
+        priceEl.style.setProperty('--hero-etf-price-size', `${size}px`);
+    }
+}
+
+function fitHeroEtfCards() {
+    document.querySelectorAll('.hero-etf-title').forEach(fitHeroEtfTitleNode);
+    document.querySelectorAll('.hero-etf-price').forEach(fitHeroEtfPriceNode);
+}
+
 function heroEtfDecimals(item) {
     return item && item.source === 'naver' ? 0 : 2;
 }
@@ -5998,6 +6050,7 @@ function renderHeroEtfBoard() {
     if (addButton) addButton.disabled = heroEtfItems.length >= HERO_ETF_MAX_ITEMS;
     if (!heroEtfItems.length) {
         grid.innerHTML = '<div class="hero-etf-card"><strong class="hero-etf-title">종목 없음</strong><span class="hero-etf-status">추가 버튼으로 주식이나 ETF를 등록하세요.</span></div>';
+        fitHeroEtfCards();
         return;
     }
     grid.innerHTML = heroEtfItems.map((item, index) => {
@@ -6023,6 +6076,7 @@ function renderHeroEtfBoard() {
             </div>
         </div>`;
     }).join('');
+    fitHeroEtfCards();
 }
 
 function queryHeroEtfElements(symbol, attr) {
@@ -6062,6 +6116,7 @@ function applyHeroEtfQuote(quote) {
     queryHeroEtfElements(item.symbol, 'data-hero-etf-price').forEach(el => {
         const oldPrice = readDisplayedNumber(el);
         flashPriceElement(el, price, oldPrice, false, heroEtfDecimals(item));
+        fitHeroEtfPriceNode(el.closest('.hero-etf-price'));
     });
     const closeYest = toNumber(quote.closeyest);
     const rawChange = toNumber(quote.change);
@@ -7120,6 +7175,7 @@ window.addEventListener('scroll', () => {
 window.addEventListener('resize', () => {
     const switcher = document.getElementById('theme-switcher');
     if (switcher && switcher.classList.contains('is-open')) positionThemeMenu();
+    fitHeroEtfCards();
 });
 window.addEventListener('load', () => {
     applyTheme(getInitialTheme());

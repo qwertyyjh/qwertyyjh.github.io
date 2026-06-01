@@ -504,7 +504,7 @@ body.coinbase-kstock .coinbase-hero {
   width: 100vw;
   margin-left: calc(50% - 50vw);
   margin-right: calc(50% - 50vw);
-  padding: 72px max(24px, calc((100vw - 1200px) / 2 + 24px)) 84px;
+  padding: 72px 20px 84px;
   background: var(--cb-surface-dark);
   color: #ffffff;
   overflow: hidden;
@@ -514,13 +514,14 @@ body.coinbase-kstock .coinbase-hero-inner {
   max-width: calc(100vw - 40px);
   margin: 0 auto;
   display: grid;
-  grid-template-columns: minmax(0, 0.92fr) minmax(420px, 1.08fr);
-  gap: 56px;
+  grid-template-columns: minmax(280px, 0.66fr) minmax(580px, 1.34fr);
+  gap: 24px;
   align-items: center;
 }
 
 body.coinbase-kstock .coinbase-hero-copy {
   min-width: 0;
+  max-width: 480px;
 }
 
 body.coinbase-kstock .coinbase-hero-copy,
@@ -624,7 +625,7 @@ body.coinbase-kstock .coinbase-hero-stack {
   display: grid;
   gap: 18px;
   align-content: center;
-  justify-items: end;
+  justify-items: stretch;
 }
 
 body.coinbase-kstock .product-ui-card-dark {
@@ -636,7 +637,7 @@ body.coinbase-kstock .product-ui-card-dark {
 }
 
 body.coinbase-kstock .coinbase-main-card {
-  width: min(100%, 560px);
+  width: 100%;
   padding: 32px;
 }
 
@@ -721,9 +722,9 @@ body.coinbase-kstock .hero-asset-row strong {
 }
 
 body.coinbase-kstock .hero-etf-panel {
-  margin-top: 14px;
-  padding: 14px 0 2px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  margin-top: 18px;
+  padding: 16px 0 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 body.coinbase-kstock .hero-etf-toolbar {
@@ -2079,7 +2080,7 @@ body.nabakai-kstock .coinbase-hero {
 
 body.nabakai-kstock .coinbase-hero-inner {
   display: grid !important;
-  grid-template-columns: minmax(0, 1.08fr) minmax(320px, 0.92fr) !important;
+  grid-template-columns: minmax(260px, 0.58fr) minmax(580px, 1.42fr) !important;
   gap: 12px !important;
   align-items: stretch !important;
   min-height: 0 !important;
@@ -3406,29 +3407,6 @@ colors: { vibrantBlue: '#2563eb', electricTeal: '#0d9488', sunsetOrange: '#ea580
           <strong id="momentum-index-price">8,854.41</strong>
           <small id="momentum-index-change">Naver 연결 중</small>
         </div>
-        <div class="hero-etf-panel" aria-label="ETF and stock live board">
-          <div class="hero-etf-toolbar">
-            <div>
-              <strong>ETF Live Board</strong>
-              <span>네이버 실시간 · 최대 10개</span>
-            </div>
-            <div class="hero-etf-actions">
-              <button type="button" id="hero-etf-add-toggle" aria-expanded="false">추가</button>
-              <button type="button" id="hero-etf-edit-toggle" aria-pressed="false">편집</button>
-            </div>
-          </div>
-          <div id="hero-etf-add-panel" class="hero-etf-add-panel" aria-label="ETF and stock add panel">
-            <select id="hero-etf-source" aria-label="데이터 출처">
-              <option value="naver">네이버</option>
-              <option value="google">Google</option>
-            </select>
-            <input id="hero-etf-query" type="text" placeholder="종목명 예: 삼성전자, KODEX 200" autocomplete="off">
-            <input id="hero-etf-symbol" type="text" placeholder="코드/티커 예: 005930" autocomplete="off">
-            <button type="button" id="hero-etf-add-btn">추가</button>
-          </div>
-          <p id="hero-etf-message" class="hero-etf-message" aria-live="polite"></p>
-          <div id="hero-etf-grid" class="hero-etf-grid"></div>
-        </div>
         <div class="index-chart-shell">
           <div class="index-chart-controls">
             <label class="sr-only" for="momentum-index-select">주가지수 선택</label>
@@ -3457,6 +3435,29 @@ colors: { vibrantBlue: '#2563eb', electricTeal: '#0d9488', sunsetOrange: '#ea580
           <div class="index-chart-canvas-wrap">
             <canvas id="marketMomentumChart" aria-label="주가지수 모멘텀 차트"></canvas>
           </div>
+        </div>
+        <div class="hero-etf-panel" aria-label="ETF and stock live board">
+          <div class="hero-etf-toolbar">
+            <div>
+              <strong>ETF Live Board</strong>
+              <span>네이버 실시간 · 최대 10개</span>
+            </div>
+            <div class="hero-etf-actions">
+              <button type="button" id="hero-etf-add-toggle" aria-expanded="false">추가</button>
+              <button type="button" id="hero-etf-edit-toggle" aria-pressed="false">편집</button>
+            </div>
+          </div>
+          <div id="hero-etf-add-panel" class="hero-etf-add-panel" aria-label="ETF and stock add panel">
+            <select id="hero-etf-source" aria-label="데이터 출처">
+              <option value="naver">네이버</option>
+              <option value="google">Google</option>
+            </select>
+            <input id="hero-etf-query" type="text" placeholder="종목명 예: 삼성전자, KODEX 200" autocomplete="off">
+            <input id="hero-etf-symbol" type="text" placeholder="코드/티커 예: 005930" autocomplete="off">
+            <button type="button" id="hero-etf-add-btn">추가</button>
+          </div>
+          <p id="hero-etf-message" class="hero-etf-message" aria-live="polite"></p>
+          <div id="hero-etf-grid" class="hero-etf-grid"></div>
         </div>
       </div>
       <div class="product-ui-card-dark coinbase-float-card">

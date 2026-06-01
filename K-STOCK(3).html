@@ -746,6 +746,95 @@ body.coinbase-kstock .coinbase-mini-chart text {
   font-weight: 700;
 }
 
+body.coinbase-kstock .index-chart-shell {
+  margin-top: 18px;
+  display: grid;
+  gap: 12px;
+}
+
+body.coinbase-kstock .index-chart-controls {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.7fr);
+  gap: 10px;
+  align-items: center;
+}
+
+body.coinbase-kstock .index-select {
+  width: 100%;
+  min-height: 36px;
+  padding: 0 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 800;
+  outline: none;
+}
+
+body.coinbase-kstock .index-select option {
+  color: #111827;
+}
+
+body.coinbase-kstock .index-timeframe-tabs {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 4px;
+  padding: 3px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+body.coinbase-kstock .index-timeframe-btn {
+  min-width: 0;
+  min-height: 28px;
+  padding: 0 5px;
+  border-radius: 999px;
+  border: 0;
+  background: transparent;
+  color: var(--cb-muted-soft);
+  font-size: 11px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+body.coinbase-kstock .index-timeframe-btn.is-active {
+  background: #ffffff;
+  color: #111827;
+}
+
+body.coinbase-kstock .index-chart-meta {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+body.coinbase-kstock .index-chart-meta strong {
+  color: #ffffff;
+  font-family: var(--cb-mono);
+  font-size: clamp(26px, 3.2vw, 38px);
+  font-weight: 800;
+  letter-spacing: 0;
+}
+
+body.coinbase-kstock .index-chart-meta span {
+  color: var(--cb-muted-soft);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+body.coinbase-kstock .index-chart-canvas-wrap {
+  position: relative;
+  height: 168px;
+}
+
+body.coinbase-kstock #marketMomentumChart {
+  width: 100% !important;
+  height: 100% !important;
+}
+
 body.coinbase-kstock .hero-metric-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -1426,6 +1515,19 @@ body.coinbase-kstock main > section {
     padding: 20px;
   }
 
+  body.coinbase-kstock .index-chart-controls {
+    grid-template-columns: 1fr;
+  }
+
+  body.coinbase-kstock .index-timeframe-tabs {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    border-radius: 14px;
+  }
+
+  body.coinbase-kstock .index-chart-canvas-wrap {
+    height: 150px;
+  }
+
   body.coinbase-kstock .coinbase-float-card {
     width: 100%;
   }
@@ -1903,6 +2005,30 @@ body.nabakai-kstock .hero-metric {
 
 body.nabakai-kstock .coinbase-mini-chart path {
   stroke: var(--nb-gold) !important;
+}
+
+body.nabakai-kstock .index-select,
+body.nabakai-kstock .index-timeframe-tabs {
+  background: var(--nb-sec) !important;
+  border-color: var(--nb-border) !important;
+  color: var(--nb-text) !important;
+}
+
+body.nabakai-kstock .index-timeframe-btn {
+  color: var(--nb-text-ter) !important;
+}
+
+body.nabakai-kstock .index-timeframe-btn.is-active {
+  background: var(--nb-text) !important;
+  color: var(--nb-bg) !important;
+}
+
+body.nabakai-kstock .index-chart-meta strong {
+  color: var(--nb-text) !important;
+}
+
+body.nabakai-kstock .index-chart-meta span {
+  color: var(--nb-text-ter) !important;
 }
 
 body.nabakai-kstock main {
@@ -2968,19 +3094,19 @@ colors: { vibrantBlue: '#2563eb', electricTeal: '#0d9488', sunsetOrange: '#ea580
         <span>Local watchlist</span>
       </div>
     </div>
-    <div class="coinbase-hero-stack" aria-hidden="true">
+    <div class="coinbase-hero-stack" aria-label="Market index and ETF summary">
       <div class="product-ui-card-dark coinbase-main-card">
         <div class="mockup-header">
           <div>
             <strong>Market Momentum</strong>
-            <span>Korea ETF overview</span>
+            <span>Index chart overview</span>
           </div>
           <span class="coinbase-status-pill">Live</span>
         </div>
         <div class="hero-asset-row">
-          <span>KOSPI</span>
-          <strong>--</strong>
-          <small>Syncing</small>
+          <span id="momentum-index-name">KOSPI</span>
+          <strong id="momentum-index-price">2,735.4</strong>
+          <small id="momentum-index-change">주봉</small>
         </div>
         <div class="hero-asset-row">
           <span>TIGER AI Power</span>
@@ -2992,13 +3118,35 @@ colors: { vibrantBlue: '#2563eb', electricTeal: '#0d9488', sunsetOrange: '#ea580
           <strong>-- KRW</strong>
           <small>Total return</small>
         </div>
-        <svg class="coinbase-mini-chart" viewBox="0 0 520 180" role="img" aria-label="Momentum chart mockup">
-          <line x1="0" y1="150" x2="520" y2="150"></line>
-          <line x1="0" y1="96" x2="520" y2="96"></line>
-          <line x1="0" y1="42" x2="520" y2="42"></line>
-          <path d="M12 138 C84 122, 112 104, 166 108 S254 118, 302 76 S394 24, 508 38"></path>
-          <text x="10" y="18">Growth curve</text>
-        </svg>
+        <div class="index-chart-shell">
+          <div class="index-chart-controls">
+            <label class="sr-only" for="momentum-index-select">주가지수 선택</label>
+            <select id="momentum-index-select" class="index-select" aria-label="주가지수 선택">
+              <option value="kospi" selected>코스피</option>
+              <option value="kosdaq">코스닥</option>
+              <option value="konex">코넥스</option>
+              <option value="nasdaq">나스닥</option>
+              <option value="sp500">S&P 500</option>
+              <option value="dow">다우존스</option>
+              <option value="nikkei">니케이 225</option>
+            </select>
+            <div class="index-timeframe-tabs" role="group" aria-label="차트 단위 선택">
+              <button type="button" class="index-timeframe-btn" data-index-range="day">일봉</button>
+              <button type="button" class="index-timeframe-btn is-active" data-index-range="week" aria-pressed="true">주봉</button>
+              <button type="button" class="index-timeframe-btn" data-index-range="month">월봉</button>
+              <button type="button" class="index-timeframe-btn" data-index-range="year">1년</button>
+              <button type="button" class="index-timeframe-btn" data-index-range="minute">1분</button>
+              <button type="button" class="index-timeframe-btn" data-index-range="tick">틱</button>
+            </div>
+          </div>
+          <div class="index-chart-meta">
+            <span id="momentum-chart-caption">KOSPI weekly chart</span>
+            <strong id="momentum-range-label">주봉</strong>
+          </div>
+          <div class="index-chart-canvas-wrap">
+            <canvas id="marketMomentumChart" aria-label="주가지수 모멘텀 차트"></canvas>
+          </div>
+        </div>
       </div>
       <div class="product-ui-card-dark coinbase-float-card">
         <div class="mockup-header">
@@ -6374,7 +6522,166 @@ function chartText() {
     return CHART_TRANSLATIONS[currentLanguage] || CHART_TRANSLATIONS.ko;
 }
 
-let pieTigerChart, pieKodexChart, pieKodexTRChart, radarChart, barChart, lineChart, returnProjectionChart;
+let pieTigerChart, pieKodexChart, pieKodexTRChart, radarChart, barChart, lineChart, returnProjectionChart, marketMomentumChart;
+let marketMomentumRange = 'week';
+let marketMomentumControlsBound = false;
+
+const INDEX_TIMEFRAMES = {
+    day: { label: '일봉', caption: 'daily chart', points: 18, drift: 0.18, wave: 0.5 },
+    week: { label: '주봉', caption: 'weekly chart', points: 14, drift: 0.42, wave: 0.95 },
+    month: { label: '월봉', caption: 'monthly chart', points: 12, drift: 0.72, wave: 1.25 },
+    year: { label: '1년', caption: 'yearly chart', points: 8, drift: 1.4, wave: 1.7 },
+    minute: { label: '1분', caption: '1-minute chart', points: 20, drift: 0.04, wave: 0.26 },
+    tick: { label: '틱', caption: 'tick chart', points: 24, drift: 0.018, wave: 0.18 }
+};
+
+const INDEX_MARKETS = {
+    kospi: { name: 'KOSPI', base: 2735.4, trend: 0.8, volatility: 0.8, phase: 0.4, decimals: 2 },
+    kosdaq: { name: 'KOSDAQ', base: 846.7, trend: 0.55, volatility: 1.15, phase: 1.2, decimals: 2 },
+    konex: { name: 'KONEX', base: 982.6, trend: 0.2, volatility: 0.75, phase: 2.1, decimals: 2 },
+    nasdaq: { name: 'NASDAQ', base: 17140.2, trend: 1.05, volatility: 1.2, phase: 0.8, decimals: 2 },
+    sp500: { name: 'S&P 500', base: 5315.9, trend: 0.9, volatility: 0.8, phase: 1.7, decimals: 2 },
+    dow: { name: 'DOW', base: 38920.4, trend: 0.55, volatility: 0.55, phase: 2.6, decimals: 2 },
+    nikkei: { name: 'NIKKEI 225', base: 38490.6, trend: 0.78, volatility: 0.95, phase: 3.1, decimals: 2 }
+};
+
+function momentumIndexSelection() {
+    const select = document.getElementById('momentum-index-select');
+    return INDEX_MARKETS[select?.value] ? select.value : 'kospi';
+}
+
+function momentumLabels(rangeKey) {
+    const meta = INDEX_TIMEFRAMES[rangeKey] || INDEX_TIMEFRAMES.week;
+    return Array.from({ length: meta.points }, (_, index) => {
+        const remain = meta.points - index - 1;
+        if (!remain) return rangeKey === 'minute' || rangeKey === 'tick' ? 'Now' : '현재';
+        if (rangeKey === 'day') return `D-${remain}`;
+        if (rangeKey === 'week') return `W-${remain}`;
+        if (rangeKey === 'month') return `M-${remain}`;
+        if (rangeKey === 'year') return `${2026 - remain}`;
+        if (rangeKey === 'minute') return `-${remain}m`;
+        return `T-${remain}`;
+    });
+}
+
+function momentumSeries(marketKey, rangeKey) {
+    const market = INDEX_MARKETS[marketKey] || INDEX_MARKETS.kospi;
+    const meta = INDEX_TIMEFRAMES[rangeKey] || INDEX_TIMEFRAMES.week;
+    const points = meta.points;
+    const series = Array.from({ length: points }, (_, index) => {
+        const centered = index - points + 1;
+        const cycle = Math.sin(index * 0.84 + market.phase) * meta.wave * market.volatility;
+        const secondary = Math.cos(index * 0.41 + market.phase) * meta.wave * 0.32;
+        const drift = centered * meta.drift * market.trend;
+        const value = market.base * (1 + (cycle + secondary + drift) / 100);
+        return Number(value.toFixed(market.decimals));
+    });
+    series[series.length - 1] = Number(market.base.toFixed(market.decimals));
+    return series;
+}
+
+function formatIndexValue(value, marketKey) {
+    const market = INDEX_MARKETS[marketKey] || INDEX_MARKETS.kospi;
+    return Number(value).toLocaleString('ko-KR', {
+        minimumFractionDigits: market.decimals,
+        maximumFractionDigits: market.decimals
+    });
+}
+
+function updateMarketMomentumMeta(marketKey, rangeKey, data) {
+    const market = INDEX_MARKETS[marketKey] || INDEX_MARKETS.kospi;
+    const meta = INDEX_TIMEFRAMES[rangeKey] || INDEX_TIMEFRAMES.week;
+    const last = data[data.length - 1];
+    const previous = data[data.length - 2] ?? last;
+    const changePct = previous ? ((last - previous) / previous) * 100 : 0;
+    const nameEl = document.getElementById('momentum-index-name');
+    const priceEl = document.getElementById('momentum-index-price');
+    const changeEl = document.getElementById('momentum-index-change');
+    const captionEl = document.getElementById('momentum-chart-caption');
+    const rangeEl = document.getElementById('momentum-range-label');
+    if (nameEl) nameEl.textContent = market.name;
+    if (priceEl) priceEl.textContent = formatIndexValue(last, marketKey);
+    if (changeEl) {
+        const sign = changePct > 0 ? '+' : '';
+        changeEl.textContent = `${meta.label} ${sign}${changePct.toFixed(2)}%`;
+        changeEl.className = changePct >= 0 ? 'text-red-500' : 'text-blue-500';
+    }
+    if (captionEl) captionEl.textContent = `${market.name} ${meta.caption}`;
+    if (rangeEl) rangeEl.textContent = meta.label;
+}
+
+function marketMomentumOptions(marketKey) {
+    const colors = getChartThemeColors();
+    return {
+        responsive: true,
+        maintainAspectRatio: false,
+        interaction: { intersect: false, mode: 'index' },
+        plugins: {
+            legend: { display: false },
+            tooltip: {
+                ...chartTooltipOptions(),
+                callbacks: {
+                    label: context => `${INDEX_MARKETS[marketKey].name}: ${formatIndexValue(context.parsed.y, marketKey)}`
+                }
+            }
+        },
+        scales: {
+            x: {
+                ticks: { color: colors.muted, maxRotation: 0, autoSkip: true, font: { size: 10, family: 'Pretendard' } },
+                grid: { color: colors.grid }
+            },
+            y: {
+                ticks: { color: colors.muted, callback: value => Number(value).toLocaleString('ko-KR') },
+                grid: { color: colors.grid }
+            }
+        }
+    };
+}
+
+function renderMarketMomentumChart() {
+    const canvas = document.getElementById('marketMomentumChart');
+    if (!canvas || typeof Chart === 'undefined') return;
+    const marketKey = momentumIndexSelection();
+    const rangeKey = INDEX_TIMEFRAMES[marketMomentumRange] ? marketMomentumRange : 'week';
+    const data = momentumSeries(marketKey, rangeKey);
+    updateMarketMomentumMeta(marketKey, rangeKey, data);
+    if (marketMomentumChart) marketMomentumChart.destroy();
+    marketMomentumChart = new Chart(canvas.getContext('2d'), {
+        type: 'line',
+        data: {
+            labels: momentumLabels(rangeKey),
+            datasets: [{
+                label: INDEX_MARKETS[marketKey].name,
+                data,
+                borderColor: '#d8aa4f',
+                backgroundColor: 'rgba(216, 170, 79, 0.16)',
+                borderWidth: 3,
+                pointRadius: rangeKey === 'tick' || rangeKey === 'minute' ? 2 : 0,
+                pointHoverRadius: 4,
+                tension: rangeKey === 'tick' ? 0.18 : 0.4,
+                fill: true
+            }]
+        },
+        options: marketMomentumOptions(marketKey)
+    });
+}
+
+function bindMarketMomentumControls() {
+    if (marketMomentumControlsBound) return;
+    marketMomentumControlsBound = true;
+    document.getElementById('momentum-index-select')?.addEventListener('change', renderMarketMomentumChart);
+    document.querySelectorAll('[data-index-range]').forEach(button => {
+        button.addEventListener('click', () => {
+            marketMomentumRange = button.dataset.indexRange || 'week';
+            document.querySelectorAll('[data-index-range]').forEach(item => {
+                const active = item.dataset.indexRange === marketMomentumRange;
+                item.classList.toggle('is-active', active);
+                item.setAttribute('aria-pressed', String(active));
+            });
+            renderMarketMomentumChart();
+        });
+    });
+}
 
 function chartTooltipOptions() {
     const colors = getChartThemeColors();
@@ -6444,6 +6751,8 @@ function cartesianScales(includeTwh = false) {
 
 function createCharts() {
     const labels = chartText();
+    bindMarketMomentumControls();
+    renderMarketMomentumChart();
     pieTigerChart = new Chart(document.getElementById('pieTiger').getContext('2d'), {type:'doughnut',data:{labels:labels.tigerPie,datasets:[{data:[29,26,20,8,7,10],backgroundColor:['#ea580c','#f97316','#fb923c','#fdba74','#fed7aa','#f1f5f9'],borderWidth:1}]},options:pieOptions()});
     pieKodexChart = new Chart(document.getElementById('pieKodex').getContext('2d'), {type:'doughnut',data:{labels:labels.kodexPie,datasets:[{data:[31,12,4,3,3,47],backgroundColor:['#2563eb','#3b82f6','#60a5fa','#93c5fd','#bfdbfe','#f1f5f9'],borderWidth:1}]},options:pieOptions()});
     pieKodexTRChart = new Chart(document.getElementById('pieKodexTR').getContext('2d'), {type:'doughnut',data:{labels:labels.kodexPie,datasets:[{data:[31,12,4,3,3,47],backgroundColor:['#9333ea','#a855f7','#c084fc','#d8b4fe','#e9d5ff','#f1f5f9'],borderWidth:1}]},options:pieOptions()});
@@ -6468,6 +6777,7 @@ function updateChartsForLanguage() {
     lineChart.data.datasets[0].label = labels.kodex200tr;
     lineChart.data.datasets[1].label = labels.kodex200;
     [pieTigerChart, pieKodexChart, pieKodexTRChart, radarChart, barChart, lineChart].forEach(chart => chart.update());
+    renderMarketMomentumChart();
     renderProjectionChart();
 }
 
@@ -6484,12 +6794,13 @@ function getChartThemeColors() {
 
 function applyChartTheme(shouldUpdate = true) {
     if (typeof Chart === 'undefined' || !pieTigerChart) return;
-    const charts = [pieTigerChart, pieKodexChart, pieKodexTRChart, radarChart, barChart, lineChart, returnProjectionChart].filter(Boolean);
+    const charts = [pieTigerChart, pieKodexChart, pieKodexTRChart, radarChart, barChart, lineChart, returnProjectionChart, marketMomentumChart].filter(Boolean);
     if (!charts.length) return;
     charts.forEach(chart => {
         chart.destroy();
     });
     returnProjectionChart = null;
+    marketMomentumChart = null;
     createCharts();
     renderProjectionChart();
 }

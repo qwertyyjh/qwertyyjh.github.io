@@ -3105,8 +3105,8 @@ colors: { vibrantBlue: '#2563eb', electricTeal: '#0d9488', sunsetOrange: '#ea580
         </div>
         <div class="hero-asset-row">
           <span id="momentum-index-name">KOSPI</span>
-          <strong id="momentum-index-price">2,735.4</strong>
-          <small id="momentum-index-change">주봉</small>
+          <strong id="momentum-index-price">8,854.41</strong>
+          <small id="momentum-index-change">Naver 연결 중</small>
         </div>
         <div class="hero-asset-row">
           <span>TIGER AI Power</span>
@@ -3140,7 +3140,7 @@ colors: { vibrantBlue: '#2563eb', electricTeal: '#0d9488', sunsetOrange: '#ea580
             </div>
           </div>
           <div class="index-chart-meta">
-            <span id="momentum-chart-caption">KOSPI weekly chart</span>
+            <span id="momentum-chart-caption">KOSPI · Naver Securities</span>
             <strong id="momentum-range-label">주봉</strong>
           </div>
           <div class="index-chart-canvas-wrap">
@@ -6525,6 +6525,14 @@ function chartText() {
 let pieTigerChart, pieKodexChart, pieKodexTRChart, radarChart, barChart, lineChart, returnProjectionChart, marketMomentumChart;
 let marketMomentumRange = 'week';
 let marketMomentumControlsBound = false;
+let marketMomentumLiveTimer = null;
+let marketMomentumFetchInFlight = false;
+let marketMomentumHistoryInFlight = false;
+
+const MOMENTUM_UPDATE_INTERVAL_MS = 1000;
+const marketMomentumLiveQuotes = {};
+const marketMomentumLiveSeries = {};
+const marketMomentumHistory = {};
 
 const INDEX_TIMEFRAMES = {
     day: { label: '일봉', caption: 'daily chart', points: 18, drift: 0.18, wave: 0.5 },
@@ -6536,13 +6544,13 @@ const INDEX_TIMEFRAMES = {
 };
 
 const INDEX_MARKETS = {
-    kospi: { name: 'KOSPI', base: 2735.4, trend: 0.8, volatility: 0.8, phase: 0.4, decimals: 2 },
-    kosdaq: { name: 'KOSDAQ', base: 846.7, trend: 0.55, volatility: 1.15, phase: 1.2, decimals: 2 },
-    konex: { name: 'KONEX', base: 982.6, trend: 0.2, volatility: 0.75, phase: 2.1, decimals: 2 },
-    nasdaq: { name: 'NASDAQ', base: 17140.2, trend: 1.05, volatility: 1.2, phase: 0.8, decimals: 2 },
-    sp500: { name: 'S&P 500', base: 5315.9, trend: 0.9, volatility: 0.8, phase: 1.7, decimals: 2 },
-    dow: { name: 'DOW', base: 38920.4, trend: 0.55, volatility: 0.55, phase: 2.6, decimals: 2 },
-    nikkei: { name: 'NIKKEI 225', base: 38490.6, trend: 0.78, volatility: 0.95, phase: 3.1, decimals: 2 }
+    kospi: { name: 'KOSPI', base: 8854.41, trend: 0.8, volatility: 0.8, phase: 0.4, decimals: 2, naverKind: 'domestic', naverCode: 'KOSPI' },
+    kosdaq: { name: 'KOSDAQ', base: 1049.69, trend: 0.55, volatility: 1.15, phase: 1.2, decimals: 2, naverKind: 'domestic', naverCode: 'KOSDAQ' },
+    konex: { name: 'KONEX', base: 982.6, trend: 0.2, volatility: 0.75, phase: 2.1, decimals: 2, naverKind: 'unsupported' },
+    nasdaq: { name: 'NASDAQ', base: 26972.62, trend: 1.05, volatility: 1.2, phase: 0.8, decimals: 2, naverKind: 'world', naverCode: '.IXIC' },
+    sp500: { name: 'S&P 500', base: 7580.06, trend: 0.9, volatility: 0.8, phase: 1.7, decimals: 2, naverKind: 'world', naverCode: '.INX' },
+    dow: { name: 'DOW', base: 51032.46, trend: 0.55, volatility: 0.55, phase: 2.6, decimals: 2, naverKind: 'world', naverCode: '.DJI' },
+    nikkei: { name: 'NIKKEI 225', base: 37794.00, trend: 0.78, volatility: 0.95, phase: 3.1, decimals: 2, naverKind: 'world', naverCode: '.N225' }
 };
 
 function momentumIndexSelection() {
@@ -6566,6 +6574,8 @@ function momentumLabels(rangeKey) {
 
 function momentumSeries(marketKey, rangeKey) {
     const market = INDEX_MARKETS[marketKey] || INDEX_MARKETS.kospi;
+    const liveQuote = marketMomentumLiveQuotes[marketKey];
+    const liveBase = liveQuote && Number.isFinite(liveQuote.price) ? liveQuote.price : market.base;
     const meta = INDEX_TIMEFRAMES[rangeKey] || INDEX_TIMEFRAMES.week;
     const points = meta.points;
     const series = Array.from({ length: points }, (_, index) => {
@@ -6573,10 +6583,10 @@ function momentumSeries(marketKey, rangeKey) {
         const cycle = Math.sin(index * 0.84 + market.phase) * meta.wave * market.volatility;
         const secondary = Math.cos(index * 0.41 + market.phase) * meta.wave * 0.32;
         const drift = centered * meta.drift * market.trend;
-        const value = market.base * (1 + (cycle + secondary + drift) / 100);
+        const value = liveBase * (1 + (cycle + secondary + drift) / 100);
         return Number(value.toFixed(market.decimals));
     });
-    series[series.length - 1] = Number(market.base.toFixed(market.decimals));
+    series[series.length - 1] = Number(liveBase.toFixed(market.decimals));
     return series;
 }
 
@@ -6588,9 +6598,159 @@ function formatIndexValue(value, marketKey) {
     });
 }
 
-function updateMarketMomentumMeta(marketKey, rangeKey, data) {
+function marketMomentumNowLabel() {
+    return new Date().toLocaleTimeString('ko-KR', {
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: false
+    });
+}
+
+function normalizeNaverDomesticMomentumQuote(data, marketKey) {
+    return {
+        marketKey,
+        price: naverNumber(data.nv, 100),
+        change: naverNumber(data.cv, 100),
+        percent: toNumber(data.cr),
+        open: naverNumber(data.ov, 100),
+        high: naverNumber(data.hv, 100),
+        low: naverNumber(data.lv, 100),
+        status: data.ms || '',
+        tradedAt: marketMomentumNowLabel(),
+        source: 'Naver Securities'
+    };
+}
+
+async function fetchNaverDomesticMomentumQuote(marketKey) {
+    const market = INDEX_MARKETS[marketKey] || INDEX_MARKETS.kospi;
+    const response = await loadNaverRealtime(`SERVICE_INDEX:${market.naverCode}`);
+    const datas = response?.result?.areas?.flatMap(area => Array.isArray(area.datas) ? area.datas : []) || [];
+    const row = datas.find(item => String(item.cd) === market.naverCode);
+    if (!row) throw new Error(`Naver domestic index missing: ${market.naverCode}`);
+    return normalizeNaverDomesticMomentumQuote(row, marketKey);
+}
+
+function normalizeNaverWorldMomentumQuote(data, marketKey) {
+    return {
+        marketKey,
+        price: toNumber(data.closePrice),
+        change: toNumber(data.compareToPreviousClosePrice),
+        percent: toNumber(data.fluctuationsRatio),
+        status: data.delayTimeName || 'Naver',
+        tradedAt: data.localTradedAt || marketMomentumNowLabel(),
+        source: 'Naver Securities'
+    };
+}
+
+async function fetchNaverWorldMomentumQuote(marketKey) {
+    const market = INDEX_MARKETS[marketKey] || INDEX_MARKETS.nasdaq;
+    const url = `https://api.stock.naver.com/index/${encodeURIComponent(market.naverCode)}/basic?_=${Date.now()}`;
+    const data = await fetchJsonWithProxy(url);
+    if (!data || data.code === 'StockConflict') {
+        throw new Error(data?.message || `Naver world index missing: ${market.naverCode}`);
+    }
+    return normalizeNaverWorldMomentumQuote(data, marketKey);
+}
+
+async function fetchNaverMomentumQuote(marketKey = momentumIndexSelection()) {
+    const market = INDEX_MARKETS[marketKey] || INDEX_MARKETS.kospi;
+    if (market.naverKind === 'domestic') return fetchNaverDomesticMomentumQuote(marketKey);
+    if (market.naverKind === 'world') return fetchNaverWorldMomentumQuote(marketKey);
+    throw new Error(`${market.name} Naver realtime feed is unavailable.`);
+}
+
+async function fetchNaverDomesticMomentumHistory(marketKey) {
+    const market = INDEX_MARKETS[marketKey] || INDEX_MARKETS.kospi;
+    if (market.naverKind !== 'domestic') return [];
+    const url = `https://m.stock.naver.com/api/index/${encodeURIComponent(market.naverCode)}/price?pageSize=260&page=1&_=${Date.now()}`;
+    const rows = await fetchJsonWithProxy(url);
+    if (!Array.isArray(rows)) throw new Error(`Naver index history missing: ${market.naverCode}`);
+    return rows.map(row => ({
+        label: row.localTradedAt || row.bizdate || '',
+        close: toNumber(row.closePrice)
+    })).filter(row => row.label && Number.isFinite(row.close)).reverse();
+}
+
+async function refreshMarketMomentumHistory(marketKey) {
+    const market = INDEX_MARKETS[marketKey] || INDEX_MARKETS.kospi;
+    if (market.naverKind !== 'domestic' || marketMomentumHistoryInFlight) return;
+    marketMomentumHistoryInFlight = true;
+    try {
+        const rows = await fetchNaverDomesticMomentumHistory(marketKey);
+        if (rows.length) marketMomentumHistory[marketKey] = rows;
+    } catch (error) {
+        console.warn('Naver index history failed:', error);
+    } finally {
+        marketMomentumHistoryInFlight = false;
+    }
+}
+
+function recordMarketMomentumLivePoint(marketKey, quote) {
+    if (!quote || !Number.isFinite(quote.price)) return;
+    const next = marketMomentumLiveSeries[marketKey] || [];
+    next.push({ label: marketMomentumNowLabel(), close: Number(quote.price) });
+    marketMomentumLiveSeries[marketKey] = next.slice(-90);
+}
+
+function formatMomentumHistoryLabel(label, rangeKey) {
+    const match = String(label).match(/^(\d{4})-(\d{2})-(\d{2})/);
+    if (!match) return label;
+    if (rangeKey === 'year') return `${match[1].slice(2)}.${match[2]}`;
+    return `${match[2]}/${match[3]}`;
+}
+
+function pickMarketMomentumHistoryRows(rows, rangeKey) {
+    const meta = INDEX_TIMEFRAMES[rangeKey] || INDEX_TIMEFRAMES.week;
+    const windows = { day: 22, week: 70, month: 180, year: 260 };
+    const recent = rows.slice(-(windows[rangeKey] || meta.points));
+    if (recent.length <= meta.points) return recent;
+    const step = (recent.length - 1) / (meta.points - 1);
+    return Array.from({ length: meta.points }, (_, index) => recent[Math.round(index * step)]);
+}
+
+function marketMomentumLivePayload(marketKey, rangeKey) {
+    const meta = INDEX_TIMEFRAMES[rangeKey] || INDEX_TIMEFRAMES.week;
+    const series = (marketMomentumLiveSeries[marketKey] || []).slice(-meta.points);
+    if (series.length < 2) return null;
+    return {
+        labels: series.map(item => item.label),
+        data: series.map(item => Number(item.close)),
+        source: 'naver-live'
+    };
+}
+
+function marketMomentumHistoryPayload(marketKey, rangeKey) {
+    if (rangeKey === 'minute' || rangeKey === 'tick') return null;
+    const rows = marketMomentumHistory[marketKey] || [];
+    if (!rows.length) return null;
+    const selected = pickMarketMomentumHistoryRows(rows, rangeKey);
+    return {
+        labels: selected.map(row => formatMomentumHistoryLabel(row.label, rangeKey)),
+        data: selected.map(row => Number(row.close)),
+        source: 'naver-history'
+    };
+}
+
+function marketMomentumPayload(marketKey, rangeKey) {
+    const livePayload = (rangeKey === 'minute' || rangeKey === 'tick')
+        ? marketMomentumLivePayload(marketKey, rangeKey)
+        : null;
+    if (livePayload) return livePayload;
+    const historyPayload = marketMomentumHistoryPayload(marketKey, rangeKey);
+    if (historyPayload) return historyPayload;
+    return {
+        labels: momentumLabels(rangeKey),
+        data: momentumSeries(marketKey, rangeKey),
+        source: 'fallback'
+    };
+}
+
+function updateMarketMomentumMeta(marketKey, rangeKey, payload) {
     const market = INDEX_MARKETS[marketKey] || INDEX_MARKETS.kospi;
     const meta = INDEX_TIMEFRAMES[rangeKey] || INDEX_TIMEFRAMES.week;
+    const data = payload.data || [];
+    const liveQuote = marketMomentumLiveQuotes[marketKey];
     const last = data[data.length - 1];
     const previous = data[data.length - 2] ?? last;
     const changePct = previous ? ((last - previous) / previous) * 100 : 0;
@@ -6600,13 +6760,32 @@ function updateMarketMomentumMeta(marketKey, rangeKey, data) {
     const captionEl = document.getElementById('momentum-chart-caption');
     const rangeEl = document.getElementById('momentum-range-label');
     if (nameEl) nameEl.textContent = market.name;
-    if (priceEl) priceEl.textContent = formatIndexValue(last, marketKey);
+    const displayPrice = liveQuote && Number.isFinite(liveQuote.price) ? liveQuote.price : last;
+    if (priceEl && Number.isFinite(displayPrice)) priceEl.textContent = formatIndexValue(displayPrice, marketKey);
     if (changeEl) {
-        const sign = changePct > 0 ? '+' : '';
-        changeEl.textContent = `${meta.label} ${sign}${changePct.toFixed(2)}%`;
-        changeEl.className = changePct >= 0 ? 'text-red-500' : 'text-blue-500';
+        if (market.naverKind === 'unsupported') {
+            changeEl.textContent = 'Naver 미지원';
+            changeEl.className = 'text-gray-500';
+        } else if (liveQuote && Number.isFinite(liveQuote.percent)) {
+            const diff = Number.isFinite(liveQuote.change) ? liveQuote.change : 0;
+            const sign = diff > 0 ? '+' : '';
+            changeEl.textContent = `실시간 ${sign}${formatIndexValue(Math.abs(diff), marketKey)} · ${sign}${liveQuote.percent.toFixed(2)}%`;
+            changeEl.className = diff > 0 ? 'text-red-500' : (diff < 0 ? 'text-blue-500' : 'text-gray-500');
+        } else {
+            const sign = changePct > 0 ? '+' : '';
+            changeEl.textContent = `Naver 연결 중 · ${meta.label} ${sign}${changePct.toFixed(2)}%`;
+            changeEl.className = changePct >= 0 ? 'text-red-500' : 'text-blue-500';
+        }
     }
-    if (captionEl) captionEl.textContent = `${market.name} ${meta.caption}`;
+    if (captionEl) {
+        if (market.naverKind === 'unsupported') {
+            captionEl.textContent = `${market.name} · 네이버 실시간 지수 미지원`;
+        } else if (liveQuote) {
+            captionEl.textContent = `${market.name} · Naver Securities · ${liveQuote.tradedAt}`;
+        } else {
+            captionEl.textContent = `${market.name} · Naver Securities 연결 중`;
+        }
+    }
     if (rangeEl) rangeEl.textContent = meta.label;
 }
 
@@ -6643,33 +6822,77 @@ function renderMarketMomentumChart() {
     if (!canvas || typeof Chart === 'undefined') return;
     const marketKey = momentumIndexSelection();
     const rangeKey = INDEX_TIMEFRAMES[marketMomentumRange] ? marketMomentumRange : 'week';
-    const data = momentumSeries(marketKey, rangeKey);
-    updateMarketMomentumMeta(marketKey, rangeKey, data);
-    if (marketMomentumChart) marketMomentumChart.destroy();
-    marketMomentumChart = new Chart(canvas.getContext('2d'), {
-        type: 'line',
-        data: {
-            labels: momentumLabels(rangeKey),
-            datasets: [{
-                label: INDEX_MARKETS[marketKey].name,
-                data,
-                borderColor: '#d8aa4f',
-                backgroundColor: 'rgba(216, 170, 79, 0.16)',
-                borderWidth: 3,
-                pointRadius: rangeKey === 'tick' || rangeKey === 'minute' ? 2 : 0,
-                pointHoverRadius: 4,
-                tension: rangeKey === 'tick' ? 0.18 : 0.4,
-                fill: true
-            }]
-        },
-        options: marketMomentumOptions(marketKey)
-    });
+    const payload = marketMomentumPayload(marketKey, rangeKey);
+    updateMarketMomentumMeta(marketKey, rangeKey, payload);
+    const chartData = {
+        labels: payload.labels,
+        datasets: [{
+            label: INDEX_MARKETS[marketKey].name,
+            data: payload.data,
+            borderColor: '#d8aa4f',
+            backgroundColor: 'rgba(216, 170, 79, 0.16)',
+            borderWidth: 3,
+            pointRadius: rangeKey === 'tick' || rangeKey === 'minute' ? 2 : 0,
+            pointHoverRadius: 4,
+            tension: rangeKey === 'tick' ? 0.18 : 0.4,
+            fill: true
+        }]
+    };
+    if (!marketMomentumChart) {
+        marketMomentumChart = new Chart(canvas.getContext('2d'), {
+            type: 'line',
+            data: chartData,
+            options: marketMomentumOptions(marketKey)
+        });
+        return;
+    }
+    marketMomentumChart.data = chartData;
+    marketMomentumChart.options = marketMomentumOptions(marketKey);
+    marketMomentumChart.update('none');
+}
+
+async function refreshMarketMomentumFromNaver(forceHistory = false) {
+    const marketKey = momentumIndexSelection();
+    const market = INDEX_MARKETS[marketKey] || INDEX_MARKETS.kospi;
+    if (forceHistory) refreshMarketMomentumHistory(marketKey);
+    if (market.naverKind === 'unsupported') {
+        renderMarketMomentumChart();
+        return;
+    }
+    if (marketMomentumFetchInFlight) return;
+    marketMomentumFetchInFlight = true;
+    try {
+        const quote = await fetchNaverMomentumQuote(marketKey);
+        if (quote && Number.isFinite(quote.price)) {
+            marketMomentumLiveQuotes[marketKey] = quote;
+            market.base = quote.price;
+            recordMarketMomentumLivePoint(marketKey, quote);
+        }
+    } catch (error) {
+        console.warn('Naver market momentum update failed:', error);
+        const captionEl = document.getElementById('momentum-chart-caption');
+        if (captionEl) captionEl.textContent = `${market.name} · Naver 재시도 중`;
+    } finally {
+        marketMomentumFetchInFlight = false;
+        renderMarketMomentumChart();
+    }
+}
+
+function startMarketMomentumLiveRefresh() {
+    if (marketMomentumLiveTimer) clearInterval(marketMomentumLiveTimer);
+    refreshMarketMomentumFromNaver(true);
+    marketMomentumLiveTimer = setInterval(() => {
+        refreshMarketMomentumFromNaver(false);
+    }, MOMENTUM_UPDATE_INTERVAL_MS);
 }
 
 function bindMarketMomentumControls() {
     if (marketMomentumControlsBound) return;
     marketMomentumControlsBound = true;
-    document.getElementById('momentum-index-select')?.addEventListener('change', renderMarketMomentumChart);
+    document.getElementById('momentum-index-select')?.addEventListener('change', () => {
+        renderMarketMomentumChart();
+        refreshMarketMomentumFromNaver(true);
+    });
     document.querySelectorAll('[data-index-range]').forEach(button => {
         button.addEventListener('click', () => {
             marketMomentumRange = button.dataset.indexRange || 'week';
@@ -6679,6 +6902,7 @@ function bindMarketMomentumControls() {
                 item.setAttribute('aria-pressed', String(active));
             });
             renderMarketMomentumChart();
+            refreshMarketMomentumFromNaver(false);
         });
     });
 }
@@ -6753,6 +6977,7 @@ function createCharts() {
     const labels = chartText();
     bindMarketMomentumControls();
     renderMarketMomentumChart();
+    startMarketMomentumLiveRefresh();
     pieTigerChart = new Chart(document.getElementById('pieTiger').getContext('2d'), {type:'doughnut',data:{labels:labels.tigerPie,datasets:[{data:[29,26,20,8,7,10],backgroundColor:['#ea580c','#f97316','#fb923c','#fdba74','#fed7aa','#f1f5f9'],borderWidth:1}]},options:pieOptions()});
     pieKodexChart = new Chart(document.getElementById('pieKodex').getContext('2d'), {type:'doughnut',data:{labels:labels.kodexPie,datasets:[{data:[31,12,4,3,3,47],backgroundColor:['#2563eb','#3b82f6','#60a5fa','#93c5fd','#bfdbfe','#f1f5f9'],borderWidth:1}]},options:pieOptions()});
     pieKodexTRChart = new Chart(document.getElementById('pieKodexTR').getContext('2d'), {type:'doughnut',data:{labels:labels.kodexPie,datasets:[{data:[31,12,4,3,3,47],backgroundColor:['#9333ea','#a855f7','#c084fc','#d8b4fe','#e9d5ff','#f1f5f9'],borderWidth:1}]},options:pieOptions()});

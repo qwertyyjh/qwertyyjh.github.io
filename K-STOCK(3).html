@@ -1008,11 +1008,49 @@ body.coinbase-kstock .index-chart-shell {
   gap: 10px;
 }
 
+body.coinbase-kstock .tradingview-chart-screen {
+  min-width: 0;
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.012)),
+    rgba(5, 7, 13, 0.52);
+  overflow: hidden;
+}
+
+body.coinbase-kstock .tv-chart-toolbar {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.035);
+}
+
 body.coinbase-kstock .index-chart-controls {
   display: grid;
   grid-template-columns: minmax(130px, 0.85fr) minmax(0, 1.75fr) minmax(126px, 0.65fr);
   gap: 8px;
   align-items: center;
+}
+
+body.coinbase-kstock .tv-toolbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+body.coinbase-kstock .tv-toolbar-btn {
+  min-height: 30px;
+  padding: 0 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--cb-muted-soft);
+  font-size: 11px;
+  font-weight: 900;
+  white-space: nowrap;
 }
 
 body.coinbase-kstock .index-select {
@@ -1077,6 +1115,99 @@ body.coinbase-kstock .index-chart-meta {
   gap: 12px;
 }
 
+body.coinbase-kstock .tv-symbol-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: start;
+  padding: 12px 12px 8px;
+}
+
+body.coinbase-kstock .tv-symbol-title {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+body.coinbase-kstock .tv-symbol-title strong {
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 900;
+  letter-spacing: 0;
+}
+
+body.coinbase-kstock .tv-symbol-title span {
+  min-height: 22px;
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  padding: 0 8px;
+  background: rgba(216, 170, 79, 0.14);
+  color: #f5c765;
+  font-size: 10px;
+  font-weight: 900;
+}
+
+body.coinbase-kstock .tv-symbol-subtitle {
+  margin-top: 5px;
+  color: var(--cb-muted-soft);
+  font-size: 11px;
+  font-weight: 800;
+}
+
+body.coinbase-kstock .tv-session-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 26px;
+  padding: 0 9px;
+  border-radius: 999px;
+  border: 1px solid rgba(46, 204, 113, 0.22);
+  background: rgba(46, 204, 113, 0.09);
+  color: #4ade80;
+  font-size: 11px;
+  font-weight: 900;
+  white-space: nowrap;
+}
+
+body.coinbase-kstock .tv-session-status::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: currentColor;
+  box-shadow: 0 0 0 4px rgba(74, 222, 128, 0.12);
+}
+
+body.coinbase-kstock .tv-ohlc-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+  padding: 0 12px 10px;
+  color: var(--cb-muted-soft);
+  font-family: var(--cb-mono);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+body.coinbase-kstock .tv-ohlc-strip span {
+  display: inline-flex;
+  gap: 4px;
+  align-items: baseline;
+  white-space: nowrap;
+}
+
+body.coinbase-kstock .tv-ohlc-strip b {
+  color: #ffffff;
+  font-weight: 800;
+}
+
+body.coinbase-kstock .tv-chart-meta {
+  padding: 0 12px 8px;
+}
+
 body.coinbase-kstock .index-chart-meta strong {
   color: #ffffff;
   font-family: var(--cb-mono);
@@ -1093,16 +1224,95 @@ body.coinbase-kstock .index-chart-meta span {
 
 body.coinbase-kstock .index-chart-canvas-wrap {
   position: relative;
-  height: 184px;
-  border-radius: 18px;
-  border: 1px solid rgba(255, 255, 255, 0.09);
+  height: 300px;
+  border-radius: 0;
+  border: 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.01)),
+    repeating-linear-gradient(90deg, transparent 0, transparent calc(20% - 1px), rgba(255, 255, 255, 0.045) calc(20% - 1px), rgba(255, 255, 255, 0.045) 20%),
+    repeating-linear-gradient(180deg, transparent 0, transparent calc(25% - 1px), rgba(255, 255, 255, 0.045) calc(25% - 1px), rgba(255, 255, 255, 0.045) 25%),
     rgba(5, 7, 13, 0.34);
   overflow: hidden;
 }
 
+body.coinbase-kstock .tv-chart-watermark {
+  position: absolute;
+  left: 18px;
+  top: 34px;
+  z-index: 1;
+  color: rgba(255, 255, 255, 0.08);
+  font-size: clamp(38px, 7vw, 86px);
+  font-weight: 900;
+  line-height: 1;
+  pointer-events: none;
+  user-select: none;
+}
+
+body.coinbase-kstock .tv-crosshair {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+}
+
+body.coinbase-kstock .tv-crosshair::before,
+body.coinbase-kstock .tv-crosshair::after {
+  content: "";
+  position: absolute;
+  background: rgba(216, 170, 79, 0.28);
+}
+
+body.coinbase-kstock .tv-crosshair::before {
+  top: 0;
+  bottom: 0;
+  right: 18%;
+  width: 1px;
+}
+
+body.coinbase-kstock .tv-crosshair::after {
+  left: 0;
+  right: 0;
+  top: 42%;
+  height: 1px;
+}
+
+body.coinbase-kstock .tv-price-bubble {
+  position: absolute;
+  right: 8px;
+  z-index: 4;
+  transform: translateY(-50%);
+  min-height: 24px;
+  display: inline-flex;
+  align-items: center;
+  padding: 0 8px;
+  border-radius: 6px;
+  background: #ef4444;
+  color: #ffffff;
+  font-family: var(--cb-mono);
+  font-size: 11px;
+  font-weight: 900;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.24);
+  pointer-events: none;
+}
+
+body.coinbase-kstock .tv-price-bubble.is-down {
+  background: #3b82f6;
+}
+
+body.coinbase-kstock .tv-volume-legend {
+  position: absolute;
+  left: 16px;
+  bottom: 12px;
+  z-index: 4;
+  color: var(--cb-muted-soft);
+  font-size: 11px;
+  font-weight: 900;
+  pointer-events: none;
+}
+
 body.coinbase-kstock #marketMomentumChart {
+  position: relative;
+  z-index: 2;
   width: 100% !important;
   height: 100% !important;
 }
@@ -1793,7 +2003,20 @@ body.coinbase-kstock main > section {
     padding: 20px;
   }
 
+  body.coinbase-kstock .tv-chart-toolbar,
   body.coinbase-kstock .index-chart-controls {
+    grid-template-columns: 1fr;
+  }
+
+  body.coinbase-kstock .tv-toolbar-actions {
+    justify-content: stretch;
+  }
+
+  body.coinbase-kstock .tv-toolbar-btn {
+    flex: 1;
+  }
+
+  body.coinbase-kstock .tv-symbol-row {
     grid-template-columns: 1fr;
   }
 
@@ -1828,7 +2051,7 @@ body.coinbase-kstock main > section {
   }
 
   body.coinbase-kstock .index-chart-canvas-wrap {
-    height: 150px;
+    height: 280px;
   }
 
   body.coinbase-kstock .coinbase-float-card {
@@ -2330,15 +2553,50 @@ body.nabakai-kstock .coinbase-mini-chart path {
 
 body.nabakai-kstock .index-select,
 body.nabakai-kstock .index-timeframe-tabs,
-body.nabakai-kstock .index-chart-type-tabs {
+body.nabakai-kstock .index-chart-type-tabs,
+body.nabakai-kstock .tv-toolbar-btn {
   background: var(--nb-sec) !important;
   border-color: var(--nb-border) !important;
   color: var(--nb-text) !important;
 }
 
+body.nabakai-kstock .tradingview-chart-screen {
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--nb-sec) 66%, transparent), color-mix(in srgb, var(--nb-card) 92%, transparent)),
+    var(--nb-card) !important;
+  border-color: var(--nb-border) !important;
+}
+
+body.nabakai-kstock .tv-chart-toolbar {
+  background: color-mix(in srgb, var(--nb-sec) 74%, transparent) !important;
+  border-color: var(--nb-border) !important;
+}
+
+body.nabakai-kstock .tv-symbol-title strong,
+body.nabakai-kstock .tv-ohlc-strip b {
+  color: var(--nb-text) !important;
+}
+
+body.nabakai-kstock .tv-symbol-subtitle,
+body.nabakai-kstock .tv-ohlc-strip,
+body.nabakai-kstock .tv-volume-legend {
+  color: var(--nb-text-ter) !important;
+}
+
+body.nabakai-kstock .tv-symbol-title span {
+  background: var(--nb-up-bg) !important;
+  color: var(--nb-up) !important;
+}
+
+body.nabakai-kstock .tv-chart-watermark {
+  color: color-mix(in srgb, var(--nb-text) 8%, transparent) !important;
+}
+
 body.nabakai-kstock .index-chart-canvas-wrap {
   border-color: var(--nb-border) !important;
   background:
+    repeating-linear-gradient(90deg, transparent 0, transparent calc(20% - 1px), color-mix(in srgb, var(--nb-text) 8%, transparent) calc(20% - 1px), color-mix(in srgb, var(--nb-text) 8%, transparent) 20%),
+    repeating-linear-gradient(180deg, transparent 0, transparent calc(25% - 1px), color-mix(in srgb, var(--nb-text) 8%, transparent) calc(25% - 1px), color-mix(in srgb, var(--nb-text) 8%, transparent) 25%),
     linear-gradient(180deg, color-mix(in srgb, var(--nb-sec) 72%, transparent), color-mix(in srgb, var(--nb-card) 92%, transparent)),
     var(--nb-card) !important;
 }
@@ -3537,36 +3795,66 @@ colors: { vibrantBlue: '#2563eb', electricTeal: '#0d9488', sunsetOrange: '#ea580
           <small id="momentum-index-change">Naver 연결 중</small>
         </div>
         <div class="index-chart-shell">
-          <div class="index-chart-controls">
-            <label class="sr-only" for="momentum-index-select">주가지수 선택</label>
-            <select id="momentum-index-select" class="index-select" aria-label="주가지수 선택">
-              <option value="kospi" selected>코스피</option>
-              <option value="kosdaq">코스닥</option>
-              <option value="konex">코넥스</option>
-              <option value="nasdaq">나스닥</option>
-              <option value="sp500">S&P 500</option>
-              <option value="dow">다우존스</option>
-              <option value="nikkei">니케이 225</option>
-            </select>
-            <div class="index-timeframe-tabs" role="group" aria-label="차트 단위 선택">
-              <button type="button" class="index-timeframe-btn" data-index-range="day">일봉</button>
-              <button type="button" class="index-timeframe-btn is-active" data-index-range="week" aria-pressed="true">주봉</button>
-              <button type="button" class="index-timeframe-btn" data-index-range="month">월봉</button>
-              <button type="button" class="index-timeframe-btn" data-index-range="year">1년</button>
-              <button type="button" class="index-timeframe-btn" data-index-range="minute">1분</button>
-              <button type="button" class="index-timeframe-btn" data-index-range="tick">틱</button>
+          <div class="tradingview-chart-screen" aria-label="TradingView style stock chart screen">
+            <div class="tv-chart-toolbar">
+              <div class="index-chart-controls">
+                <label class="sr-only" for="momentum-index-select">주가지수 선택</label>
+                <select id="momentum-index-select" class="index-select" aria-label="주가지수 선택">
+                  <option value="kospi" selected>코스피</option>
+                  <option value="kosdaq">코스닥</option>
+                  <option value="konex">코넥스</option>
+                  <option value="nasdaq">나스닥</option>
+                  <option value="sp500">S&P 500</option>
+                  <option value="dow">다우존스</option>
+                  <option value="nikkei">니케이 225</option>
+                </select>
+                <div class="index-timeframe-tabs" role="group" aria-label="차트 단위 선택">
+                  <button type="button" class="index-timeframe-btn" data-index-range="day">일봉</button>
+                  <button type="button" class="index-timeframe-btn is-active" data-index-range="week" aria-pressed="true">주봉</button>
+                  <button type="button" class="index-timeframe-btn" data-index-range="month">월봉</button>
+                  <button type="button" class="index-timeframe-btn" data-index-range="year">1년</button>
+                  <button type="button" class="index-timeframe-btn" data-index-range="minute">1분</button>
+                  <button type="button" class="index-timeframe-btn" data-index-range="tick">틱</button>
+                </div>
+                <div class="index-chart-type-tabs" role="group" aria-label="차트 표시 방식 선택">
+                  <button type="button" class="index-chart-type-btn" data-index-chart-view="line" aria-pressed="false">선</button>
+                  <button type="button" class="index-chart-type-btn is-active" data-index-chart-view="candle" aria-pressed="true">캔들</button>
+                </div>
+              </div>
+              <div class="tv-toolbar-actions" aria-hidden="true">
+                <button type="button" class="tv-toolbar-btn" tabindex="-1">지표</button>
+                <button type="button" class="tv-toolbar-btn" tabindex="-1">알림</button>
+                <button type="button" class="tv-toolbar-btn" tabindex="-1">저장</button>
+              </div>
             </div>
-            <div class="index-chart-type-tabs" role="group" aria-label="차트 표시 방식 선택">
-              <button type="button" class="index-chart-type-btn is-active" data-index-chart-view="line" aria-pressed="true">선</button>
-              <button type="button" class="index-chart-type-btn" data-index-chart-view="candle" aria-pressed="false">캔들</button>
+            <div class="tv-symbol-row">
+              <div>
+                <div class="tv-symbol-title">
+                  <strong id="momentum-tv-symbol">KOSPI</strong>
+                  <span id="momentum-tv-market">KRX INDEX</span>
+                </div>
+                <div id="momentum-tv-source" class="tv-symbol-subtitle">Naver Securities · 실시간 연결 중</div>
+              </div>
+              <span id="momentum-tv-status" class="tv-session-status">Live</span>
             </div>
-          </div>
-          <div class="index-chart-meta">
-            <span id="momentum-chart-caption">KOSPI · Naver Securities</span>
-            <strong id="momentum-range-label">주봉</strong>
-          </div>
-          <div class="index-chart-canvas-wrap">
-            <canvas id="marketMomentumChart" aria-label="주가지수 모멘텀 차트"></canvas>
+            <div class="tv-ohlc-strip" aria-label="OHLC data">
+              <span>O <b id="momentum-tv-open">--</b></span>
+              <span>H <b id="momentum-tv-high">--</b></span>
+              <span>L <b id="momentum-tv-low">--</b></span>
+              <span>C <b id="momentum-tv-close">--</b></span>
+              <span>VOL <b id="momentum-tv-volume">--</b></span>
+            </div>
+            <div class="index-chart-meta tv-chart-meta">
+              <span id="momentum-chart-caption">KOSPI · Naver Securities</span>
+              <strong id="momentum-range-label">주봉</strong>
+            </div>
+            <div class="index-chart-canvas-wrap">
+              <div id="momentum-tv-watermark" class="tv-chart-watermark" aria-hidden="true">KOSPI</div>
+              <canvas id="marketMomentumChart" aria-label="주가지수 모멘텀 차트"></canvas>
+              <div class="tv-crosshair" aria-hidden="true"></div>
+              <div id="momentum-tv-price-bubble" class="tv-price-bubble" aria-hidden="true">--</div>
+              <div id="momentum-tv-volume-legend" class="tv-volume-legend" aria-hidden="true">VOL --</div>
+            </div>
           </div>
         </div>
         <div class="hero-etf-panel" aria-label="ETF and stock live board">
@@ -7396,7 +7684,7 @@ function chartText() {
 
 let pieTigerChart, pieKodexChart, pieKodexTRChart, radarChart, barChart, lineChart, returnProjectionChart, marketMomentumChart;
 let marketMomentumRange = 'week';
-let marketMomentumChartView = 'line';
+let marketMomentumChartView = 'candle';
 let marketMomentumControlsBound = false;
 let marketMomentumLiveTimer = null;
 let marketMomentumFetchInFlight = false;
@@ -7623,13 +7911,47 @@ function marketMomentumPayload(marketKey, rangeKey) {
 
 const marketMomentumCandlePlugin = {
     id: 'marketMomentumCandles',
+    beforeDatasetsDraw(chart, args, options) {
+        if (!options || !Array.isArray(options.candles) || !options.candles.length) return;
+        const { ctx, chartArea } = chart;
+        if (!ctx || !chartArea) return;
+        const candles = options.candles;
+        const maxVolume = Math.max(...candles.map(item => item.volume || 0), 1);
+        const slot = chartArea.width / Math.max(candles.length, 1);
+        const barWidth = Math.min(18, Math.max(4, slot * 0.52));
+        const volumeHeight = chartArea.height * 0.22;
+        const volumeTop = chartArea.bottom - volumeHeight;
+        ctx.save();
+        candles.forEach((item, index) => {
+            const x = chart.scales.x.getPixelForValue(index);
+            const height = Math.max(2, (Number(item.volume) / maxVolume) * volumeHeight);
+            const rising = item.close >= item.open;
+            ctx.fillStyle = rising ? 'rgba(239, 68, 68, 0.18)' : 'rgba(59, 130, 246, 0.18)';
+            ctx.fillRect(x - barWidth / 2, volumeTop + volumeHeight - height, barWidth, height);
+        });
+        ctx.restore();
+    },
     afterDatasetsDraw(chart, args, options) {
-        if (!options || !options.enabled || !Array.isArray(options.candles)) return;
+        if (!options || !Array.isArray(options.candles)) return;
         const candles = options.candles;
         const { ctx, chartArea, scales } = chart;
         const xScale = scales.x;
         const yScale = scales.y;
         if (!ctx || !chartArea || !xScale || !yScale || !candles.length) return;
+        const last = candles[candles.length - 1];
+        const lastY = yScale.getPixelForValue(last.close);
+        if (Number.isFinite(lastY)) {
+            ctx.save();
+            ctx.strokeStyle = last.close >= last.open ? 'rgba(239, 68, 68, 0.5)' : 'rgba(59, 130, 246, 0.5)';
+            ctx.setLineDash([5, 5]);
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(chartArea.left, lastY);
+            ctx.lineTo(chartArea.right, lastY);
+            ctx.stroke();
+            ctx.restore();
+        }
+        if (options.view !== 'candle') return;
         const slot = chartArea.width / Math.max(candles.length, 1);
         const bodyWidth = Math.min(18, Math.max(7, slot * 0.56));
         ctx.save();
@@ -7677,12 +7999,15 @@ function marketMomentumCandles(payload, marketKey, rangeKey) {
         const closeValue = Number(close.toFixed(market.decimals));
         const high = Number((Math.max(open, closeValue) + spread * (1.05 + Math.abs(wave) * 0.42)).toFixed(market.decimals));
         const low = Number((Math.min(open, closeValue) - spread * (0.92 + Math.abs(Math.cos(index + market.phase)) * 0.35)).toFixed(market.decimals));
+        const volumeBase = rangeKey === 'minute' || rangeKey === 'tick' ? 90000 : 680000;
+        const volume = Math.round(volumeBase * (1 + Math.abs(wave) * 0.72 + Math.abs(closeValue - open) / Math.max(closeValue, 1) * 45));
         return {
             label: payload.labels[index],
             open,
             high,
             low,
-            close: closeValue
+            close: closeValue,
+            volume
         };
     });
 }
@@ -7695,6 +8020,55 @@ function candleExtremes(candles) {
     const min = Math.min(...lows);
     const pad = Math.max((max - min) * 0.08, Math.abs(max || min) * 0.002);
     return { suggestedMin: min - pad, suggestedMax: max + pad };
+}
+
+function compactVolume(value) {
+    const number = Number(value);
+    if (!Number.isFinite(number)) return '--';
+    if (number >= 100000000) return `${(number / 100000000).toFixed(1)}억`;
+    if (number >= 10000) return `${(number / 10000).toFixed(1)}만`;
+    return Math.round(number).toLocaleString('ko-KR');
+}
+
+function updateMarketMomentumTradingViewOverlay(marketKey, rangeKey, candles) {
+    const market = INDEX_MARKETS[marketKey] || INDEX_MARKETS.kospi;
+    const meta = INDEX_TIMEFRAMES[rangeKey] || INDEX_TIMEFRAMES.week;
+    const last = candles[candles.length - 1];
+    if (!last) return;
+    const setText = (id, value) => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = value;
+    };
+    setText('momentum-tv-symbol', market.name);
+    setText('momentum-tv-market', market.naverKind === 'world' ? 'GLOBAL INDEX' : 'KRX INDEX');
+    setText('momentum-tv-open', formatIndexValue(last.open, marketKey));
+    setText('momentum-tv-high', formatIndexValue(last.high, marketKey));
+    setText('momentum-tv-low', formatIndexValue(last.low, marketKey));
+    setText('momentum-tv-close', formatIndexValue(last.close, marketKey));
+    setText('momentum-tv-volume', compactVolume(last.volume));
+    setText('momentum-tv-watermark', market.name);
+    setText('momentum-tv-volume-legend', `VOL ${compactVolume(last.volume)}`);
+    const liveQuote = marketMomentumLiveQuotes[marketKey];
+    const source = liveQuote
+        ? `${liveQuote.source || 'Naver Securities'} · ${liveQuote.tradedAt || marketMomentumNowLabel()}`
+        : `${meta.label} · Naver Securities 연결 중`;
+    setText('momentum-tv-source', source);
+    setText('momentum-tv-status', liveQuote ? 'Live' : 'Syncing');
+    const bubble = document.getElementById('momentum-tv-price-bubble');
+    if (bubble) {
+        bubble.textContent = formatIndexValue(last.close, marketKey);
+        bubble.classList.toggle('is-down', last.close < last.open);
+    }
+}
+
+function positionMarketMomentumPriceBubble() {
+    if (!marketMomentumChart || !marketMomentumLastCandles.length) return;
+    const bubble = document.getElementById('momentum-tv-price-bubble');
+    if (!bubble || !marketMomentumChart.scales?.y) return;
+    const last = marketMomentumLastCandles[marketMomentumLastCandles.length - 1];
+    const y = marketMomentumChart.scales.y.getPixelForValue(last.close);
+    if (!Number.isFinite(y)) return;
+    bubble.style.top = `${Math.max(18, Math.min(y, marketMomentumChart.chartArea.bottom - 8))}px`;
 }
 
 function updateMarketMomentumMeta(marketKey, rangeKey, payload) {
@@ -7750,7 +8124,7 @@ function marketMomentumOptions(marketKey, view = 'line', candles = []) {
         plugins: {
             legend: { display: false },
             marketMomentumCandles: {
-                enabled: view === 'candle',
+                view,
                 candles
             },
             tooltip: {
@@ -7772,11 +8146,14 @@ function marketMomentumOptions(marketKey, view = 'line', candles = []) {
         scales: {
             x: {
                 ticks: { color: colors.muted, maxRotation: 0, autoSkip: true, font: { size: 10, family: 'Pretendard' } },
-                grid: { color: colors.grid }
+                grid: { color: colors.grid, drawTicks: false },
+                border: { color: colors.grid }
             },
             y: {
-                ticks: { color: colors.muted, callback: value => Number(value).toLocaleString('ko-KR') },
-                grid: { color: colors.grid },
+                position: 'right',
+                ticks: { color: colors.muted, callback: value => Number(value).toLocaleString('ko-KR'), padding: 8 },
+                grid: { color: colors.grid, drawTicks: false },
+                border: { color: colors.grid },
                 ...yBounds
             }
         }
@@ -7793,6 +8170,7 @@ function renderMarketMomentumChart() {
     updateMarketMomentumMeta(marketKey, rangeKey, payload);
     const candles = marketMomentumCandles(payload, marketKey, rangeKey);
     marketMomentumLastCandles = candles;
+    updateMarketMomentumTradingViewOverlay(marketKey, rangeKey, candles);
     const isCandle = marketMomentumChartView === 'candle';
     const chartData = {
         labels: payload.labels,
@@ -7814,11 +8192,13 @@ function renderMarketMomentumChart() {
             data: chartData,
             options: marketMomentumOptions(marketKey, marketMomentumChartView, candles)
         });
+        requestAnimationFrame(positionMarketMomentumPriceBubble);
         return;
     }
     marketMomentumChart.data = chartData;
     marketMomentumChart.options = marketMomentumOptions(marketKey, marketMomentumChartView, candles);
     marketMomentumChart.update('none');
+    requestAnimationFrame(positionMarketMomentumPriceBubble);
 }
 
 async function refreshMarketMomentumFromNaver(forceHistory = false) {

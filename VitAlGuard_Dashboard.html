@@ -1,0 +1,982 @@
+<!doctype html>
+<html lang="ko" class="dark" data-initial-screen="login">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SafetyMonitor — 관제 대시보드 (프로토타입)</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #050608;
+      --panel: #111317;
+      --panel-2: #171a20;
+      --panel-3: #0d0f12;
+      --line: rgba(255, 255, 255, .09);
+      --line-2: rgba(255, 255, 255, .15);
+      --text: #f4f7fb;
+      --soft: rgba(244, 247, 251, .72);
+      --muted: rgba(244, 247, 251, .46);
+      --blue: #0052ff;
+      --green: #20c779;
+      --red: #e5484d;
+      --amber: #f5b642;
+      --chip: rgba(255, 255, 255, .075);
+      --shadow: 0 28px 80px rgba(0, 0, 0, .42);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 15px;
+    }
+    :root.light {
+      color-scheme: light;
+      --bg: #f3f5f8;
+      --panel: #ffffff;
+      --panel-2: #f7f8fb;
+      --panel-3: #eef1f6;
+      --line: rgba(13, 17, 23, .09);
+      --line-2: rgba(13, 17, 23, .15);
+      --text: #101318;
+      --soft: rgba(16, 19, 24, .68);
+      --muted: rgba(16, 19, 24, .48);
+      --chip: rgba(10, 15, 25, .06);
+      --shadow: 0 22px 64px rgba(18, 24, 34, .14);
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; min-height: 100%; background: var(--bg); color: var(--text); }
+    body {
+      min-width: 320px;
+      background:
+        radial-gradient(circle at 12% 8%, rgba(0, 82, 255, .12), transparent 30%),
+        linear-gradient(180deg, rgba(255, 255, 255, .025), transparent 220px),
+        var(--bg);
+    }
+    button, input { font: inherit; letter-spacing: 0; }
+    button { cursor: pointer; }
+    .app {
+      width: min(100%, 1320px);
+      margin: 0 auto;
+      padding: clamp(18px, 3vw, 44px);
+    }
+    .topbar {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      min-height: 66px;
+      margin-bottom: 24px;
+    }
+    .logo {
+      width: 56px;
+      height: 56px;
+      border-radius: 20px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(145deg, #20242b, #0b0d10);
+      border: 1px solid var(--line-2);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, .1), 0 14px 34px rgba(0, 0, 0, .32);
+      flex: 0 0 auto;
+    }
+    .logo svg { width: 34px; height: 34px; }
+    .brand strong {
+      display: block;
+      color: var(--blue);
+      font-size: 24px;
+      font-weight: 800;
+      line-height: 1.05;
+    }
+    .brand span {
+      display: block;
+      margin-top: 5px;
+      color: var(--soft);
+      font-size: 12px;
+      font-weight: 600;
+    }
+    .top-spacer { flex: 1; }
+    .endpoint {
+      height: 35px;
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      padding: 0 13px;
+      border-radius: 10px;
+      border: 1px solid var(--line);
+      background: var(--chip);
+      color: var(--soft);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 12px;
+      white-space: nowrap;
+    }
+    .toolset {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      height: 36px;
+      padding: 3px;
+      border: 1px solid var(--line-2);
+      border-radius: 14px;
+      background: rgba(255, 255, 255, .045);
+    }
+    .icon-btn {
+      width: 30px;
+      height: 30px;
+      border-radius: 10px;
+      border: 0;
+      display: grid;
+      place-items: center;
+      background: transparent;
+      color: var(--soft);
+      font-size: 13px;
+    }
+    .icon-btn:hover, .icon-btn.active { background: var(--blue); color: white; }
+    .screen { display: none; }
+    .screen.active { display: block; }
+    .auth-layout {
+      min-height: calc(100vh - 150px);
+      display: grid;
+      place-items: center;
+      padding: 12px 0 36px;
+    }
+    .auth-card {
+      width: min(100%, 1030px);
+      display: grid;
+      grid-template-columns: 1.08fr 1fr;
+      overflow: hidden;
+      border-radius: 24px;
+      border: 1px solid var(--line-2);
+      background: var(--panel);
+      box-shadow: var(--shadow);
+    }
+    .poster {
+      min-height: 610px;
+      position: relative;
+      overflow: hidden;
+      background:
+        linear-gradient(90deg, rgba(0, 0, 0, .05), rgba(0, 0, 0, .14)),
+        linear-gradient(160deg, #a98955 0%, #cfc6b1 42%, #5d626c 100%);
+    }
+    .poster::before {
+      content: "";
+      position: absolute;
+      left: -18%;
+      top: 4%;
+      width: 82%;
+      height: 52%;
+      border-radius: 45% 46% 22% 58%;
+      background: radial-gradient(circle at 45% 45%, #ffd641 0 28%, #e7a91d 29% 55%, #6f562e 56% 58%, transparent 59%);
+      transform: rotate(-15deg);
+      filter: saturate(1.03);
+      box-shadow: inset 20px -28px 50px rgba(0, 0, 0, .18);
+    }
+    .poster::after {
+      content: "";
+      position: absolute;
+      inset: 13% 22% 12% 18%;
+      border: 5px solid rgba(255, 255, 255, .92);
+      border-left-width: 0;
+      border-bottom-width: 0;
+      opacity: .86;
+    }
+    .poster-word {
+      position: absolute;
+      left: 16%;
+      bottom: 20%;
+      color: white;
+      font-size: clamp(24px, 3.6vw, 43px);
+      line-height: 1.08;
+      font-weight: 900;
+      letter-spacing: .04em;
+      text-shadow: 0 3px 22px rgba(0, 0, 0, .42);
+    }
+    .poster-word b { color: #ffca23; }
+    .auth-panel {
+      min-height: 610px;
+      display: grid;
+      align-content: center;
+      justify-items: center;
+      padding: 44px clamp(28px, 5vw, 72px);
+      text-align: center;
+      background: linear-gradient(160deg, rgba(255, 255, 255, .035), transparent 42%), var(--panel);
+    }
+    .watch-mark {
+      width: 98px;
+      height: 98px;
+      margin-bottom: 26px;
+      border-radius: 30px;
+      display: grid;
+      place-items: center;
+      background: #08090b;
+      border: 1px solid var(--line-2);
+      box-shadow: 0 18px 44px rgba(0, 0, 0, .34);
+      transform: rotate(2deg);
+    }
+    .watch-mark .logo { width: 62px; height: 62px; border: 0; box-shadow: none; background: transparent; }
+    .kicker {
+      color: var(--soft);
+      font-size: 14px;
+      font-weight: 900;
+      letter-spacing: .12em;
+    }
+    .auth-panel h1 {
+      margin: 16px 0 12px;
+      font-size: clamp(22px, 2.5vw, 31px);
+      line-height: 1.18;
+    }
+    .auth-panel p {
+      margin: 0;
+      color: var(--soft);
+      font-size: 14px;
+      line-height: 1.7;
+    }
+    .form {
+      width: min(100%, 430px);
+      margin-top: 34px;
+      display: grid;
+      gap: 14px;
+      text-align: left;
+    }
+    .field label {
+      display: block;
+      margin: 0 0 8px;
+      color: var(--soft);
+      font-size: 12px;
+      font-weight: 800;
+    }
+    .field input {
+      width: 100%;
+      height: 52px;
+      padding: 0 19px;
+      border-radius: 999px;
+      border: 1px solid var(--line-2);
+      outline: 0;
+      background: rgba(255, 255, 255, .12);
+      color: var(--text);
+      font-weight: 600;
+    }
+    .field input:focus {
+      border-color: rgba(0, 82, 255, .8);
+      box-shadow: 0 0 0 4px rgba(0, 82, 255, .18);
+    }
+    .primary-action {
+      height: 52px;
+      border: 0;
+      border-radius: 999px;
+      color: #fff;
+      background: linear-gradient(180deg, #11151c, #020305);
+      font-weight: 900;
+    }
+    .light .primary-action { background: #0b1018; }
+    .google-action {
+      height: 52px;
+      border: 0;
+      border-radius: 999px;
+      background: #fff;
+      color: #2d3137;
+      font-weight: 800;
+    }
+    .form-error {
+      display: none;
+      color: #ff8c8c;
+      font-size: 12px;
+      text-align: center;
+      font-weight: 800;
+    }
+    .form-error.show { display: block; }
+    .store-row {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 28px;
+    }
+    .store-badge {
+      min-width: 132px;
+      height: 43px;
+      border-radius: 16px;
+      border: 1px solid var(--line);
+      display: grid;
+      place-items: center;
+      background: #050506;
+      color: #fff;
+      font-size: 12px;
+      font-weight: 900;
+    }
+    .site-card {
+      width: min(100%, 880px);
+      margin: 32px auto 58px;
+      border: 1px solid var(--line-2);
+      border-radius: 26px;
+      background: var(--panel);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+    .site-head {
+      padding: 24px;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+    .site-head h1 { margin: 0; font-size: 25px; }
+    .site-head p { margin: 6px 0 0; color: var(--soft); }
+    .site-body { padding: 24px; display: grid; gap: 18px; }
+    .search-box {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-height: 54px;
+      padding: 0 18px;
+      border-radius: 17px;
+      border: 1px solid var(--line-2);
+      background: var(--panel-2);
+    }
+    .search-box input {
+      flex: 1;
+      border: 0;
+      outline: 0;
+      background: transparent;
+      color: var(--text);
+      font-weight: 700;
+    }
+    .site-option {
+      width: 100%;
+      border: 1px solid var(--line-2);
+      border-radius: 18px;
+      background: var(--panel-2);
+      color: var(--text);
+      padding: 18px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+      text-align: left;
+    }
+    .site-option[aria-pressed="true"] {
+      border-color: rgba(0, 82, 255, .8);
+      box-shadow: inset 0 0 0 1px rgba(0, 82, 255, .45);
+    }
+    .site-option strong { display: block; font-size: 19px; }
+    .site-option span { display: block; margin-top: 6px; color: var(--soft); font-size: 13px; }
+    .enter-row { display: flex; justify-content: flex-end; }
+    .blue-action {
+      min-width: 150px;
+      height: 48px;
+      padding: 0 24px;
+      border: 0;
+      border-radius: 14px;
+      background: var(--blue);
+      color: white;
+      font-weight: 900;
+    }
+    .dashboard-shell { display: grid; gap: 18px; }
+    .dash-grid {
+      display: grid;
+      grid-template-columns: 1.55fr .95fr;
+      gap: 18px;
+      padding: 16px;
+      border: 1px solid var(--line-2);
+      border-radius: 28px;
+      background: rgba(255, 255, 255, .025);
+    }
+    .card {
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      background: var(--panel);
+      overflow: hidden;
+    }
+    .card-head {
+      min-height: 40px;
+      padding: 0 13px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-bottom: 1px solid var(--line);
+      background: rgba(255, 255, 255, .025);
+    }
+    .card-head .title {
+      flex: 1;
+      text-align: center;
+      font-weight: 900;
+      font-size: 13px;
+    }
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      min-height: 24px;
+      padding: 0 9px;
+      border-radius: 999px;
+      background: var(--chip);
+      color: var(--soft);
+      font-size: 11px;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+    .pill.live { background: var(--blue); color: #fff; }
+    .pager {
+      width: 26px;
+      height: 26px;
+      border: 0;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, .055);
+      color: var(--text);
+      font-weight: 900;
+    }
+    .signal-list { padding: 10px; display: grid; gap: 8px; }
+    .signal-row {
+      display: grid;
+      grid-template-columns: 94px 1fr 62px;
+      align-items: center;
+      gap: 9px;
+      min-height: 38px;
+      padding: 0 11px;
+      border-radius: 10px;
+      background: var(--panel-3);
+      color: var(--soft);
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      display: inline-block;
+      margin-right: 8px;
+      background: var(--green);
+      box-shadow: 0 0 0 4px rgba(32, 199, 121, .12);
+    }
+    .dot.red { background: var(--red); box-shadow: 0 0 0 4px rgba(229, 72, 77, .14); }
+    .dot.amber { background: var(--amber); box-shadow: 0 0 0 4px rgba(245, 182, 66, .14); }
+    .sev { font-weight: 900; }
+    .sev.danger { color: #ff7075; }
+    .sev.safe { color: var(--green); }
+    .site-info {
+      padding: 12px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+    .info-cell {
+      min-height: 58px;
+      padding: 10px 12px;
+      border-radius: 11px;
+      background: var(--panel-3);
+    }
+    .info-cell span {
+      display: block;
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 900;
+    }
+    .info-cell b {
+      display: block;
+      margin-top: 7px;
+      font-size: 13px;
+      line-height: 1.25;
+    }
+    .summary-body { padding: 14px; display: grid; gap: 15px; }
+    .gauge { display: grid; gap: 7px; }
+    .gauge-top {
+      display: flex;
+      align-items: baseline;
+      gap: 9px;
+      font-weight: 900;
+    }
+    .gauge-top .num { font-size: 21px; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; }
+    .gauge-track {
+      position: relative;
+      height: 16px;
+      border-radius: 99px;
+      overflow: hidden;
+      background: rgba(255, 255, 255, .08);
+    }
+    .gauge-track::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      width: var(--value);
+      background: linear-gradient(90deg, #ff4d3f, #ffca23 38%, #20c779 70%, #2b6cff);
+    }
+    .gauge-track span {
+      position: absolute;
+      right: 9px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: white;
+      font-size: 10px;
+      font-weight: 900;
+      text-shadow: 0 1px 5px rgba(0, 0, 0, .45);
+    }
+    .rx-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+    .rx-box {
+      min-height: 48px;
+      border-radius: 10px;
+      padding: 8px 10px;
+      background: var(--panel-2);
+    }
+    .rx-box span { display: block; color: var(--muted); font-size: 11px; font-weight: 800; }
+    .rx-box b { display: block; margin-top: 4px; font-size: 18px; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; }
+    .weather-strip {
+      border: 1px solid var(--line-2);
+      border-radius: 24px;
+      padding: 13px;
+      background: var(--panel);
+      overflow: hidden;
+    }
+    .weather-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      color: var(--soft);
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 11px;
+    }
+    .weather-row {
+      display: flex;
+      gap: 9px;
+      overflow: hidden;
+    }
+    .weather-chip {
+      min-width: max-content;
+      height: 34px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 0 12px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: var(--panel-2);
+      color: var(--soft);
+      font-size: 12px;
+      font-weight: 800;
+    }
+    .weather-chip b { color: var(--text); }
+    .worker-card { border-radius: 24px; }
+    .worker-top {
+      min-height: 56px;
+      padding: 10px 15px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border-bottom: 1px solid var(--line);
+    }
+    .count-badge {
+      min-width: 44px;
+      height: 28px;
+      display: grid;
+      place-items: center;
+      border-radius: 999px;
+      background: var(--chip);
+      font-size: 12px;
+      font-weight: 900;
+    }
+    .worker-top h2 {
+      flex: 1;
+      margin: 0;
+      text-align: center;
+      font-size: 14px;
+    }
+    .mini-actions { display: flex; gap: 8px; }
+    .mini-actions button {
+      min-height: 30px;
+      padding: 0 11px;
+      border: 0;
+      border-radius: 999px;
+      background: var(--chip);
+      color: var(--text);
+      font-size: 11px;
+      font-weight: 900;
+    }
+    .mini-actions .add { background: var(--blue); color: white; }
+    .worker-table { overflow: auto; }
+    .row {
+      display: grid;
+      grid-template-columns: 34px 1.7fr 1.1fr .85fr .85fr .9fr .75fr 1fr .7fr .85fr .8fr .75fr;
+      min-width: 980px;
+      align-items: center;
+      min-height: 52px;
+      padding: 0 16px;
+      border-bottom: 1px solid var(--line);
+      gap: 10px;
+      color: var(--soft);
+      font-size: 12px;
+    }
+    .row.head {
+      min-height: 34px;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 900;
+      background: var(--panel-3);
+    }
+    .worker-name b { display: block; color: var(--text); font-size: 13px; }
+    .worker-name span { color: var(--muted); font-size: 11px; }
+    .metric.ok { color: var(--green); font-weight: 900; }
+    .metric.warn { color: var(--amber); font-weight: 900; }
+    .metric.danger { color: #ff7075; font-weight: 900; }
+    .status-pill {
+      display: inline-grid;
+      place-items: center;
+      min-width: 48px;
+      min-height: 23px;
+      border-radius: 999px;
+      padding: 0 8px;
+      font-size: 11px;
+      font-weight: 900;
+      background: rgba(32, 199, 121, .12);
+      color: var(--green);
+    }
+    .status-pill.warn { background: rgba(245, 182, 66, .13); color: var(--amber); }
+    .status-pill.danger { background: rgba(229, 72, 77, .13); color: #ff7075; }
+    .signal-bars { display: inline-flex; align-items: end; gap: 2px; height: 18px; }
+    .signal-bars i { width: 4px; border-radius: 999px; background: var(--green); }
+    .signal-bars i:nth-child(1) { height: 6px; }
+    .signal-bars i:nth-child(2) { height: 10px; }
+    .signal-bars i:nth-child(3) { height: 14px; }
+    .signal-bars i:nth-child(4) { height: 18px; }
+    .lower-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+    .simple-table { padding: 8px 10px 12px; }
+    .simple-row {
+      display: grid;
+      grid-template-columns: 1.35fr 1fr .75fr .85fr .9fr;
+      align-items: center;
+      gap: 9px;
+      min-height: 42px;
+      border-bottom: 1px solid var(--line);
+      color: var(--soft);
+      font-size: 12px;
+    }
+    .simple-row.head { color: var(--muted); font-weight: 900; font-size: 11px; }
+    .news {
+      padding: 15px;
+      display: flex;
+      gap: 18px;
+      overflow: hidden;
+      white-space: nowrap;
+      color: var(--soft);
+      font-size: 13px;
+      font-weight: 700;
+    }
+    .news b { color: var(--text); }
+    .footnote {
+      margin: 14px 0 0;
+      text-align: center;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.6;
+    }
+    @media (max-width: 980px) {
+      .app { padding: 18px; }
+      .topbar { align-items: flex-start; flex-wrap: wrap; }
+      .endpoint { order: 4; width: 100%; justify-content: center; }
+      .auth-card { grid-template-columns: 1fr; }
+      .poster { min-height: 300px; }
+      .auth-panel { min-height: auto; }
+      .dash-grid, .lower-grid { grid-template-columns: 1fr; }
+      .site-info { grid-template-columns: 1fr 1fr; }
+      .weather-row { overflow-x: auto; }
+    }
+    @media (max-width: 640px) {
+      .site-head { display: block; }
+      .site-option { grid-template-columns: 1fr; }
+      .site-info { grid-template-columns: 1fr; }
+      .rx-grid { grid-template-columns: 1fr; }
+      .auth-panel { padding: 30px 20px; }
+      .poster-word { font-size: 24px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <div class="logo" aria-hidden="true">
+        <svg viewBox="0 0 64 64" fill="none">
+          <path d="M32 5 12 13v15c0 14 8.3 24.4 20 31 11.7-6.6 20-17 20-31V13L32 5Z" stroke="currentColor" stroke-width="4" opacity=".9"/>
+          <path d="M18 34h9l4-12 6 22 4-10h6" stroke="#0052ff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="brand">
+        <strong>VitAlGuard</strong>
+        <span>관제 · 실시간 수집 · DB 영속 71,041건 누적</span>
+      </div>
+      <div class="top-spacer"></div>
+      <div class="endpoint"><span>POST</span><b>/api/mock/vital</b></div>
+      <div class="toolset" aria-label="대시보드 빠른 도구">
+        <button class="icon-btn" type="button" title="알림">A</button>
+        <button class="icon-btn" type="button" title="사용자">U</button>
+        <button class="icon-btn" type="button" title="음량">S</button>
+        <button class="icon-btn" type="button" title="나가기" data-logout>O</button>
+      </div>
+      <div class="toolset" aria-label="테마">
+        <button class="icon-btn active" type="button" id="themeToggle" title="라이트 모드로 전환">D</button>
+      </div>
+    </header>
+
+    <main>
+      <section class="screen active" data-screen="login">
+        <div class="auth-layout">
+          <div class="auth-card">
+            <div class="poster" aria-hidden="true">
+              <div class="poster-word">WE BUILD<br>A CULTURE OF <b>SAFETY</b></div>
+            </div>
+            <div class="auth-panel">
+              <div class="watch-mark"><div class="logo" aria-hidden="true"><svg viewBox="0 0 64 64" fill="none"><path d="M32 5 12 13v15c0 14 8.3 24.4 20 31 11.7-6.6 20-17 20-31V13L32 5Z" stroke="currentColor" stroke-width="4"/><path d="M18 34h9l4-12 6 22 4-10h6" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>
+              <div class="kicker">OPEN SAFETY · NEVER ALONE</div>
+              <h1>보이지 않는 위험은 없습니다. 혼자가 아니기 때문입니다</h1>
+              <p>모든 생체 신호와 현장 환경을 투명하게 — 이상 징후를 발견하는 즉시 대응합니다.</p>
+              <form class="form" id="loginForm">
+                <div class="field">
+                  <label for="adminId">관리자 ID</label>
+                  <input id="adminId" name="adminId" autocomplete="username" value="admin" placeholder="admin">
+                </div>
+                <div class="field">
+                  <label for="adminPassword">비밀번호</label>
+                  <input id="adminPassword" name="adminPassword" type="password" autocomplete="current-password" placeholder="safety2026">
+                </div>
+                <div class="form-error" id="loginError">관리자 ID는 admin, 비밀번호는 safety2026 입니다.</div>
+                <button class="primary-action" type="button" data-testid="login-submit" onclick="handleLogin()">로그인</button>
+                <button class="google-action" type="button">Google 계정으로 계속하기</button>
+              </form>
+              <p class="footnote">발표용 프로토타입 · 스마트인재개발원</p>
+              <div class="store-row" aria-hidden="true">
+                <div class="store-badge">App Store</div>
+                <div class="store-badge">Google Play</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="screen" data-screen="sites">
+        <div class="site-card">
+          <div class="site-head">
+            <div>
+              <h1>현장 선택</h1>
+              <p>검색 후 입장할 산업안전 관제 현장을 선택합니다.</p>
+            </div>
+            <span class="pill live">관리자 인증 완료</span>
+          </div>
+          <div class="site-body">
+            <label class="search-box" for="siteSearch">
+              <span>현장 검색</span>
+              <input id="siteSearch" data-testid="site-search" value="" placeholder="광주 스마트인재개발원 신축 공사">
+            </label>
+            <button class="site-option" type="button" data-testid="site-option" aria-pressed="false" onclick="selectSite()">
+              <div>
+                <strong>광주 스마트인재개발원 신축 공사</strong>
+                <span>광주광역시 광산구 임방울대로 · 건축 신축 · 실시간 수집 대기 중</span>
+              </div>
+              <span class="pill">D-386</span>
+            </button>
+            <div class="enter-row">
+              <button class="blue-action" type="button" data-testid="enter-site" onclick="enterSiteView()" disabled>현장 입장</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="screen" data-screen="dashboard">
+        <div class="dashboard-shell">
+          <div class="dash-grid">
+            <div class="card">
+              <div class="card-head"><span class="title">현장 통합 안전 신호등</span><span class="pill">종합 · <b style="color:#ff7075">위험</b></span></div>
+              <div class="signal-list">
+                <div class="signal-row"><span><i class="dot"></i>현장 기상</span><span>정상 · 특보 없음 · 광주 · 발효 특보 — 현장 영향 점검</span><span class="sev safe">정상</span></div>
+                <div class="signal-row"><span><i class="dot red"></i>작업자</span><span>위험 · 이상 2명 / 전체 14명 · 가상작업자 4 심박 이상</span><span class="sev danger">위험</span></div>
+                <div class="signal-row"><span><i class="dot red"></i>가스 감지</span><span>위험 · CO 52ppm · 탱크 야드 · 즉시 환기·대피</span><span class="sev danger">위험</span></div>
+                <div class="signal-row"><span><i class="dot red"></i>제세동기</span><span>위험 · 배터리 부족 · 지하 주차장 B1 · 배터리 18%</span><span class="sev danger">위험</span></div>
+              </div>
+              <div class="card-head"><button class="pager" type="button">‹</button><span class="title">현장정보</span><span class="pill">1/2</span><button class="pager" type="button">›</button></div>
+              <div class="site-info">
+                <div class="info-cell"><span>기업명</span><b>스마트인재개발원</b></div>
+                <div class="info-cell"><span>현장명</span><b>스마트인재개발원 신축 공사</b></div>
+                <div class="info-cell"><span>공사종류</span><b>건축 (신축)</b></div>
+                <div class="info-cell"><span>주소</span><b>광주광역시 광산구 임방울대로</b></div>
+                <div class="info-cell"><span>착수 날짜</span><b>2026.01.02</b></div>
+                <div class="info-cell"><span>준공 날짜</span><b>2027.06.30</b></div>
+              </div>
+            </div>
+
+            <div class="card" id="summaryCard">
+              <div class="card-head"><button class="pager" type="button">‹</button><span class="title">현황 요약</span><span class="pill">1/4</span><button class="pager" type="button">›</button></div>
+              <div class="summary-body">
+                <div class="gauge">
+                  <div class="gauge-top"><span>공정률</span><span class="num">29.2%</span><small>경과 159일 / 총 544일</small></div>
+                  <div class="gauge-track" style="--value:29.2%"><span>준공까지 D-386</span></div>
+                </div>
+                <div class="gauge">
+                  <div class="gauge-top"><span>무사고</span><span class="num">158일</span><small>연속 무사고</small></div>
+                  <div class="gauge-track" style="--value:79%"><span>목표 200일까지 42일</span></div>
+                </div>
+                <div class="rx-grid">
+                  <div class="rx-box"><span>등록 작업자</span><b>14</b></div>
+                  <div class="rx-box"><span>대기 작업자</span><b>1</b></div>
+                  <div class="rx-box"><span>최근 표시</span><b>80</b></div>
+                  <div class="rx-box"><span>DB 누적</span><b>71,041</b></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <section class="weather-strip">
+            <div class="weather-head">
+              <span>현장 환경 · 작업자 1명 GPS 평균 (35.151, 126.916) · 업데이트 2026.06.09 / 15:38</span>
+              <span>캐시 · Open-Meteo · 클릭 → 정책 근거</span>
+            </div>
+            <div class="weather-row">
+              <span class="weather-chip">자외선 <b>5.8 보통</b></span>
+              <span class="weather-chip">강수량 <b>0.0 mm/h</b></span>
+              <span class="weather-chip">일출 <b>05:17</b></span>
+              <span class="weather-chip">일몰 <b>19:45</b></span>
+              <span class="weather-chip">기상특보 <b>특보 없음</b></span>
+              <span class="weather-chip">예비특보 <b>예정 특보 없음</b></span>
+              <span class="weather-chip">날씨 <b>맑음</b></span>
+              <span class="weather-chip">기온 <b>26.6℃</b></span>
+            </div>
+          </section>
+
+          <section class="card worker-card">
+            <div class="worker-top">
+              <span class="count-badge">14명</span>
+              <h2>작업자 모니터링</h2>
+              <div class="mini-actions"><button class="add" type="button">+ 작업자 등록</button><button type="button">대기 1</button><button type="button">수동 (드래그 정렬)</button></div>
+            </div>
+            <div class="worker-table" id="workerTable"></div>
+          </section>
+
+          <div class="lower-grid">
+            <section class="card">
+              <div class="card-head"><span class="title">가스 감지</span><span class="pill">8개소</span></div>
+              <div class="simple-table">
+                <div class="simple-row head"><span>설치 위치</span><span>가스 종류</span><span>측정값</span><span>임계</span><span>상태</span></div>
+                <div class="simple-row"><span>지하 1층 펌프실</span><span>CH4 메탄</span><b>0.3 %LEL</b><span>≥5 %LEL</span><span class="status-pill">정상</span></div>
+                <div class="simple-row"><span>B2 집수정</span><span>H2S 황화수소</span><b>8 ppm</b><span>≥10 ppm</span><span class="status-pill warn">주의</span></div>
+                <div class="simple-row"><span>탱크 야드</span><span>CO 일산화탄소</span><b class="metric danger">52 ppm</b><span>≥30 ppm</span><span class="status-pill danger">위험</span></div>
+              </div>
+            </section>
+            <section class="card">
+              <div class="card-head"><span class="title">제세동기</span><span class="pill">7개소</span></div>
+              <div class="simple-table">
+                <div class="simple-row head"><span>설치 위치</span><span>상태</span><span>배터리</span><span>패드 유효</span><span>최근 점검</span></div>
+                <div class="simple-row"><span>본관 1층 로비</span><span class="status-pill">정상</span><b>92%</b><span>2027-03</span><span>2026-05-20</span></div>
+                <div class="simple-row"><span>지하 주차장 B1</span><span class="status-pill danger">배터리 부족</span><b class="metric danger">18%</b><span>2026-07</span><span>2026-04-02</span></div>
+                <div class="simple-row"><span>식당동 입구</span><span class="status-pill warn">패드 임박</span><b>55%</b><span>2026-08</span><span>2026-05-10</span></div>
+              </div>
+            </section>
+          </div>
+
+          <section class="card">
+            <div class="card-head"><span class="title">산업재해 속보 · KOSHA 실시간</span><span class="pill">실시간 수집 · DB 영속 71,041건 누적</span></div>
+            <div class="news">
+              <span><b>[6/4, 충남 당진시]</b> 지게차에 부딪혀 H빔 사이에 깔림</span>
+              <span><b>[6/2, 부산 사상구]</b> 차량 적재함 개폐문 끼임</span>
+              <span><b>[6/1, 경남 김해시]</b> 지게차 위 판넬 설치 중 떨어짐</span>
+              <span><b>[5/30, 경남 김해시]</b> 재단기 오일 주입 중 끼임</span>
+            </div>
+          </section>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    const screens = Array.from(document.querySelectorAll("[data-screen]"));
+    const initialScreen = document.documentElement.dataset.initialScreen || "login";
+    const loginForm = document.getElementById("loginForm");
+    const loginError = document.getElementById("loginError");
+    const siteSearch = document.getElementById("siteSearch");
+    const siteOption = document.querySelector("[data-testid='site-option']");
+    const enterSiteButton = document.querySelector("[data-testid='enter-site']");
+    const workers = [
+      ["장우진", "EMP-1234", "현장 소장", "--", "--", "35.7", "정상", "15:41:37", "47,719"],
+      ["가상작업자 1", "VW-001", "현장소장", "78", "98", "36.4", "정상", "15:41:42", "가상"],
+      ["가상작업자 2", "VW-002", "안전관리자", "82", "97", "36.6", "정상", "15:41:42", "가상"],
+      ["가상작업자 3", "VW-003", "공사부장", "75", "99", "36.3", "정상", "15:41:42", "가상"],
+      ["가상작업자 4", "VW-004", "작업반장", "118", "94", "36.9", "주의", "15:41:42", "가상"],
+      ["가상작업자 5", "VW-005", "철근공", "138", "88", "37.5", "위험", "15:41:42", "가상"],
+      ["가상작업자 6", "VW-006", "형틀목공", "80", "98", "36.5", "정상", "15:41:42", "가상"],
+      ["가상작업자 7", "VW-007", "전기공", "72", "99", "36.2", "정상", "15:41:42", "가상"]
+    ];
+    function showScreen(name) {
+      screens.forEach((screen) => screen.classList.toggle("active", screen.dataset.screen === name));
+      if (name === "dashboard") renderWorkers();
+    }
+    function renderWorkers() {
+      const table = document.getElementById("workerTable");
+      if (!table || table.dataset.rendered === "true") return;
+      const head = "<div class='row head'><span>정렬</span><span>작업자</span><span>직급</span><span>심박</span><span>SpO2</span><span>체온</span><span>낙상</span><span>스트레스</span><span>신호</span><span>상태</span><span>수신</span><span>누적</span></div>";
+      const body = workers.map((w) => {
+        const state = w[6] === "위험" ? "danger" : w[6] === "주의" ? "warn" : "ok";
+        const stateClass = w[6] === "위험" ? "danger" : w[6] === "주의" ? "warn" : "";
+        return `<div class="row">
+          <span style="color:var(--muted);font-weight:900">::</span>
+          <span class="worker-name"><b>${w[0]}</b><span>${w[1]}</span></span>
+          <span>${w[2]}</span>
+          <span class="metric ${state}">${w[3]}${w[3] === "--" ? "" : " bpm"}</span>
+          <span class="metric ${state}">${w[4]}${w[4] === "--" ? "" : "%"}</span>
+          <span class="metric ${state}">${w[5]}℃<br><small style="color:var(--muted)">추정 ${(Number(w[5]) + .5).toFixed(1)}℃</small></span>
+          <span>감지안됨</span>
+          <span>스트레스 보정 중</span>
+          <span class="signal-bars"><i></i><i></i><i></i><i></i></span>
+          <span class="status-pill ${stateClass}">${w[6]}</span>
+          <span>${w[7]}</span>
+          <b>${w[8]}</b>
+        </div>`;
+      }).join("");
+      table.innerHTML = head + body;
+      table.dataset.rendered = "true";
+    }
+    function handleLogin() {
+      const id = document.getElementById("adminId").value.trim();
+      const pw = document.getElementById("adminPassword").value;
+      if (id === "admin" && pw === "safety2026") {
+        loginError.classList.remove("show");
+        showScreen("sites");
+        window.parent && window.parent.postMessage({ type: "vitalguard-safetymonitor-authenticated" }, "*");
+      } else {
+        loginError.classList.add("show");
+      }
+    }
+    function selectSite() {
+      siteOption.setAttribute("aria-pressed", "true");
+      enterSiteButton.disabled = false;
+      siteSearch.value = "광주 스마트인재개발원 신축 공사";
+    }
+    function enterSiteView() {
+      showScreen("dashboard");
+    }
+    window.handleLogin = handleLogin;
+    window.selectSite = selectSite;
+    window.enterSiteView = enterSiteView;
+    loginForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+      handleLogin();
+    });
+    siteSearch.addEventListener("input", () => {
+      const matched = siteSearch.value.trim().length > 0;
+      siteOption.style.display = matched ? "grid" : "grid";
+    });
+    siteOption.addEventListener("click", selectSite);
+    enterSiteButton.addEventListener("click", enterSiteView);
+    document.querySelectorAll("[data-logout]").forEach((button) => {
+      button.addEventListener("click", () => showScreen("login"));
+    });
+    document.getElementById("themeToggle").addEventListener("click", (event) => {
+      const root = document.documentElement;
+      const light = root.classList.toggle("light");
+      root.classList.toggle("dark", !light);
+      event.currentTarget.textContent = light ? "L" : "D";
+      event.currentTarget.title = light ? "다크 모드로 전환" : "라이트 모드로 전환";
+    });
+    if (initialScreen === "dashboard" || initialScreen === "summary") {
+      showScreen("dashboard");
+      if (initialScreen === "summary") {
+        document.getElementById("summaryCard").scrollIntoView({ block: "center" });
+      }
+    } else if (initialScreen === "sites") {
+      showScreen("sites");
+    } else {
+      showScreen("login");
+    }
+  </script>
+</body>
+</html>

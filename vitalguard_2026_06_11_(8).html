@@ -348,7 +348,8 @@
       pointer-events: none;
     }
     .live-screen[data-live-state="mockup"] .safety-preview,
-    .live-screen[data-live-state="loading"] .safety-preview {
+    .live-screen[data-live-state="loading"] .safety-preview,
+    .live-screen[data-live-state="video"] .safety-preview {
       opacity: 0;
       pointer-events: none;
     }
@@ -1355,6 +1356,9 @@
       --ipad-screen-pad: 0px;
       --ipad-live-base-width: 1100px;
       --ipad-live-base-height: 800px;
+      --safety-ipad-width: min(78vw, 1180px);
+      --safety-ipad-wide-width: min(82vw, 1180px);
+      --safety-ipad-mobile-width: min(92vw, 390px);
     }
     .tablet-frame,
     .demo-tablet {
@@ -1370,9 +1374,14 @@
       box-shadow: none !important;
     }
     .demo-tablet {
-      width: min(88vw, 1320px);
+      width: var(--safety-ipad-width);
+      margin-left: auto;
+      margin-right: auto;
     }
     .tablet-frame {
+      width: var(--safety-ipad-width) !important;
+      margin-left: auto;
+      margin-right: auto;
       margin-top: clamp(640px, 72vh, 900px);
       scroll-margin-top: 24px;
     }
@@ -1392,11 +1401,17 @@
       perspective: none;
     }
     body.safety-hero-focus .tablet-frame {
-      width: min(82vw, calc((100vh - 260px) * 1.334), 1480px);
+      width: var(--safety-ipad-wide-width) !important;
       gap: 0;
       margin-top: 0 !important;
       transform: none !important;
       transform-style: flat;
+    }
+    #live .section-inner {
+      width: min(1320px, 100%);
+    }
+    .live-demo {
+      justify-items: center;
     }
     .tablet-screen,
     .demo-screen {
@@ -1435,9 +1450,17 @@
     .live-screen[data-live-state="live"]::before {
       background: #050608;
     }
+    .live-screen[data-live-state="mockup"]::before,
+    .live-screen[data-live-state="video"]::before {
+      background: #050608;
+    }
     .live-screen[data-live-state="mockup"] .live-frame,
-    .live-screen[data-live-state="loading"] .live-frame {
+    .live-screen[data-live-state="video"] .live-frame {
       opacity: 0;
+      pointer-events: none !important;
+    }
+    .live-screen[data-live-state="loading"] .live-frame {
+      opacity: 1;
       pointer-events: none !important;
     }
     .tablet-screen iframe,
@@ -1448,6 +1471,33 @@
       left: calc(var(--ipad-screen-left) + var(--ipad-screen-pad) + var(--live-offset-x, 0px));
       top: calc(var(--ipad-content-top) + var(--ipad-screen-pad) + var(--live-offset-y, 0px));
       background: transparent;
+    }
+    .screen-media {
+      position: absolute;
+      z-index: 2;
+      left: calc(var(--ipad-screen-left) + var(--ipad-screen-pad));
+      top: calc(var(--ipad-content-top) + var(--ipad-screen-pad));
+      right: auto;
+      bottom: auto;
+      width: calc(100% - var(--ipad-screen-left) - var(--ipad-screen-right) - (var(--ipad-screen-pad) * 2));
+      height: calc(100% - var(--ipad-content-top) - var(--ipad-screen-bottom) - (var(--ipad-screen-pad) * 2));
+      border: 0;
+      border-radius: 16px;
+      background: #050608;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .24s ease;
+    }
+    .safety-placeholder {
+      object-fit: cover;
+    }
+    .safety-video {
+      object-fit: contain;
+    }
+    .live-screen[data-live-state="mockup"] .safety-placeholder,
+    .live-screen[data-live-state="video"] .safety-video {
+      opacity: 1;
+      pointer-events: auto;
     }
     .preview-actions,
     .live-toolbar,
@@ -1509,7 +1559,7 @@
         padding-top: 138px;
       }
       body.safety-hero-focus .tablet-frame {
-        width: min(92vw, calc((100vh - 190px) * 1.334), 390px);
+        width: var(--safety-ipad-mobile-width) !important;
         margin-top: 0 !important;
       }
       .safety-control-bar {
@@ -1530,7 +1580,7 @@
         padding-top: 126px;
       }
       body.safety-hero-focus .tablet-frame {
-        width: min(86vw, calc((100vh - 222px) * 1.334), 1220px);
+        width: var(--safety-ipad-width) !important;
       }
     }
 
@@ -1541,7 +1591,7 @@
         padding-left: 0;
       }
       body.safety-hero-focus .tablet-frame {
-        width: min(82vw, calc((100vh - 260px) * 1.334), 1480px);
+        width: var(--safety-ipad-wide-width) !important;
       }
     }
 
@@ -1634,13 +1684,17 @@
               </div>
             </div>
             <iframe class="live-frame" data-live-frame data-safety-frame title="SafetyMonitor live dashboard login" loading="eager" referrerpolicy="no-referrer-when-downgrade" allow="clipboard-read; clipboard-write; fullscreen"></iframe>
+            <img class="screen-media safety-placeholder" data-safety-placeholder src="Media Placeholder_ Replace With Your Media.png" alt="VitAlGuard 미디어 대기 화면">
+            <video class="screen-media safety-video" data-safety-video src="KakaoTalk_Video_2026-06-10-17-24-13.mp4" controls playsinline preload="metadata"></video>
             <div class="live-toolbar" aria-label="SafetyMonitor 라이브 옵션">
               <button type="button" class="preview-action secondary" data-live-preview>미리보기로 돌아가기</button>
               <a class="preview-action" href="https://them-registration-alt-matrix.trycloudflare.com" target="_blank" rel="noopener noreferrer">새 창으로 열기</a>
             </div>
           </div>
           <div class="safety-control-bar" aria-label="상단 SafetyMonitor 화면 전환">
-            <a class="preview-action secondary" href="https://them-registration-alt-matrix.trycloudflare.com" target="_blank" rel="noopener noreferrer">VitAlGuard 대시보드 열기</a>
+            <button type="button" class="preview-action tertiary" data-safety-view="mockup" aria-pressed="true">끔</button>
+            <button type="button" class="preview-action tertiary" data-safety-view="video" aria-pressed="false">VitAlGuard 홍보영상</button>
+            <button type="button" class="preview-action secondary" data-safety-view="live" aria-pressed="false">VitAlGuard 대시보드 열기</button>
           </div>
           <figcaption class="device-caption">
             <span class="caption-pill">SafetyMonitor 미리보기</span>
@@ -1953,13 +2007,17 @@
                 </div>
               </div>
               <iframe class="live-frame" data-live-frame data-safety-frame title="SafetyMonitor live dashboard demo" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allow="clipboard-read; clipboard-write; fullscreen"></iframe>
+              <img class="screen-media safety-placeholder" data-safety-placeholder src="Media Placeholder_ Replace With Your Media.png" alt="VitAlGuard 미디어 대기 화면">
+              <video class="screen-media safety-video" data-safety-video src="KakaoTalk_Video_2026-06-10-17-24-13.mp4" controls playsinline preload="metadata"></video>
               <div class="live-toolbar" aria-label="SafetyMonitor 라이브 옵션">
                 <button type="button" class="preview-action secondary" data-live-preview>미리보기로 돌아가기</button>
                 <a class="preview-action" href="https://them-registration-alt-matrix.trycloudflare.com" target="_blank" rel="noopener noreferrer">새 창으로 열기</a>
               </div>
             </div>
             <div class="safety-control-bar" aria-label="하단 SafetyMonitor 화면 전환">
-              <a class="preview-action secondary" href="https://them-registration-alt-matrix.trycloudflare.com" target="_blank" rel="noopener noreferrer">VitAlGuard 대시보드 열기</a>
+              <button type="button" class="preview-action tertiary" data-safety-view="mockup" aria-pressed="true">끔</button>
+              <button type="button" class="preview-action tertiary" data-safety-view="video" aria-pressed="false">VitAlGuard 홍보영상</button>
+              <button type="button" class="preview-action secondary" data-safety-view="live" aria-pressed="false">VitAlGuard 대시보드 열기</button>
             </div>
           </div>
         </div>
@@ -2325,24 +2383,68 @@
       });
     }
 
+    function pauseSafetyVideo(screen, reset = false) {
+      const video = screen ? screen.querySelector("[data-safety-video]") : null;
+      if (!video) return;
+      video.pause();
+      if (reset) video.currentTime = 0;
+    }
+
+    function clearSafetyFrameLoad(frame, screen) {
+      if (!frame) return;
+      if (frame.dataset.blobUrl) URL.revokeObjectURL(frame.dataset.blobUrl);
+      delete frame.dataset.blobUrl;
+      delete frame.dataset.loadToken;
+      if (screen) {
+        delete screen.dataset.liveLoaded;
+        delete screen.dataset.pendingLoadToken;
+      }
+    }
+
     function setSafetyFrame(screen, mode) {
       if (!screen) return;
       const frame = screen.querySelector("[data-live-frame]");
       if (!frame) return;
-      const nextMode = mode === "summary" ? "summary" : mode === "login" ? "login" : "live";
+      const nextMode = mode === "video" ? "video" : mode === "mockup" || mode === "off" ? "mockup" : "live";
+      const video = screen.querySelector("[data-safety-video]");
+      clearSafetyFrameLoad(frame, screen);
+
+      if (nextMode === "mockup") {
+        frame.removeAttribute("srcdoc");
+        frame.removeAttribute("src");
+        frame.style.pointerEvents = "none";
+        pauseSafetyVideo(screen, true);
+        screen.dataset.liveState = "mockup";
+        screen.dataset.safetyCurrent = "mockup";
+        syncSafetyButtons(screen, "mockup");
+        fitLiveFrames();
+        return;
+      }
+
+      if (nextMode === "video") {
+        frame.style.pointerEvents = "none";
+        screen.dataset.liveState = "video";
+        screen.dataset.safetyCurrent = "video";
+        syncSafetyButtons(screen, "video");
+        if (video) {
+          video.currentTime = video.currentTime || 0;
+          video.play().catch(() => {});
+        }
+        fitLiveFrames();
+        return;
+      }
+
       const loadToken = String(Date.now()) + "-" + Math.random().toString(36).slice(2);
       frame.removeAttribute("srcdoc");
-      if (frame.dataset.blobUrl) URL.revokeObjectURL(frame.dataset.blobUrl);
-      delete frame.dataset.blobUrl;
-      delete screen.dataset.liveLoaded;
+      pauseSafetyVideo(screen);
       frame.dataset.loadToken = loadToken;
       screen.dataset.pendingLoadToken = loadToken;
-      frame.src = SAFETYMONITOR_REMOTE_URL;
-      frame.style.pointerEvents = "none";
+      if (frame.src !== SAFETYMONITOR_REMOTE_URL) frame.src = SAFETYMONITOR_REMOTE_URL;
+      frame.style.pointerEvents = "auto";
       frame.setAttribute("tabindex", "0");
-      screen.dataset.liveState = "loading";
-      screen.dataset.safetyCurrent = nextMode;
-      syncSafetyButtons(screen, nextMode);
+      screen.dataset.liveState = "live";
+      screen.dataset.safetyCurrent = "live";
+      syncSafetyButtons(screen, "live");
       fitLiveFrames();
       window.setTimeout(fitLiveFrames, 80);
       window.setTimeout(fitLiveFrames, 500);
@@ -2354,7 +2456,7 @@
       if (frame) {
         frame.addEventListener("load", () => {
           if (!frame.dataset.loadToken || screen.dataset.pendingLoadToken !== frame.dataset.loadToken) return;
-          if (screen.dataset.liveState !== "loading") return;
+          if (screen.dataset.liveState !== "live") return;
           delete screen.dataset.pendingLoadToken;
           screen.dataset.liveLoaded = "true";
           screen.dataset.liveState = "live";
@@ -2362,7 +2464,21 @@
           fitLiveFrames();
         });
       }
-      setSafetyFrame(screen, "login");
+      setSafetyFrame(screen, "mockup");
+    });
+
+    document.querySelectorAll("[data-live-show]").forEach((button) => {
+      button.addEventListener("click", () => {
+        const screen = button.closest(".live-screen");
+        setSafetyFrame(screen, "live");
+      });
+    });
+
+    document.querySelectorAll("[data-live-preview]").forEach((button) => {
+      button.addEventListener("click", () => {
+        const screen = button.closest(".live-screen");
+        setSafetyFrame(screen, "mockup");
+      });
     });
 
     document.querySelectorAll("button[data-safety-view]").forEach((button) => {
@@ -2381,7 +2497,7 @@
       });
       if (!targetScreen) {
         targetScreen = liveScreenControls
-          .filter((screen) => screen.dataset.safetyCurrent === "login")
+          .filter((screen) => screen.dataset.safetyCurrent === "live")
           .sort((a, b) => {
             const ar = a.getBoundingClientRect();
             const br = b.getBoundingClientRect();

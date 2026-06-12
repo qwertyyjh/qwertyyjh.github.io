@@ -627,7 +627,14 @@
     }
     #loop .section-inner {
       position: sticky;
-      top: 162px;
+      top: 134px;
+      width: min(1240px, 100%);
+    }
+    #loop .headline {
+      margin-bottom: 0;
+    }
+    #loop .loop-map {
+      margin-top: 36px;
     }
     .loop-map {
       display: grid;
@@ -637,8 +644,8 @@
     }
     .loop-node {
       position: relative;
-      min-height: 222px;
-      padding: 26px;
+      min-height: 196px;
+      padding: 24px;
       border-radius: var(--radius);
       border: 1px solid rgba(255, 255, 255, .16);
       background: #2b2b2e;
@@ -686,13 +693,109 @@
       transform: translateY(-6px);
     }
     .node-detail {
-      min-height: 58px;
-      margin: 22px auto 0;
+      min-height: 42px;
+      margin: 18px auto 0;
+      color: #fff;
+      text-align: center;
+      font-size: 19px;
+    }
+    html[data-theme="light"] .node-detail { color: #1d1d1f; }
+    .edge-ai-highlight {
+      width: min(1080px, 100%);
+      margin: 18px auto 0;
+      padding: 14px 18px;
+      border: 1px solid rgba(41, 151, 255, .35);
+      border-radius: 20px;
+      background: linear-gradient(180deg, rgba(41, 151, 255, .13), rgba(52, 199, 89, .07));
+      box-shadow: 0 24px 70px rgba(0, 0, 0, .22);
+    }
+    html[data-theme="light"] .edge-ai-highlight {
+      border-color: rgba(0, 113, 227, .22);
+      background: linear-gradient(180deg, rgba(0, 113, 227, .08), rgba(52, 199, 89, .06));
+      box-shadow: 0 18px 46px rgba(0, 0, 0, .08);
+    }
+    .edge-ai-title {
+      margin: 0;
       color: #fff;
       text-align: center;
       font-size: 20px;
+      font-weight: 750;
+      line-height: 1.35;
     }
-    html[data-theme="light"] .node-detail { color: #1d1d1f; }
+    .edge-ai-title b {
+      color: var(--blue-2);
+    }
+    html[data-theme="light"] .edge-ai-title {
+      color: #1d1d1f;
+    }
+    .edge-ai-table-wrap {
+      margin-top: 10px;
+      overflow-x: auto;
+      border: 1px solid rgba(255, 255, 255, .12);
+      border-radius: 16px;
+      background: rgba(255, 255, 255, .06);
+    }
+    html[data-theme="light"] .edge-ai-table-wrap {
+      border-color: rgba(29, 29, 31, .1);
+      background: rgba(255, 255, 255, .78);
+    }
+    .edge-ai-table {
+      width: 100%;
+      min-width: 720px;
+      border-collapse: collapse;
+      text-align: left;
+      color: #fff;
+      font-size: 13px;
+      line-height: 1.35;
+    }
+    html[data-theme="light"] .edge-ai-table {
+      color: #1d1d1f;
+    }
+    .edge-ai-table th,
+    .edge-ai-table td {
+      padding: 6px 12px;
+      border-bottom: 1px solid rgba(255, 255, 255, .12);
+      vertical-align: middle;
+    }
+    html[data-theme="light"] .edge-ai-table th,
+    html[data-theme="light"] .edge-ai-table td {
+      border-bottom-color: rgba(29, 29, 31, .1);
+    }
+    .edge-ai-table tr:last-child td {
+      border-bottom: 0;
+    }
+    .edge-ai-table th {
+      color: #d1d1d6;
+      font-weight: 750;
+    }
+    html[data-theme="light"] .edge-ai-table th {
+      color: #515154;
+    }
+    .edge-status {
+      display: inline-flex;
+      align-items: center;
+      min-height: 22px;
+      padding: 3px 8px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 750;
+      white-space: nowrap;
+    }
+    .edge-status.partial {
+      background: rgba(255, 204, 0, .16);
+      color: #ffd60a;
+    }
+    .edge-status.full {
+      background: rgba(48, 209, 88, .16);
+      color: #30d158;
+    }
+    .edge-status.none {
+      background: rgba(255, 69, 58, .14);
+      color: #ff6961;
+    }
+    html[data-theme="light"] .edge-status.partial { color: #8a6500; background: rgba(255, 204, 0, .2); }
+    html[data-theme="light"] .edge-status.full { color: #166b2f; background: rgba(52, 199, 89, .16); }
+    html[data-theme="light"] .edge-status.none { color: #b42318; background: rgba(255, 59, 48, .12); }
 
     .tile-grid {
       display: grid;
@@ -1782,6 +1885,16 @@
       .loop-map, .tile-grid { grid-template-columns: 1fr; }
       .loop-node::after { display: none; }
       .loop-node:last-child p { white-space: normal; }
+      .edge-ai-highlight {
+        padding: 16px;
+        border-radius: 18px;
+      }
+      .edge-ai-title {
+        font-size: 18px;
+      }
+      .edge-ai-table {
+        min-width: 660px;
+      }
       .lead { font-size: 18px; }
       .lead.lead-one-line { white-space: normal; }
       .watch-demo-wrap {
@@ -2069,16 +2182,27 @@
 
     @media (max-height: 850px) and (min-width: 901px) {
       #loop .section-inner {
-        top: 130px;
+        top: 112px;
       }
       #loop .headline {
-        margin-bottom: 30px;
+        margin-bottom: 0;
       }
       .loop-map {
-        margin-top: 32px;
+        margin-top: 28px;
       }
       .loop-node {
-        min-height: 190px;
+        min-height: 176px;
+      }
+      .edge-ai-highlight {
+        margin-top: 14px;
+        padding: 12px 16px;
+      }
+      .edge-ai-title {
+        font-size: 17px;
+      }
+      .edge-ai-table th,
+      .edge-ai-table td {
+        padding: 5px 10px;
       }
       body.safety-hero-focus .sticky-scene {
         padding-top: 126px;
@@ -2184,15 +2308,15 @@
               </div>
               <div class="preview-actions" aria-label="SafetyMonitor 실행 옵션">
                 <button type="button" class="preview-action secondary" data-live-show>실제 iframe 보기</button>
-                <a class="preview-action" href="http://channels-respect-absolute-watches.trycloudflare.com" target="_blank" rel="noopener noreferrer">새 창으로 열기</a>
+                <a class="preview-action" href="https://channels-respect-absolute-watches.trycloudflare.com" target="_blank" rel="noopener noreferrer">새 창으로 열기</a>
               </div>
             </div>
             <iframe class="live-frame" data-live-frame data-safety-frame title="SafetyMonitor live dashboard login" loading="eager" referrerpolicy="no-referrer-when-downgrade" allow="clipboard-read; clipboard-write; fullscreen"></iframe>
             <img class="screen-media safety-placeholder" data-safety-placeholder src="Media Placeholder_ Replace With Your Media.png" alt="VitAlGuard 미디어 대기 화면">
-            <video class="screen-media safety-video" data-safety-video src="KakaoTalk_Video_2026-06-12-14-05-59.mp4" controls controlslist="nodownload noremoteplayback" disablepictureinpicture disableremoteplayback playsinline preload="metadata" oncontextmenu="return false"></video>
+            <video class="screen-media safety-video" data-safety-video src="KakaoTalk_Video_2026-06-12-14-26-50.mp4" controls controlslist="nodownload noremoteplayback" disablepictureinpicture disableremoteplayback playsinline preload="metadata" oncontextmenu="return false"></video>
             <div class="live-toolbar" aria-label="SafetyMonitor 라이브 옵션">
               <button type="button" class="preview-action secondary" data-live-preview>미리보기로 돌아가기</button>
-              <a class="preview-action" href="http://channels-respect-absolute-watches.trycloudflare.com" target="_blank" rel="noopener noreferrer">새 창으로 열기</a>
+              <a class="preview-action" href="https://channels-respect-absolute-watches.trycloudflare.com" target="_blank" rel="noopener noreferrer">새 창으로 열기</a>
             </div>
           </div>
           <div class="safety-control-bar" aria-label="상단 SafetyMonitor 화면 전환">
@@ -2440,6 +2564,57 @@
           </button>
         </div>
         <p class="node-detail" id="node-detail">GasPod는 가스 이상징후를 읽고 현장 경보와 대시보드 이벤트로 전송합니다.</p>
+        <div class="edge-ai-highlight" aria-label="VitAlGuard Edge AI 적용 범위 요약">
+          <p class="edge-ai-title"><b>Edge AI</b> 적용 범위를 전체 적용, 부분 적용, 비 적용으로 구분해 현장 판단 구조를 명확히 했습니다.</p>
+          <div class="edge-ai-table-wrap" role="region" aria-label="Edge AI 적용 범위 표">
+            <table class="edge-ai-table">
+              <thead>
+                <tr>
+                  <th scope="col">컴포넌트</th>
+                  <th scope="col">Edge AI 적용</th>
+                  <th scope="col">현재 상태</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>CCTV 객체 감지 (YOLOv8)</td>
+                  <td><span class="edge-status partial">부분 적용</span></td>
+                  <td>노트북 로컬 (Edge라기엔 애매)</td>
+                </tr>
+                <tr>
+                  <td>낙상 감지 (YOLOv8-pose)</td>
+                  <td><span class="edge-status partial">부분 적용</span></td>
+                  <td>노트북 로컬</td>
+                </tr>
+                <tr>
+                  <td>PPE 감지</td>
+                  <td><span class="edge-status partial">부분 적용</span></td>
+                  <td>노트북 로컬</td>
+                </tr>
+                <tr>
+                  <td>Apple Watch 낙상 감지</td>
+                  <td><span class="edge-status full">전체 적용</span></td>
+                  <td>Apple Neural Engine</td>
+                </tr>
+                <tr>
+                  <td>Galaxy Watch 체온/HR</td>
+                  <td><span class="edge-status full">전체 적용</span></td>
+                  <td>Samsung BioActive</td>
+                </tr>
+                <tr>
+                  <td>NFC 점검 (HMAC)</td>
+                  <td><span class="edge-status none">비 적용</span></td>
+                  <td>단순 암호화</td>
+                </tr>
+                <tr>
+                  <td>룰 엔진</td>
+                  <td><span class="edge-status none">비 적용</span></td>
+                  <td>단순 조건 평가</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -2597,15 +2772,15 @@
                 </div>
                 <div class="preview-actions" aria-label="SafetyMonitor 실행 옵션">
                   <button type="button" class="preview-action secondary" data-live-show>실제 iframe 보기</button>
-                  <a class="preview-action" href="http://channels-respect-absolute-watches.trycloudflare.com" target="_blank" rel="noopener noreferrer">새 창으로 열기</a>
+                  <a class="preview-action" href="https://channels-respect-absolute-watches.trycloudflare.com" target="_blank" rel="noopener noreferrer">새 창으로 열기</a>
                 </div>
               </div>
               <iframe class="live-frame" data-live-frame data-safety-frame title="SafetyMonitor live dashboard demo" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allow="clipboard-read; clipboard-write; fullscreen"></iframe>
               <img class="screen-media safety-placeholder" data-safety-placeholder src="Media Placeholder_ Replace With Your Media.png" alt="VitAlGuard 미디어 대기 화면">
-              <video class="screen-media safety-video" data-safety-video src="KakaoTalk_Video_2026-06-12-14-05-59.mp4" controls controlslist="nodownload noremoteplayback" disablepictureinpicture disableremoteplayback playsinline preload="metadata" oncontextmenu="return false"></video>
+              <video class="screen-media safety-video" data-safety-video src="KakaoTalk_Video_2026-06-12-14-26-50.mp4" controls controlslist="nodownload noremoteplayback" disablepictureinpicture disableremoteplayback playsinline preload="metadata" oncontextmenu="return false"></video>
               <div class="live-toolbar" aria-label="SafetyMonitor 라이브 옵션">
                 <button type="button" class="preview-action secondary" data-live-preview>미리보기로 돌아가기</button>
-                <a class="preview-action" href="http://channels-respect-absolute-watches.trycloudflare.com" target="_blank" rel="noopener noreferrer">새 창으로 열기</a>
+                <a class="preview-action" href="https://channels-respect-absolute-watches.trycloudflare.com" target="_blank" rel="noopener noreferrer">새 창으로 열기</a>
               </div>
             </div>
             <div class="safety-control-bar" aria-label="하단 SafetyMonitor 화면 전환">
@@ -3206,7 +3381,7 @@
     bindWatchDragScroll();
     setWatchMode("normal");
 
-    const SAFETYMONITOR_REMOTE_URL = "http://channels-respect-absolute-watches.trycloudflare.com";
+    const SAFETYMONITOR_REMOTE_URL = "https://channels-respect-absolute-watches.trycloudflare.com";
     const safetySnapshotDataElement = document.getElementById("safetymonitor-snapshot-data");
     const safetySnapshotBase64 = safetySnapshotDataElement ? JSON.parse(safetySnapshotDataElement.textContent) : {};
     const safetySnapshotCache = {};

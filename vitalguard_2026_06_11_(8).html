@@ -620,6 +620,15 @@
       font-size: 20px;
     }
 
+    #loop {
+      min-height: 240vh;
+      align-items: start;
+      padding-bottom: 60vh;
+    }
+    #loop .section-inner {
+      position: sticky;
+      top: 124px;
+    }
     .loop-map {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
@@ -636,6 +645,7 @@
       cursor: pointer;
       text-align: left;
       color: #fff;
+      transition: border-color .24s ease, box-shadow .24s ease, transform .24s ease;
     }
     html[data-theme="light"] .loop-node {
       background: #fff;
@@ -670,7 +680,11 @@
       white-space: nowrap;
     }
     .loop-node:last-child small { left: 18px; }
-    .loop-node.active { outline: 2px solid var(--node-color, var(--blue-2)); }
+    .loop-node.active {
+      outline: 2px solid var(--node-color, var(--blue-2));
+      box-shadow: 0 22px 54px color-mix(in srgb, var(--node-color, var(--blue-2)), transparent 72%);
+      transform: translateY(-6px);
+    }
     .node-detail {
       min-height: 58px;
       margin: 22px auto 0;
@@ -1758,6 +1772,13 @@
       .preview-action { min-height: 30px; padding: 6px 9px; font-size: 11px; }
       .device-caption { left: 24px; bottom: 20px; gap: 8px; }
       .caption-pill { min-height: 30px; padding: 6px 10px; font-size: 12px; }
+      #loop {
+        min-height: auto;
+        padding-bottom: 96px;
+      }
+      #loop .section-inner {
+        position: static;
+      }
       .loop-map, .tile-grid { grid-template-columns: 1fr; }
       .loop-node::after { display: none; }
       .loop-node:last-child p { white-space: normal; }
@@ -5162,15 +5183,50 @@
 
     window.addEventListener("load", () => setActiveDevice("gaspod", false));
 
+    const loopSection = document.getElementById("loop");
     const nodes = Array.from(document.querySelectorAll(".loop-node"));
     const detail = document.getElementById("node-detail");
-    nodes.forEach((node) => {
-      node.addEventListener("click", () => {
-        nodes.forEach((item) => item.classList.remove("active"));
-        node.classList.add("active");
-        detail.textContent = node.dataset.detail || "";
+    let activeLoopIndex = -1;
+    let loopScrollTicking = false;
+
+    function setActiveLoopNode(index) {
+      if (!nodes.length || !detail) return;
+      const nextIndex = Math.max(0, Math.min(nodes.length - 1, index));
+      if (nextIndex === activeLoopIndex) return;
+      activeLoopIndex = nextIndex;
+      nodes.forEach((item, itemIndex) => {
+        item.classList.toggle("active", itemIndex === nextIndex);
       });
+      detail.textContent = nodes[nextIndex].dataset.detail || "";
+    }
+
+    function updateLoopOnScroll() {
+      if (!loopSection || !nodes.length) return;
+      const rect = loopSection.getBoundingClientRect();
+      const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+      if (rect.top > viewportHeight || rect.bottom < 0) return;
+      const scrollRange = Math.max(1, rect.height - viewportHeight);
+      const progress = Math.max(0, Math.min(1, -rect.top / scrollRange));
+      const nextIndex = Math.min(nodes.length - 1, Math.floor(progress * nodes.length));
+      setActiveLoopNode(nextIndex);
+    }
+
+    function requestLoopScrollUpdate() {
+      if (loopScrollTicking) return;
+      loopScrollTicking = true;
+      requestAnimationFrame(() => {
+        updateLoopOnScroll();
+        loopScrollTicking = false;
+      });
+    }
+
+    nodes.forEach((node, index) => {
+      node.addEventListener("click", () => setActiveLoopNode(index));
     });
+    setActiveLoopNode(0);
+    window.addEventListener("scroll", requestLoopScrollUpdate, { passive: true });
+    window.addEventListener("resize", requestLoopScrollUpdate);
+    window.addEventListener("load", requestLoopScrollUpdate);
 
     const dots = Array.from(document.querySelectorAll(".progress-dots a"));
     function setActiveProgressDot(targetHash) {

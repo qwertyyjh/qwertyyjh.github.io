@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-02T07:38:35.458Z",
+  "generatedAt": "2026-07-02T10:20:25.257Z",
   "source": "Yahoo Finance",
   "stale": false,
   "quoteCount": 40,
@@ -506,7 +506,7 @@
       "closeyest": 916.18,
       "change": -49.45999999999992,
       "changepct": -5.398502477679051,
-      "tradetime": "2026-07-02T06:33:00.000Z",
+      "tradetime": "2026-07-02T09:05:30.000Z",
       "datadelay": "",
       "status": "OK",
       "source": "Yahoo Finance"
@@ -520,7 +520,7 @@
       "closeyest": 8303.41,
       "change": -655.3199999999997,
       "changepct": -7.892179237204952,
-      "tradetime": "2026-07-02T06:33:00.000Z",
+      "tradetime": "2026-07-02T09:05:30.000Z",
       "datadelay": "",
       "status": "OK",
       "source": "Yahoo Finance"

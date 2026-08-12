@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-12T07:11:35.026Z",
+  "generatedAt": "2026-08-12T08:40:37.255Z",
   "source": "Yahoo Finance",
   "stale": false,
   "quoteCount": 40,
@@ -501,12 +501,12 @@
       "id": "kosdaq",
       "name": "KOSDAQ",
       "ticker": "^KQ11",
-      "price": 857.84,
+      "price": 858.91,
       "priceopen": 854.8499755859375,
       "closeyest": 854.47,
-      "change": 3.3700000000000045,
-      "changepct": 0.3943965265018086,
-      "tradetime": "2026-08-11T06:00:00.000Z",
+      "change": 4.439999999999941,
+      "changepct": 0.5196203494563812,
+      "tradetime": "2026-08-12T06:32:50.000Z",
       "datadelay": "",
       "status": "OK",
       "source": "Yahoo Finance"

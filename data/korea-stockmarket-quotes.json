@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-13T07:45:28.198Z",
+  "generatedAt": "2026-08-13T08:56:35.976Z",
   "source": "Yahoo Finance",
   "stale": false,
   "quoteCount": 40,
@@ -558,7 +558,7 @@
       "name": "TIGER 코리아 AI 전력기기 TOP3 플러스",
       "ticker": "0117V0.KS",
       "price": 19210,
-      "priceopen": 19430,
+      "priceopen": 19435,
       "closeyest": 19015,
       "change": 195,
       "changepct": 1.0255061793321063,

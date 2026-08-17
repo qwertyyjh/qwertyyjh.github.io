@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-17T02:45:42.387Z",
+  "generatedAt": "2026-08-17T03:35:48.176Z",
   "source": "Yahoo Finance",
   "stale": false,
   "quoteCount": 40,
@@ -40,7 +40,7 @@
       "name": "HD한국조선",
       "ticker": "009540.KS",
       "price": 386000,
-      "priceopen": 378000,
+      "priceopen": 378500,
       "closeyest": 371500,
       "change": 14500,
       "changepct": 3.9030955585464335,

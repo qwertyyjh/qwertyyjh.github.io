@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-02T10:55:02.487Z",
+  "generatedAt": "2026-10-05T04:53:35.533Z",
   "source": "Yahoo Finance",
   "stale": false,
   "quoteCount": 39,
@@ -490,10 +490,10 @@
       "ticker": "^KQ11",
       "price": 893.29,
       "priceopen": 893.219970703125,
-      "closeyest": 855.91,
-      "change": 37.379999999999995,
-      "changepct": 4.367281606710986,
-      "tradetime": "2026-10-02T06:32:50.000Z",
+      "closeyest": 894.29,
+      "change": -1,
+      "changepct": -0.11182055038074898,
+      "tradetime": "2026-10-02T11:05:40.000Z",
       "datadelay": "",
       "status": "OK",
       "source": "Yahoo Finance"
@@ -507,7 +507,7 @@
       "closeyest": 6971.35,
       "change": 32.38999999999942,
       "changepct": 0.4646158921873011,
-      "tradetime": "2026-10-02T06:30:40.000Z",
+      "tradetime": "2026-10-02T11:05:40.000Z",
       "datadelay": "",
       "status": "OK",
       "source": "Yahoo Finance"
